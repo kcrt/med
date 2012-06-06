@@ -115,9 +115,9 @@
 			},
 			"output": {
 				"cockcroft": {"name": "CCr[mL/min] (Cockcroft-Gault)", "formula" : "sex==1 ? ((140-age) * weight) / (72 * scr) : (((140-age) * weight) / (72 * scr)) * 0.85", "toFixed": 4},
-				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m2] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
-				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m2] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
-				"jp_egfr" : {"name" : "GFR[mL/min/1.73m2] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
+				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m²] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
+				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m²] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
+				"jp_egfr" : {"name" : "GFR[mL/min/1.73m²] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
 			}
 		},
 		"image_test" : {
