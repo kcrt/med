@@ -96,6 +96,14 @@ function generateFormula(Name, f){
 					$('<option value="1">' + on + '</option>').appendTo(select);
 					select.appendTo(itemdom);
 					break;
+				case "select":
+					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
+					var select = $('<select name="' + id + '" id = "' + id + '"> </select>');
+					for(var k in item['item']){
+						$('<option value="' + item['item'][k] + '">' + k + '</option>').appendTo(select);
+					}
+					select.appendTo(itemdom);
+					break;
 				case "info":
 					$('<label for="' + id + '"> </label>').appendTo(itemdom);
 					$('<div id="' + id + '">' + item['text'] +  '</div>').appendTo(itemdom);
@@ -153,6 +161,9 @@ function Calc(f){
 				case "sex":
 					d[itemstr] = GetSex(id);
 					break;
+				case "select":
+					d[itemstr] = GetSelect(id);
+					break;
 				case "info":
 				case "html":
 					break;
@@ -169,7 +180,11 @@ function Calc(f){
 	// 入力情報を eval可能な文字列に
 	var valdim="";
 	for(var key in d){
-		valdim += "var " + key + ' = "' + d[key] + '";';
+		if(typeof(d[key]) == 'number'){
+			valdim += "var " + key + ' = ' + d[key] + ';';
+		}else{
+			valdim += "var " + key + ' = "' + d[key] + '";';
+		}
 	}
 
 	// 計算
@@ -192,8 +207,6 @@ function Calc(f){
 		}
 		output += item['name'] + ": " + value + "\n";
 	}
-
-	
 
 	// 結果の表示
 	$("#" + f + "_outputbox").slideUp('normal', function(){$( '#' + f + '_txtOutput').val(output).keyup();});
@@ -222,6 +235,7 @@ function GetFloat(id, min, max){
 }
 
 function GetSex(id){
+
 	// 男 - 1, 女 - 0
 	if($("#" + id + "_m").attr("checked")){
 		return 1;
@@ -231,6 +245,9 @@ function GetSex(id){
 		throw new Error(id + "を選択してください。")
 	}
 
+}
+function GetSelect(id){
+	return $('#' + id).val();
 }
 
 /* ----- on Load ----- */

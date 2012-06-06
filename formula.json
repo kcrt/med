@@ -24,6 +24,10 @@
 			"CCr, eGFR (成人)": {
 				"info" : "Cockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
 				"id" : "ccr_adult"
+			},
+			"eGFR (小児)": {
+				"info": "Schwaltzの式を使用して推定糸球体血流量を求めます。",
+				"id": "ccr_child"
 			}
 		},
 		"呼吸器" : {
@@ -118,6 +122,19 @@
 				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m²] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
 				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m²] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
 				"jp_egfr" : {"name" : "GFR[mL/min/1.73m²] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
+			}
+		},
+		"ccr_child": {
+			"input": {
+				"height": {"name": "身長[cm]", "type": "float", "min": 3, "max": 300},
+				"scr" : {"name": "血中Cr値(酵素法)[mg/dL]", "type": "float", "min": 0.001, "max": 20},
+				"k" : {"name": "年齢", "type": "select", "item": {"低出生体重児": 0.33,"正常体重児": 0.45, "2〜12歳": 0.55, "女児(13-21歳)": 0.55, "男児(13-21歳)": 0.7}}
+			},
+			"output": {
+				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)", "toFixed": 2}
+			},
+			"ref": {
+				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
 			}
 		},
 		"image_test" : {
