@@ -1,0 +1,138 @@
+{
+	"menu" : {
+		"救急医療" : {
+			"Japan Coma Scale (JCS)" : {
+				"info": "本邦でよく使用される意識レベル分類です。",
+				"id" : "jcs"
+			}
+		},
+		"身長と体重" : {
+			"体格指数(成人)": {
+				"info" : "BMIや体表面積などを計算します。",
+				"id" : "bmi_adult"
+			},
+			"体格指数(小児)": {
+				"info" : "Kaup指数, Rohrer指数など小児の体格指数を求めます。",
+				"id" : "bmi_child"
+			},
+			"体表面積": {
+				"info": "身長・体重から体表面積を算出します。",
+				"id" : "bsa"
+			}
+		},
+		"腎機能" : {
+			"CCr, eGFR (成人)": {
+				"info" : "Cockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
+				"id" : "ccr_adult"
+			}
+		},
+		"呼吸器" : {
+			"A-DROPスコア" : {
+				"info": "日本呼吸器学会による肺炎重症度分類です。",
+				"id" : "adrop"
+			}
+		},
+		"役に立つリンク集" : {
+			"Pubmed" : {
+				"info" : "論文検索の定番サイトです。(英語)",
+				"id" : "http://www.ncbi.nlm.nih.gov/pubmed"
+			},
+			"Drugs and Lactation Database": {
+				"info" : "様々な薬品と授乳について調べることができます。(英語)",
+				"id": "http://toxnet.nlm.nih.gov/cgi-bin/sis/htmlgen?LACT"
+			},
+			"在胎期間別出生時体格標準値との比較": {
+				"info" : "出生体重などからパーセンタイル値を求めることができます。",
+				"id" : "http://app.kcrt.net/bw"
+			}
+		},
+		"でばっぐ" : {
+			"img test" : {
+				"info" : "いめーじてすと",
+				"id": "image_test"
+			}, 
+			"debug" : {
+				"info" : "でばっぐ",
+				"id" : "debug_form"
+			}
+		},
+		"バージョン情報" : {
+			"Medicalculator": {
+				"info" : "Programmed by kcrt, all rights reserved",
+				"id" : "about"
+			}
+		}
+	},
+	"formula" : {
+		"jcs" : {
+			"type" : "html",
+			"html" : "<h3> I. 覚醒している</h3><ul> <li>0 意識清明</li> <li>I-1 見当識は保たれているが意識清明ではない</li> <li>I-2 見当識障害がある</li> <li>I-3 自分の名前・生年月日が言えない</li> </ul> <h3>II.刺激に応じて一時的に覚醒する</h3> <ul> <li>II-10 普通の呼びかけで開眼する</li> <li>II-20 大声で呼びかけたり、強く揺するなどで開眼する</li> <li>II-30 痛み刺激を加えつつ、呼びかけを続けると辛うじて開眼する</li> </ul> <h3>III.刺激しても覚醒しない</h3> <ul> <li>III-100 痛みに対して払いのけるなどの動作をする</li> <li>III-200 痛み刺激で手足を動かしたり、顔をしかめたりする</li> <li>III-300 痛み刺激に対し全く反応しない</li> </ul>" 
+		},
+		"bmi_adult" : {
+			"input" : {
+				"height": {"name": "身長[cm]", "type": "float", "min": 30, "max": 300},
+				"weight": {"name": "体重[kg]", "type": "float", "min": 3, "max": 300}
+			},
+			"output": {
+				"BMI": {"name": "BMI", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
+				"who": {"name": "WHO(世界保健機関)", "text" : "≧25: overwight, ≧30: obese"},
+				"jasso": {"name": "日本肥満学会", "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"}
+			},
+			"ref": {
+				"Wikipedia" : "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"}
+		},
+		"bmi_child" : {
+			"input": {
+				"height": {"name": "身長[cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"Kaup": {"name": "Kaup指数", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
+				"1" : {"name": "乳幼児(3ヶ月以降)", "text": "xx"}
+			}
+		},
+		"bsa": {
+			"input": {
+				"height": {"name": "身長[cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula" : "0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425)", "toFixed": 4},
+				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4}
+			},
+			"ref": {
+				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "http://www.ncbi.nlm.nih.gov/pubmed/2520314",
+				"Mosteller RD: N Engl J Med 317: 1098, 1987": "http://www.ncbi.nlm.nih.gov/pubmed/3657876"
+			}
+		},
+		"ccr_adult" : {
+			"input": {
+				"weight": {"name": "体重[kg]", "type": "float", "min": 3, "max": 300},
+				"age" : {"name": "年齢", "type": "float", "min": 17, "max": 100},
+				"scr" : {"name": "血中Cr値[mg/dL]", "type": "float", "min": 0.001, "max": 20},
+				"sex" : {"name": "性別", "type": "sex"},
+				"info" : {"name": "注意事項", "type": "info", "text": "成人に対して使用してください。"}
+			},
+			"output": {
+				"cockcroft": {"name": "CCr[mL/min] (Cockcroft-Gault)", "formula" : "sex==1 ? ((140-age) * weight) / (72 * scr) : (((140-age) * weight) / (72 * scr)) * 0.85", "toFixed": 4},
+				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m2] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
+				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m2] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
+				"jp_egfr" : {"name" : "GFR[mL/min/1.73m2] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
+			}
+		},
+		"image_test" : {
+			"type" : "image",
+			"src" : "http://profile.kcrt.net/kcrt.png"
+		},
+		"debug_form" : {
+			"input" : {
+				"float" : {"name": "float", "type": "float", "min": 0, "max": 100},
+				"text" : {"name": "text", "type": "text", "placeholder": "Input your text..."},
+				"datetime" : {"name": "datetime", "type": "datetime"},
+				"slider" : {"name": "slider", "type": "slider", "min": 0, "max": 100, "value": 50},
+				"sex" : {"name": "sex", "type": "sex"},
+				"onoff" : {"name": "onoff", "type": "onoff", "on": "Yes", "off": "No"}
+			}
+		}
+	}
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Medicalculator</title>
+
+	<meta name="description" content="医療用計算機です。">
+	<meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- TODO: og:titleなど -->
+
+	<link rel="copyright" href="http://profile.kcrt.net/" />
+	<link rev="made" href="http://profile.kcrt.net/" />
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="index" href="/">
+
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.4.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.js"></script>
+
+	<script src="med.js"></script>
+
+</head>
+<body>
+
+	<div id="index" data-role="page">
+		<div data-role="header" data-position="fixed"><h1>医療計算機</h1></div>
+		<div data-role="content">
+			<ul id="lstMain" data-role="listview" data-filter="true">
+			</ul>
+		</div>
+		<div data-role="footer">Medicalculator by <a href="http://profile.kcrt.net">kcrt</a></div>
+	</div>
+
+	<div id="about" data-role="page">
+		<div data-role="header"><h1>医療計算機について</h1></div>
+		<div data-role="content"><div id="divVersion"> </div></div>
+		<div data-role="footer">Medicalculator by <a href="http://profile.kcrt.net">kcrt</a></div>
+	</div>
+
+</body>
+</html>
