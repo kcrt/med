@@ -137,6 +137,20 @@
 				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
 			}
 		},
+		"adrop" : {
+			"input": {
+				"a": {"name": "男70歳以上/女75歳以上", "type": "onoff"},
+				"d" : {"name": "BUN ≧21または脱水あり", "type": "onoff"},
+				"r" : {"name": "SpO₂≦90%(PaO₂≦60Torr)", "type": "onoff"},
+				"o" : {"name": "意識障害", "type": "onoff"},
+				"p": {"name": "sBP≦90mmHg", "type": "onoff"}
+			},
+			"output": {
+				"point": {"name": "該当項目数", "formula": "a+d+r+o+p"},
+				"judge": {"name": "判定", "code" : "var x=a+d+r+o+p; if(x==0){return '外来';}else if(x<=2){return '外来または入院'}else if(x==3){return '入院'}else{return 'ICU入院'}"},
+				"info": {"name": "注意", "text": "ただし、ショックがあれば1項目のみでも超重症とする"}
+			}
+		},
 		"image_test" : {
 			"type" : "image",
 			"src" : "http://profile.kcrt.net/kcrt.png"

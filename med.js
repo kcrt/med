@@ -90,8 +90,8 @@ function generateFormula(Name, f){
 				case "onoff":
 					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
 					var select = $('<select name="' + id + '" id = "' + id + '"data-role="slider"> </select>');
-					var off = item['off'] || "off";
-					var on = item['on'] || "on";
+					var off = item['off'] || "No";
+					var on = item['on'] || "Yes";
 					$('<option value="0">' + off + '</option>').appendTo(select);
 					$('<option value="1">' + on + '</option>').appendTo(select);
 					select.appendTo(itemdom);
@@ -162,6 +162,7 @@ function Calc(f){
 					d[itemstr] = GetSex(id);
 					break;
 				case "select":
+				case "onoff":
 					d[itemstr] = GetSelect(id);
 					break;
 				case "info":
@@ -197,7 +198,7 @@ function Calc(f){
 			code = "(function(){" + valdim + " return (" + item['formula'] + ");})()";
 			value = eval(code);
 		}else if(item['code']){
-			code = "(function(){" + valdim + code + "})()";
+			code = "(function(){" + valdim + item['code'] + "})()";
 			value = eval(code);
 		}else if(item['text']){
 			value = item['text'];
@@ -247,7 +248,12 @@ function GetSex(id){
 
 }
 function GetSelect(id){
-	return $('#' + id).val();
+	var val = $('#' + id).val();
+	if(isNaN(parseFloat(val))){
+		return val;
+	}else{
+		return parseFloat(val);
+	}
 }
 
 /* ----- on Load ----- */
