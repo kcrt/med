@@ -36,6 +36,12 @@
 				"id" : "adrop"
 			}
 		},
+		"神経" : {
+			"ABCD² スコア" : {
+				"info": "TIA後2日以内に脳梗塞を起こすかどうかを予測します。",
+				"id": "abcd2"
+			}
+		},
 		"役に立つリンク集" : {
 			"Pubmed" : {
 				"info" : "論文検索の定番サイトです。(英語)",
@@ -149,6 +155,22 @@
 				"point": {"name": "該当項目数", "formula": "a+d+r+o+p"},
 				"judge": {"name": "判定", "code" : "var x=a+d+r+o+p; if(x==0){return '外来';}else if(x<=2){return '外来または入院'}else if(x==3){return '入院'}else{return 'ICU入院'}"},
 				"info": {"name": "注意", "text": "ただし、ショックがあれば1項目のみでも超重症とする"}
+			}
+		},
+		"abcd2" : {
+			"input": {
+				"a": {"name": "60歳以上", "type": "onoff"},
+				"b": {"name": "sBP≧140 or dBP≧90mmHg", "type": "onoff"},
+				"c": {"name": "臨床症状", "type" : "select", "item": {"片麻痺あり" : 2, "麻痺を伴わない構音障害": 1, "その他" : 0}},
+				"d1": {"name": "持続時間", "type": "select", "item": {"60分以上": 2, "10-59分": 1, "10分未満": 0}},
+				"d2": {"name": "糖尿病", "type": "onoff"}
+			},
+			"output" : {
+				"point": {"name": "点数", "formula": "a+b+c+d1+d2"},
+				"judge": {"name": "判定", "code": "var x=a+b+c+d1+d2; if(x>=6){return '大きな危険 二日以内の脳梗塞が8.1%';}else if(x>=4){return '中等度の危険 二日以内の脳梗塞が4.1%';}else{return '小さな危険 二日以内の脳梗塞が1.0%';}"}
+			},
+			"ref": {
+				"Stroke Service; Lancet. 2007 Jan 27;369(9558):283-92." : "http://www.ncbi.nlm.nih.gov/pubmed/17258668"
 			}
 		},
 		"image_test" : {
