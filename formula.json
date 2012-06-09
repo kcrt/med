@@ -149,7 +149,7 @@
 		},
 		"AaDO2":{
 			"input" : {
-				"fio2": {"name": "FiO₂[%]", "type": "float", "min": 0, "max": 1, "placeholder": "room air = 0.21"},
+				"fio2": {"name": "FiO₂", "type": "float", "min": 0, "max": 1, "placeholder": "room air = 0.21"},
 				"pao2": {"name": "PaO₂[mmHg]", "type": "float", "min": 0, "max": 1000},
 				"paco2": {"name": "PaCO₂[mmHg]", "type": "float", "min": 0, "max": 1000}
 			},
