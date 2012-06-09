@@ -20,6 +20,12 @@
 				"id" : "bsa"
 			}
 		},
+		"循環器" : {
+			"CHADS2 スコア": {
+				"info" : "心房細動による塞栓症のリスク評価を行います。",
+				"id": "chads2"
+			}
+		},
 		"腎機能" : {
 			"CCr, eGFR (成人)": {
 				"info" : "Cockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
@@ -117,6 +123,23 @@
 			"ref": {
 				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "http://www.ncbi.nlm.nih.gov/pubmed/2520314",
 				"Mosteller RD: N Engl J Med 317: 1098, 1987": "http://www.ncbi.nlm.nih.gov/pubmed/3657876"
+			}
+		},
+		"chads2": {
+			"input": {
+				"c": {"name": "心不全", "type": "onoff", "on": "あり", "off": "なし"},
+				"h": {"name": "高血圧", "type": "onoff", "on": "あり", "off": "なし"},
+				"a": {"name": "年齢 75歳以上", "type": "onoff"},
+				"d": {"name": "糖尿病", "type": "onoff", "on": "あり", "off": "なし"},
+				"s": {"name": "脳卒中/TIAの既往", "type": "onoff", "on": "あり", "off": "なし"}
+			},
+			"output": {
+				"point": {"name": "点数", "formula": "c+h+a+d+s*2"},
+				"judge": {"name": "脳卒中の発生", "code": "var x=c+h+a+d+s*2; if(x==0){return '低リスク 1.0%/年';}else if(x==1){return '低~中リスク 1.5%/年';}else if(x==2){return '中リスク 2.5%/年';}else if(x==3){return '高リスク 5.0%/年';}else if(x>=4){return '非常に高リスク >7.0%/年';}"},
+				"info": {"name": "情報", "text": "2点以上でワーファリンの使用についてご検討ください。"}
+			},
+			"ref": {
+				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
 			}
 		},
 		"ccr_adult" : {
