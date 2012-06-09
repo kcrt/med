@@ -59,8 +59,9 @@ function generateFormula(Name, f){
 			itemdom = $('<div data-role="fieldcontain"> </div>');
 			switch(item['type']){
 				case "float":
+					var placeholder = item['placeholder'] || ""
 					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
-					$('<input type="number" id="' + id + '"> </input>').appendTo(itemdom);
+					$('<input type="number" id="' + id + '" placeholder="'+ placeholder +'"> </input>').appendTo(itemdom);
 					break;
 				case "text":
 					var placeholder = item['placeholder'] || ""
