@@ -31,6 +31,10 @@
 			}
 		},
 		"呼吸器" : {
+			"A-DO₂の計算": {
+				"info": "肺胞・大気酸素分圧較差を計算します。",
+				"id": "AaDO2"
+			},
 			"A-DROPスコア" : {
 				"info": "日本呼吸器学会による肺炎重症度分類です。",
 				"id" : "adrop"
@@ -141,6 +145,17 @@
 			},
 			"ref": {
 				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
+			}
+		},
+		"AaDO2":{
+			"input" : {
+				"fio2": {"name": "FiO₂[%]", "type": "float", "min": 0, "max": 1, "placeholder": "room air = 0.21"},
+				"pao2": {"name": "PaO₂[mmHg]", "type": "float", "min": 0, "max": 1000},
+				"paco2": {"name": "PaCO₂[mmHg]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"aado2": {"name": "A-aDO₂", "formula": "(760-47)*fio2-paco2/0.8-pao2", "toFixed": 2},
+				"info": {"name": "情報", "text": "正常では10以下"}
 			}
 		},
 		"adrop" : {
