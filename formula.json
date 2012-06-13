@@ -32,12 +32,16 @@
 		},
 		"腎機能" : {
 			"CCr, eGFR (成人)": {
-				"info" : "Cockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
+				"info" : "血清クレアチニン値からCockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
 				"id" : "ccr_adult"
 			},
 			"eGFR (小児)": {
-				"info": "Schwaltzの式を使用して推定糸球体血流量を求めます。",
+				"info": "血清クレアチニン値からSchwaltzの式を使用して推定糸球体血流量を求めます。",
 				"id": "ccr_child"
+			},
+			"シスタチンCからGFRの予測": {
+				"info": "血清シスタチンC値から推定糸珠体血流量を求めます。",
+				"id": "cysc"
 			}
 		},
 		"呼吸器" : {
@@ -173,6 +177,21 @@
 				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m²] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
 				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m²] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
 				"jp_egfr" : {"name" : "GFR[mL/min/1.73m²] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
+			}
+		},
+		"cysc": {
+			"input": {
+				"cysc": {"name": "血清シスタチンC値", "type": "float", "min": 0, "max": 100}
+			},
+			"output": {
+				"hoek": {"name": "eGFR[mL/min/1.73m²] (Hoek)", "formula": "80.35/cysc-4.32", "toFixed": 2},
+				"grubb_a": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才以上)", "formula": "84.69*Math.pow(cysc, -1.680)", "toFixed": 2},
+				"grubb_c": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才未満)", "formula": "84.69*Math.pow(cysc,-1.680)*1.384", "toFixed": 2},
+				"filler": {"name": "eGFR[mL/min/1.73m²] (Filler; 小児用)", "formula": "91.62 * Math.pow(cysc, -1.123)", "toFixed": 2}
+			},
+			"ref": {
+				"Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "http://www.ncbi.nlm.nih.gov/pubmed/13679476",
+				"Nephrol Dial Transplant. 2008 Jan;23(1):154-60. Epub 2007 Oct 2.":"http://www.ncbi.nlm.nih.gov/pubmed/17911090"
 			}
 		},
 		"ccr_child": {
