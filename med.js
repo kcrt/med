@@ -31,6 +31,10 @@ function onFormulaJsonReady(data, status){
 	//$("body").page();
 	$('#lstMain').listview('refresh');
 
+	if(deeplink){
+		location.hash="#" + deeplink;
+	}
+
 };
 
 function generateFormula(Name, f){
@@ -258,10 +262,13 @@ function GetSelect(id){
 }
 
 /* ----- on Load ----- */
+var deeplink;
 (function ($){
 
-	// ちょっとまだうまく行かないのでとりあえずディープリンク禁止で
-	if (location.hash) location.href = location.href.replace(/#.*/, "");
+	if (location.hash) {
+		deeplink = location.href.replace(/.*#/,"");
+		location.hash = ""
+	}
 
 	$(document).ready(function(){
 		
