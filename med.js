@@ -28,7 +28,9 @@ function onFormulaJsonReady(data, status){
 			formuladom.appendTo('#lstMain');
 		}
 	}
-	//$("body").page();
+
+	SetVersionInformation();
+
 	$('#lstMain').listview('refresh');
 
 	if(deeplink){
@@ -42,10 +44,10 @@ function generateFormula(Name, f){
 	// f = "jcs" (id)
 	
 	var formula = formuladata['formula'][f];
-	var pagedom = $('<div data-role="page" data-title="' + Name + '" data-add-back-btn="true"> </div>');
+	var pagedom = $('<div data-role="page" data-title="' + Name + '"> </div>');
 	pagedom.attr('id', f);
 	pagedom.attr('data-url', f);
-	$('<div data-role="header" data-position="fixed"><h1>' + Name + '</h1></div>').appendTo(pagedom);
+	$('<div data-role="header" data-position="fixed"><a href="#index" data-icon="home" data-theme="b">Home</a><h1>' + Name + '</h1><a href="#about" data-icon="info">about</a></div>').appendTo(pagedom);
 	var contentdom = $('<div data-role="content"> </div>');
 
 	if (typeof(formula) == "undefined"){
@@ -222,10 +224,16 @@ function Calc(f){
 
 function SetVersionInformation(){
 
+	var numformula = 0;
+	for( var f in formuladata['formula']){
+		numformula++;
+	}
 	var verinfo =
 		"Medicalculator ver." + MEDICALCULATOR_VERSION + "<br />" +
+		"formula.json ver." + numformula + "<br />" + 
+		"<br />" +
 		"jQuery ver." + $().jquery +  "<br />" +
-		"jQueryMobile ver." + "XXX";
+		"jQueryMobile ver." + $.mobile.version;
 
 	$('#divVersion').html(verinfo);
 
@@ -275,8 +283,6 @@ var deeplink;
 		// JSONデータの読み込み
 		$.ajax({"error": onAjaxError});
 		$.getJSON("./formula.json", onFormulaJsonReady);
-
-		SetVersionInformation();
 
 	});
 	
