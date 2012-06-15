@@ -30,6 +30,12 @@
 				"id": "chads2"
 			}
 		},
+		"内分泌・代謝": {
+			"浸透圧": {
+				"info": "Na, K, 血糖, BUNから血清浸透圧を計算します。",
+				"id": "osmoticpressure"
+			}
+		},
 		"腎機能" : {
 			"CCr, eGFR (成人)": {
 				"info" : "血清クレアチニン値からCockcroft-Gault, MDRDなどの計算式を用いて推定糸球体血流量を求めます。",
@@ -171,6 +177,18 @@
 			},
 			"ref": {
 				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+			}
+		},
+		"osmoticpressure": {
+			"input": {
+				"Na": {"name": "Na[mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"K": {"name": "K[mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"BUN": {"name": "BUN[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"glu": {"name": "血糖[mg/dL]", "type": "float", "min": 0, "max": 3000}
+			},
+			"output": {
+				"osm": {"name": "血漿浸透圧[mOsm/kg]", "formula": "2*(Na+K)+glu/18+BUN/2.8", "toFixed": 2},
+				"info": {"name": "基準値[mOsm/kg]", "text": "285-295"}
 			}
 		},
 		"ccr_adult" : {
