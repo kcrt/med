@@ -119,8 +119,13 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
 			},
 			"output": {
-				"Kaup": {"name": "Kaup指数", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
-				"1" : {"name": "乳幼児(3ヶ月以降)", "text": "xx"}
+				"kaup": {"name": "Kaup指数", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
+				"info1" : {"name": "乳幼児(3ヶ月以降)", "text": "正常範囲: 15-18"},
+				"rohrer": {"name": "Rohrer指数", "formula": "weight/Math.pow(height,3)*10000000", "toFixed": 2},
+				"info2" : {"name" : "学童", "text": "標準: 130, 160以上で肥満"}
+			},
+			"ref": {
+				"Wikipedia": "http://ja.wikipedia.org/wiki/%E4%BD%93%E6%A0%BC%E6%8C%87%E6%95%B0"
 			}
 		},
 		"targetheight" : {
