@@ -52,6 +52,10 @@
 			"シスタチンCからGFRの予測": {
 				"info": "血清シスタチンC値から推定糸珠体血流量を求めます。",
 				"id": "cysc"
+			},
+			"FENaの計算": {
+				"info": "血清および尿のNa, Cre値からFENaを計算します。",
+				"id": "fena"
 			}
 		},
 		"呼吸器" : {
@@ -243,6 +247,18 @@
 			},
 			"ref": {
 				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
+			}
+		},
+		"fena": {
+			"input": {
+				"SNa": {"name": "血清Na[mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"SCre": {"name": "血清Cre[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"UNa": {"name": "尿Na[mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"UCre": {"name": "尿Cre[mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"fena": {"name": "FENa[%]", "formula": "(UNa*SCre)/(SNa*UCre)*100", "toFixed": 2},
+				"info": {"name": "情報", "text": "正常では<1%。腎性腎不全では>1%"}
 			}
 		},
 		"AaDO2":{
