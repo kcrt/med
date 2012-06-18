@@ -56,6 +56,10 @@
 			"FENaの計算": {
 				"info": "血清および尿のNa, Cre値からFENaを計算します。",
 				"id": "fena"
+			},
+			"%TRPの計算": {
+				"info": "%TRP(尿細管リン再吸収率)を計算します。",
+				"id": "ptrp"
 			}
 		},
 		"呼吸器" : {
@@ -132,7 +136,8 @@
 				"jasso": {"name": "日本肥満学会", "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"}
 			},
 			"ref": {
-				"Wikipedia" : "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"}
+				"Wikipedia" : "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"
+			}
 		},
 		"bmi_child" : {
 			"input": {
@@ -259,6 +264,17 @@
 			"output": {
 				"fena": {"name": "FENa[%]", "formula": "(UNa*SCre)/(SNa*UCre)*100", "toFixed": 2},
 				"info": {"name": "情報", "text": "正常では<1%。腎性腎不全では>1%"}
+			}
+		},
+		"ptrp": {
+			"input": {
+				"SP": {"name": "血清P[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"SCre": {"name": "血清Cre[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"UP": {"name": "尿P[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"UCre": {"name": "尿Cre[mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"ptrp": {"name": "%TRP", "formula": "(1-(UP*SCre)/(SP*UCre))*100", "toFixed": 2}
 			}
 		},
 		"AaDO2":{
