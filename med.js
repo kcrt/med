@@ -129,18 +129,19 @@ function generateFormula(Name, f){
 		$('<a href="#" data-role="button" data-icon="arrow-d" data-theme="b" onclick="Calc(\'' + f + '\')">計算</a>').appendTo(contentdom);
 		// アウトプットウィンドウ
 		$('<div id="' + f + '_outputbox" style="display: none"> <textarea id="' + f + '_txtOutput" readonly="readonly"></textarea> </div>').appendTo(contentdom);
-		// 参考文献(あれば)
-		if(formula['ref']){
-			$('<hr />').appendTo(contentdom);
-			var refdom = $('<div><span>参考文献:</span></div>');
-			for(var name in formula['ref']){
-				$('<a href="' + formula['ref'][name] + '">'+name+'</a>').appendTo(refdom);
-				$('<span> </span>').appendTo(refdom);
-			}
-			refdom.appendTo(contentdom);
-		}
-	
 	}
+
+	// 参考文献(あれば)
+	if('ref' in formula){
+		$('<hr />').appendTo(contentdom);
+		var refdom = $('<div><span>参考文献:</span></div>');
+		for(var name in formula['ref']){
+			$('<a href="' + formula['ref'][name] + '">'+name+'</a>').appendTo(refdom);
+			$('<span> </span>').appendTo(refdom);
+		}
+		refdom.appendTo(contentdom);
+	}
+	
 
 	contentdom.appendTo(pagedom);
 
@@ -210,7 +211,7 @@ function Calc(f){
 		}else if(item['text']){
 			value = item['text'];
 		}	
-		if(item['toFixed']){
+		if('toFixed' in item){
 			value = value.toFixed(item['toFixed']);
 		}
 		output += item['name'] + ": " + value + "\n";
