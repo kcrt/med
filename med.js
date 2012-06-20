@@ -1,4 +1,4 @@
-const MEDICALCULATOR_VERSION = "0.0.1"
+var MEDICALCULATOR_VERSION = "0.0.1";
 
 /* ----- データの読み込みとページの構築 ----- */
 var formuladata;
@@ -9,12 +9,12 @@ function onFormulaJsonReady(data, status){
 
 	formuladata = data;
 
-	for (var genre in formuladata['menu']){
+	for (var genre in formuladata.menu){
 		var genredom = $('<li data-role="list-divider">' + genre + '</li>');
 		genredom.appendTo('#lstMain');
-		for(var formulatitle in formuladata['menu'][genre]){
-			var info = formuladata['menu'][genre][formulatitle]['info'];
-			var id = formuladata['menu'][genre][formulatitle]['id'];
+		for(var formulatitle in formuladata.menu[genre]){
+			var info = formuladata.menu[genre][formulatitle].info;
+			var id = formuladata.menu[genre][formulatitle].id;
 			var formuladom;
 			if(id.match(/^http:/)){
 				// idがhttp:で始まる場合はリンクとみなす
@@ -23,7 +23,7 @@ function onFormulaJsonReady(data, status){
 			}else{
 				formuladom = $('<li><a href="#' + id + '"><h3>' + formulatitle + '</h3><p>' + info + '</p></a></li>');
 				// 対応するformulaをpageとして追加する
-				formuladata['formula'][id] && generateFormula(formulatitle, id).appendTo("body");
+				formuladata.formula[id] && generateFormula(formulatitle, id).appendTo("body");
 			}
 			formuladom.appendTo('#lstMain');
 		}
@@ -37,13 +37,13 @@ function onFormulaJsonReady(data, status){
 		location.hash="#" + deeplink;
 	}
 
-};
+}
 
 function generateFormula(Name, f){
 	// Name = "JCS ( Japan Coma Scale)" (title)
 	// f = "jcs" (id)
 	
-	var formula = formuladata['formula'][f];
+	var formula = formuladata.formula[f];
 	var pagedom = $('<div data-role="page" data-title="' + Name + '"> </div>');
 	pagedom.attr('id', f);
 	pagedom.attr('data-url', f);
@@ -52,42 +52,42 @@ function generateFormula(Name, f){
 
 	if (typeof(formula) == "undefined"){
 		// do nothing
-	}else if(formula['type'] == 'html'){
-		$(formula['html']).appendTo(contentdom);
-	}else if(formula['type'] == 'image'){
-		$('<img src="' + formula['src'] + '" />').appendTo(contentdom);
+	}else if(formula.type == 'html'){
+		$(formula.html).appendTo(contentdom);
+	}else if(formula.type == 'image'){
+		$('<img src="' + formula.src + '" />').appendTo(contentdom);
 	}else{
 		// 入力部分
-		for(var itemstr in formula['input']){
-			var item = formula['input'][itemstr];
+		for(var itemstr in formula.input){
+			var item = formula.input[itemstr];
 			var itemdom;
 			var id = f + "_" + itemstr;
 			itemdom = $('<div data-role="fieldcontain"> </div>');
-			switch(item['type']){
+			switch(item.type){
 				case "float":
-					var placeholder = item['placeholder'] || ""
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
-					$('<input type="number" id="' + id + '" placeholder="'+ placeholder +'"> </input>').appendTo(itemdom);
+					var placeholder_f = item.placeholder || "";
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
+					$('<input type="number" id="' + id + '" placeholder="'+ placeholder_f +'"> </input>').appendTo(itemdom);
 					break;
 				case "text":
-					var placeholder = item['placeholder'] || ""
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
-					$('<input type="text" id="' + id + '" placeholder="' + placeholder + '"> </input>').appendTo(itemdom);
+					var placeholder_t = item.placeholder || "";
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
+					$('<input type="text" id="' + id + '" placeholder="' + placeholder_t + '"> </input>').appendTo(itemdom);
 					break;
 				case "datetime":
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
 					$('<input type="datetime" id="' + id + '"> </input>').appendTo(itemdom);
 					break;
 				case "slider":
-					var min = item['min'] || 0;
-					var max = item['max'] || 100;
-					var value = item['value'] || min;
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
+					var min = item.min || 0;
+					var max = item.max || 100;
+					var value = item.value || min;
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
 					$('<input type="range" id="' + id + '" value="' + value + '" min="' + min + '" max="' + max + '"> </input>').appendTo(itemdom);
 					break;
 				case "sex":
 					var fieldset = $('<fieldset data-role="controlgroup" data-type="horizontal"> </fieldset>');
-					$('<legend>' + item['name'] + ': </legend>').appendTo(fieldset);
+					$('<legend>' + item.name + ': </legend>').appendTo(fieldset);
 					$('<input type="radio" name="' + id + '" id="' + id + '_m" value="1" />').appendTo(fieldset);
 					$('<label for="' + id + '_m">男</label>').appendTo(fieldset);
 					$('<input type="radio" name="' + id + '" id="' + id + '_f" value="0" />').appendTo(fieldset);
@@ -95,32 +95,32 @@ function generateFormula(Name, f){
 					fieldset.appendTo(itemdom);
 					break;
 				case "onoff":
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
 					var select = $('<select name="' + id + '" id = "' + id + '"data-role="slider"> </select>');
-					var off = item['off'] || "No";
-					var on = item['on'] || "Yes";
+					var off = item.off || "No";
+					var on = item.on || "Yes";
 					$('<option value="0">' + off + '</option>').appendTo(select);
 					$('<option value="1">' + on + '</option>').appendTo(select);
 					select.appendTo(itemdom);
 					break;
 				case "select":
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
-					var select = $('<select name="' + id + '" id = "' + id + '"> </select>');
-					for(var k in item['item']){
-						$('<option value="' + item['item'][k] + '">' + k + '</option>').appendTo(select);
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
+					var selectstr = $('<select name="' + id + '" id = "' + id + '"> </select>');
+					for(var k in item.item){
+						$('<option value="' + item.item[k] + '">' + k + '</option>').appendTo(selectstr);
 					}
-					select.appendTo(itemdom);
+					selectstr.appendTo(itemdom);
 					break;
 				case "info":
 					$('<label for="' + id + '"> </label>').appendTo(itemdom);
-					$('<div id="' + id + '">' + item['text'] +  '</div>').appendTo(itemdom);
+					$('<div id="' + id + '">' + item.text +  '</div>').appendTo(itemdom);
 					break;
 				case "html":
 					$('<label for="' + id + '"> </label>').appendTo(itemdom);
-					$('<div id="' + id + '">' + item['html'] +  '</div>').appendTo(itemdom);
+					$('<div id="' + id + '">' + item.html +  '</div>').appendTo(itemdom);
 					break;
 				default:
-					$('<label for="' + id + '">' + item['name'] + ': </label>').appendTo(itemdom);
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
 					itemdom = $('<p> unsupported type </p>');
 			}
 			itemdom.appendTo(contentdom);
@@ -135,8 +135,8 @@ function generateFormula(Name, f){
 	if('ref' in formula){
 		$('<hr />').appendTo(contentdom);
 		var refdom = $('<div><span>参考文献:</span></div>');
-		for(var name in formula['ref']){
-			$('<a href="' + formula['ref'][name] + '">'+name+'</a>').appendTo(refdom);
+		for(var name in formula.ref){
+			$('<a href="' + formula.ref[name] + '">'+name+'</a>').appendTo(refdom);
 			$('<span> </span>').appendTo(refdom);
 		}
 		refdom.appendTo(contentdom);
@@ -155,16 +155,17 @@ function Calc(f){
 	// f = "jcs" (id)
 	var output = "";
 	var d = [];
+	var formula = formuladata.formula[f];
+	var itemstr;
 
 	// 入力情報の収集
 	try{
-		var formula = formuladata['formula'][f];
-		for(var itemstr in formula['input']){
-			var item = formula['input'][itemstr];
+		for(itemstr in formula.input){
+			var item = formula.input[itemstr];
 			var id = f + "_" + itemstr;
-			switch(item['type']){
+			switch(item.type){
 				case "float":
-					d[itemstr] = GetFloat(id, item['min'], item['max']);
+					d[itemstr] = GetFloat(id, item.min, item.max);
 					break;
 				case "sex":
 					d[itemstr] = GetSex(id);
@@ -178,7 +179,6 @@ function Calc(f){
 					break;
 				default:
 					throw "対応していないデータ形式";
-					break;
 			}
 		}
 	}catch(e){
@@ -197,24 +197,24 @@ function Calc(f){
 	}
 
 	// 計算
-	var formula = formuladata['formula'][f];
-	for(var itemstr in formula['output']){
-		var item = formula['output'][itemstr];
+	// var formula = formuladata['formula'][f];
+	for(itemstr in formula.output){
+		var item = formula.output[itemstr];
 		var code;
 		var value;
-		if(item['formula']){
-			code = "(function(){" + valdim + " return (" + item['formula'] + ");})()";
+		if(item.formula){
+			code = "(function(){" + valdim + " return (" + item.formula + ");})()";
 			value = eval(code);
-		}else if(item['code']){
-			code = "(function(){" + valdim + item['code'] + "})()";
+		}else if(item.code){
+			code = "(function(){" + valdim + item.code + "})()";
 			value = eval(code);
-		}else if(item['text']){
-			value = item['text'];
+		}else if(item.text){
+			value = item.text;
 		}	
 		if('toFixed' in item){
-			value = value.toFixed(item['toFixed']);
+			value = value.toFixed(item.toFixed);
 		}
-		output += item['name'] + ": " + value + "\n";
+		output += item.name + ": " + value + "\n";
 	}
 
 	// 結果の表示
@@ -226,7 +226,7 @@ function Calc(f){
 function SetVersionInformation(){
 
 	var numformula = 0;
-	for( var f in formuladata['formula']){
+	for( var f in formuladata.formula){
 		numformula++;
 	}
 	var verinfo =
@@ -257,7 +257,7 @@ function GetSex(id){
 	}else if ($("#" + id + "_f").attr("checked")){
 		return 0;
 	}else{
-		throw new Error(id + "を選択してください。")
+		throw new Error(id + "を選択してください。");
 	}
 
 }
@@ -276,7 +276,7 @@ var deeplink;
 
 	if (location.hash) {
 		deeplink = location.href.replace(/.*#/,"");
-		location.hash = ""
+		location.hash = "";
 	}
 
 	$(document).ready(function(){
