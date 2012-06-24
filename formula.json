@@ -80,6 +80,10 @@
 			"腰椎穿刺の深さ予測": {
 				"info": "腰椎穿刺に必要な深さを体重などから予測します。",
 				"id": "lumbardepth"
+			},
+			"抗てんかん薬の有効血中濃度と投与量": {
+				"info": "頻用される抗てんかん薬の有効血中濃度と投与量です。",
+				"id": "epidrug"
 			}
 		},
 		"役に立つリンク集" : {
@@ -333,6 +337,10 @@
 				"Coll Antropol. 2003 Dec;27(2):623-6." : "http://www.ncbi.nlm.nih.gov/pubmed/14746151",
 				"Arch Dis Child. 1997 Nov;77(5):450.": "http://www.ncbi.nlm.nih.gov/pubmed/9487973"
 			}
+		},
+		"epidrug": {
+			"type": "image",
+			"src" : "image/epidrug.png"
 		},
 		"image_test" : {
 			"type" : "image",
