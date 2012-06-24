@@ -86,6 +86,24 @@
 				"id": "epidrug"
 			}
 		},
+		"役に立つアプリケーション": {
+			"[iPhone][Android] Know-VPD 予防接種スケジューラアプリ": {
+				"info": "接種可能なワクチンやスケジュール管理を行えるアプリケーションです。",
+				"id": "http://www.know-vpd.jp/vc_scheduler_sp/"
+			},
+			"[iPhone] New England Journal of Medicine This Week": {
+				"info": "NEJMの最新号を閲覧できるアプリケーションです。",
+				"id": "http://itunes.apple.com/jp/app/nejm-this-week/id373156254?mt=8"
+			},
+			"[Android] SRL検査項目レファレンス2012": {
+				"info": "SRLで行うことのできる検査項目を調べることができます。",
+				"id": "https://play.google.com/store/apps/details?id=info.srl.kensaRef2012&hl=ja"
+			},
+			"[iPhone] SRL検査項目レファレンス2012": {
+				"info": "SRLで行うことのできる検査項目を調べることができます。",
+				"id": "http://itunes.apple.com/jp/app/id452672807?mt=8"
+			}
+		},
 		"役に立つリンク集" : {
 			"Pubmed" : {
 				"info" : "論文検索の定番サイトです。(英語)",
