@@ -55,7 +55,7 @@ function generateFormula(Name, f){
 	}else if(formula.type == 'html'){
 		$(formula.html).appendTo(contentdom);
 	}else if(formula.type == 'image'){
-		$('<img src="' + formula.src + '" />').appendTo(contentdom);
+		$('<a href="' + formula.src + '" data-ajax="false"><img src="' + formula.src + '" /></a>').appendTo(contentdom);
 	}else{
 		// 入力部分
 		for(var itemstr in formula.input){
