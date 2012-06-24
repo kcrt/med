@@ -182,8 +182,8 @@
 				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4}
 			},
 			"ref": {
-				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "http://www.ncbi.nlm.nih.gov/pubmed/2520314",
-				"Mosteller RD: N Engl J Med 317: 1098, 1987": "http://www.ncbi.nlm.nih.gov/pubmed/3657876"
+				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pubmed:2520314",
+				"Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876"
 			}
 		},
 		"chads2": {
@@ -241,8 +241,8 @@
 				"filler": {"name": "eGFR[mL/min/1.73m²] (Filler; 小児用)", "formula": "91.62 * Math.pow(cysc, -1.123)", "toFixed": 2}
 			},
 			"ref": {
-				"Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "http://www.ncbi.nlm.nih.gov/pubmed/13679476",
-				"Nephrol Dial Transplant. 2008 Jan;23(1):154-60. Epub 2007 Oct 2.":"http://www.ncbi.nlm.nih.gov/pubmed/17911090"
+				"Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "pubmed:13679476",
+				"Nephrol Dial Transplant. 2008 Jan;23(1):154-60. Epub 2007 Oct 2.":"pubmed:17911090"
 			}
 		},
 		"ccr_child": {
@@ -319,7 +319,7 @@
 				"judge": {"name": "判定", "code": "var x=a+b+c+d1+d2; if(x>=6){return '大きな危険 二日以内の脳梗塞が8.1%';}else if(x>=4){return '中等度の危険 二日以内の脳梗塞が4.1%';}else{return '小さな危険 二日以内の脳梗塞が1.0%';}"}
 			},
 			"ref": {
-				"Stroke Service; Lancet. 2007 Jan 27;369(9558):283-92." : "http://www.ncbi.nlm.nih.gov/pubmed/17258668"
+				"Stroke Service; Lancet. 2007 Jan 27;369(9558):283-92." : "pubmed:17258668"
 			}
 		},
 		"lumbardepth": {
@@ -333,14 +333,18 @@
 				"child_b": {"name": "小児(3ヶ月未満) [cm]", "formula": "height*0.03", "toFixed": 2}
 			},
 			"ref": {
-				"Am J Emerg Med. 2005 Oct;23(6):742-6.": "http://www.ncbi.nlm.nih.gov/pubmed/16182981",
-				"Coll Antropol. 2003 Dec;27(2):623-6." : "http://www.ncbi.nlm.nih.gov/pubmed/14746151",
-				"Arch Dis Child. 1997 Nov;77(5):450.": "http://www.ncbi.nlm.nih.gov/pubmed/9487973"
+				"Am J Emerg Med. 2005 Oct;23(6):742-6.": "pubmed:16182981",
+				"Coll Antropol. 2003 Dec;27(2):623-6." : "pubmed:14746151",
+				"Arch Dis Child. 1997 Nov;77(5):450.": "pubmed:9487973"
 			}
 		},
 		"epidrug": {
 			"type": "image",
-			"src" : "image/epidrug.png"
+			"src" : "image/epidrug.png",
+			"ref": {
+				"てんかん 小児科診療増刊号, 62; 436-439, 1999.": "",
+				"小児の薬の選び方・使い方": "isbn:9784525284435"
+			}
 		},
 		"image_test" : {
 			"type" : "image",

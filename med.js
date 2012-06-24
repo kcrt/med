@@ -136,7 +136,18 @@ function generateFormula(Name, f){
 		$('<hr />').appendTo(contentdom);
 		var refdom = $('<div><span>参考文献:</span></div>');
 		for(var name in formula.ref){
-			$('<a href="' + formula.ref[name] + '">'+name+'</a>').appendTo(refdom);
+			var link = formula.ref[name];
+			var code;
+			if(link == ""){
+				// リンクなし
+				$('<span>' + name + '</span>').appendTo(refdom);
+			}else if(code = (/^isbn:(.*)/.exec(link) || [])[1]){
+				$('<a href="http://www.amazon.co.jp/s?url=search-alias=aps&field-keywords=' + code + '">'+name+'</a>').appendTo(refdom);
+			}else if(code = (/^pubmed:(.*)/.exec(link) || [])[1]){
+				$('<a href="http://www.ncbi.nlm.nih.gov/pubmed/' + code + '">'+name+'</a>').appendTo(refdom);
+			}else{
+				$('<a href="' + link + '">'+name+'</a>').appendTo(refdom);
+			}
 			$('<span> </span>').appendTo(refdom);
 		}
 		refdom.appendTo(contentdom);
