@@ -100,16 +100,6 @@
 				"id" : "http://app.kcrt.net/bw"
 			}
 		},
-		"でばっぐ" : {
-			"img test" : {
-				"info" : "いめーじてすと",
-				"id": "image_test"
-			}, 
-			"debug" : {
-				"info" : "でばっぐ",
-				"id" : "debug_form"
-			}
-		},
 		"バージョン情報" : {
 			"Medicalculator": {
 				"info" : "Programmed by kcrt, all rights reserved",
@@ -344,20 +334,6 @@
 			"ref": {
 				"てんかん 小児科診療増刊号, 62; 436-439, 1999.": "",
 				"小児の薬の選び方・使い方": "isbn:9784525284435"
-			}
-		},
-		"image_test" : {
-			"type" : "image",
-			"src" : "http://profile.kcrt.net/kcrt.png"
-		},
-		"debug_form" : {
-			"input" : {
-				"float" : {"name": "float", "type": "float", "min": 0, "max": 100},
-				"text" : {"name": "text", "type": "text", "placeholder": "Input your text..."},
-				"datetime" : {"name": "datetime", "type": "datetime"},
-				"slider" : {"name": "slider", "type": "slider", "min": 0, "max": 100, "value": 50},
-				"sex" : {"name": "sex", "type": "sex"},
-				"onoff" : {"name": "onoff", "type": "onoff", "on": "Yes", "off": "No"}
 			}
 		}
 	}
