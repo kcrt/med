@@ -47,7 +47,7 @@ function generateFormula(Name, f){
 	var pagedom = $('<div data-role="page" data-title="' + Name + '"> </div>');
 	pagedom.attr('id', f);
 	pagedom.attr('data-url', f);
-	$('<div data-role="header" data-position="fixed"><a href="#index" data-icon="home" data-theme="b">Home</a><h1>' + Name + '</h1><a href="#about" data-icon="info">about</a></div>').appendTo(pagedom);
+	$('<div data-role="header" data-position="fixed"><a href="#index" data-icon="home" data-theme="b" data-direction="reverse">Home</a><h1>' + Name + '</h1><a href="#about" data-icon="info">about</a></div>').appendTo(pagedom);
 	var contentdom = $('<div data-role="content"> </div>');
 
 	if (typeof(formula) == "undefined"){
@@ -283,12 +283,19 @@ function GetSelect(id){
 
 /* ----- on Load ----- */
 var deeplink;
+var settings = [];
 (function ($){
 
 	if (location.hash) {
 		deeplink = location.href.replace(/.*#/,"");
 		location.hash = "";
 	}
+
+
+	// OSの識別
+	settings.userAgent = navigator.userAgent;
+	settings.iOS = settings.userAgent.match(/(iphone|ipod|ipad)/i);
+	settings.defaultPageTransition = settings.defaultPageTransition || (settings.iOS ? "slide" : "none");
 
 	$(document).ready(function(){
 		
@@ -300,3 +307,6 @@ var deeplink;
 	
 })(jQuery);
 
+$(document).bind("mobileinit", function(){
+	$.mobile.defaultPageTransition = settings.defaultPageTransition;
+});
