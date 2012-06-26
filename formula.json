@@ -67,6 +67,14 @@
 				"info": "肺胞・大気酸素分圧較差を計算します。",
 				"id": "AaDO2"
 			},
+			"Pneumonia Severity Index (PSI)": {
+				"info": "カナダで作成された肺炎の入院後予後判定を行うスコアです。",
+				"id": "psi"
+			},
+			"CURB-65": {
+				"info": "",
+				"id": "curb-65"
+			},
 			"A-DROPスコア" : {
 				"info": "日本呼吸器学会による肺炎重症度分類です。",
 				"id" : "adrop"
@@ -143,7 +151,7 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 3, "max": 300}
 			},
 			"output": {
-				"BMI": {"name": "BMI", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
+				"BMI": {"name": "BMI", "formula" : "weight/(height/100)/(height/100)"},
 				"who": {"name": "WHO(世界保健機関)", "text" : "≧25: overwight, ≧30: obese"},
 				"jasso": {"name": "日本肥満学会", "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"}
 			},
@@ -157,9 +165,9 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
 			},
 			"output": {
-				"kaup": {"name": "Kaup指数", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2},
+				"kaup": {"name": "Kaup指数", "formula" : "weight/(height/100)/(height/100)"},
 				"info1" : {"name": "乳幼児(3ヶ月以降)", "text": "正常範囲: 15-18"},
-				"rohrer": {"name": "Rohrer指数", "formula": "weight/Math.pow(height,3)*10000000", "toFixed": 2},
+				"rohrer": {"name": "Rohrer指数", "formula": "weight/Math.pow(height,3)*10000000"},
 				"info2" : {"name" : "学童", "text": "標準: 130, 160以上で肥満"}
 			},
 			"ref": {
@@ -203,8 +211,8 @@
 				"s": {"name": "脳卒中/TIAの既往", "type": "onoff", "on": "あり", "off": "なし"}
 			},
 			"output": {
-				"point": {"name": "点数", "formula": "c+h+a+d+s*2"},
-				"judge": {"name": "脳卒中の発生", "code": "var x=c+h+a+d+s*2; if(x==0){return '低リスク 1.0%/年';}else if(x==1){return '低~中リスク 1.5%/年';}else if(x==2){return '中リスク 2.5%/年';}else if(x==3){return '高リスク 5.0%/年';}else if(x>=4){return '非常に高リスク >7.0%/年';}"},
+				"point": {"name": "点数", "formula": "c+h+a+d+s*2", "toFixed": ""},
+				"judge": {"name": "脳卒中の発生", "code": "var x=point; if(x==0){return '低リスク 1.0%/年';}else if(x==1){return '低~中リスク 1.5%/年';}else if(x==2){return '中リスク 2.5%/年';}else if(x==3){return '高リスク 5.0%/年';}else if(x>=4){return '非常に高リスク >7.0%/年';}"},
 				"info": {"name": "情報", "text": "2点以上でワーファリンの使用についてご検討ください。"}
 			},
 			"ref": {
@@ -219,7 +227,7 @@
 				"glu": {"name": "血糖[mg/dL]", "type": "float", "min": 0, "max": 3000}
 			},
 			"output": {
-				"osm": {"name": "血漿浸透圧[mOsm/kg]", "formula": "2*(Na+K)+glu/18+BUN/2.8", "toFixed": 2},
+				"osm": {"name": "血漿浸透圧[mOsm/kg]", "formula": "2*(Na+K)+glu/18+BUN/2.8"},
 				"info": {"name": "基準値[mOsm/kg]", "text": "285-295"}
 			}
 		},
@@ -243,10 +251,10 @@
 				"cysc": {"name": "血清シスタチンC値", "type": "float", "min": 0, "max": 100}
 			},
 			"output": {
-				"hoek": {"name": "eGFR[mL/min/1.73m²] (Hoek)", "formula": "80.35/cysc-4.32", "toFixed": 2},
-				"grubb_a": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才以上)", "formula": "84.69*Math.pow(cysc, -1.680)", "toFixed": 2},
-				"grubb_c": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才未満)", "formula": "84.69*Math.pow(cysc,-1.680)*1.384", "toFixed": 2},
-				"filler": {"name": "eGFR[mL/min/1.73m²] (Filler; 小児用)", "formula": "91.62 * Math.pow(cysc, -1.123)", "toFixed": 2}
+				"hoek": {"name": "eGFR[mL/min/1.73m²] (Hoek)", "formula": "80.35/cysc-4.32"},
+				"grubb_a": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才以上)", "formula": "84.69*Math.pow(cysc, -1.680)"},
+				"grubb_c": {"name": "eGFR[mL/min/1.73m²] (Grubb 14才未満)", "formula": "84.69*Math.pow(cysc,-1.680)*1.384"},
+				"filler": {"name": "eGFR[mL/min/1.73m²] (Filler; 小児用)", "formula": "91.62 * Math.pow(cysc, -1.123)"}
 			},
 			"ref": {
 				"Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "pubmed:13679476",
@@ -260,7 +268,7 @@
 				"k" : {"name": "年齢", "type": "select", "item": {"低出生体重児": 0.33,"正常体重児": 0.45, "2〜12歳": 0.55, "女児(13-21歳)": 0.55, "男児(13-21歳)": 0.7}}
 			},
 			"output": {
-				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)", "toFixed": 2}
+				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)"}
 			},
 			"ref": {
 				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
@@ -274,7 +282,7 @@
 				"UCre": {"name": "尿Cre[mg/dL]", "type": "float", "min": 0, "max": 1000}
 			},
 			"output": {
-				"fena": {"name": "FENa[%]", "formula": "(UNa*SCre)/(SNa*UCre)*100", "toFixed": 2},
+				"fena": {"name": "FENa[%]", "formula": "(UNa*SCre)/(SNa*UCre)*100"},
 				"info": {"name": "情報", "text": "正常では<1%。腎性腎不全では>1%"}
 			}
 		},
@@ -286,7 +294,7 @@
 				"UCre": {"name": "尿Cre[mg/dL]", "type": "float", "min": 0, "max": 1000}
 			},
 			"output": {
-				"ptrp": {"name": "%TRP", "formula": "(1-(UP*SCre)/(SP*UCre))*100", "toFixed": 2}
+				"ptrp": {"name": "%TRP", "formula": "(1-(UP*SCre)/(SP*UCre))*100"}
 			}
 		},
 		"AaDO2":{
@@ -296,8 +304,43 @@
 				"paco2": {"name": "PaCO₂[mmHg]", "type": "float", "min": 0, "max": 1000}
 			},
 			"output": {
-				"aado2": {"name": "A-aDO₂", "formula": "(760-47)*fio2-paco2/0.8-pao2", "toFixed": 2},
+				"aado2": {"name": "A-aDO₂", "formula": "(760-47)*fio2-paco2/0.8-pao2"},
 				"info": {"name": "情報", "text": "正常では10以下"}
+			}
+		},
+		"psi": {
+			"input": {
+				 "age": {"name": "年齢", "type": "float", "min": 0, "max":150},
+				 "sex": {"name": "性別", "type": "sex"},
+				 "nursinghome":		{"name": "老人ホーム入所中", "type": "onoff"},
+				 "info1":			{"name": "", "type": "info", "text": "合併症"},
+				 "neoplastic":		{"name": "悪性腫瘍", "type": "onoff"},
+				 "liver":			{"name": "肝疾患", "type": "onoff"},
+				 "congestivehf":	{"name": "うっ血性心不全", "type": "onoff"},
+				 "cerebrovasc":		{"name": "脳血管障害", "type": "onoff"},
+				 "renal":			{"name": "腎疾患", "type": "onoff"},
+				 "info2":			{"name": "", "type": "info", "text": "身体所見"},
+				 "alteredmental":	{"name": "意識レベルの低下", "type": "onoff"},
+				 "pulsege125":		{"name": "脈拍数 ≧125bpm", "type": "onoff"},
+				 "rrgt30":			{"name": "呼吸数 ＞30bpm", "type": "onoff"},
+				 "sbplt90":			{"name": "収縮期血圧 ＜90mmHg", "type": "onoff"},
+				 "temp":			{"name": "体温 35℃未満/40℃以上", "type": "onoff"},
+				 "info3":			{"name": "", "type": "info", "text": "検査所見"},
+				 "apH":				{"name": "動脈血ガスpH ＜7.35", "type": "onoff"},
+				 "bun":				{"name": "BUN ≧30mg/dL", "type": "onoff"},
+				 "Na":				{"name": "Na ＜130mEq/L", "type": "onoff"},
+				 "BS":				{"name": "血糖 ≧250mg/dL", "type": "onoff"},
+				 "Ht":				{"name": "Ht ＜30%", "type": "onoff"},
+				 "PaO2":			{"name": "PaO2 ＜60mmHg", "type": "onoff"},
+				 "pleuraleffusion":	{"name": "胸水", "type": "onoff"}
+			},
+			"output": {
+				"point": {"name": "点数", "formula": "(sex ? age : age - 10) + nursinghome*10 + neoplastic*30 + liver*20 + congestivehf*10 + cerebrovasc*10 + renal*10 + alteredmental*20 + pulsege125*20 + rrgt30*20 + sbplt90*15 + temp*10 + apH*30 + bun*20 + Na*20 + BS*10 + Ht*10 + PaO2*10 + pleuraleffusion*10", "toFixed": ""},
+				"aclass": {"name": "クラス", "code": "if(!(age>50 || alteredmental || pulsege125 || rrgt30 || sbplt90 || temp || neoplastic || congestivehf || cerebrovasc || renal || liver )){return 'I';}else if(point < 70){return 'II';}else if(point <= 90){return 'III';}else if(point <=130){return 'IV';}else{return 'V';}"},
+				"deathrate": {"name": "死亡率(PORT Study)[%]", "code": "if(aclass=='I'){return 0.1;}else if(aclass=='II'){return 0.6;}else if(aclass=='III'){return 0.9;}else if(aclass=='IV'){return 9.3;}else{return '27.0';}", "toFixed": ""}
+			},
+			"ref": {
+				"Wikipedia": "http://en.wikipedia.org/wiki/Pneumonia_severity_index"
 			}
 		},
 		"adrop" : {
@@ -309,7 +352,7 @@
 				"p": {"name": "sBP≦90mmHg", "type": "onoff"}
 			},
 			"output": {
-				"point": {"name": "該当項目数", "formula": "a+d+r+o+p"},
+				"point": {"name": "該当項目数", "formula": "a+d+r+o+p", "toFixed": ""},
 				"judge": {"name": "判定", "code" : "var x=a+d+r+o+p; if(x==0){return '外来';}else if(x<=2){return '外来または入院'}else if(x==3){return '入院'}else{return 'ICU入院'}"},
 				"info": {"name": "注意", "text": "ただし、ショックがあれば1項目のみでも超重症とする"}
 			}
@@ -336,9 +379,9 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 3, "max": 300}
 			},
 			"output": {
-				"adult": {"name": "成人[cm]", "formula": "1+17*(weight/height)", "toFixed": 2},
-				"child_a": {"name": "小児(3ヶ月以降) [cm]", "formula": "1.3 + 0.07*weight", "toFixed": 2},
-				"child_b": {"name": "小児(3ヶ月未満) [cm]", "formula": "height*0.03", "toFixed": 2}
+				"adult": {"name": "成人[cm]", "formula": "1+17*(weight/height)"},
+				"child_a": {"name": "小児(3ヶ月以降) [cm]", "formula": "1.3 + 0.07*weight"},
+				"child_b": {"name": "小児(3ヶ月未満) [cm]", "formula": "height*0.03"}
 			},
 			"ref": {
 				"Am J Emerg Med. 2005 Oct;23(6):742-6.": "pubmed:16182981",

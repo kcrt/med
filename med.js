@@ -222,9 +222,14 @@ function Calc(f){
 		}else if(item.text){
 			value = item.text;
 		}	
-		if('toFixed' in item){
-			value = value.toFixed(item.toFixed);
+		if(typeof(value) == 'number'){
+			if(item.toFixed == undefined) item.toFixed = 2;
+			if(item.toFixed != "") value = value.toFixed(item.toFixed);
+			valdim += "var " + itemstr + ' = ' + value + ';';
+		}else{
+			valdim += "var " + itemstr + ' = "' + value + '";';
 		}
+
 		output += item.name + ": " + value + "\n";
 	}
 
