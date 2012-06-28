@@ -1,3 +1,4 @@
+/*jslint evil: true, forin: true */
 var MEDICALCULATOR_VERSION = "0.0.1";
 
 /* ----- データの読み込みとページの構築 ----- */
@@ -138,7 +139,7 @@ function generateFormula(Name, f){
 		for(var name in formula.ref){
 			var link = formula.ref[name];
 			var code;
-			if(link == ""){
+			if(link === ""){
 				// リンクなし
 				$('<span>' + name + '</span>').appendTo(refdom);
 			}else if(code = (/^isbn:(.*)/.exec(link) || [])[1]){
@@ -223,8 +224,8 @@ function Calc(f){
 			value = item.text;
 		}	
 		if(typeof(value) == 'number'){
-			if(item.toFixed == undefined) item.toFixed = 2;
-			if(item.toFixed != "") value = value.toFixed(item.toFixed);
+			if(item.toFixed === undefined) item.toFixed = 2;
+			if(item.toFixed !== "") value = value.toFixed(item.toFixed);
 			valdim += "var " + itemstr + ' = ' + value + ';';
 		}else{
 			valdim += "var " + itemstr + ' = "' + value + '";';
