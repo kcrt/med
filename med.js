@@ -361,3 +361,24 @@ var settings;
 $(document).bind("mobileinit", function(){
 	ApplySettings();
 });
+
+
+
+/* ===== formula, code用関数 ===== */
+function GetZScore(value, average, sd){
+	return (value - average) / sd;
+}
+function GetZScoreStr(value, average, sd){
+
+	var zscore = GetZScore(value, average, sd).toFixed(2);
+	
+	if(zscore == 0 ){
+		return value + " ( ±0.00 SD )";
+	}else if(zscore > 0){
+		return value + " ( +" + zscore + " SD )";
+	}else{
+		return value + " ( " + zscore + " SD )";
+	}
+
+}
+

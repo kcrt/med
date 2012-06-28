@@ -32,6 +32,10 @@
 			"CHADS2 スコア": {
 				"info" : "心房細動による塞栓症のリスク評価を行います。",
 				"id": "chads2"
+			},
+			"小児の冠動脈径": {
+				"info": "川崎病などで評価する必要のある冠動脈径の評価を行います。",
+				"id": "kawasaki_coronary"
 			}
 		},
 		"内分泌・代謝": {
@@ -224,6 +228,31 @@
 			},
 			"ref": {
 				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+			}
+		},
+		"kawasaki_coronary": {
+			"input": {
+				"BSA": {"name": "体表面積[m²]", "type": "float", "min": 0, "max": 4},
+				"info": {"type": "html", "html": "<a href='#bsa'>体表面積の計算</a>"},
+				"LMCA": {"name": "LMCA[cm]", "type": "float", "min": 0, "max": 8},
+				"pLAD": {"name": "pLAD[cm]", "type": "float", "min": 0, "max": 8},
+				"pRCA": {"name": "pRCA[cm]", "type": "float", "min": 0, "max": 8},
+				"info2": {"type": "html", "html": "LMCA - left main coronary artery<br />pLAD - proximal anterior descending coronary artery<br />pRCA - proximal right coronary artery"}
+			},
+			"output": {
+				"info": {"name": "対象", "formula": "'BSA = ' + BSA + '[m²]での比較'"},
+				"LMCA_avg": {"name": "LMCA(平均)", "formula": "0.31747 * Math.pow(BSA, 0.36008) - 0.02887", "toFixed": 4},
+				"LMCA_SD":  {"name": "LMCA( SD )", "formula": "0.03040 + 0.01514 * BSA", "toFixed": 4},
+				"pLAD_avg": {"name": "pLAD(平均)", "formula": "0.26108 * Math.pow(BSA, 0.37893) - 0.02852", "toFixed": 4},
+				"pLAD_SD":  {"name": "pLAD( SD )", "formula": "0.01465 + 0.01996 * BSA", "toFixed": 4},
+				"pRCA_avg": {"name": "pRCA(平均)", "formula": "0.26117 * Math.pow(BSA, 0.39992) - 0.02756", "toFixed": 4},
+				"pRCA_SD":  {"name": "pRCA( SD )", "formula": "0.02407 + 0.01597 * BSA", "toFixed": 4},
+				"LMCA_out": {"name": "LMCA(本例)", "formula": "GetZScoreStr(LMCA, LMCA_avg, LMCA_SD)"},
+				"pLAD_out": {"name": "pLAD(本例)", "formula": "GetZScoreStr(pLAD, pLAD_avg, pLAD_SD)"},
+				"pRCA_out": {"name": "pRCA(本例)", "formula": "GetZScoreStr(pRCA, pRCA_avg, pRCA_SD)"}
+			},
+			"ref": {
+				"McCrindle BW et al." : "pubmed:17576863"
 			}
 		},
 		"osmoticpressure": {

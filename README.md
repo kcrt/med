@@ -146,6 +146,14 @@ output部分では、_text_ , _formula_ , _code_ のいずれかを指定しま�
   * "toFixed"で四捨五入を行う桁を指定できます。例えば、1/3を"toFixed": 2で表示した場合0.33となります。
   * "toFixed"を省略した場合、値が数値として解釈できない場合は変換は行われません。数値として解釈できる場合は"toFixed": 2を指定したのと同じになります。
   * 値が整数値になることがわかっているなど、変換を行いたくない場合は"toFixed": ""を指定してください。
+  * formulaまたはcodeでは、すでに計算の終わっている他のoutput項目を使用出来ます。
+
+##### formula, codeで使用できる関数 #####
+  * JavaScriptの関数(Math.powなど)が使用出来ます。
+  * GetZScore(**Value**, **Average**, **SD**) - Average, SDに対応するZScore(例: 0.32)を返します。
+  * GetZScoreStr(**Value**, **Average**, **SD**) - GetZScoreを整形して返します。(例: 1.32 (-0.32SD) )
+
+
 
 ### 参考文献部分 ###
 	"ref": {
