@@ -29,12 +29,35 @@
 <body>
 
 	<div id="index" data-role="page">
-		<div data-role="header" data-position="fixed"><h1>医療計算機</h1><a href="#about" data-icon="info" class="ui-btn-right">about</a></div>
+		<div data-role="header" data-position="fixed"><h1>医療計算機</h1><a href="#config" data-icon="gear" class="ui-btn-right">Options</a></div>
 		<div data-role="content">
 			<ul id="lstMain" data-role="listview" data-filter="true">
 			</ul>
 		</div>
-		<div data-role="footer">医療計算機 by <a href="http://profile.kcrt.net">kcrt</a></div>
+		<div data-role="footer" data-position="fixed" data-id="myfooter"><a href="#about">医療計算機</a> by <a href="http://profile.kcrt.net/">kcrt</a></div>
+	</div>
+
+	<div id="config" data-role="page" data-add-back-btn="true">
+		<div data-role="header"><h1>設定</h1></div>
+		<div data-role="content">
+			<div data-role="fieldcontain">
+				<label for="selectTransition">画面遷移: </label>
+				<select name="selectTransition" id="selectTransition">
+					<option value="none">遷移なし (標準設定)</option>
+					<option value="fade">フェード</option>
+					<option value="slide">スライド (iOS標準)</option>
+					<option value="slideup">下から上へ</option>
+					<option value="slidedown">上から下へ</option>
+					<option value="pop">広がる</option>
+					<option value="flip">めくる</option>
+				</select>
+				<label for="selectTransition_Info"> </label>
+				<div id="selectTransition_Info">画面遷移は機器が対応していない場合は自動的にフェードスタイルとなります。また、機種によってはちらつきの原因となる場合があります。</div>
+			</div>
+			<a href="#" data-role="button" data-icon="check" data-theme="b" onclick="SaveSettings();">設定</a>
+			<a href="#" data-role="button" data-icon="alert" data-theme="e" onclick="ClearSettings();">クリア</a>
+		</div>
+		<div data-role="footer" data-position="fixed" data-id="myfooter"><a href="#about">医療計算機</a> by <a href="http://profile.kcrt.net/">kcrt</a></div>
 	</div>
 
 	<div id="about" data-role="page" data-add-back-btn="true">
@@ -56,7 +79,7 @@
 				<blockquote>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</blockquote>
 			</div>
 		</div>
-		<div data-role="footer">医療計算機 by <a href="http://profile.kcrt.net">kcrt</a></div>
+		<div data-role="footer" data-position="fixed" data-id="myfooter"><a href="#about">医療計算機</a> by <a href="http://profile.kcrt.net/">kcrt</a></div>
 	</div>
 
 </body>

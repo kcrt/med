@@ -48,7 +48,7 @@ function generateFormula(Name, f){
 	var pagedom = $('<div data-role="page" data-title="' + Name + '"> </div>');
 	pagedom.attr('id', f);
 	pagedom.attr('data-url', f);
-	$('<div data-role="header" data-position="fixed"><a href="#index" data-icon="home" data-theme="b" data-direction="reverse">Home</a><h1>' + Name + '</h1><a href="#about" data-icon="info">about</a></div>').appendTo(pagedom);
+	$('<div data-role="header" data-position="fixed"><a href="#index" data-icon="home" data-theme="b" data-direction="reverse">Home</a><h1>' + Name + '</h1><a href="#config" data-icon="gear">Options</a></a></div>').appendTo(pagedom);
 	var contentdom = $('<div data-role="content"> </div>');
 
 	if (typeof(formula) == "undefined"){
@@ -157,7 +157,7 @@ function generateFormula(Name, f){
 
 	contentdom.appendTo(pagedom);
 
-	$('<div data-role="footer" data-position="fixed">Programmed by kcrt</div>').appendTo(pagedom);
+	$('<div data-role="footer" data-position="fixed" data-id="myfooter"><a href="#about">医療計算機</a> by <a href="http://profile.kcrt.net/">kcrt</a></div>').appendTo(pagedom);
 
 	return pagedom;
 }
@@ -240,6 +240,47 @@ function Calc(f){
 
 }
 
+function LoadSettings(){
+
+	settings = JSON.parse(window.localStorage.settings || '{"firstVersion": "' + MEDICALCULATOR_VERSION + '"}');
+
+	// OSの識別
+	settings.userAgent = navigator.userAgent;
+	settings.iOS = settings.userAgent.match(/(iphone|ipod|ipad)/i);
+	
+	// デフォルト値の設定
+	settings.defaultPageTransition = settings.defaultPageTransition || (settings.iOS ? "slide" : "none");
+
+}
+
+function SaveSettings(){
+	settings.defaultPageTransition = $('#selectTransition').val();
+
+	window.localStorage.settings = JSON.stringify(settings);
+
+	ApplySettings();
+	alert("設定しました。");
+}
+
+function ClearSettings(){
+	window.localStorage.clear();
+	LoadSettings();
+}
+
+function ApplySettings(){
+
+	if($.mobile === undefined) return 0;
+
+	$.mobile.defaultPageTransition = settings.defaultPageTransition;
+}
+
+function SetSettingsForm(){
+
+	// この時点ではまだjQuery Mobileは初期化されておらず、refreshは不要
+	$('#selectTransition').val(settings.defaultPageTransition);//.selectmenu('refresh', true);
+
+}
+
 function SetVersionInformation(){
 
 	var numformula = 0;
@@ -289,22 +330,25 @@ function GetSelect(id){
 
 /* ----- on Load ----- */
 var deeplink;
-var settings = [];
+var settings;
 (function ($){
+
+	// 起動時チェック
+	if(JSON === undefined){
+		alert("JSONがサポートされていません！");
+	}
 
 	if (location.hash) {
 		deeplink = location.href.replace(/.*#/,"");
 		location.hash = "";
 	}
 
-
-	// OSの識別
-	settings.userAgent = navigator.userAgent;
-	settings.iOS = settings.userAgent.match(/(iphone|ipod|ipad)/i);
-	settings.defaultPageTransition = settings.defaultPageTransition || (settings.iOS ? "slide" : "none");
+	LoadSettings();
 
 	$(document).ready(function(){
 		
+		SetSettingsForm();
+
 		// JSONデータの読み込み
 		$.ajax({"error": onAjaxError});
 		$.getJSON("./formula.json", onFormulaJsonReady);
@@ -314,5 +358,5 @@ var settings = [];
 })(jQuery);
 
 $(document).bind("mobileinit", function(){
-	$.mobile.defaultPageTransition = settings.defaultPageTransition;
+	ApplySettings();
 });

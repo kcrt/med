@@ -126,8 +126,12 @@
 				"id" : "http://app.kcrt.net/bw"
 			}
 		},
-		"バージョン情報" : {
-			"Medicalculator": {
+		"医療計算機" : {
+			"設定": {
+				"info": "本ソフトウェアの設定を行います。",
+				"id": "config"
+			},
+			"バージョン情報": {
 				"info" : "Programmed by kcrt, all rights reserved",
 				"id" : "about"
 			}
