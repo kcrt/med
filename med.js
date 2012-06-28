@@ -265,6 +265,7 @@ function SaveSettings(){
 function ClearSettings(){
 	window.localStorage.clear();
 	LoadSettings();
+	alert("設定をクリアしました。アプリケーションを再起動してください。");
 }
 
 function ApplySettings(){
