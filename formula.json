@@ -131,6 +131,9 @@
 				"info": "本ソフトウェアの設定を行います。",
 				"id": "config"
 			},
+			"アンケート": {
+				"info": "本ソフトウェアに関する意見を送ることができます。(要ネットワーク)",
+				"id": "http://docs.google.com/spreadsheet/viewform?formkey=dEpKMldtSVBGM2pVVnA2c0podHh5WkE6MQ"},
 			"バージョン情報": {
 				"info" : "Programmed by kcrt, all rights reserved",
 				"id" : "about"
