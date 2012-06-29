@@ -242,7 +242,12 @@ function Calc(f){
 
 function LoadSettings(){
 
-	settings = JSON.parse(window.localStorage.settings || '{"firstVersion": "' + MEDICALCULATOR_VERSION + '"}');
+	if(typeof JSON == 'undefined' || typeof window.localStorage == 'undefined'){
+		settings = {};
+		settings.noJSON = 1;
+	}else{
+		settings = JSON.parse(window.localStorage.settings || '{"firstVersion": "' + MEDICALCULATOR_VERSION + '"}');
+	}
 
 	// OSの識別
 	settings.userAgent = navigator.userAgent;
@@ -273,6 +278,7 @@ function ApplySettings(){
 	if($.mobile === undefined) return 0;
 
 	$.mobile.defaultPageTransition = settings.defaultPageTransition;
+
 }
 
 function SetSettingsForm(){
@@ -334,11 +340,6 @@ var deeplink;
 var settings;
 (function ($){
 
-	// 起動時チェック
-	if(JSON === undefined){
-		alert("JSONがサポートされていません！");
-	}
-
 	if (location.hash) {
 		deeplink = location.href.replace(/.*#/,"");
 		location.hash = "";
@@ -353,6 +354,11 @@ var settings;
 		// JSONデータの読み込み
 		$.ajax({"error": onAjaxError});
 		$.getJSON("./formula.json", onFormulaJsonReady);
+
+
+		if(settings.noJSON){
+			$('#aSetting').text('ブラウザの機能不足のため設定機能を利用することができません。');
+		}
 
 	});
 	
