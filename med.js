@@ -169,12 +169,15 @@ function Calc(f){
 	var d = [];
 	var formula = formuladata.formula[f];
 	var itemstr;
+	var id = "";
+
+	$(".error_item").removeClass("error_item");
 
 	// 入力情報の収集
 	try{
 		for(itemstr in formula.input){
 			var item = formula.input[itemstr];
-			var id = f + "_" + itemstr;
+			id = f + "_" + itemstr;
 			switch(item.type){
 				case "float":
 					d[itemstr] = GetFloat(id, item.min, item.max);
@@ -195,6 +198,7 @@ function Calc(f){
 		}
 	}catch(e){
 		alert("入力情報にミスがあります:" + e);
+		$("#" + id).addClass("error_item");
 		return;
 	}
 
