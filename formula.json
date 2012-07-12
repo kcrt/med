@@ -300,10 +300,12 @@
 				"k" : {"name": "年齢", "type": "select", "item": {"低出生体重児": 0.33,"正常体重児": 0.45, "2〜12歳": 0.55, "女児(13-21歳)": 0.55, "男児(13-21歳)": 0.7}}
 			},
 			"output": {
-				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)"}
+				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)"},
+				"updatedshwaltz": {"name": "eGFR[mL/min/1.73m2] (Schwartz 2009; 7.7-14.3歳)", "formula": "0.413 * height / scr"}
 			},
 			"ref": {
-				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142"
+				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142",
+				"New Equations to Estimate GFR in Children with CKD": "pubmed:19158356"
 			}
 		},
 		"fena": {
