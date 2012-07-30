@@ -33,7 +33,11 @@
 				"info" : "心房細動による塞栓症のリスク評価を行います。",
 				"id": "chads2"
 			},
-			"小児の冠動脈径": {
+			"[小児] LVDdの標準値": {
+				"info" : "身長・体重をもとにLVDdの標準値を推定します。",
+				"id": "ped_lvdd"
+			},
+			"[小児] 冠動脈径": {
 				"info": "川崎病などで評価する必要のある冠動脈径の評価を行います。",
 				"id": "kawasaki_coronary"
 			}
@@ -224,6 +228,22 @@
 			},
 			"ref": {
 				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+			}
+		},
+		"ped_lvdd": {
+			"input": {
+				"height": {"name": "身長[cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula" : "0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425)", "toFixed": 4},
+				"nagasawam": {"name": "LVDd(mm) 成熟児及び1歳未満; Nagasawa", "formula": "0.352*height+1.86"},
+				"nagasawap": {"name": "LVDd(mm) 未熟児; Nagasawa", "formula": "0.459*height-5.43"},
+				"kampmann": {"name": "LVDd(mm) 乳幼児; Kampmann", "formula": "38.537*Math.pow(bsa_dubois,0.4509)"}
+			},
+			"ref": {
+				"Nagasawa H.: Cardiol Young. 2010 Oct;20(5):526-31": "pubmed:20598214",
+				"Kampmann C et al.:Heart (British Cardiac Society). 2000;83(6):667-72": "pubmed:1760862"
 			}
 		},
 		"kawasaki_coronary": {
