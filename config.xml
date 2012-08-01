@@ -15,8 +15,8 @@
 
 	<author href="http://profile.kcrt.net/">kcrt (TAKAHASHI, Kyohei) </author>
 
-	<icon src="favicon32.png" />
-	<gap:splash src="favicon256.png" />
+	<icon src="favicon256.png" />
+	<gap:splash src="favicon256.png" width="256" height="256" />
 
 
 </widget>
