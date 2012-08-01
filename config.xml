@@ -2,8 +2,8 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 	xmlns:gap = "http://phonegap.com/ns/1.0"
 	id        = "net.kcrt.med"
-	versionCode="2" 
-	version   = "0.2.0">
+	versionCode="3" 
+	version   = "0.3.0">
 
 	<!-- versionCode is optional and Android only -->
 
@@ -14,5 +14,9 @@
 	</description>
 
 	<author href="http://profile.kcrt.net/">kcrt (TAKAHASHI, Kyohei) </author>
+
+	<icon src="favicon32.png" />
+	<gap:splash src="favicon256.png" />
+
 
 </widget>

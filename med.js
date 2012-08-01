@@ -1,5 +1,5 @@
 /*jslint evil: true, forin: true */
-var MEDICALCULATOR_VERSION = "0.2.0";
+var MEDICALCULATOR_VERSION = "0.3.0";
 
 /* ----- データの読み込みとページの構築 ----- */
 var formuladata;
@@ -17,7 +17,7 @@ function onFormulaJsonReady(data, status){
 			var info = formuladata.menu[genre][formulatitle].info;
 			var id = formuladata.menu[genre][formulatitle].id;
 			var formuladom;
-			if(id.match(/^http:/)){
+			if(id.match(/^http:/) || id.match(/^https:/)){
 				// idがhttp:で始まる場合はリンクとみなす
 				formuladom = $('<li><a href="' + id + '"><h3>' + formulatitle + '</h3><p>' + id + "<br/>" + info + '</p></a></li>');
 				formuladom.attr("data-icon", "star");
