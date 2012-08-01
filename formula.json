@@ -135,9 +135,18 @@
 				"info": "本ソフトウェアの設定を行います。",
 				"id": "config"
 			},
+			"ツイート (Twitter)": {
+				"info": "本ソフトウェア(医療計算機)に関してツイートします。",
+				"id": "http://twitter.com/intent/tweet?url=http%3A%2F%2Fapp.kcrt.net%2Fmed%2F&amp;via=kcrt&amp;text=%E5%8C%BB%E7%99%82%E8%A8%88%E7%AE%97%E6%A9%9F"
+			},
+			"いいね！ (Facebook)":{
+				"info": "本ソフトウェア(医療計算機)に関してFacebookでLike!します。",
+				"id": "http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fapp.kcrt.net%2Fmed%2F&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=35"
+			},
 			"アンケート": {
 				"info": "本ソフトウェアに関する意見を送ることができます。(要ネットワーク)",
-				"id": "http://docs.google.com/spreadsheet/viewform?formkey=dEpKMldtSVBGM2pVVnA2c0podHh5WkE6MQ"},
+				"id": "http://docs.google.com/spreadsheet/viewform?formkey=dEpKMldtSVBGM2pVVnA2c0podHh5WkE6MQ"
+			},
 			"バージョン情報": {
 				"info" : "Programmed by kcrt, all rights reserved",
 				"id" : "about"
