@@ -214,7 +214,7 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
 			},
 			"output": {
-				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula" : "0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425)", "toFixed": 4},
+				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula": "BSA_DuBois(height, weight)", "toFixed": 4},
 				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4}
 			},
 			"ref": {
@@ -245,10 +245,9 @@
 				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
 			},
 			"output": {
-				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula" : "0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425)", "toFixed": 4},
-				"nagasawam": {"name": "LVDd(mm) 成熟児及び1歳未満; Nagasawa", "formula": "0.352*height+1.86"},
 				"nagasawap": {"name": "LVDd(mm) 未熟児; Nagasawa", "formula": "0.459*height-5.43"},
-				"kampmann": {"name": "LVDd(mm) 乳幼児; Kampmann", "formula": "38.537*Math.pow(bsa_dubois,0.4509)"}
+				"nagasawam": {"name": "LVDd(mm) 成熟児及び1歳未満; Nagasawa", "formula": "0.352*height+1.86"},
+				"kampmann": {"name": "LVDd(mm) 乳幼児; Kampmann", "formula": "38.537*Math.pow(BSA_DuBois(height, weight),0.4509)"}
 			},
 			"ref": {
 				"Nagasawa H.: Cardiol Young. 2010 Oct;20(5):526-31": "pubmed:20598214",

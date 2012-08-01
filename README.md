@@ -152,6 +152,7 @@ output部分では、_text_ , _formula_ , _code_ のいずれかを指定しま�
   * JavaScriptの関数(Math.powなど)が使用出来ます。
   * GetZScore(**Value**, **Average**, **SD**) - Average, SDに対応するZScore(例: 0.32)を返します。
   * GetZScoreStr(**Value**, **Average**, **SD**) - GetZScoreを整形して返します。(例: 1.32 (-0.32SD) )
+  * BSA_DuBois(**height**, **weight**) - DuBois法で求めた体表面積(m²)を返します。
 
 
 

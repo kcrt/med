@@ -391,4 +391,8 @@ function GetZScoreStr(value, average, sd){
 	}
 
 }
+function BSA_DuBois(height, weight){
 
+	return 0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425);
+
+}
