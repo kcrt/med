@@ -143,7 +143,28 @@ function generateFormula(Name, f){
 				// リンクなし
 				$('<span>' + name + '</span>').appendTo(refdom);
 			}else if(code = (/^isbn:(.*)/.exec(link) || [])[1]){
-				$('<a href="http://www.amazon.co.jp/s?url=search-alias=aps&field-keywords=' + code + '">'+name+'</a>').appendTo(refdom);
+				var isbnurl;
+				switch(settings.ISBNLink){
+					case "amazon":
+						isbnurl = 'http://www.amazon.co.jp/s?url=search-alias=aps&amp;field-keywords=' + code;
+						break;
+					case "amazonaa":
+						isbnurl = 'http://www.amazon.co.jp/s?url=search-alias=aps&amp;field-keywords=' + code + '&amp;tag=nanohan09-22';
+						break;
+					case "googlebooks":
+						isbnurl = 'http://books.google.co.jp/books?vid=ISBN' + code;
+						break;
+					case "ndl-opac":
+						isbnurl = 'http://ndlopac.ndl.go.jp/F/?func=find-a&find_code=ISBN&request=' + code;
+						break;
+					case "calil":
+						isbnurl = 'http://calil.jp/book/' + code;
+						break;
+					default:
+						alert('setting error');
+						break;
+				}
+				$('<a href="' + isbnurl + '">'+name+'</a>').appendTo(refdom);
 			}else if(code = (/^pubmed:(.*)/.exec(link) || [])[1]){
 				$('<a href="http://www.ncbi.nlm.nih.gov/pubmed/' + code + '">'+name+'</a>').appendTo(refdom);
 			}else{
@@ -259,11 +280,13 @@ function LoadSettings(){
 	
 	// デフォルト値の設定
 	settings.defaultPageTransition = settings.defaultPageTransition || (settings.iOS ? "slide" : "none");
+	settings.ISBNLink = settings.ISBNLink || "amazon";
 
 }
 
 function SaveSettings(){
 	settings.defaultPageTransition = $('#selectTransition').val();
+	settings.ISBNLink = $('#selectISBN').val();
 
 	window.localStorage.settings = JSON.stringify(settings);
 
@@ -289,6 +312,7 @@ function SetSettingsForm(){
 
 	// この時点ではまだjQuery Mobileは初期化されておらず、refreshは不要
 	$('#selectTransition').val(settings.defaultPageTransition);//.selectmenu('refresh', true);
+	$('#selectISBN').val(settings.ISBNLink);//.selectmenu('refresh', true);
 
 }
 

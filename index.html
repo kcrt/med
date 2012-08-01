@@ -65,6 +65,17 @@
 				<label for="selectTransition_Info"> </label>
 				<div id="selectTransition_Info">画面遷移は機器が対応していない場合は自動的にフェードスタイルとなります。また、機種によってはちらつきの原因となる場合があります。</div>
 			</div>
+			<div data-role="fieldcontain">
+				<label for="selectISBN">書籍の検索: </label>
+				<select name="selectISBN" id="selectISBN">
+					<option value="amazon">Amazon.co.jp (標準設定)</option>
+					<option value="amazonaa">Amazon.co.jp アフェリエイトあり</option>
+					<option value="googlebooks">Google Books</option>
+					<option value="ndl-opac">国立国会図書館</option>
+					<option value="calil">カーリル (全国図書館横断検索)</option>
+				</select>
+			</div>
+			<div>一部の項目は再起動まで有効になりません。</div>
 			<a href="#" data-role="button" data-icon="check" data-theme="b" onclick="SaveSettings();" id="aSetting">設定</a>
 			<a href="#" data-role="button" data-icon="alert" data-theme="e" onclick="ClearSettings();">クリア</a>
 		</div>
