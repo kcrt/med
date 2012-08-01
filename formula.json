@@ -46,6 +46,10 @@
 			"浸透圧": {
 				"info": "Na, K, 血糖, BUNから血漿浸透圧を計算します。",
 				"id": "osmoticpressure"
+			},
+			"LDLコレステロール (Friedewaldの式)": {
+				"info": "総コレステロール, HDL, TGからLDLを計算します。",
+				"id": "friedewald"
 			}
 		},
 		"腎機能" : {
@@ -293,6 +297,20 @@
 			"output": {
 				"osm": {"name": "血漿浸透圧[mOsm/kg]", "formula": "2*(Na+K)+glu/18+BUN/2.8"},
 				"info": {"name": "基準値[mOsm/kg]", "text": "285-295"}
+			}
+		},
+		"friedewald": {
+			"input": {
+				"TC": {"name": "総コレステロール[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"HDL": {"name": "HDLコレステロール[mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"TG": {"name": "中性脂肪[mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"LDL": {"name": "LDLコレステロール[mg/dL]", "formula": "TC-HDL-TG/5"},
+				"info": {"name": "注意", "text": "中性脂肪が400mg/dL以上の場合は直接LDLを測定してください。"}
+			},
+			"ref": {
+				"Friedewald WT: Clin Chem. 1972 Jun;18(6):499-502.": "pubmed:4337382"
 			}
 		},
 		"ccr_adult" : {
