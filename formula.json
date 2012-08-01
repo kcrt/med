@@ -57,6 +57,10 @@
 				"info": "血清クレアチニン値からSchwaltzの式を使用して推定糸球体血流量を求めます。",
 				"id": "ccr_child"
 			},
+			"CCr: 血清・尿中クレアチニンから": {
+				"info": "蓄尿での尿中クレアチニンと血清値からCCr実測値を計算します。",
+				"id": "ccr"
+			},
 			"シスタチンCからGFRの予測": {
 				"info": "血清シスタチンC値から推定糸珠体血流量を求めます。",
 				"id": "cysc"
@@ -304,6 +308,22 @@
 				"mdrd_ord" : {"name" : "GFR[mL/min/1.73m²] (MDRD原法)", "formula": "sex==1 ? 186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) : (186 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.742", "toFixed": 4},
 				"mdrd_jp" : {"name" : "GFR[mL/min/1.73m²] (日本人向けMDRD)", "formula": "sex==1 ? 175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154) * 0.741 : (175 * Math.pow(age, -0.203) * Math.pow(scr, -1.154)) * 0.741 * 0.742", "toFixed": 4},
 				"jp_egfr" : {"name" : "GFR[mL/min/1.73m²] (日本人のGFR推算式プロジェクト)", "formula": "sex==1 ? 194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094) : (194 * Math.pow(age, -0.287) * Math.pow(scr, -1.094)) * 0.739", "toFixed": 4}
+			}
+		},
+		"ccr": {
+			"input": {
+				"height": {"name": "身長[cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300},
+				"ucr": {"name": "尿中クレアチニン[mg/dL]", "type": "float", "min": 0.001, "max": 1000},
+				"scr": {"name": "血清クレアチニン[mg/dL]", "type": "float", "min": 0.001, "max": 100},
+				"vday": {"name": "一日尿量[mL/day]", "type": "float", "min": 1, "max": 50000},
+				"info": {"name": "注意", "type": "info", "text": "尿量は24時間量を入力してください。"}
+			},
+			"output": {
+				"ccr": {"name": "CCr[ml/min/1.73m²]", "formula": "ucr * (vday/24/60) / scr * 1.73 / BSA_DuBois(height, weight)"}
+			},
+			"ref": {
+				"Wikipedia": "http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%82%A2%E3%83%81%E3%83%8B%E3%83%B3%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%A9%E3%83%B3%E3%82%B9"
 			}
 		},
 		"cysc": {
