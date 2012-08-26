@@ -17,4 +17,11 @@
 
 	<icon src="favicon256.png" />
 
+	<gap:splash src="startup_320x460.png" width="320" height="480" />
+	<!--<gap:splash src="" width="640" height="960" />
+	<gap:splash src="" width="1024" height="768" />
+	<gap:splash src="" width="768" height="1024" />-->
+	<gap:splash src="startup_768x1004.png" gap:platform="android" />
+
+
 </widget>
