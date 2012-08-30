@@ -47,6 +47,10 @@
 				"info": "Na, K, 血糖, BUNから血漿浸透圧を計算します。",
 				"id": "osmoticpressure"
 			},
+			"HOMA-IR, HOMA-β": {
+				"info": "空腹時の血糖値・インスリンからインスリンの分泌能・抵抗性を計算します",
+				"id": "homa"
+			},
 			"LDLコレステロール (Friedewaldの式)": {
 				"info": "総コレステロール, HDL, TGからLDLを計算します。",
 				"id": "friedewald"
@@ -297,6 +301,24 @@
 			"output": {
 				"osm": {"name": "血漿浸透圧[mOsm/kg]", "formula": "2*(Na+K)+glu/18+BUN/2.8"},
 				"info": {"name": "基準値[mOsm/kg]", "text": "285-295"}
+			}
+		},
+		"homa": {
+			"input": {
+				"fpg": {"name": "空腹時血糖値[mg/dL]", "type": "float", "min": 0, "max":800},
+				"iri": {"name": "空腹時インスリン濃度[uU/mL]", "type": "float", "min": 0, "max": 100}
+			},
+			"output": {
+				"homar": {"name": "HOMA-IR(インスリン抵抗性)", "formula": "iri*fpg/405"},
+				"info1": {"name": "注意", "text": "インスリン使用中の患者では本指標は使用できません。また、空腹時血糖値が140mg/dLを超えている場合も不正確となります。"},
+				"info2": {"name": "基準値", "text": "≦1.6, ≧2.5をインスリン抵抗性ありとする"},
+				"homab": {"name": "HOMA-β(インスリン分泌能)", "formula": "iri*360/(fpg-63)"},
+				"info3": {"name": "基準値", "text": "40-60%, ≦30%で分泌低下有り。"},
+				"quicki": {"name": "QUICKI(インスリン抵抗性)", "formula": "1/((Math.log(fpg) + Math.log(iri))/Math.log(10))"},
+				"info4": {"name": "基準値", "text": "0.3未満: 抵抗性あり, 0.348-0.430: 正常, 3.0以上: 明らかな感受性(1型DMなど)"}
+			},
+			"ref": {
+				"J Clin Endocrinol Metab. 2000 Jul;85(7):2402-10.": "pubmed:10902785"
 			}
 		},
 		"friedewald": {
