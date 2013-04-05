@@ -26,6 +26,10 @@
 			"体表面積": {
 				"info": "身長・体重から体表面積を算出します。",
 				"id" : "bsa"
+			},
+			"体表面積計算式について": {
+				"info": "体表面積計算式の違いについての解説です。",
+				"id": "bsaformula_info"
 			}
 		},
 		"循環器" : {
@@ -223,10 +227,12 @@
 		"bsa": {
 			"input": {
 				"height": {"name": "身長[cm]", "type": "float", "min": 10, "max": 300},
-				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300}
+				"weight": {"name": "体重[kg]", "type": "float", "min": 0, "max": 300},
+				"info": {"type": "html", "html": "<a href='#bsaformula_info'>体表面積計算式について</a>"}
 			},
 			"output": {
 				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula": "BSA_DuBois(height, weight)", "toFixed": 4},
+				"bsa_Takahira" : {"name" : "体表面積(m²) 高比良法", "formula": "0.007246 * Math.pow(weight, 0.425) * Math.pow(height, 0.725)", "toFixed": 4},
 				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4},
 				"bsa_Fujimoto0" : {"name" : "体表面積(m²) 藤本法(0歳児)", "formula" : "95.68 * Math.pow(weight, 0.473) * Math.pow(height, 0.655) / 10000", "toFixed": 4},
 				"bsa_Fujimoto1_5" : {"name" : "体表面積(m²) 藤本法(1-5歳児)", "formula" : "381.89 * Math.pow(weight, 0.423) * Math.pow(height, 0.362) / 10000", "toFixed": 4},
@@ -237,6 +243,10 @@
 				"Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876",
 				"藤本ら (1968), 日本衛生学雑誌 23(5):7-14" : ""
 			}
+		},
+		"bsaformula_info": {
+			"type": "html",
+			"html": "<p><a href=\"#bsa\">体表面積の計算へ</a></p><ul><li>Du Bois - 平均的な欧米人の体格を元にした体表面積の計算方法。世界標準となっており、化学療法を行う際の薬剤量の計算にはこれを使用することが望ましい。</li><li>高比良 - Du Bois式を日本人の体格に合うように調整したもの。</li><li>Mosteller - 正確性も高く、簡便に計算できる式。√(身長 x 体重 / 3600)と式さえ覚えていれば電卓でも計算することができる。</li><li>藤本 - 日本人の体格の実測を元に作られた計算式。新生児から老人の体表面積の実測値を元に、年齢別の計算式を提示している。抗癌剤の中でもTS-1のように日本で開発された薬剤の中ではこれを基準としているものがある。</li></ul>"
 		},
 		"chads2": {
 			"input": {
