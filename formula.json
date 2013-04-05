@@ -227,11 +227,15 @@
 			},
 			"output": {
 				"bsa_dubois" : {"name" : "体表面積(m²) Du Bois法", "formula": "BSA_DuBois(height, weight)", "toFixed": 4},
-				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4}
+				"bsa_mosteller" : {"name" : "体表面積(m²) Mosteller法", "formula" : "Math.sqrt(height*weight/3600)", "toFixed": 4},
+				"bsa_Fujimoto0" : {"name" : "体表面積(m²) 藤本法(0歳児)", "formula" : "95.68 * Math.pow(weight, 0.473) * Math.pow(height, 0.655) / 10000", "toFixed": 4},
+				"bsa_Fujimoto1_5" : {"name" : "体表面積(m²) 藤本法(1-5歳児)", "formula" : "381.89 * Math.pow(weight, 0.423) * Math.pow(height, 0.362) / 10000", "toFixed": 4},
+				"bsa_Fujimoto6_" : {"name" : "体表面積(m²) 藤本法(6歳以上, 成人)", "formula" : "88.83 * Math.pow(weight, 0.444) * Math.pow(height, 0.663) / 10000", "toFixed": 4}
 			},
 			"ref": {
 				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pubmed:2520314",
-				"Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876"
+				"Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876",
+				"藤本ら (1968), 日本衛生学雑誌 23(5):7-14" : ""
 			}
 		},
 		"chads2": {
