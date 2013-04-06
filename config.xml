@@ -2,10 +2,8 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 	xmlns:gap = "http://phonegap.com/ns/1.0"
 	id        = "net.kcrt.med"
-	versionCode="3" 
-	version   = "0.3.0">
-
-	<!-- versionCode is optional and Android only -->
+	versionCode="4" 
+	version   = "0.4.0">
 
 	<name>医療計算機</name>
 
