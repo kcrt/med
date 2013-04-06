@@ -1,5 +1,5 @@
 /*jslint evil: true, forin: true */
-var MEDICALCULATOR_VERSION = "0.3.0";
+var MEDICALCULATOR_VERSION = "0.4.0";
 
 /* ----- データの読み込みとページの構築 ----- */
 var formuladata;
