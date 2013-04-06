@@ -279,7 +279,7 @@ function LoadSettings(){
 	settings.iOS = settings.userAgent.match(/(iphone|ipod|ipad)/i);
 	
 	// デフォルト値の設定
-	settings.defaultPageTransition = settings.defaultPageTransition || (settings.iOS ? "slide" : "none");
+	settings.defaultPageTransition = settings.defaultPageTransition || "slide";
 	settings.ISBNLink = settings.ISBNLink || "amazon";
 
 }
