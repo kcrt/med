@@ -345,9 +345,9 @@ function GetFloat(id, min, max){
 function GetSex(id){
 
 	// 男 - 1, 女 - 0
-	if($("#" + id + "_m").attr("checked")){
+	if($("#" + id + "_m").prop("checked")){
 		return 1;
-	}else if ($("#" + id + "_f").attr("checked")){
+	}else if ($("#" + id + "_f").prop("checked")){
 		return 0;
 	}else{
 		throw new Error(id + "を選択してください。");
