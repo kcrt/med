@@ -19,7 +19,7 @@ function onFormulaJsonReady(data, status){
 			var formuladom;
 			if(id.match(/^http:/) || id.match(/^https:/)){
 				// idがhttp:で始まる場合はリンクとみなす
-				formuladom = $('<li><a href="' + id + '"><h3>' + formulatitle + '</h3><p>' + id + "<br/>" + info + '</p></a></li>');
+				formuladom = $('<li><a href="' + id + '" rel="external"><h3>' + formulatitle + '</h3><p>' + id + "<br/>" + info + '</p></a></li>');
 				formuladom.attr("data-icon", "star");
 			}else{
 				formuladom = $('<li><a href="#' + id + '"><h3>' + formulatitle + '</h3><p>' + info + '</p></a></li>');
