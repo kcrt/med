@@ -155,7 +155,8 @@ output部分では、_text_ , _formula_ , _code_ のいずれかを指定しま�
   * GetZScore(**Value**, **Average**, **SD**) - Average, SDに対応するZScore(例: 0.32)を返します。
   * GetZScoreStr(**Value**, **Average**, **SD**) - GetZScoreを整形して返します。(例: 1.32 (-0.32SD) )
   * BSA_DuBois(**height**, **weight**) - DuBois法で求めた体表面積(m²)を返します。
-
+  * GetZScoreFromLMS(**value**, **l**, **m**, **s**) - LMS法に基づいたZScoreを計算します。
+  * GetPercentileFromZScore(**zscore**) - ZScoreに対応するパーセンタイル値を返します。
 
 
 ### 参考文献部分 ###

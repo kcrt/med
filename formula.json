@@ -114,6 +114,12 @@
 				"id": "epidrug"
 			}
 		},
+		"その他": {
+			"LMS法を用いたZScore(SD)計算": {
+				"info": "歪度、中央値、変動係数により分布を変化させる統計学的手法であるLMS法を用いたZScore(SD)計算を行います。",
+				"id": "lmsvalue"
+			}
+		},
 		"役に立つアプリケーション": {
 			"[iPhone][Android] Know-VPD 予防接種スケジューラアプリ": {
 				"info": "接種可能なワクチンやスケジュール管理を行えるアプリケーションです。",
@@ -531,6 +537,23 @@
 			"ref": {
 				"てんかん 小児科診療増刊号, 62; 436-439, 1999.": "",
 				"小児の薬の選び方・使い方": "isbn:9784525284435"
+			}
+		},
+		"lmsvalue": {
+			"input": {
+				"value": {"name": "値", "type": "float", "min": -99999999, "max": 99999999},
+				"l": {"name": "L (歪度)", "type": "float", "min": -10, "max": 10},
+				"m": {"name": "M (平均)", "type": "float", "min": -99999999, "max": 99999999},
+				"s": {"name": "S (変動係数)", "type": "float", "min": -10, "max": 10}
+			},
+			"output": {
+				"zscore": {"name": "ZScore(SD)", "formula": "GetZScoreFromLMS(value, l, m, s)"},
+				"percentile": {"name": "Percentile", "formula": "GetPercentileFromZScore(zscore)"}
+			},
+			"ref": {
+				"Percentile Data Files with LMS Values": "http://www.cdc.gov/growthcharts/percentile_data_files.htm",
+				"入門統計学": "isbn:9784274068553",
+				"在胎期間別出生時体格標準値との比較": "http://app.kcrt.net/bw/"
 			}
 		}
 	}
