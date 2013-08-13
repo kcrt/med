@@ -113,52 +113,52 @@ _id_ では前述のmenuに対応したIDを指定します。
 _input_ 部分では
 	"変数名": {"name": "表示", "type": "入力タイプ", (それぞれのタイプに合わせたオプション) }
 で、入力を指定します。
-  * "type": "*float*" 数値
+  * "type": " *float* " 数値
     * "min": 数値 - 入力できる最小の値を指定します。例えば、負の値の入力を拒否したい場合は0を指定します。
 	* "max": 数値 - 入力できる最大の値を指定します。
-	* "placeholder" (_option_) : 文字列 - 入力ヒントを指定します。
-  * "type": "*text*" 文字列
-	* "placeholder" (_option_) : 文字列 - 入力ヒントを指定します。
-  * "type": "*slider*" 数値(スライダー)
+	* "placeholder" ( _option_ ) : 文字列 - 入力ヒントを指定します。
+  * "type": " *text* " 文字列
+	* "placeholder" ( _option_ ) : 文字列 - 入力ヒントを指定します。
+  * "type": " *slider* " 数値(スライダー)
     * "min": 数値 - 入力できる最小の値を指定します。例えば、負の値の入力を拒否したい場合は0を指定します。
 	* "max": 数値 - 入力できる最大の値を指定します。
     * min, maxを省略した場合はそれぞれ0, 100とみなされます。
-  * "type": "*sex*" 性別
+  * "type": " *sex* " 性別
     * (オプション無し)
 	* 変数は男を選んだ場合は1, 女を選んだ場合は0となります。
-  * "type": "*onoff*" スウィッチ
+  * "type": " *onoff* " スウィッチ
     * "on": 文字列 - オンの時の文字列です。
 	* "off": 文字列 - オフの時の文字列です。
 	* 変数はオンを選んだ場合は1, オフを選んだ場合は0となります。
 	* on, offを省略した場合はそれぞれ"Yes", "No"とみなされます。
-  * "type": "*select*" 選択ボックス
+  * "type": " *select* " 選択ボックス
     * "item": {"項目1": 値1, "項目2": 値2, ...} - 選択項目です。
 	* 変数は選択した項目に対応する値となります。
-  * "type": "*info*" 情報
+  * "type": " *info* " 情報
     * "text": 文字列 - 文字列が表示されます。
-  * "type": "*html*" 情報
+  * "type": " *html* " 情報
     * "html": 文字列 - htmlがそのまま表示されます。
 
 #### output部分 ####
-	"_項目名_": {"name": "_表示名_", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2}
-output部分では、_text_ , _formula_ , _code_ のいずれかを指定します。
-  * "text"がある場合、文字列をそのまま出力します。情報の補足が必要な場合に使用してください。
-  * "formula"がある場合、それを数式として使用します。input部分で指定した項目を変数として使用出来ます。
-  * "code"がある場合、それをJavaScriptコードとして使用します。表示項目を返り値(return)として指定してください。
-  * "toFixed"で四捨五入を行う桁を指定できます。例えば、1/3を"toFixed": 2で表示した場合0.33となります。
-  * "toFixed"を省略した場合、値が数値として解釈できない場合は変換は行われません。数値として解釈できる場合は"toFixed": 2を指定したのと同じになります。
+	" _項目名_ ": {"name": " _表示名_ ", "formula" : "weight/(height/100)/(height/100)", "toFixed": 2}
+output部分では、 _text_ , _formula_ , _code_ のいずれかを指定します。
+  * " _text_ "がある場合、文字列をそのまま出力します。情報の補足が必要な場合に使用してください。
+  * " _formula_ "がある場合、それを数式として使用します。input部分で指定した項目を変数として使用出来ます。
+  * " _code_ "がある場合、それをJavaScriptコードとして使用します。表示項目を返り値(return)として指定してください。
+  * " _toFixed_ "で四捨五入を行う桁を指定できます。例えば、1/3を"toFixed": 2で表示した場合0.33となります。
+  * " _toFixed_ "を省略した場合、値が数値として解釈できない場合は変換は行われません。数値として解釈できる場合は"toFixed": 2を指定したのと同じになります。
   * 値が整数値になることがわかっているなど、変換を行いたくない場合は"toFixed": ""を指定してください。
-  * ただし、"name"に"hidden"または空文字列が指定された場合は出力を行いません。
+  * ただし、" _name_ "に" **hidden** "または空文字列が指定された場合は出力を行いません。
   * formulaまたはcodeでは、すでに計算の終わっている他のoutput項目を使用出来ます。
 
 ##### formula, codeで使用できる関数 #####
   * JavaScriptの関数(Math.powなど)が使用出来ます。
-  * GetZScore(**Value**, **Average**, **SD**) - Average, SDに対応するZScore(例: 0.32)を返します。
-  * GetZScoreStr(**Value**, **Average**, **SD**) - GetZScoreを整形して返します。(例: 1.32 (-0.32SD) )
-  * BSA_DuBois(**height**, **weight**) - DuBois法で求めた体表面積(m²)を返します。
-  * GetZScoreFromLMS(**value**, **l**, **m**, **s**) - LMS法に基づいたZScoreを計算します。
-  * GetPercentileFromZScore(**zscore**) - ZScoreに対応するパーセンタイル値を返します。
-  * GetValueFromZScore(**zscore**, **l**, **m**, **s**) - ZScoreに対応するパーセンタイル値を返します。
+  * GetZScore( **Value** , **Average** , **SD** ) - Average, SDに対応するZScore(例: 0.32)を返します。
+  * GetZScoreStr( **Value**, **Average** , **SD** ) - GetZScoreを整形して返します。(例: 1.32 (-0.32SD) )
+  * BSA_DuBois( **height**, **weight** ) - DuBois法で求めた体表面積(m²)を返します。
+  * GetZScoreFromLMS( **value** , **l** , **m** , **s** ) - LMS法に基づいたZScoreを計算します。
+  * GetPercentileFromZScore( **zscore** ) - ZScoreに対応するパーセンタイル値を返します。
+  * GetValueFromZScore( **zscore** , **l** , **m** , **s** ) - ZScoreに対応するパーセンタイル値を返します。
 
 
 ### 参考文献部分 ###
