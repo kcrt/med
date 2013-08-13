@@ -148,6 +148,7 @@ output部分では、_text_ , _formula_ , _code_ のいずれかを指定しま�
   * "toFixed"で四捨五入を行う桁を指定できます。例えば、1/3を"toFixed": 2で表示した場合0.33となります。
   * "toFixed"を省略した場合、値が数値として解釈できない場合は変換は行われません。数値として解釈できる場合は"toFixed": 2を指定したのと同じになります。
   * 値が整数値になることがわかっているなど、変換を行いたくない場合は"toFixed": ""を指定してください。
+  * ただし、"name"に"hidden"または空文字列が指定された場合は出力を行いません。
   * formulaまたはcodeでは、すでに計算の終わっている他のoutput項目を使用出来ます。
 
 ##### formula, codeで使用できる関数 #####
@@ -157,6 +158,7 @@ output部分では、_text_ , _formula_ , _code_ のいずれかを指定しま�
   * BSA_DuBois(**height**, **weight**) - DuBois法で求めた体表面積(m²)を返します。
   * GetZScoreFromLMS(**value**, **l**, **m**, **s**) - LMS法に基づいたZScoreを計算します。
   * GetPercentileFromZScore(**zscore**) - ZScoreに対応するパーセンタイル値を返します。
+  * GetValueFromZScore(**zscore**, **l**, **m**, **s**) - ZScoreに対応するパーセンタイル値を返します。
 
 
 ### 参考文献部分 ###
