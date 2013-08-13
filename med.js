@@ -1,5 +1,5 @@
 /*jslint evil: true, forin: true */
-var MEDICALCULATOR_VERSION = "0.4.1";
+var MEDICALCULATOR_VERSION = "0.4.2";
 
 /* ----- データの読み込みとページの構築 ----- */
 var formuladata;
@@ -239,24 +239,34 @@ function Calc(f){
 		var item = formula.output[itemstr];
 		var code;
 		var value;
-		if(item.formula){
-			code = "(function(){" + valdim + " return (" + item.formula + ");})()";
-			value = eval(code);
-		}else if(item.code){
-			code = "(function(){" + valdim + item.code + "})()";
-			value = eval(code);
-		}else if(item.text){
-			value = item.text;
-		}	
+		try{
+			// eval ゾーン
+			if(item.formula){
+				code = "(function(){" + valdim + " return (" + item.formula + ");})()";
+				value = eval(code);
+			}else if(item.code){
+				code = "(function(){" + valdim + item.code + "})()";
+				value = eval(code);
+			}else if(item.text){
+				value = item.text;
+			}	
+		}catch(e){
+			alert("formula.jsonにエラーがあります。ソースコードを確認してください:" + itemstr + "," + e);
+			return;
+		}
 		if(typeof(value) == 'number'){
 			if(item.toFixed === undefined) item.toFixed = 2;
 			if(item.toFixed !== "") value = value.toFixed(item.toFixed);
 			valdim += "var " + itemstr + ' = ' + value + ';';
+		}else if(Object.prototype.toString.call(value) == '[object Array]'){
+			valdim += "var " + itemstr + ' = [' + value + '];';
 		}else{
 			valdim += "var " + itemstr + ' = "' + value + '";';
 		}
 
-		output += item.name + ": " + value + "\n";
+		if(item.name != "hidden" && item.name != ""){
+			output += item.name + ": " + value + "\n";
+		}
 	}
 
 	// 結果の表示
@@ -448,4 +458,14 @@ function GetZScoreFromLMS(value, l, m, s){
 function GetPercentileFromZScore(sd){
 	var area = erf(sd/1.41421356)/2;
 	return 50 + area * 100;
+}
+function GetValueFromZScore(zscore, l, m, s){
+	// SD = [(value / M) ** L - 1 ] / [L * S]
+	// so, 
+	// value  = [SD * [L * S] + 1] ** (1/L)  * M
+	if(l == 0){
+		return exp(zscore * s) * m;
+	}else{
+		return Math.pow(zscore * l * s + 1, 1.0 / l) * m;
+	}
 }
