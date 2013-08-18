@@ -37,6 +37,10 @@
 				"info" : "心房細動による塞栓症のリスク評価を行います。",
 				"id": "chads2"
 			},
+			"左室駆出率(EF; ejection fraction)の計算": {
+				"info": "収縮期および拡張期の左室径から駆出率を計算します。",
+				"id": "ef"
+			},
 			"[小児] LVDdの標準値": {
 				"info" : "身長・体重をもとにLVDdの標準値を推定します。",
 				"id": "ped_lvdd"
@@ -273,6 +277,25 @@
 			},
 			"ref": {
 				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+			}
+		},
+		"ef": {
+			"input": {
+				"LVDd": {"name": "左室拡張末期径(LVDd) [mm]", "type": "float", "min": 1, "max": 100},
+				"LVDs": {"name": "左室収縮末期径(LVDs) [mm]", "type": "float", "min": 2, "max": 100}
+			},
+			"output": {
+				"pombo": {"name": "Pombo(Cubed)法 [%]", "formula": "(Math.pow(LVDd, 3) - Math.pow(LVDs, 3))/Math.pow(LVDd, 3) * 100"},
+				"gibson_edv": {"name": "hidden", "formula": "Math.pow(LVDd, 3) * (0.98 * LVDd + 5.90)"},
+				"gibson_esv": {"name": "hidden", "formula": "Math.pow(LVDs, 3) * (1.40 * LVDs + 4.18)"},
+				"gibson": {"name": "Gibson法 [%]", "formula": "(gibson_edv - gibson_esv) / gibson_edv * 100"},
+				"teichholz_edv": {"name": "hidden", "formula": "7.0 * Math.pow(LVDd, 3) / (2.4+LVDd)"},
+				"teichholz_esv": {"name": "hidden", "formula": "7.0 * Math.pow(LVDs, 3) / (2.4+LVDs)"},
+				"teichholz": {"name": "Teichholz法 [%]", "formula": "(teichholz_edv - teichholz_esv) / teichholz_edv * 100"}
+			},
+			"ref": {
+				"J F. Pombo, Circulation 1971": "doi: 10.1161/01.CIR.43.4.480",
+				"Gibson, Teichholzに関する文献は調査中です。": ""
 			}
 		},
 		"ped_lvdd": {
