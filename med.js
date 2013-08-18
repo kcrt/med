@@ -167,6 +167,8 @@ function generateFormula(Name, f){
 				$('<a href="' + isbnurl + '">'+name+'</a>').appendTo(refdom);
 			}else if(code = (/^pubmed:(.*)/.exec(link) || [])[1]){
 				$('<a href="http://www.ncbi.nlm.nih.gov/pubmed/' + code + '">'+name+'</a>').appendTo(refdom);
+			}else if(code = (/^doi:(.*)/.exec(link) || [])[1]){
+				$('<a href="http://dx.doi.org/' + code + '">'+name+'</a>').appendTo(refdom);
 			}else{
 				$('<a href="' + link + '">'+name+'</a>').appendTo(refdom);
 			}
