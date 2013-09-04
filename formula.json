@@ -106,6 +106,10 @@
 			"A-DROPスコア" : {
 				"info": "日本呼吸器学会による肺炎重症度分類です。",
 				"id" : "adrop"
+			},
+			"中心静脈血液ガスから動脈血液ガスへの変換": {
+				"info": "中心静脈血液ガスの値から、動脈血液ガスの値を推測します。",
+				"id": "veinbloodgas"
 			}
 		},
 		"神経" : {
@@ -551,8 +555,23 @@
 			},
 			"output": {
 				"point": {"name": "該当項目数", "formula": "a+d+r+o+p", "toFixed": ""},
-				"judge": {"name": "判定", "code" : "var x=a+d+r+o+p; if(x==0){return '外来';}else if(x<=2){return '外来または入院'}else if(x==3){return '入院'}else{return 'ICU入院'}"},
+				"judge": {"name": "判定", "code" : "if(point==0){return '外来';}else if(point<=2){return '外来または入院'}else if(point==3){return '入院'}else{return 'ICU入院'}"},
 				"info": {"name": "注意", "text": "ただし、ショックがあれば1項目のみでも超重症とする"}
+			}
+		},
+		"veinbloodgas": {
+			"input": {
+				"pH": {"name": "pH", "type": "float", "min": 5, "max": 9},
+				"pvCO2": {"name": "pvCO2", "type": "float", "min": 0, "max": 200},
+				"pvHCO3": {"name": "pvHCO3-", "type": "float", "min": 0, "max": 80}
+			},
+			"output": {
+				"apH": {"name": "動脈pH", "formula": "-0.307 + 1.05 * pH"},
+				"paCO2": {"name": "paCO2", "formula": "0.805 + 0.936 * pvCO2"},
+				"paHCO3": {"name": "paHCO3", "formula": "0.513 + 0.94 * pvHCO3"}
+			},
+			"ref": {
+				"Agreement between central venous and arterial blood gas measurements in the intensive care unit." : "doi:10.2215/CJN.00330109"
 			}
 		},
 		"abcd2" : {
