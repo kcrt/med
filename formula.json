@@ -30,6 +30,10 @@
 			"体表面積計算式について": {
 				"info": "体表面積計算式の違いについての解説です。",
 				"id": "bsaformula_info"
+			},
+			"在胎週数・修正月齢の計算": {
+				"info": "予定日を入力することで該当日の在胎週数(修正月齢)を計算できます。",
+				"id": "pcd"
 			}
 		},
 		"循環器" : {
@@ -265,6 +269,19 @@
 		"bsaformula_info": {
 			"type": "html",
 			"html": "<p><a href=\"#bsa\">体表面積の計算へ</a></p><ul><li>Du Bois - 平均的な欧米人の体格を元にした体表面積の計算方法。世界標準となっており、化学療法を行う際の薬剤量の計算にはこれを使用することが望ましい。</li><li>高比良 - Du Bois式を日本人の体格に合うように調整したもの。</li><li>Mosteller - 正確性も高く、簡便に計算できる式。√(身長 x 体重 / 3600)と式さえ覚えていれば電卓でも計算することができる。</li><li>藤本 - 日本人の体格の実測を元に作られた計算式。新生児から老人の体表面積の実測値を元に、年齢別の計算式を提示している。抗癌剤の中でもTS-1のように日本で開発された薬剤の中ではこれを基準としているものがある。</li></ul>"
+		},
+		"pcd": {
+			"input": {
+				"edc": {"name": "出生予定日", "type": "date"},
+				"targetdate": {"name": "日付", "type": "date", "default": "today"}
+			},
+			"output": {
+				"edc_d": {"name": "hidden", "formula": "(targetdate-edc) / (24*60*60*1000)"},
+				"pca_d": {"name": "hidden", "formula": "edc_d + (40*7)"},
+				"pca": {"name": "在胎週数", "formula": "(pca_d/7 < 1 || pca_d/7 > 44) ? '-' : ('在胎 ' + Math.floor(pca_d/7) + '週' + (pca_d % 7) + '日')"},
+				"edcmonth": {"name": "hidden", "formula": "Math.floor(edc_d/365*12)"},
+				"edcplus": {"name": "修正月齢", "formula": "(edc_d < 0) ? '-' : ('修正 ' + edcmonth + 'ヶ月' + (edc_d-Math.floor(edcmonth*365/12)) + '日')"}
+			}
 		},
 		"chads2": {
 			"input": {

@@ -112,6 +112,11 @@ function generateFormula(Name, f){
 					}
 					selectstr.appendTo(itemdom);
 					break;
+				case "date":
+					$('<label for="' + id + '">' + item.name + ': </label>').appendTo(itemdom);
+					var datestr = $('<input type="date" id = "' + id + '"> </input>');
+					datestr.appendTo(itemdom);
+					break;
 				case "info":
 					$('<label for="' + id + '"> </label>').appendTo(itemdom);
 					$('<div id="' + id + '">' + item.text +  '</div>').appendTo(itemdom);
@@ -212,6 +217,8 @@ function Calc(f){
 				case "onoff":
 					d[itemstr] = GetSelect(id);
 					break;
+				case "date":
+					d[itemstr] = GetDate(id);
 				case "info":
 				case "html":
 					break;
@@ -373,6 +380,10 @@ function GetSelect(id){
 	}else{
 		return parseFloat(val);
 	}
+}
+function GetDate(id){
+	var val = new Date($('#' + id).val()); // valueAsDateはサポートされてない場合も
+	return val.getTime();
 }
 
 /* ----- on Load ----- */
