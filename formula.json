@@ -125,6 +125,10 @@
 				"info": "腰椎穿刺に必要な深さを体重などから予測します。",
 				"id": "lumbardepth"
 			},
+			"ABRの潜時の基準値": {
+				"info": "聴性脳幹反応(Auditory Brainstem Responce: ABR)の潜時を基準値と比較します。",
+				"id": "abrsd"
+			},
 			"抗てんかん薬の有効血中濃度と投与量": {
 				"info": "頻用される抗てんかん薬の有効血中濃度と投与量です。",
 				"id": "epidrug"
@@ -621,6 +625,36 @@
 				"Am J Emerg Med. 2005 Oct;23(6):742-6.": "pubmed:16182981",
 				"Coll Antropol. 2003 Dec;27(2):623-6." : "pubmed:14746151",
 				"Arch Dis Child. 1997 Nov;77(5):450.": "pubmed:9487973"
+			}
+		},
+		"abrsd": {
+			"input": {
+				"I": {"name": "I波[ms]", "type": "float", "min": 0, "max": 10},
+				"III": {"name": "III波[ms]", "type": "float", "min": 0, "max": 10},
+				"V": {"name": "V波[ms]", "type": "float", "min": 0, "max": 10},
+				"method": {"name": "測定時期", "type": "select", "item": {"在胎32, 33週": 0, "在胎34, 35週": 1, "在胎36, 37週": 2, "在胎38, 39週": 3, "在胎40, 41週": 4, "在胎42, 43週": 5, "在胎44, 45週": 6, "〜5ヶ月": 7, "6-11ヶ月": 8, "1歳": 9, "2-4歳": 10, "5-13歳": 11, "成人": 12}}
+			},
+			"output": {
+				"I_avg": {"name": "hidden", "formula": "[2.4,2.43,2.38,2.12,1.98,1.96,1.86,1.6,1.9,1.5,1.5,1.4,1.5]"},
+				"I_SD": {"name": "hidden", "formula": "[0.18,0.15,0.14,0.16,0.13,0.08,0.13,0.3,0.3,0.1,0.3,0.1,0.1]"},
+				"III_avg": {"name": "hidden", "formula": "[5.49,5.45,5.16,5.16,4.94,4.86,4.71,4.6,4.3,3.9,3.9,3.8,3.8]"},
+				"III_SD": {"name": "hidden", "formula": "[0.51,0.36,0.46,0.36,0.39,0.25,0.53,0.1,0.4,0.3,0.2,0.2,0.1]"},
+				"V_avg": {"name": "hidden", "formula": "[8.04,7.84,7.4,7.33,7.04,6.97,6.61,6.5,6.5,5.9,5.7,5.7,5.8]"},
+				"V_SD": {"name": "hidden", "formula": "[0.47,0.34,0.57,0.46,0.47,0.34,0.53,0.3,0.4,0.4,0.2,0.4,0.1]"},
+				"I_III_avg": {"name": "hidden", "formula": "[-1,-1,-1,-1,-1,-1,-1,2.9,2.4,2.5,2.3,2.4,2.3]"},
+				"I_III_SD": {"name": "hidden", "formula": "[-1,-1,-1,-1,-1,-1,-1,0.2,0.3,0.3,0.2,0.2,0.2]"},
+				"I_V_avg": {"name": "hidden", "formula": "[5.54,5.35,5.14,5.06,5.05,5,4.91,5,4.5,4.5,4.2,4.4,4.3]"},
+				"I_V_SD": {"name": "hidden", "formula": "[0.49,0.45,0.59,0.49,0.38,0.2,0.33,0.6,0.4,0.2,0.1,0.3,0.2]"},
+				"I_avg_SD": {"name": "I波", "formula": "GetZScoreStr(I, I_avg[method], I_SD[method])"},
+				"III_avg_SD": {"name": "III波", "formula": "GetZScoreStr(III, III_avg[method], III_SD[method])"},
+				"V_avg_SD": {"name": "V波", "formula": "GetZScoreStr(V, V_avg[method], V_SD[method])"},
+				"I_III_avg_SD": {"name": "I-III波", "formula": "I_III_avg[method] == -1 ? '' : GetZScoreStr(III - I, I_III_avg[method], I_III_SD[method])"},
+				"I_V_avg_SD": {"name": "I-V波", "formula": "GetZScoreStr(V - I, I_V_avg[method], I_V_SD[method])"},
+				"info1" : {"name": "音圧", "text": "新生児は 85dBHL, それ以降は 90dBHLのデータです。"}
+			},
+			"ref": {
+				"聴性脳幹反応(Auditory Brainstem Response:ABR)の新生児期への応用 木下洋 関西医大誌 第35巻第3号, 1983": "",
+				"小児科診療 2013増刊号 理解して出そう小児の検査―オーダー・手技・解釈": "isbn:4910047260434"
 			}
 		},
 		"epidrug": {
