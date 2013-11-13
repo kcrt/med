@@ -94,7 +94,7 @@
 				"id": "fena"
 			},
 			"%TRPの計算": {
-				"info": "%TRP(尿細管リン再吸収率)を計算します。",
+				"info": "%TRP(尿細管リン再吸収率), TmP/GFRを計算します。",
 				"id": "ptrp"
 			}
 		},
@@ -517,7 +517,8 @@
 				"UCre": {"name": "尿Cre[mg/dL]", "type": "float", "min": 0, "max": 1000}
 			},
 			"output": {
-				"ptrp": {"name": "%TRP", "formula": "(1-(UP*SCre)/(SP*UCre))*100"}
+				"ptrp": {"name": "%TRP", "formula": "(1-(UP*SCre)/(SP*UCre))*100"},
+				"tmpgfr": {"name": "TmP/GFR [mg/dL]", "formula": "ptrp * SP / 100"}
 			}
 		},
 		"AaDO2":{
