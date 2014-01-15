@@ -5,7 +5,7 @@
 	versionCode="5" 
 	version   = "0.4.1">
 
-	<preference name="phonegap-version" value="2.9.0" />
+	<preference name="phonegap-version" value="3.1.0" />
 
 	<name>医療計算機</name>
 
