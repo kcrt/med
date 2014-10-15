@@ -78,7 +78,7 @@
 				"id" : "ccr_adult"
 			},
 			"eGFR (小児)": {
-				"info": "血清クレアチニン値からSchwaltzの式を使用して推定糸球体血流量を求めます。",
+				"info": "血清クレアチニン値からSchwaltzの式や日本人小児のGFR推定式を使用して推定糸球体血流量を求めます。",
 				"id": "ccr_child"
 			},
 			"CCr: 血清・尿中クレアチニンから": {
@@ -486,11 +486,15 @@
 			"input": {
 				"height": {"name": "身長[cm]", "type": "float", "min": 3, "max": 300},
 				"scr" : {"name": "血中Cr値(酵素法)[mg/dL]", "type": "float", "min": 0.001, "max": 20},
-				"k" : {"name": "年齢", "type": "select", "item": {"低出生体重児": 0.33,"正常体重児": 0.45, "2〜12歳": 0.55, "女児(13-21歳)": 0.55, "男児(13-21歳)": 0.7}}
+				"k" : {"name": "年齢", "type": "select", "item": {"低出生体重児": 0.33,"正常体重児": 0.45, "2〜12歳": 0.55, "女児(13-21歳)": 0.55, "男児(13-21歳)": 0.7}},
+				"sex": {"name": "性別", "type": "sex"}
 			},
 			"output": {
 				"shwaltz": {"name": "eGFR[mL/min/1.73m²] (Schwaltz)", "formula": "k*height/(scr+0.2)"},
-				"updatedshwaltz": {"name": "eGFR[mL/min/1.73m2] (Schwartz 2009; 7.7-14.3歳)", "formula": "0.413 * height / scr"}
+				"updatedshwaltz": {"name": "eGFR[mL/min/1.73m2] (Schwartz 2009; 7.7-14.3歳)", "formula": "0.413 * height / scr"},
+				"height_m": {"name": "hidden", "formula": "height/100"},
+				"CreStd": {"name": "Cre基準値 (日本人小児のGFR推定式)", "formula": "sex ? -1.259 * Math.pow(height_m, 5) + 7.815 * Math.pow(height_m, 4) - 18.57 * Math.pow(height_m, 3) + 21.39 * Math.pow(height_m, 2) - 11.71 * height_m + 2.628 : -4.536 * Math.pow(height_m, 5) + 27.16 * Math.pow(height_m, 4) - 63.47 * Math.pow(height_m, 3) + 72.43 * Math.pow(height_m, 2) - 40.06 * height_m + 8.778", "toFixed": 3},
+				"japanesechildegfr": {"name": "eGFR[mL/min/1.73m2] (日本人小児のGFR推定式; 2-19歳)", "formula": "110.2 * CreStd/ scr + 2.93"}
 			},
 			"ref": {
 				"Minds" : "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142",
