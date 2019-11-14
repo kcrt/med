@@ -85,10 +85,6 @@
 				"info": "蓄尿での尿中クレアチニンと血清値からCCr実測値を計算します。",
 				"id": "ccr"
 			},
-			"シスタチンCと年齢からGFRの予測 (18歳以上)": {
-				"info": "血清シスタチンC値から推定糸珠体血流量を求めます。",
-				"id": "cysc_age"
-			},
 			"シスタチンCからGFRの予測": {
 				"info": "血清シスタチンC値から推定糸珠体血流量を求めます。",
 				"id": "cysc"
@@ -469,19 +465,6 @@
 			},
 			"ref": {
 				"Wikipedia": "http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%82%A2%E3%83%81%E3%83%8B%E3%83%B3%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%A9%E3%83%B3%E3%82%B9"
-			}
-		},
-		"cysc_age": {
-			"input": {
-				"cysc": {"name": "血清シスタチンC値 [mg/L]", "type": "float", "min": 0, "max": 100},
-				"age": {"name": "年齢", "type": "float", "min": 0, "max": 100},
-				"sex": {"name": "性別", "type": "sex"}
-			},
-			"output": {
-				"egfrcys": {"name": "eGFRcys[mL/min/1.73m²]", "formula": "(104 * Math.pow(cysc, -1.019) * Math.pow(0.996, age) * (sex ? 1 : 0.929)) - 8"}
-			},
-			"ref": {
-				"CKD診療ガイドライン2018": "https://cdn.jsn.or.jp/data/CKD2018.pdf"
 			}
 		},
 		"cysc": {
