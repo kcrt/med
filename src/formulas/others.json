@@ -1,0 +1,61 @@
+{
+  "lms_zscore": {
+    "name": "LMS Z-Score Calculation",
+    "input": {
+      "value": {
+        "label": "Value",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "l": {
+        "label": "L (Skewness)",
+        "type": "float",
+        "min": -10,
+        "max": 10
+      },
+      "m": {
+        "label": "M (Median)",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "s": {
+        "label": "S (Coefficient of Variation)",
+        "type": "float",
+        "min": -10,
+        "max": 10
+      }
+    },
+    "output": {
+      "zscore": {
+        "label": "Z-Score",
+        "formula": "GetZScoreFromLMS(value, l, m, s)",
+        "precision": 2
+      },
+      "percentile": {
+        "label": "Percentile",
+        "formula": "CalculatePercentileFromZScore(zscore)",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "value": 50,
+          "l": 1,
+          "m": 50,
+          "s": 0.1
+        },
+        "output": {
+          "zscore": 0
+        }
+      }
+    ],
+    "ref": {
+      "Percentile Data Files with LMS Values": "http://www.cdc.gov/growthcharts/percentile_data_files.htm",
+      "入門統計学": "isbn:9784274068553",
+      "在胎期間別出生時体格標準値との比較": "http://app.kcrt.net/bw/"
+    }
+  }
+}

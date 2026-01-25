@@ -1,0 +1,195 @@
+{
+  "must": {
+    "name": "MUST Score (Malnutrition)",
+    "input": {
+      "bmi": {
+        "label": "BMI",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "BMI >20 (>30 if obese)"
+          },
+          {
+            "value": 1,
+            "label": "BMI 18.5-20"
+          },
+          {
+            "value": 2,
+            "label": "BMI <18.5"
+          }
+        ]
+      },
+      "weight_loss": {
+        "label": "Unplanned Weight Loss (3-6 months)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "<5%"
+          },
+          {
+            "value": 1,
+            "label": "5-10%"
+          },
+          {
+            "value": 2,
+            "label": ">10%"
+          }
+        ]
+      },
+      "acute_disease": {
+        "label": "Acute Disease Effect",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "No acute disease"
+          },
+          {
+            "value": 2,
+            "label": "Acutely ill with no nutritional intake for >5 days"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "MUST Score",
+        "formula": "bmi + weight_loss + acute_disease"
+      },
+      "risk": {
+        "label": "Malnutrition Risk",
+        "formula": "iif(score==0, 'Low risk', score==1, 'Medium risk', 'High risk')"
+      },
+      "management": {
+        "label": "Management",
+        "formula": "iif(score==0, 'Routine clinical care', score==1, 'Observe, repeat screening', 'Refer to dietitian, improve nutrition intake')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "bmi": 1,
+          "weight_loss": 1,
+          "acute_disease": 0
+        },
+        "output": {
+          "score": 2,
+          "risk": "High risk"
+        }
+      }
+    ],
+    "ref": {
+      "Malnutrition Universal Screening Tool (MUST)": "https://www.bapen.org.uk/screening-and-must/must"
+    }
+  },
+  "mifflin_st_jeor": {
+    "name": "Mifflin-St Jeor Equation (REE)",
+    "input": {
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 50,
+        "max": 250
+      },
+      "age": {
+        "label": "Age [years]",
+        "type": "int",
+        "min": 1,
+        "max": 120
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "ree": {
+        "label": "Resting Energy Expenditure [kcal/day]",
+        "formula": "10*weight + 6.25*height - 5*age + (sex==1?5:-161)",
+        "precision": 0
+      },
+      "note": {
+        "label": "Note",
+        "text": "Multiply by activity factor: Sedentary (1.2), Light (1.375), Moderate (1.55), Active (1.725), Very Active (1.9)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "weight": 70,
+          "height": 170,
+          "age": 30,
+          "sex": 1
+        },
+        "output": {
+          "ree": 1618
+        }
+      }
+    ],
+    "ref": {
+      "Mifflin MD, et al. Am J Clin Nutr. 1990;51(2):241-7.": "pubmed:2305711"
+    }
+  },
+  "harris_benedict": {
+    "name": "Harris-Benedict Equation (BEE)",
+    "input": {
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 50,
+        "max": 250
+      },
+      "age": {
+        "label": "Age [years]",
+        "type": "int",
+        "min": 1,
+        "max": 120
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "bee": {
+        "label": "Basal Energy Expenditure [kcal/day]",
+        "formula": "sex==1 ? (88.362 + 13.397*weight + 4.799*height - 5.677*age) : (447.593 + 9.247*weight + 3.098*height - 4.330*age)",
+        "precision": 0
+      },
+      "note": {
+        "label": "Note",
+        "text": "Revised equation (1984). Multiply by activity factor for total energy needs."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "weight": 70,
+          "height": 170,
+          "age": 30,
+          "sex": 1
+        },
+        "output": {
+          "bee": 1672
+        }
+      }
+    ],
+    "ref": {
+      "Roza AM, Shizgal HM. Am J Clin Nutr. 1984;40(1):168-82.": "pubmed:6741850"
+    }
+  }
+}

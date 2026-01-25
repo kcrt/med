@@ -1,0 +1,434 @@
+{
+  "phq9": {
+    "name": "PHQ-9 (Depression)",
+    "input": {
+      "interest": {
+        "label": "Little interest or pleasure",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "depressed": {
+        "label": "Feeling down, depressed, hopeless",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "sleep": {
+        "label": "Trouble sleeping or sleeping too much",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "tired": {
+        "label": "Feeling tired or having little energy",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "appetite": {
+        "label": "Poor appetite or overeating",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "failure": {
+        "label": "Feeling bad about yourself",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "concentration": {
+        "label": "Trouble concentrating",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "movement": {
+        "label": "Moving/speaking slowly or being fidgety",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "suicide": {
+        "label": "Thoughts of self-harm",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "PHQ-9 Score",
+        "formula": "interest + depressed + sleep + tired + appetite + failure + concentration + movement + suicide"
+      },
+      "severity": {
+        "label": "Depression Severity",
+        "formula": "iif(score<5, 'None-minimal', score<10, 'Mild', score<15, 'Moderate', score<20, 'Moderately severe', 'Severe')"
+      },
+      "suicide_alert": {
+        "label": "Suicide Risk",
+        "formula": "iif(suicide>0, '⚠ ALERT: Positive suicide ideation - assess further', 'No suicide ideation reported')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "interest": 1,
+          "depressed": 1,
+          "sleep": 1,
+          "tired": 2,
+          "appetite": 1,
+          "failure": 0,
+          "concentration": 1,
+          "movement": 0,
+          "suicide": 0
+        },
+        "output": {
+          "score": 7,
+          "severity": "Mild"
+        }
+      }
+    ],
+    "ref": {
+      "Kroenke K, et al. J Gen Intern Med. 2001;16(9):606-13.": "pubmed:11556941"
+    }
+  },
+  "gad7": {
+    "name": "GAD-7 (Anxiety)",
+    "input": {
+      "nervous": {
+        "label": "Feeling nervous, anxious, on edge",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "control": {
+        "label": "Not being able to stop or control worrying",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "worry": {
+        "label": "Worrying too much about different things",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "relax": {
+        "label": "Trouble relaxing",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "restless": {
+        "label": "Being so restless that it's hard to sit still",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "annoyed": {
+        "label": "Becoming easily annoyed or irritable",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      },
+      "afraid": {
+        "label": "Feeling afraid something awful might happen",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Not at all"
+          },
+          {
+            "value": 1,
+            "label": "1 - Several days"
+          },
+          {
+            "value": 2,
+            "label": "2 - More than half the days"
+          },
+          {
+            "value": 3,
+            "label": "3 - Nearly every day"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "GAD-7 Score",
+        "formula": "nervous + control + worry + relax + restless + annoyed + afraid"
+      },
+      "severity": {
+        "label": "Anxiety Severity",
+        "formula": "iif(score<5, 'Minimal', score<10, 'Mild', score<15, 'Moderate', 'Severe')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Score ≥10: Consider further assessment and treatment. Score ≥15: Active treatment recommended"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "nervous": 1,
+          "control": 1,
+          "worry": 2,
+          "relax": 1,
+          "restless": 1,
+          "annoyed": 1,
+          "afraid": 0
+        },
+        "output": {
+          "score": 7,
+          "severity": "Mild"
+        }
+      }
+    ],
+    "ref": {
+      "Spitzer RL, et al. Arch Intern Med. 2006;166(10):1092-7.": "pubmed:16717171"
+    }
+  }
+}

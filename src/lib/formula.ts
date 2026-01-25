@@ -7,11 +7,51 @@ import {
   type FormulaInput,
   type FormulaLanguageOverride,
 } from "@/types/formula";
-import formulaJson from "@/formula.json";
 import { Parser } from "expr-eval";
 
 // Import language override files
 import formulaLanguageJa from "@/formula_language_ja.json";
+
+// Import modular formula structure
+import formulasIndex from "@/formulas/index.json";
+import bodyStructureIndex from "@/formulas/body-structure-index.json";
+import cardiology from "@/formulas/cardiology.json";
+import emergencyMedicine from "@/formulas/emergency-medicine.json";
+import endocrinologyAndMetabolism from "@/formulas/endocrinology-and-metabolism.json";
+import gastroenterology from "@/formulas/gastroenterology.json";
+import hepatology from "@/formulas/hepatology.json";
+import infectiousDiseases from "@/formulas/infectious-diseases.json";
+import neurology from "@/formulas/neurology.json";
+import nutrition from "@/formulas/nutrition.json";
+import obstetricsAndPediatrics from "@/formulas/obstetrics-and-pediatrics.json";
+import others from "@/formulas/others.json";
+import psychiatry from "@/formulas/psychiatry.json";
+import pulmonology from "@/formulas/pulmonology.json";
+import renalFunction from "@/formulas/renal-function.json";
+
+// Map category names to imported data
+const categoryModules: Record<string, Record<string, Formula>> = {
+  "Body Structure Index": bodyStructureIndex,
+  "Cardiology": cardiology,
+  "Emergency Medicine": emergencyMedicine,
+  "Endocrinology and Metabolism": endocrinologyAndMetabolism,
+  "Gastroenterology": gastroenterology,
+  "Hepatology": hepatology,
+  "Infectious Diseases": infectiousDiseases,
+  "Neurology": neurology,
+  "Nutrition": nutrition,
+  "Obstetrics and Pediatrics": obstetricsAndPediatrics,
+  "Others": others,
+  "Psychiatry": psychiatry,
+  "Pulmonology": pulmonology,
+  "Renal Function": renalFunction,
+};
+
+// Reconstruct the original formulaJson structure from modular files
+const formulaJson: FormulaData = {
+  _meta: formulasIndex._meta,
+  ...categoryModules,
+};
 
 // Cache for locale-specific formula data
 const localeDataCache = new Map<string, FormulaData>();

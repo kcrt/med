@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "version": "2.0.0",
+    "lastModified": "2026-01-25",
+    "description": "Medical calculation formulas - modular structure"
+  },
+  "categories": {
+    "Body Structure Index": {
+      "file": "body-structure-index.json",
+      "name": "Body Structure Index",
+      "description": "Medical formulas for Body Structure Index"
+    },
+    "Cardiology": {
+      "file": "cardiology.json",
+      "name": "Cardiology",
+      "description": "Medical formulas for Cardiology"
+    },
+    "Endocrinology and Metabolism": {
+      "file": "endocrinology-and-metabolism.json",
+      "name": "Endocrinology and Metabolism",
+      "description": "Medical formulas for Endocrinology and Metabolism"
+    },
+    "Renal Function": {
+      "file": "renal-function.json",
+      "name": "Renal Function",
+      "description": "Medical formulas for Renal Function"
+    },
+    "Pulmonology": {
+      "file": "pulmonology.json",
+      "name": "Pulmonology",
+      "description": "Medical formulas for Pulmonology"
+    },
+    "Hepatology": {
+      "file": "hepatology.json",
+      "name": "Hepatology",
+      "description": "Medical formulas for Hepatology"
+    },
+    "Gastroenterology": {
+      "file": "gastroenterology.json",
+      "name": "Gastroenterology",
+      "description": "Medical formulas for Gastroenterology"
+    },
+    "Obstetrics and Pediatrics": {
+      "file": "obstetrics-and-pediatrics.json",
+      "name": "Obstetrics and Pediatrics",
+      "description": "Medical formulas for Obstetrics and Pediatrics"
+    },
+    "Psychiatry": {
+      "file": "psychiatry.json",
+      "name": "Psychiatry",
+      "description": "Medical formulas for Psychiatry"
+    },
+    "Nutrition": {
+      "file": "nutrition.json",
+      "name": "Nutrition",
+      "description": "Medical formulas for Nutrition"
+    },
+    "Infectious Diseases": {
+      "file": "infectious-diseases.json",
+      "name": "Infectious Diseases",
+      "description": "Medical formulas for Infectious Diseases"
+    },
+    "Neurology": {
+      "file": "neurology.json",
+      "name": "Neurology",
+      "description": "Medical formulas for Neurology"
+    },
+    "Others": {
+      "file": "others.json",
+      "name": "Others",
+      "description": "Medical formulas for Others"
+    },
+    "Emergency Medicine": {
+      "file": "emergency-medicine.json",
+      "name": "Emergency Medicine",
+      "description": "Medical formulas for Emergency Medicine"
+    }
+  }
+}

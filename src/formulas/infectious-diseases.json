@@ -1,0 +1,124 @@
+{
+  "centor": {
+    "name": "Centor/McIsaac Score (Strep Pharyngitis)",
+    "input": {
+      "tonsillar_exudate": {
+        "label": "Tonsillar exudate",
+        "type": "onoff"
+      },
+      "tender_anterior_nodes": {
+        "label": "Tender anterior cervical lymphadenopathy",
+        "type": "onoff"
+      },
+      "fever": {
+        "label": "History of fever (>38°C)",
+        "type": "onoff"
+      },
+      "no_cough": {
+        "label": "Absence of cough",
+        "type": "onoff"
+      },
+      "age": {
+        "label": "Age",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "3-14 years"
+          },
+          {
+            "value": 0,
+            "label": "15-44 years"
+          },
+          {
+            "value": -1,
+            "label": "≥45 years"
+          }
+        ]
+      }
+    },
+    "output": {
+      "centor": {
+        "label": "Centor Score (without age)",
+        "formula": "tonsillar_exudate + tender_anterior_nodes + fever + no_cough"
+      },
+      "mcisaac": {
+        "label": "McIsaac Score (with age)",
+        "formula": "centor + age"
+      },
+      "strep_probability": {
+        "label": "Strep Pharyngitis Probability",
+        "formula": "iif(mcisaac<=0, '~1%', mcisaac==1, '~10%', mcisaac==2, '~17%', mcisaac==3, '~35%', '~50%')"
+      },
+      "recommendation": {
+        "label": "Recommendation",
+        "formula": "iif(mcisaac<=1, 'No testing or antibiotics', mcisaac<=3, 'Rapid strep test', 'Empiric antibiotics or rapid test')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "tonsillar_exudate": 1,
+          "tender_anterior_nodes": 1,
+          "fever": 1,
+          "no_cough": 1,
+          "age": 1
+        },
+        "output": {
+          "centor": 4,
+          "mcisaac": 5
+        }
+      }
+    ],
+    "ref": {
+      "Centor RM, et al. Med Decis Making. 1981;1(3):239-46.": "pubmed:6763125",
+      "McIsaac WJ, et al. CMAJ. 2004;170(6):1027-33.": "pubmed:15001801"
+    }
+  },
+  "duke_endocarditis": {
+    "name": "Duke Criteria for Infective Endocarditis",
+    "input": {
+      "major_criteria": {
+        "label": "Number of Major Criteria",
+        "type": "int",
+        "min": 0,
+        "max": 2
+      },
+      "minor_criteria": {
+        "label": "Number of Minor Criteria",
+        "type": "int",
+        "min": 0,
+        "max": 5
+      }
+    },
+    "output": {
+      "diagnosis": {
+        "label": "Duke Diagnosis",
+        "formula": "iif(major_criteria==2, 'Definite IE', major_criteria==1 and minor_criteria>=3, 'Definite IE', major_criteria==1 and minor_criteria<=2, 'Possible IE', minor_criteria>=3, 'Possible IE', 'Rejected')"
+      },
+      "major": {
+        "label": "Major Criteria (2 types)",
+        "text": "1) Positive blood cultures (typical organisms in 2 separate cultures OR persistently positive blood cultures), 2) Evidence of endocardial involvement (vegetation, abscess, new valvular regurgitation on echo)"
+      },
+      "minor": {
+        "label": "Minor Criteria (5 types)",
+        "text": "1) Predisposing condition/IVDU, 2) Fever ≥38°C, 3) Vascular phenomena, 4) Immunologic phenomena, 5) Microbiologic evidence not meeting major criteria"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "major_criteria": 1,
+          "minor_criteria": 3
+        },
+        "output": {
+          "diagnosis": "Definite IE"
+        }
+      }
+    ],
+    "ref": {
+      "Durack DT, et al. Am J Med. 1994;96(3):200-9.": "pubmed:8154507",
+      "Li JS, et al. Clin Infect Dis. 2000;30(4):633-8.": "pubmed:10770721"
+    }
+  }
+}

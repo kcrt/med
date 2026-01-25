@@ -1,0 +1,223 @@
+{
+  "child_pugh": {
+    "name": "Child-Pugh Score",
+    "input": {
+      "bilirubin": {
+        "label": "Bilirubin [mg/dL]",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "<2"
+          },
+          {
+            "value": 2,
+            "label": "2-3"
+          },
+          {
+            "value": 3,
+            "label": ">3"
+          }
+        ]
+      },
+      "albumin": {
+        "label": "Albumin [g/dL]",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": ">3.5"
+          },
+          {
+            "value": 2,
+            "label": "2.8-3.5"
+          },
+          {
+            "value": 3,
+            "label": "<2.8"
+          }
+        ]
+      },
+      "inr": {
+        "label": "INR",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "<1.7"
+          },
+          {
+            "value": 2,
+            "label": "1.7-2.3"
+          },
+          {
+            "value": 3,
+            "label": ">2.3"
+          }
+        ]
+      },
+      "ascites": {
+        "label": "Ascites",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "None"
+          },
+          {
+            "value": 2,
+            "label": "Mild (controlled with diuretics)"
+          },
+          {
+            "value": 3,
+            "label": "Moderate to severe"
+          }
+        ]
+      },
+      "encephalopathy": {
+        "label": "Hepatic Encephalopathy",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "None"
+          },
+          {
+            "value": 2,
+            "label": "Grade 1-2 (or controlled with medication)"
+          },
+          {
+            "value": 3,
+            "label": "Grade 3-4"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Child-Pugh Score",
+        "formula": "bilirubin + albumin + inr + ascites + encephalopathy"
+      },
+      "class": {
+        "label": "Child-Pugh Class",
+        "formula": "iif(score<=6, 'Class A (Well-compensated)', score<=9, 'Class B (Significant functional compromise)', 'Class C (Decompensated)')"
+      },
+      "one_year_survival": {
+        "label": "1-year Survival",
+        "formula": "iif(score<=6, '~100%', score<=9, '~80%', '~45%')"
+      },
+      "two_year_survival": {
+        "label": "2-year Survival",
+        "formula": "iif(score<=6, '~85%', score<=9, '~60%', '~35%')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "bilirubin": 2,
+          "albumin": 2,
+          "inr": 2,
+          "ascites": 1,
+          "encephalopathy": 1
+        },
+        "output": {
+          "score": 8,
+          "class": "Class B (Significant functional compromise)"
+        }
+      }
+    ],
+    "ref": {
+      "Child CG, Turcotte JG. Surgery. 1964;3:50-59.": "",
+      "Pugh RN, et al. Br J Surg. 1973;60(8):646-9.": "pubmed:4541913"
+    }
+  },
+  "meld": {
+    "name": "MELD 3.0 Score",
+    "input": {
+      "creatinine": {
+        "label": "Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.1,
+        "max": 20
+      },
+      "bilirubin": {
+        "label": "Total Bilirubin [mg/dL]",
+        "type": "float",
+        "min": 0.1,
+        "max": 50
+      },
+      "inr": {
+        "label": "INR",
+        "type": "float",
+        "min": 0.5,
+        "max": 10
+      },
+      "sodium": {
+        "label": "Sodium [mEq/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "albumin": {
+        "label": "Albumin [g/dL]",
+        "type": "float",
+        "min": 0.5,
+        "max": 10
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "creat_adj": {
+        "label": "Adjusted Creatinine",
+        "formula": "max(1, min(3, creatinine))"
+      },
+      "bili_adj": {
+        "label": "Adjusted Bilirubin",
+        "formula": "max(1, bilirubin)"
+      },
+      "inr_adj": {
+        "label": "Adjusted INR",
+        "formula": "max(1, inr)"
+      },
+      "sodium_adj": {
+        "label": "Adjusted Sodium",
+        "formula": "max(125, min(137, sodium))"
+      },
+      "albumin_adj": {
+        "label": "Adjusted Albumin",
+        "formula": "max(1.5, min(3.5, albumin))"
+      },
+      "meld_score": {
+        "label": "MELD 3.0 Score",
+        "formula": "1.33*(sex==1?1:0) + 4.56*log(bili_adj) + 0.82*(137-sodium_adj) - 0.24*(137-sodium_adj)*log(bili_adj) + 9.09*log(inr_adj) + 11.14*log(creat_adj) + 1.85*(3.5-albumin_adj) - 1.83*(3.5-albumin_adj)*log(creat_adj) + 6",
+        "precision": 1
+      },
+      "mortality_3month": {
+        "label": "3-month Mortality (approximate)",
+        "formula": "iif(meld_score<10, '~1.9%', meld_score<20, '~6%', meld_score<30, '~20%', meld_score<40, '~50%', '>70%')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "creatinine": 1.2,
+          "bilirubin": 2.5,
+          "inr": 1.8,
+          "sodium": 135,
+          "albumin": 3,
+          "sex": 1
+        },
+        "output": {
+          "meld_score": 20.8
+        }
+      }
+    ],
+    "ref": {
+      "Kim WR, et al. Hepatology. 2021;73(6):2235-2239.": "pubmed:33506981",
+      "MELD 3.0: The Model for End-Stage Liver Disease": "doi:10.1002/hep.31750"
+    }
+  }
+}

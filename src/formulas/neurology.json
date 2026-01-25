@@ -1,0 +1,1142 @@
+{
+  "abcd2": {
+    "name": "ABCD² Score",
+    "input": {
+      "age": {
+        "label": "Age ≥60",
+        "type": "onoff"
+      },
+      "bp": {
+        "label": "sBP≥140 or dBP≥90 mmHg",
+        "type": "onoff"
+      },
+      "clinical": {
+        "label": "Clinical Features",
+        "type": "select",
+        "options": [
+          {
+            "value": 2,
+            "label": "Unilateral weakness"
+          },
+          {
+            "value": 1,
+            "label": "Speech disturbance without weakness"
+          },
+          {
+            "value": 0,
+            "label": "Other"
+          }
+        ]
+      },
+      "duration": {
+        "label": "Duration",
+        "type": "select",
+        "options": [
+          {
+            "value": 2,
+            "label": "≥60 minutes"
+          },
+          {
+            "value": 1,
+            "label": "10-59 minutes"
+          },
+          {
+            "value": 0,
+            "label": "<10 minutes"
+          }
+        ]
+      },
+      "diabetes": {
+        "label": "Diabetes",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "age + bp + clinical + duration + diabetes"
+      },
+      "risk": {
+        "label": "Risk",
+        "formula": "iif(score>=6, 'High risk 8.1% stroke within 2 days', score>=4, 'Moderate risk 4.1% stroke within 2 days', 'Low risk 1.0% stroke within 2 days')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age": 1,
+          "bp": 0,
+          "clinical": 2,
+          "duration": 1,
+          "diabetes": 0
+        },
+        "output": {
+          "score": 4
+        }
+      }
+    ],
+    "ref": {
+      "Stroke Service; Lancet. 2007 Jan 27;369(9558):283-92.": "pubmed:17258668"
+    }
+  },
+  "abcd2i": {
+    "name": "ABCD²-I Score",
+    "input": {
+      "age": {
+        "label": "Age ≥60",
+        "type": "onoff"
+      },
+      "bp": {
+        "label": "sBP≥140 or dBP≥90 mmHg",
+        "type": "onoff"
+      },
+      "clinical": {
+        "label": "Clinical Features",
+        "type": "select",
+        "options": [
+          {
+            "value": 2,
+            "label": "Unilateral weakness"
+          },
+          {
+            "value": 1,
+            "label": "Speech disturbance without weakness"
+          },
+          {
+            "value": 0,
+            "label": "Other"
+          }
+        ]
+      },
+      "duration": {
+        "label": "Duration",
+        "type": "select",
+        "options": [
+          {
+            "value": 2,
+            "label": "≥60 minutes"
+          },
+          {
+            "value": 1,
+            "label": "10-59 minutes"
+          },
+          {
+            "value": 0,
+            "label": "<10 minutes"
+          }
+        ]
+      },
+      "diabetes": {
+        "label": "Diabetes",
+        "type": "onoff"
+      },
+      "dwi": {
+        "label": "DWI lesion present",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "age + bp + clinical + duration + diabetes + dwi*2"
+      },
+      "risk": {
+        "label": "Risk",
+        "formula": "iif(score>=7, 'Very high risk', score>=5, 'High risk', score>=3, 'Moderate risk', 'Low risk')"
+      },
+      "note": {
+        "label": "Note",
+        "text": "ABCD²-I adds DWI imaging to ABCD². Score range: 0-9. DWI lesion adds 2 points."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age": 1,
+          "bp": 0,
+          "clinical": 2,
+          "duration": 1,
+          "diabetes": 0,
+          "dwi": 1
+        },
+        "output": {
+          "score": 6
+        }
+      }
+    ],
+    "ref": {
+      "Merwick A, et al. Stroke. 2010;41(7):1468-73.": "pubmed:20530112",
+      "Other references": "doi:10.1001/jamaneurol.2013.4078"
+    }
+  },
+  "lumbar_puncture_depth": {
+    "name": "Lumbar Puncture Depth Prediction",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 30,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 3,
+        "max": 300
+      }
+    },
+    "output": {
+      "adult": {
+        "label": "Adult [cm]",
+        "formula": "1+17*(weight/height)",
+        "precision": 1
+      },
+      "child_3m_plus": {
+        "label": "Child (≥3 months) [cm]",
+        "formula": "1.3 + 0.07*weight",
+        "precision": 1
+      },
+      "child_lt_3m": {
+        "label": "Child (<3 months) [cm]",
+        "formula": "height*0.03",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 170,
+          "weight": 70
+        },
+        "output": {
+          "adult": 8
+        }
+      }
+    ],
+    "ref": {
+      "Am J Emerg Med. 2005 Oct;23(6):742-6.": "pubmed:16182981",
+      "Coll Antropol. 2003 Dec;27(2):623-6.": "pubmed:14746151",
+      "Arch Dis Child. 1997 Nov;77(5):450.": "pubmed:9487973"
+    }
+  },
+  "abr_reference": {
+    "name": "ABR Latency Reference Values",
+    "input": {
+      "wave_i": {
+        "label": "Wave I [ms]",
+        "type": "float",
+        "min": 0,
+        "max": 10
+      },
+      "wave_iii": {
+        "label": "Wave III [ms]",
+        "type": "float",
+        "min": 0,
+        "max": 10
+      },
+      "wave_v": {
+        "label": "Wave V [ms]",
+        "type": "float",
+        "min": 0,
+        "max": 10
+      },
+      "period": {
+        "label": "Measurement Period",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "32-33 weeks gestation"
+          },
+          {
+            "value": 1,
+            "label": "34-35 weeks gestation"
+          },
+          {
+            "value": 2,
+            "label": "36-37 weeks gestation"
+          },
+          {
+            "value": 3,
+            "label": "38-39 weeks gestation"
+          },
+          {
+            "value": 4,
+            "label": "40-41 weeks gestation"
+          },
+          {
+            "value": 5,
+            "label": "42-43 weeks gestation"
+          },
+          {
+            "value": 6,
+            "label": "44-45 weeks gestation"
+          },
+          {
+            "value": 7,
+            "label": "~5 months"
+          },
+          {
+            "value": 8,
+            "label": "6-11 months"
+          },
+          {
+            "value": 9,
+            "label": "1 year"
+          },
+          {
+            "value": 10,
+            "label": "2-4 years"
+          },
+          {
+            "value": 11,
+            "label": "5-13 years"
+          },
+          {
+            "value": 12,
+            "label": "Adult"
+          }
+        ]
+      }
+    },
+    "output": {
+      "wave_i_result": {
+        "label": "Wave I",
+        "formula": "CalculateABRZScore(wave_i, period, 'I')"
+      },
+      "wave_iii_result": {
+        "label": "Wave III",
+        "formula": "CalculateABRZScore(wave_iii, period, 'III')"
+      },
+      "wave_v_result": {
+        "label": "Wave V",
+        "formula": "CalculateABRZScore(wave_v, period, 'V')"
+      },
+      "wave_i_iii_result": {
+        "label": "Wave I-III",
+        "formula": "CalculateABRIIIIntervalZScore(wave_i, wave_iii, period)"
+      },
+      "wave_i_v_result": {
+        "label": "Wave I-V",
+        "formula": "CalculateABRVIntervalZScore(wave_i, wave_v, period)"
+      },
+      "note": {
+        "label": "Note",
+        "text": "Newborns: 85dBHL, thereafter: 90dBHL"
+      }
+    },
+    "ref": {
+      "聴性脳幹反応(Auditory Brainstem Response:ABR)の新生児期への応用 木下洋 関西医大誌 第35巻第3号, 1983": "",
+      "小児科診療 2013増刊号 理解して出そう小児の検査―オーダー・手技・解釈": "isbn:4910047260434"
+    }
+  },
+  "gcs": {
+    "name": "Glasgow Coma Scale (GCS)",
+    "input": {
+      "eye": {
+        "label": "Eye Response",
+        "type": "select",
+        "options": [
+          {
+            "value": 4,
+            "label": "4 - Spontaneous"
+          },
+          {
+            "value": 3,
+            "label": "3 - To speech"
+          },
+          {
+            "value": 2,
+            "label": "2 - To pain"
+          },
+          {
+            "value": 1,
+            "label": "1 - None"
+          }
+        ]
+      },
+      "verbal": {
+        "label": "Verbal Response",
+        "type": "select",
+        "options": [
+          {
+            "value": 5,
+            "label": "5 - Oriented"
+          },
+          {
+            "value": 4,
+            "label": "4 - Confused"
+          },
+          {
+            "value": 3,
+            "label": "3 - Inappropriate words"
+          },
+          {
+            "value": 2,
+            "label": "2 - Incomprehensible sounds"
+          },
+          {
+            "value": 1,
+            "label": "1 - None"
+          }
+        ]
+      },
+      "motor": {
+        "label": "Motor Response",
+        "type": "select",
+        "options": [
+          {
+            "value": 6,
+            "label": "6 - Obeys commands"
+          },
+          {
+            "value": 5,
+            "label": "5 - Localizing"
+          },
+          {
+            "value": 4,
+            "label": "4 - Normal flexion"
+          },
+          {
+            "value": 3,
+            "label": "3 - Abnormal flexion"
+          },
+          {
+            "value": 2,
+            "label": "2 - Extension"
+          },
+          {
+            "value": 1,
+            "label": "1 - None"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "GCS Score",
+        "formula": "eye + verbal + motor"
+      },
+      "severity": {
+        "label": "Severity",
+        "formula": "iif(total>=13, 'Minor injury', total>=9, 'Moderate injury', 'Severe injury')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "eye": 4,
+          "verbal": 5,
+          "motor": 6
+        },
+        "output": {
+          "total": 15,
+          "severity": "Minor injury"
+        }
+      },
+      {
+        "input": {
+          "eye": 1,
+          "verbal": 1,
+          "motor": 2
+        },
+        "output": {
+          "total": 4,
+          "severity": "Severe injury"
+        }
+      }
+    ],
+    "ref": {
+      "Teasdale G, Jennett B: Lancet. 1974;2(7872):81-83.": "pubmed:4136564",
+      "Wikipedia": "https://en.wikipedia.org/wiki/Glasgow_Coma_Scale"
+    }
+  },
+  "nihss": {
+    "name": "NIHSS (NIH Stroke Scale)",
+    "input": {
+      "loc": {
+        "label": "1a. Level of Consciousness",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Alert"
+          },
+          {
+            "value": 1,
+            "label": "1 - Not alert, arousable"
+          },
+          {
+            "value": 2,
+            "label": "2 - Not alert, obtunded"
+          },
+          {
+            "value": 3,
+            "label": "3 - Unresponsive"
+          }
+        ]
+      },
+      "loc_questions": {
+        "label": "1b. LOC Questions",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Both correct"
+          },
+          {
+            "value": 1,
+            "label": "1 - One correct"
+          },
+          {
+            "value": 2,
+            "label": "2 - None correct"
+          }
+        ]
+      },
+      "loc_commands": {
+        "label": "1c. LOC Commands",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Both correct"
+          },
+          {
+            "value": 1,
+            "label": "1 - One correct"
+          },
+          {
+            "value": 2,
+            "label": "2 - None correct"
+          }
+        ]
+      },
+      "gaze": {
+        "label": "2. Best Gaze",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - Partial gaze palsy"
+          },
+          {
+            "value": 2,
+            "label": "2 - Forced deviation"
+          }
+        ]
+      },
+      "visual": {
+        "label": "3. Visual Fields",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No visual loss"
+          },
+          {
+            "value": 1,
+            "label": "1 - Partial hemianopia"
+          },
+          {
+            "value": 2,
+            "label": "2 - Complete hemianopia"
+          },
+          {
+            "value": 3,
+            "label": "3 - Bilateral hemianopia"
+          }
+        ]
+      },
+      "facial": {
+        "label": "4. Facial Palsy",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - Minor paralysis"
+          },
+          {
+            "value": 2,
+            "label": "2 - Partial paralysis"
+          },
+          {
+            "value": 3,
+            "label": "3 - Complete paralysis"
+          }
+        ]
+      },
+      "motor_arm_left": {
+        "label": "5a. Left Arm Motor",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No drift"
+          },
+          {
+            "value": 1,
+            "label": "1 - Drift"
+          },
+          {
+            "value": 2,
+            "label": "2 - Some effort against gravity"
+          },
+          {
+            "value": 3,
+            "label": "3 - No effort against gravity"
+          },
+          {
+            "value": 4,
+            "label": "4 - No movement"
+          }
+        ]
+      },
+      "motor_arm_right": {
+        "label": "5b. Right Arm Motor",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No drift"
+          },
+          {
+            "value": 1,
+            "label": "1 - Drift"
+          },
+          {
+            "value": 2,
+            "label": "2 - Some effort against gravity"
+          },
+          {
+            "value": 3,
+            "label": "3 - No effort against gravity"
+          },
+          {
+            "value": 4,
+            "label": "4 - No movement"
+          }
+        ]
+      },
+      "motor_leg_left": {
+        "label": "6a. Left Leg Motor",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No drift"
+          },
+          {
+            "value": 1,
+            "label": "1 - Drift"
+          },
+          {
+            "value": 2,
+            "label": "2 - Some effort against gravity"
+          },
+          {
+            "value": 3,
+            "label": "3 - No effort against gravity"
+          },
+          {
+            "value": 4,
+            "label": "4 - No movement"
+          }
+        ]
+      },
+      "motor_leg_right": {
+        "label": "6b. Right Leg Motor",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No drift"
+          },
+          {
+            "value": 1,
+            "label": "1 - Drift"
+          },
+          {
+            "value": 2,
+            "label": "2 - Some effort against gravity"
+          },
+          {
+            "value": 3,
+            "label": "3 - No effort against gravity"
+          },
+          {
+            "value": 4,
+            "label": "4 - No movement"
+          }
+        ]
+      },
+      "limb_ataxia": {
+        "label": "7. Limb Ataxia",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Absent"
+          },
+          {
+            "value": 1,
+            "label": "1 - Present in one limb"
+          },
+          {
+            "value": 2,
+            "label": "2 - Present in two limbs"
+          }
+        ]
+      },
+      "sensory": {
+        "label": "8. Sensory",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - Mild-to-moderate loss"
+          },
+          {
+            "value": 2,
+            "label": "2 - Severe-to-total loss"
+          }
+        ]
+      },
+      "language": {
+        "label": "9. Best Language",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No aphasia"
+          },
+          {
+            "value": 1,
+            "label": "1 - Mild-to-moderate aphasia"
+          },
+          {
+            "value": 2,
+            "label": "2 - Severe aphasia"
+          },
+          {
+            "value": 3,
+            "label": "3 - Mute/global aphasia"
+          }
+        ]
+      },
+      "dysarthria": {
+        "label": "10. Dysarthria",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - Mild-to-moderate"
+          },
+          {
+            "value": 2,
+            "label": "2 - Severe"
+          }
+        ]
+      },
+      "extinction": {
+        "label": "11. Extinction/Inattention",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No abnormality"
+          },
+          {
+            "value": 1,
+            "label": "1 - Inattention to one modality"
+          },
+          {
+            "value": 2,
+            "label": "2 - Profound hemi-inattention"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "NIHSS Score",
+        "formula": "loc + loc_questions + loc_commands + gaze + visual + facial + motor_arm_left + motor_arm_right + motor_leg_left + motor_leg_right + limb_ataxia + sensory + language + dysarthria + extinction"
+      },
+      "severity": {
+        "label": "Stroke Severity",
+        "formula": "iif(total==0, 'No stroke symptoms', total<=4, 'Minor stroke', total<=15, 'Moderate stroke', total<=20, 'Moderate to severe stroke', 'Severe stroke')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "0: No stroke, 1-4: Minor, 5-15: Moderate, 16-20: Moderate-severe, 21-42: Severe. Score >15 suggests high benefit from thrombolysis"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "loc": 0,
+          "loc_questions": 0,
+          "loc_commands": 0,
+          "gaze": 0,
+          "visual": 0,
+          "facial": 1,
+          "motor_arm_left": 2,
+          "motor_arm_right": 0,
+          "motor_leg_left": 1,
+          "motor_leg_right": 0,
+          "limb_ataxia": 0,
+          "sensory": 1,
+          "language": 1,
+          "dysarthria": 0,
+          "extinction": 0
+        },
+        "output": {
+          "total": 6,
+          "severity": "Moderate stroke"
+        }
+      }
+    ],
+    "ref": {
+      "Brott T, et al. Stroke. 1989;20(7):864-70.": "pubmed:2749846",
+      "NIH Stroke Scale": "https://www.ninds.nih.gov/health-information/public-education/know-stroke/health-professionals/nih-stroke-scale"
+    }
+  },
+  "modified_rankin": {
+    "name": "Modified Rankin Scale (mRS)",
+    "input": {
+      "score": {
+        "label": "Modified Rankin Scale",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No symptoms"
+          },
+          {
+            "value": 1,
+            "label": "1 - No significant disability"
+          },
+          {
+            "value": 2,
+            "label": "2 - Slight disability"
+          },
+          {
+            "value": 3,
+            "label": "3 - Moderate disability"
+          },
+          {
+            "value": 4,
+            "label": "4 - Moderately severe disability"
+          },
+          {
+            "value": 5,
+            "label": "5 - Severe disability"
+          },
+          {
+            "value": 6,
+            "label": "6 - Dead"
+          }
+        ]
+      }
+    },
+    "output": {
+      "result": {
+        "label": "Modified Rankin Scale",
+        "formula": "score"
+      },
+      "description": {
+        "label": "Description",
+        "formula": "iif(score==0, 'No symptoms at all', score==1, 'No significant disability; able to carry out all usual duties', score==2, 'Slight disability; unable to carry out previous activities but able to look after own affairs', score==3, 'Moderate disability; requires some help but able to walk without assistance', score==4, 'Moderately severe disability; unable to walk and attend to bodily needs without assistance', score==5, 'Severe disability; bedridden, incontinent, requires constant care', 'Dead')"
+      },
+      "functional_outcome": {
+        "label": "Functional Outcome",
+        "formula": "iif(score<=2, 'Good outcome (independent)', score<=5, 'Poor outcome (dependent)', 'Death')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "score": 2
+        },
+        "output": {
+          "result": 2,
+          "functional_outcome": "Good outcome (independent)"
+        }
+      }
+    ],
+    "ref": {
+      "Rankin J. Scott Med J. 1957;2(5):200-15.": "pubmed:13432835",
+      "van Swieten JC, et al. Stroke. 1988;19(5):604-7.": "pubmed:3363593"
+    }
+  },
+  "hunt_hess": {
+    "name": "Hunt and Hess Classification",
+    "input": {
+      "grade": {
+        "label": "Grade",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "Grade 1 - Asymptomatic or mild headache"
+          },
+          {
+            "value": 2,
+            "label": "Grade 2 - Severe headache, nuchal rigidity, no neurologic deficit except CN palsy"
+          },
+          {
+            "value": 3,
+            "label": "Grade 3 - Drowsiness, confusion, mild focal deficit"
+          },
+          {
+            "value": 4,
+            "label": "Grade 4 - Stupor, moderate-severe hemiparesis"
+          },
+          {
+            "value": 5,
+            "label": "Grade 5 - Deep coma, decerebrate rigidity, moribund"
+          }
+        ]
+      }
+    },
+    "output": {
+      "grade": {
+        "label": "Hunt and Hess Grade",
+        "formula": "grade"
+      },
+      "description": {
+        "label": "Description",
+        "formula": "iif(grade==1, 'Asymptomatic or mild headache and slight nuchal rigidity', grade==2, 'Severe headache, nuchal rigidity, no neurologic deficit except CN palsy', grade==3, 'Drowsiness, confusion, mild focal deficit', grade==4, 'Stupor, moderate-severe hemiparesis, early decerebrate rigidity', 'Deep coma, decerebrate rigidity, moribund appearance')"
+      },
+      "mortality": {
+        "label": "Mortality Risk",
+        "formula": "iif(grade==1, '~30%', grade==2, '~40%', grade==3, '~50%', grade==4, '~80%', '~90%')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "grade": 3
+        },
+        "output": {
+          "grade": 3,
+          "mortality": "~50%"
+        }
+      }
+    ],
+    "ref": {
+      "Hunt WE, Hess RM. J Neurosurg. 1968;28(1):14-20.": "pubmed:5635959"
+    }
+  },
+  "fisher_grade": {
+    "name": "Fisher Grade (SAH)",
+    "input": {
+      "grade": {
+        "label": "Fisher Grade",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "Grade 1 - No blood detected"
+          },
+          {
+            "value": 2,
+            "label": "Grade 2 - Diffuse thin layer (<1mm)"
+          },
+          {
+            "value": 3,
+            "label": "Grade 3 - Localized clot or thick layer (≥1mm)"
+          },
+          {
+            "value": 4,
+            "label": "Grade 4 - Diffuse or no SAH with IVH or parenchymal extension"
+          }
+        ]
+      }
+    },
+    "output": {
+      "grade": {
+        "label": "Fisher Grade",
+        "formula": "grade"
+      },
+      "vasospasm_risk": {
+        "label": "Vasospasm Risk",
+        "formula": "iif(grade==1, 'Low (0%)', grade==2, 'Low (10-20%)', grade==3, 'High (60-80%)', 'Moderate (30-40%)')"
+      },
+      "description": {
+        "label": "Description",
+        "formula": "iif(grade==1, 'No blood detected on CT', grade==2, 'Diffuse or vertical layers <1mm thick', grade==3, 'Localized clot and/or vertical layer ≥1mm thick', 'Diffuse or no SAH with intraventricular or parenchymal extension')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "grade": 3
+        },
+        "output": {
+          "grade": 3,
+          "vasospasm_risk": "High (60-80%)"
+        }
+      }
+    ],
+    "ref": {
+      "Fisher CM, et al. Neurosurgery. 1980;6(1):1-9.": "pubmed:7354892"
+    }
+  },
+  "ich_score": {
+    "name": "ICH Score (Intracerebral Hemorrhage)",
+    "input": {
+      "gcs_score": {
+        "label": "GCS Score",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "13-15"
+          },
+          {
+            "value": 1,
+            "label": "5-12"
+          },
+          {
+            "value": 2,
+            "label": "3-4"
+          }
+        ]
+      },
+      "volume": {
+        "label": "ICH Volume",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "<30 mL"
+          },
+          {
+            "value": 1,
+            "label": "≥30 mL"
+          }
+        ]
+      },
+      "ivh": {
+        "label": "Intraventricular Hemorrhage",
+        "type": "onoff"
+      },
+      "infratentorial": {
+        "label": "Infratentorial Origin",
+        "type": "onoff"
+      },
+      "age": {
+        "label": "Age",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "<80 years"
+          },
+          {
+            "value": 1,
+            "label": "≥80 years"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "ICH Score",
+        "formula": "gcs_score + volume + ivh + infratentorial + age"
+      },
+      "mortality_30d": {
+        "label": "30-day Mortality",
+        "formula": "iif(score==0, '0%', score==1, '13%', score==2, '26%', score==3, '72%', score==4, '97%', '100%')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Score 0-2: Low mortality, Score 3-4: High mortality, Score 5-6: Very high mortality"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "gcs_score": 1,
+          "volume": 0,
+          "ivh": 1,
+          "infratentorial": 0,
+          "age": 0
+        },
+        "output": {
+          "score": 2,
+          "mortality_30d": "26%"
+        }
+      }
+    ],
+    "ref": {
+      "Hemphill JC 3rd, et al. Stroke. 2001;32(4):891-7.": "pubmed:11283388"
+    }
+  },
+  "moca": {
+    "name": "MoCA (Montreal Cognitive Assessment)",
+    "input": {
+      "score": {
+        "label": "MoCA Score",
+        "type": "int",
+        "min": 0,
+        "max": 30
+      },
+      "education": {
+        "label": "Education ≤12 years",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "adjusted_score": {
+        "label": "Adjusted Score",
+        "formula": "min(30, score + education)"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(adjusted_score>=26, 'Normal cognition', adjusted_score>=18, 'Mild cognitive impairment', 'Significant cognitive impairment')"
+      },
+      "note": {
+        "label": "Note",
+        "text": "Add 1 point if education ≤12 years. Normal: ≥26/30. Cutoff for MCI: 18-25"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "score": 24,
+          "education": 1
+        },
+        "output": {
+          "adjusted_score": 25,
+          "interpretation": "Mild cognitive impairment"
+        }
+      }
+    ],
+    "ref": {
+      "Nasreddine ZS, et al. J Am Geriatr Soc. 2005;53(4):695-9.": "pubmed:15817019",
+      "MoCA Official": "https://www.mocatest.org/"
+    }
+  }
+}
