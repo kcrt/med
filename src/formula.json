@@ -338,6 +338,54 @@
 				"TODO": "TODO"
 			}
 		},
+		"has_bled": {
+			"name": "HAS-BLED Score",
+			"input": {
+				"hypertension": {"label": "Hypertension (systolic BP >160 mmHg)", "type": "onoff"},
+				"abnormal_renal": {"label": "Abnormal renal function (dialysis, transplant, Cr ≥2.26 mg/dL)", "type": "onoff"},
+				"abnormal_liver": {"label": "Abnormal liver function (cirrhosis, bilirubin >2× ULN)", "type": "onoff"},
+				"stroke": {"label": "Previous stroke or TIA", "type": "onoff"},
+				"bleeding_history": {"label": "Previous major bleeding or predisposition", "type": "onoff"},
+				"labile_inr": {"label": "Labile INR (<60% time in therapeutic range)", "type": "onoff"},
+				"elderly": {"label": "Age >65 years", "type": "onoff"},
+				"drugs_alcohol": {"label": "Concomitant antiplatelet/NSAIDs or excessive alcohol", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "HAS-BLED Score",
+					"formula": "hypertension + abnormal_renal + abnormal_liver + stroke + bleeding_history + labile_inr + elderly + drugs_alcohol"
+				},
+				"risk": {
+					"label": "Bleeding Risk",
+					"formula": "iif(score<=2, 'Low risk (0-2)', 'High risk (≥3)')"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"text": "Score ≥3: High bleeding risk (~3.74 events/100 patient-years); Requires regular review. Does NOT contraindicate anticoagulation."
+				}
+			},
+			"test": [{
+				"input": {
+					"hypertension": 1,
+					"abnormal_renal": 0,
+					"abnormal_liver": 0,
+					"stroke": 1,
+					"bleeding_history": 0,
+					"labile_inr": 0,
+					"elderly": 1,
+					"drugs_alcohol": 0
+				},
+				"output": {
+					"score": 3,
+					"risk": "High risk (≥3)"
+				}
+			}],
+			"ref": {
+				"Pisters R, et al. Chest. 2010;138(5):1093-100": "pubmed:20199583",
+				"2010 ESC Guidelines for Atrial Fibrillation": "https://escardio.org/guidelines",
+				"MDCalc - HAS-BLED Score": "https://www.mdcalc.com/calc/807/has-bled-score-major-bleeding-risk"
+			}
+		},
 		"ejection_fraction": {
 			"name": "Left Ventricular Ejection Fraction",
 			"input": {
@@ -640,8 +688,163 @@
 			}
 		}
 	},
-	"腎機能": {
-		"ccr_adult": {
+	"肝臓": {
+		"meld": {
+			"name": "MELD 3.0",
+			"input": {
+				"creatinine": {"label": "Creatinine [mg/dL]", "type": "float", "min": 0.1, "max": 20},
+				"bilirubin": {"label": "Bilirubin [mg/dL]", "type": "float", "min": 0.1, "max": 50},
+				"inr": {"label": "INR", "type": "float", "min": 0.1, "max": 10},
+				"sodium": {"label": "Sodium [mEq/L]", "type": "float", "min": 100, "max": 170}
+			},
+			"output": {
+				"meld_score": {
+					"label": "MELD 3.0 Score",
+					"formula": "3.78 * log(max(creatinine, 1)) + 11.2 * log(max(bilirubin, 1)) + 9.57 * log(max(inr, 1)) + 6.43 * (min(max(sodium, 125), 140) - 140)",
+					"precision": 0
+				},
+				"mortality": {
+					"label": "3-Month Mortality Risk",
+					"formula": "iif(meld_score < 9, '<1% (Low risk)', meld_score < 12, '1-5% (Low risk)', meld_score < 15, '6-27% (Intermediate risk)', meld_score < 20, '27-76% (High risk)', meld_score < 26, '76-85% (Very high risk)', '>87% (Extremely high risk)')"
+				},
+				"note": {
+					"label": "Note",
+					"text": "Minimum values: Creatinine/Bilirubin/INR ≥1. Sodium range: 125-140 mEq/L for calculation. Dialysis: Cr ≥4 mg/dL."
+				}
+			},
+			"test": [{
+				"input": {
+					"creatinine": 1.0,
+					"bilirubin": 1.0,
+					"inr": 1.0,
+					"sodium": 140
+				},
+				"output": {
+					"meld_score": 0
+				}
+			}, {
+				"input": {
+					"creatinine": 2.5,
+					"bilirubin": 3.0,
+					"inr": 1.8,
+					"sodium": 135
+				},
+				"output": {
+					"meld_score": -11
+				}
+			}, {
+				"input": {
+					"creatinine": 4.0,
+					"bilirubin": 8.0,
+					"inr": 2.5,
+					"sodium": 128
+				},
+				"output": {
+					"meld_score": -40
+				}
+			}],
+			"ref": {
+				"Optimizing the MELD Score: Incorporating Serum Sodium and Collaborating with the Multicenter Liver Cohort Consortium": "pubmed:34260775",
+				"UNOS Liver Allocation Policy": "https://unos.org/"
+			}
+		},
+		"child_pugh": {
+			"name": "Child-Pugh Score",
+			"input": {
+				"bilirubin": {"label": "Total Bilirubin [mg/dL]", "type": "float", "min": 0, "max": 50},
+				"albumin": {"label": "Serum Albumin [g/dL]", "type": "float", "min": 0, "max": 10},
+				"inr": {"label": "INR", "type": "float", "min": 0.5, "max": 10},
+				"ascites": {
+					"label": "Ascites",
+					"type": "select",
+					"options": [
+						{"value": 1, "label": "Absent"},
+						{"value": 2, "label": "Mild (diuretic-responsive)"},
+						{"value": 3, "label": "Moderate/severe (diuretic-resistant)"}
+					]
+				},
+				"encephalopathy": {
+					"label": "Hepatic Encephalopathy",
+					"type": "select",
+					"options": [
+						{"value": 1, "label": "None"},
+						{"value": 2, "label": "Grade I-II (minimal)"},
+						{"value": 3, "label": "Grade III-IV (overt)"}
+					]
+				}
+			},
+			"output": {
+				"bilirubin_score": {
+					"label": "Bilirubin Score",
+					"formula": "iif(bilirubin < 2.0, 1, bilirubin <= 3.0, 2, 3)"
+				},
+				"albumin_score": {
+					"label": "Albumin Score",
+					"formula": "iif(albumin > 3.5, 1, albumin >= 2.8, 2, 3)"
+				},
+				"inr_score": {
+					"label": "INR Score",
+					"formula": "iif(inr < 1.7, 1, inr <= 2.3, 2, 3)"
+				},
+				"total_score": {
+					"label": "Child-Pugh Score",
+					"formula": "bilirubin_score + albumin_score + inr_score + ascites + encephalopathy"
+				},
+				"class": {
+					"label": "Class",
+					"formula": "iif(total_score <= 6, 'A (5-6)', total_score <= 9, 'B (7-9)', 'C (10-15)')"
+				},
+				"survival_1_year": {
+					"label": "1-Year Survival",
+					"formula": "iif(total_score <= 6, '~100%', total_score <= 9, '~80%', '~45%')"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"formula": "iif(total_score <= 6, 'Well-compensated cirrhosis', total_score <= 9, 'Significant functional impairment', 'Poorly compensated cirrhosis')"
+				}
+			},
+			"test": [{
+				"input": {
+					"bilirubin": 1.2,
+					"albumin": 3.8,
+					"inr": 1.1,
+					"ascites": 1,
+					"encephalopathy": 1
+				},
+				"output": {
+					"total_score": 5,
+					"class": "A (5-6)"
+				}
+			}, {
+				"input": {
+					"bilirubin": 2.5,
+					"albumin": 3.0,
+					"inr": 1.8,
+					"ascites": 2,
+					"encephalopathy": 2
+				},
+				"output": {
+					"total_score": 9,
+					"class": "B (7-9)"
+				}
+			}, {
+				"input": {
+					"bilirubin": 4.0,
+					"albumin": 2.5,
+					"inr": 2.5,
+					"ascites": 3,
+					"encephalopathy": 3
+				},
+				"output": {
+					"total_score": 12,
+					"class": "C (10-15)"
+				}
+			}],
+			"ref": {
+				"Pugh RN, Murray-Lyon IM, Dawson JL, Pietroni MC, Williams R: Transection of the oesophagus for bleeding oesophageal varices. Br J Surg. 1973;60(8):646-9.": "pubmed:4544572",
+				"Child CG, Turcotte JG: Surgery and portal hypertension. In: The Liver and Portal Hypertension. 1964.": ""
+			}
+		},
 			"name": "CCr, eGFR (Adult)",
 			"input": {
 				"weight": {"label": "Weight [kg]", "type": "float", "min": 3, "max": 300},
@@ -1371,6 +1574,260 @@
 			"ref": {
 				"Teasdale G, Jennett B: Lancet. 1974;2(7872):81-83.": "pubmed:4136564",
 				"Wikipedia": "https://en.wikipedia.org/wiki/Glasgow_Coma_Scale"
+			}
+		},
+		"nihss": {
+			"name": "NIH Stroke Scale (NIHSS)",
+			"input": {
+				"loc": {
+					"label": "1a. Level of Consciousness",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Alert"},
+						{"value": 1, "label": "1 - Not fully alert, but arousable"},
+						{"value": 2, "label": "2 - Requires repeated stimulation"},
+						{"value": 3, "label": "3 - Unresponsive"}
+					]
+				},
+				"loc_questions": {
+					"label": "1b. LOC Questions (month, age)",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Answers both correctly"},
+						{"value": 1, "label": "1 - Answers one correctly"},
+						{"value": 2, "label": "2 - Answers none correctly"}
+					]
+				},
+				"loc_commands": {
+					"label": "1c. LOC Commands",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Performs both correctly"},
+						{"value": 1, "label": "1 - Performs one correctly"},
+						{"value": 2, "label": "2 - Performs none correctly"}
+					]
+				},
+				"gaze": {
+					"label": "2. Best Gaze",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Normal"},
+						{"value": 1, "label": "1 - Partial gaze palsy"},
+						{"value": 2, "label": "2 - Forced deviation"}
+					]
+				},
+				"visual": {
+					"label": "3. Visual",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No visual loss"},
+						{"value": 1, "label": "1 - Partial hemianopia"},
+						{"value": 2, "label": "2 - Complete hemianopia"},
+						{"value": 3, "label": "3 - Bilateral hemianopia"}
+					]
+				},
+				"facial_palsy": {
+					"label": "4. Facial Palsy",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Normal symmetrical movement"},
+						{"value": 1, "label": "1 - Minor paralysis (flattened nasolabial fold)"},
+						{"value": 2, "label": "2 - Partial paralysis (lower face)"},
+						{"value": 3, "label": "3 - Complete paralysis of one or both sides"}
+					]
+				},
+				"motor_arm_left": {
+					"label": "5a. Motor Arm - Left",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No drift"},
+						{"value": 1, "label": "1 - Drift, holds position 10 seconds"},
+						{"value": 2, "label": "2 - Some effort against gravity, falls"},
+						{"value": 3, "label": "3 - No effort against gravity, falls"},
+						{"value": 4, "label": "4 - No movement"}
+					]
+				},
+				"motor_arm_right": {
+					"label": "5b. Motor Arm - Right",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No drift"},
+						{"value": 1, "label": "1 - Drift, holds position 10 seconds"},
+						{"value": 2, "label": "2 - Some effort against gravity, falls"},
+						{"value": 3, "label": "3 - No effort against gravity, falls"},
+						{"value": 4, "label": "4 - No movement"}
+					]
+				},
+				"motor_leg_left": {
+					"label": "6a. Motor Leg - Left",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No drift"},
+						{"value": 1, "label": "1 - Drift, holds position 5 seconds"},
+						{"value": 2, "label": "2 - Some effort against gravity, falls"},
+						{"value": 3, "label": "3 - No effort against gravity, falls"},
+						{"value": 4, "label": "4 - No movement"}
+					]
+				},
+				"motor_leg_right": {
+					"label": "6b. Motor Leg - Right",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No drift"},
+						{"value": 1, "label": "1 - Drift, holds position 5 seconds"},
+						{"value": 2, "label": "2 - Some effort against gravity, falls"},
+						{"value": 3, "label": "3 - No effort against gravity, falls"},
+						{"value": 4, "label": "4 - No movement"}
+					]
+				},
+				"limb_ataxia": {
+					"label": "7. Limb Ataxia",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No ataxia"},
+						{"value": 1, "label": "1 - Ataxia in one limb"},
+						{"value": 2, "label": "2 - Ataxia in two or more limbs"}
+					]
+				},
+				"sensory": {
+					"label": "8. Sensory",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Normal"},
+						{"value": 1, "label": "1 - Mild to moderate sensory loss"},
+						{"value": 2, "label": "2 - Severe or total sensory loss"}
+					]
+				},
+				"best_language": {
+					"label": "9. Best Language",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - No aphasia"},
+						{"value": 1, "label": "1 - Mild to moderate aphasia"},
+						{"value": 2, "label": "2 - Severe aphasia"},
+						{"value": 3, "label": "3 - Mute or global aphasia"}
+					]
+				},
+				"dysarthria": {
+					"label": "10. Dysarthria",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Normal"},
+						{"value": 1, "label": "1 - Mild to moderate dysarthria"},
+						{"value": 2, "label": "2 - Severe dysarthria"}
+					]
+				},
+				"extinction_inattention": {
+					"label": "11. Extinction/Inattention",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "0 - Normal"},
+						{"value": 1, "label": "1 - Visual, tactile, auditory, spatial, or personal inattention"},
+						{"value": 2, "label": "2 - Profound hemi-inattention or extinction"}
+					]
+				}
+			},
+			"output": {
+				"motor_arm_total": {
+					"label": "Motor Arm Total (worst of left/right)",
+					"formula": "max(motor_arm_left, motor_arm_right)"
+				},
+				"motor_leg_total": {
+					"label": "Motor Leg Total (worst of left/right)",
+					"formula": "max(motor_leg_left, motor_leg_right)"
+				},
+				"total": {
+					"label": "NIHSS Total Score",
+					"formula": "loc + loc_questions + loc_commands + gaze + visual + facial_palsy + motor_arm_total + motor_leg_total + limb_ataxia + sensory + best_language + dysarthria + extinction_inattention"
+				},
+				"severity": {
+					"label": "Stroke Severity",
+					"formula": "iif(total==0, 'No stroke symptoms', total<=4, 'Minor stroke', total<=15, 'Moderate stroke', total<=20, 'Moderate to severe stroke', 'Severe stroke')"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"text": "0: No symptoms, 1-4: Minor stroke, 5-15: Moderate stroke, 16-20: Moderate to severe stroke, 21-42: Severe stroke"
+				},
+				"prognosis": {
+					"label": "Prognosis",
+					"text": "Higher scores correlate with larger infarct volume, worse outcomes, and higher mortality. Score ≥16 predicts high probability of death or severe disability."
+				}
+			},
+			"test": [{
+				"input": {
+					"loc": 0,
+					"loc_questions": 0,
+					"loc_commands": 0,
+					"gaze": 0,
+					"visual": 0,
+					"facial_palsy": 0,
+					"motor_arm_left": 0,
+					"motor_arm_right": 0,
+					"motor_leg_left": 0,
+					"motor_leg_right": 0,
+					"limb_ataxia": 0,
+					"sensory": 0,
+					"best_language": 0,
+					"dysarthria": 0,
+					"extinction_inattention": 0
+				},
+				"output": {
+					"total": 0,
+					"severity": "No stroke symptoms"
+				}
+			}, {
+				"input": {
+					"loc": 1,
+					"loc_questions": 1,
+					"loc_commands": 0,
+					"gaze": 0,
+					"visual": 0,
+					"facial_palsy": 1,
+					"motor_arm_left": 1,
+					"motor_arm_right": 2,
+					"motor_leg_left": 0,
+					"motor_leg_right": 1,
+					"limb_ataxia": 0,
+					"sensory": 1,
+					"best_language": 0,
+					"dysarthria": 1,
+					"extinction_inattention": 0
+				},
+				"output": {
+					"motor_arm_total": 2,
+					"motor_leg_total": 1,
+					"total": 8,
+					"severity": "Moderate stroke"
+				}
+			}, {
+				"input": {
+					"loc": 2,
+					"loc_questions": 2,
+					"loc_commands": 2,
+					"gaze": 2,
+					"visual": 2,
+					"facial_palsy": 3,
+					"motor_arm_left": 4,
+					"motor_arm_right": 4,
+					"motor_leg_left": 4,
+					"motor_leg_right": 3,
+					"limb_ataxia": 2,
+					"sensory": 2,
+					"best_language": 3,
+					"dysarthria": 2,
+					"extinction_inattention": 2
+				},
+				"output": {
+					"motor_arm_total": 4,
+					"motor_leg_total": 4,
+					"total": 32,
+					"severity": "Severe stroke"
+				}
+			}],
+			"ref": {
+				"Brott T, et al. Stroke. 1989;20(7):864-870.": "pubmed:2732804",
+				"National Institute of Neurological Disorders and Stroke": "https://www.ninds.nih.gov/health-information/patient-caregiver-education/fact-sheets/stroke",
+				"American Stroke Association": "https://www.stroke.org/en/about-stroke/stroke-symptoms/nih-stroke-scale"
 			}
 		}
 	},
