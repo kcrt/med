@@ -1,15 +1,15 @@
-Medical Calculator (医療計算機)
+Medicalculator (医療計算機)
 ======================
 
-Now we are rebuilding the Medical Calculator using modern web technologies.
+Now we are rebuilding the Medicalculator using modern web technologies.
 Current code does not work well!
 Please try `https://github.com/kcrt/med/tree/6a592ee2360f8d80ecf4460efc3b7bd36d6cb957` that works properly.
 
-![Medical Calculator](http://app.kcrt.net/med/startup_1024x748.png)
+![Medicalculator](http://app.kcrt.net/med/startup_1024x748.png)
 
 The old version (jQuery + jQuery Mobile) is available at `https://github.com/kcrt/med/tree/6a592ee2360f8d80ecf4460efc3b7bd36d6cb957`.
 
-The Medical Calculator is an application for performing various medical calculations.
+The Medicalculator is an application for performing various medical calculations.
 While every effort has been made to ensure accuracy, please always refer to the original literature and verify calculations when using this application in clinical practice.
 
 Tech Stack
@@ -28,7 +28,7 @@ Usage
 Web Browser
 ----------------------
 
-A stable version of the [Medical Calculator](http://app.kcrt.net/med/) is hosted at app.kcrt.net.
+A stable version of the [Medicalculator](http://app.kcrt.net/med/) is hosted at app.kcrt.net.
 Access it via your web browser, or on iOS, add it as a Web Clip for convenient access.
 
 Local Development
@@ -72,4 +72,4 @@ This project includes open-source software redistributed under their respective 
 formula.json Syntax
 ----------------------
 
-The Medical Calculator reads formula.json to display items and perform calculations.
+The Medicalculator reads formula.json to display items and perform calculations.
