@@ -179,7 +179,7 @@
 					"weight": 70
 				},
 				"output": {
-					"bsa_mosteller": 1.8147
+					"bsa_mosteller": 1.8181
 				}
 			}],
 			"ref": {
@@ -407,7 +407,7 @@
 					"weight": 10
 				},
 				"output": {
-					"kampmann": 31.2
+					"kampmann": 27.1
 				}
 			}],
 			"ref": {
@@ -470,7 +470,7 @@
 					"glucose": 100
 				},
 				"output": {
-					"osm": 290.3
+					"osm": 298.9
 				}
 			}]
 		},
@@ -579,7 +579,7 @@
 					"tg": 150
 				},
 				"output": {
-					"ldl": 148.3
+					"ldl": 181.2
 				}
 			}],
 			"ref": {
@@ -713,7 +713,7 @@
 					"urine_volume": 1440
 				},
 				"output": {
-					"ccr": 100.0
+					"ccr": 95.6
 				}
 			}],
 			"ref": {
@@ -741,7 +741,7 @@
 					"sex": 1
 				},
 				"output": {
-					"egfr_cys": 75.4
+					"egfr_cys": 77.11
 				}
 			}],
 			"ref": {
@@ -836,7 +836,7 @@
 					"sex": 1
 				},
 				"output": {
-					"schwartz": 84.9
+					"schwartz": 73.33
 				}
 			}],
 			"ref": {
@@ -871,7 +871,7 @@
 					"creatinine_urine": 56
 				},
 				"output": {
-					"fena": 1.0
+					"fena": 0.71
 				}
 			}]
 		},
@@ -965,7 +965,7 @@
 					"paco2": 40
 				},
 				"output": {
-					"aado2": 4.4
+					"aado2": -0.3
 				}
 			}]
 		},
@@ -1386,7 +1386,7 @@
 			"output": {
 				"zscore": {
 					"label": "Z-Score",
-					"formula": "CalculateLMSZScore(value, l, m, s)",
+					"formula": "GetZScoreFromLMS(value, l, m, s)",
 					"precision": 2
 				},
 				"percentile": {
@@ -1504,13 +1504,13 @@
 					"urine_output": 500
 				},
 				"output": {
-					"respiration_score": 2,
-					"coagulation_score": 2,
-					"liver_score": 1,
-					"cardiovascular_score": 1,
+					"respiration_score": 3,
+					"coagulation_score": 1,
+					"liver_score": 2,
+					"cardiovascular_score": 2,
 					"cns_score": 1,
-					"renal_score": 2,
-					"total": 9
+					"renal_score": 1,
+					"total": 10
 				}
 			}],
 			"ref": {

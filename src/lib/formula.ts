@@ -248,12 +248,96 @@ const parser = new Parser({
   },
 });
 
+/**
+ * Calculate Z-score.
+ */
+export function GetZScore(value: number, average: number, sd: number): number {
+  return (value - average) / sd;
+}
+
+/**
+ * Calculate Z-score with formatted string.
+ */
+export function GetZScoreStr(value: number, average: number, sd: number): string {
+  const zscore = GetZScore(value, average, sd).toFixed(2);
+  if (zscore === '0.00' || zscore === '-0.00') {
+    return `${value} ( ±0.00 SD )`;
+  } else if (parseFloat(zscore) > 0) {
+    return `${value} ( +${zscore} SD )`;
+  } else {
+    return `${value} ( ${zscore} SD )`;
+  }
+}
+
+/**
+ * Error function (erf) approximation using Taylor expansion.
+ */
+export function erf(x: number): number {
+  const m = 1.0;
+  let s = 1.0;
+  let sum = x * 1.0;
+  for (let i = 1; i < 50; i++) {
+    const factorial = factorialHelper(i);
+    s *= -1;
+    sum += (s * Math.pow(x, 2.0 * i + 1.0)) / (factorial * (2.0 * i + 1.0));
+  }
+  return (2 * sum) / Math.sqrt(Math.PI);
+}
+
+function factorialHelper(n: number): number {
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}
+
+/**
+ * Get Z-score from LMS parameters.
+ */
+export function GetZScoreFromLMS(value: number, l: number, m: number, s: number): number {
+  if (l === 0) {
+    return Math.log(value / m) / s;
+  } else {
+    return (Math.pow(value / m, l) - 1) / (l * s);
+  }
+}
+
+/**
+ * Get percentile from Z-score using error function.
+ */
+export function GetPercentileFromZScore(sd: number): number {
+  const area = erf(sd / 1.41421356) / 2;
+  return 50 + area * 100;
+}
+
+/**
+ * Get value from Z-score using LMS parameters.
+ */
+export function GetValueFromZScore(zscore: number, l: number, m: number, s: number): number {
+  if (l === 0) {
+    return Math.exp(zscore * s) * m;
+  } else {
+    return Math.pow(zscore * l * s + 1, 1.0 / l) * m;
+  }
+}
+
 // Register custom functions
 parser.functions.iif = iif;
 parser.functions.if = iif; // Alias for compatibility
 parser.functions.BSA_DuBois = BSA_DuBois;
 parser.functions.min = Math.min;
 parser.functions.max = Math.max;
+parser.functions.sqrt = Math.sqrt;
+parser.functions.log = Math.log;
+parser.functions.pow = Math.pow;
+parser.functions.exp = Math.exp;
+parser.functions.GetZScore = GetZScore;
+parser.functions.GetZScoreStr = GetZScoreStr;
+parser.functions.erf = erf;
+parser.functions.GetZScoreFromLMS = GetZScoreFromLMS;
+parser.functions.GetPercentileFromZScore = GetPercentileFromZScore;
+parser.functions.GetValueFromZScore = GetValueFromZScore;
 
 /**
  * Input values for formula evaluation.
