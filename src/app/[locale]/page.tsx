@@ -1,4 +1,12 @@
-import { Button, Container, Title, Text, Stack, Card, Group } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Title,
+  Text,
+  Stack,
+  Card,
+  Group,
+} from "@mantine/core";
 import { useTranslations } from "next-intl";
 
 export default function Home() {

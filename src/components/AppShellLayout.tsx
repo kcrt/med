@@ -31,12 +31,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
     >
       <AppShell.Header>
         <Group h="100%" px="md">
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="sm"
-            size="sm"
-          />
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Link href={`/${locale}`}>
             <Text fw={700} size="xl" style={{ cursor: "pointer" }}>
               {t("title")}

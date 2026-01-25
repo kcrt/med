@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Schema for select option
@@ -13,7 +13,7 @@ export const FormulaSelectOptionSchema = z.object({
  */
 export const FormulaInputSchema = z.object({
   label: z.string(),
-  type: z.enum(['float', 'int', 'string', 'onoff', 'sex', 'date', 'select']),
+  type: z.enum(["float", "int", "string", "onoff", "sex", "date", "select"]),
   min: z.number().optional(),
   max: z.number().optional(),
   default: z.union([z.number(), z.string()]).optional(),
@@ -21,7 +21,7 @@ export const FormulaInputSchema = z.object({
 });
 
 export type FormulaInput = z.infer<typeof FormulaInputSchema>;
-export type FormulaInputType = FormulaInput['type'];
+export type FormulaInputType = FormulaInput["type"];
 export type FormulaSelectOption = z.infer<typeof FormulaSelectOptionSchema>;
 
 /**
@@ -43,8 +43,8 @@ export const FormulaOutputSchema = z.object({
   unit: z.string().optional(),
   precision: z.number().optional(),
   text: z.string().optional(),
-  locales_in: z.array(z.string()).optional(),      // Only show in these locales
-  locales_not_in: z.array(z.string()).optional(),  // Hide in these locales
+  locales_in: z.array(z.string()).optional(), // Only show in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide in these locales
 });
 
 export type FormulaOutput = z.infer<typeof FormulaOutputSchema>;
@@ -129,7 +129,7 @@ export const FormulaDataSchema = z
   .superRefine((data, ctx) => {
     // Validate all other keys as categories
     for (const [key, value] of Object.entries(data)) {
-      if (key === '_meta') continue;
+      if (key === "_meta") continue;
       const categoryResult = FormulaCategorySchema.safeParse(value);
       if (!categoryResult.success) {
         categoryResult.error.issues.forEach((issue) => {
@@ -161,7 +161,9 @@ export type FormulaLanguageMeta = z.infer<typeof FormulaLanguageMetaSchema>;
  */
 const PartialFormulaInputSchema = z.object({
   label: z.string().optional(),
-  type: z.enum(['float', 'int', 'string', 'onoff', 'sex', 'date', 'select']).optional(),
+  type: z
+    .enum(["float", "int", "string", "onoff", "sex", "date", "select"])
+    .optional(),
   min: z.number().optional(),
   max: z.number().optional(),
   default: z.union([z.number(), z.string()]).optional(),
@@ -225,8 +227,10 @@ export const FormulaLanguageOverrideSchema = z
   .loose()
   .superRefine((data, ctx) => {
     for (const [key, value] of Object.entries(data)) {
-      if (key === '_meta') continue;
-      const categoryResult = z.record(z.string(), PartialFormulaSchema).safeParse(value);
+      if (key === "_meta") continue;
+      const categoryResult = z
+        .record(z.string(), PartialFormulaSchema)
+        .safeParse(value);
 
       if (!categoryResult.success) {
         categoryResult.error.issues.forEach((issue) => {
@@ -239,4 +243,6 @@ export const FormulaLanguageOverrideSchema = z
     }
   });
 
-export type FormulaLanguageOverride = z.infer<typeof FormulaLanguageOverrideSchema>;
+export type FormulaLanguageOverride = z.infer<
+  typeof FormulaLanguageOverrideSchema
+>;
