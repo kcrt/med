@@ -1,0 +1,285 @@
+{
+  "osmotic_pressure": {
+    "name": "Osmotic Pressure",
+    "input": {
+      "na": {
+        "label": "Na [mEq/L]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "k": {
+        "label": "K [mEq/L]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "bun": {
+        "label": "BUN [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "glucose": {
+        "label": "Glucose [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 3000
+      }
+    },
+    "output": {
+      "osm": {
+        "label": "Plasma Osmolarity [mOsm/kg]",
+        "formula": "2*(na+k)+glucose/18+bun/2.8",
+        "precision": 1
+      },
+      "reference": {
+        "label": "Reference [mOsm/kg]",
+        "text": "285-295"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "na": 140,
+          "k": 4,
+          "bun": 15,
+          "glucose": 100
+        },
+        "output": {
+          "osm": 298.9
+        }
+      }
+    ]
+  },
+  "homa": {
+    "name": "HOMA-IR, HOMA-β",
+    "input": {
+      "fpg": {
+        "label": "Fasting Plasma Glucose [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 800
+      },
+      "iri": {
+        "label": "Fasting Immunoreactive Insulin [μU/mL]",
+        "type": "float",
+        "min": 0,
+        "max": 100
+      }
+    },
+    "output": {
+      "homa_ir": {
+        "label": "HOMA-IR (Insulin Resistance)",
+        "formula": "iri*fpg/405",
+        "precision": 2
+      },
+      "homa_ir_ref": {
+        "label": "HOMA-IR Reference",
+        "text": "≤1.6, ≥2.5 indicates insulin resistance"
+      },
+      "homa_beta": {
+        "label": "HOMA-β (β-cell function)",
+        "formula": "iri*360/(fpg-63)",
+        "precision": 1
+      },
+      "homa_beta_ref": {
+        "label": "HOMA-β Reference [%]",
+        "text": "40-60%, ≤30% indicates decreased secretion"
+      },
+      "quicki": {
+        "label": "QUICKI (Insulin Sensitivity)",
+        "formula": "1/((log(fpg) + log(iri))/log(10))",
+        "precision": 3
+      },
+      "quicki_ref": {
+        "label": "QUICKI Reference",
+        "text": "<0.3: resistance, 0.348-0.430: normal, ≥3.0: high sensitivity (type 1 DM)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "fpg": 100,
+          "iri": 10
+        },
+        "output": {
+          "homa_ir": 2.47
+        }
+      }
+    ],
+    "ref": {
+      "J Clin Endocrinol Metab. 2000 Jul;85(7):2402-10.": "pubmed:10902785"
+    }
+  },
+  "friedewald": {
+    "name": "LDL Cholesterol (Friedewald Equation)",
+    "input": {
+      "tc": {
+        "label": "Total Cholesterol [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "hdl": {
+        "label": "HDL Cholesterol [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "tg": {
+        "label": "Triglycerides [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "output": {
+      "ldl": {
+        "label": "LDL Cholesterol [mg/dL]",
+        "formula": "tc-hdl-tg/5",
+        "precision": 1
+      },
+      "warning": {
+        "label": "Caution",
+        "text": "If TG ≥400 mg/dL, measure LDL directly"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "tc": 220,
+          "hdl": 50,
+          "tg": 150
+        },
+        "output": {
+          "ldl": 140
+        }
+      }
+    ],
+    "ref": {
+      "Friedewald WT: Clin Chem. 1972 Jun;18(6):499-502.": "pubmed:4337382"
+    }
+  },
+  "sampson_nih": {
+    "name": "LDL Cholesterol (Sampson-NIH Equation)",
+    "input": {
+      "tc": {
+        "label": "Total Cholesterol [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "hdl": {
+        "label": "HDL Cholesterol [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "tg": {
+        "label": "Triglycerides [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "output": {
+      "ldl": {
+        "label": "LDL Cholesterol [mg/dL]",
+        "formula": "tc/0.948-hdl/0.971-tg/18+9",
+        "precision": 1
+      },
+      "note": {
+        "label": "Note",
+        "text": "Valid for TG < 800 mg/dL; more accurate than Friedewald at low LDL-C and high TG"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "tc": 220,
+          "hdl": 50,
+          "tg": 150
+        },
+        "output": {
+          "ldl": 181.2
+        }
+      }
+    ],
+    "ref": {
+      "Sampson M, et al: J Am Coll Cardiol. 2020;75(7):739-743.": "doi:10.1016/j.jacc.2019.12.044",
+      "Improved estimation of LDL-C from Friedewald formula: A database-based study.": "pubmed:32078676"
+    }
+  },
+  "igf1_zscore": {
+    "name": "IGF-1 Z-Score",
+    "input": {
+      "age": {
+        "label": "Age [years]",
+        "type": "float",
+        "min": 0,
+        "max": 77
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      },
+      "igf1": {
+        "label": "IGF-1 [ng/mL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "method": {
+        "label": "Assay Method",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "IGF-I IRMA 'Daiichi'"
+          },
+          {
+            "value": 2,
+            "label": "Somatomedin-C II 'Bayer'"
+          }
+        ]
+      }
+    },
+    "output": {
+      "igf1_corrected": {
+        "label": "IGF-1 Corrected [ng/mL]",
+        "formula": "method == 1 ? igf1 : 18.03 + 0.822 * igf1",
+        "precision": 1
+      },
+      "zscore": {
+        "label": "Z-Score",
+        "formula": "CalculateIGF1ZScore(igf1_corrected, age, sex)",
+        "precision": 2
+      },
+      "percentile": {
+        "label": "Percentile",
+        "formula": "CalculatePercentileFromZScore(zscore)",
+        "precision": 1
+      },
+      "minus_2sd": {
+        "label": "-2SD [ng/mL]",
+        "formula": "CalculateIGF1ValueFromZScore(-2, age, sex)",
+        "precision": 1
+      },
+      "mean": {
+        "label": "Mean [ng/mL]",
+        "formula": "CalculateIGF1ValueFromZScore(0, age, sex)",
+        "precision": 1
+      },
+      "plus_2sd": {
+        "label": "+2SD [ng/mL]",
+        "formula": "CalculateIGF1ValueFromZScore(2, age, sex)",
+        "precision": 1
+      }
+    },
+    "ref": {
+      "成長ホルモン及びIGF-Ⅰ測定の標準化に関する研究": "http://www.fgs.or.jp/public/05/2008_03.html",
+      "Isojima T et al. Standardized centile curves and reference intervals of serum insulin-like growth factor-I ( IGF-I ) levels in a normal Japanese population using the LMS method 2012;59(9):771–80.": "pubmed:22673406"
+    }
+  }
+}

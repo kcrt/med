@@ -1,0 +1,309 @@
+{
+  "bmi_adult": {
+    "name": "BMI (Adult)",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 30,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 3,
+        "max": 300
+      }
+    },
+    "output": {
+      "BMI": {
+        "label": "BMI",
+        "formula": "weight/(height/100)/(height/100)",
+        "unit": "kg/m²",
+        "precision": 1
+      },
+      "who": {
+        "label": "WHO (World Health Organization)",
+        "text": "≥25: overweight, ≥30: obese"
+      },
+      "who_diag": {
+        "label": "WHO (World Health Organization)",
+        "formula": "iif(BMI>=30, 'obese', BMI>=25, 'overweight', 'normal')"
+      },
+      "jasso": {
+        "label": "Japan Society for the Study of Obesity",
+        "text": "Japan-specific BMI categories",
+        "locales_in": [
+          "ja"
+        ]
+      },
+      "jasso_diag": {
+        "label": "JASSO Diagnosis",
+        "formula": "iif(BMI<18.5, 'Underweight', BMI<25, 'Normal', 'Obese')",
+        "locales_in": [
+          "ja"
+        ]
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 170,
+          "weight": 70
+        },
+        "output": {
+          "BMI": 24.2,
+          "who_diag": "normal",
+          "jasso_diag": "Normal"
+        }
+      }
+    ],
+    "ref": {
+      "Wikipedia": "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"
+    }
+  },
+  "bmi_child": {
+    "name": "BMI (Child)",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      }
+    },
+    "output": {
+      "kaup": {
+        "label": "Kaup Index",
+        "formula": "weight/(height/100)/(height/100)",
+        "unit": "kg/m²",
+        "precision": 1
+      },
+      "info1": {
+        "label": "Infants (3 months+)",
+        "text": "Normal range: 15-18"
+      },
+      "kaup_diag": {
+        "label": "Infants (3 months+)",
+        "formula": "if(kaup>=15 and kaup<=18, 'Normal range', 'Outside normal range')"
+      },
+      "rohrer": {
+        "label": "Rohrer Index",
+        "formula": "weight/((height/100)*(height/100)*(height/100))*10",
+        "unit": "",
+        "precision": 1
+      },
+      "info2": {
+        "label": "School-age children",
+        "text": "Standard: 130, ≥160 indicates obesity"
+      },
+      "rohrer_diag": {
+        "label": "School-age children",
+        "formula": "iif(rohrer<130, 'Underweight', rohrer<160, 'Standard', 'Obese')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 80,
+          "weight": 10
+        },
+        "output": {
+          "kaup": 15.6,
+          "kaup_diag": "Normal range",
+          "rohrer": 195.3,
+          "rohrer_diag": "Obese"
+        }
+      }
+    ],
+    "ref": {
+      "Wikipedia": "http://ja.wikipedia.org/wiki/%E4%BD%93%E6%A0%BC%E6%8C%87%E6%95%B0"
+    }
+  },
+  "target_height": {
+    "name": "Target Height",
+    "input": {
+      "father_height": {
+        "label": "Father's Height [cm]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      },
+      "mother_height": {
+        "label": "Mother's Height [cm]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "target_height": {
+        "label": "Target Height [cm]",
+        "formula": "sex ? (father_height+mother_height+13)/2 : (father_height-13+mother_height)/2",
+        "precision": 1
+      },
+      "target_range_min": {
+        "label": "Target Range Min [cm]",
+        "formula": "sex ? target_height - 9 : target_height - 8",
+        "precision": 1
+      },
+      "target_range_max": {
+        "label": "Target Range Max [cm]",
+        "formula": "sex ? target_height + 9 : target_height + 8",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "father_height": 175,
+          "mother_height": 160,
+          "sex": 1
+        },
+        "output": {
+          "target_height": 174
+        }
+      }
+    ],
+    "ref": {
+      "Clinical pediatric endocrinology 16(4), 85-87, 2007-10": "https://www.jstage.jst.go.jp/article/cpe/16/4/16_4_85/_pdf"
+    }
+  },
+  "bsa": {
+    "name": "Body Surface Area",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      }
+    },
+    "output": {
+      "bsa_dubois": {
+        "label": "BSA (m²) Du Bois",
+        "formula": "BSA_DuBois(height, weight)",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_takahira": {
+        "label": "BSA (m²) Takahira",
+        "formula": "0.007246 * weight ^ 0.425 * height ^ 0.725",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_mosteller": {
+        "label": "BSA (m²) Mosteller",
+        "formula": "sqrt(height * weight / 3600)",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_fujimoto_0": {
+        "label": "BSA (m²) Fujimoto (0 years)",
+        "formula": "95.68 * weight ^ 0.473 * height ^ 0.655 / 10000",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_fujimoto_1_5": {
+        "label": "BSA (m²) Fujimoto (1-5 years)",
+        "formula": "381.89 * weight ^ 0.423 * height ^ 0.362 / 10000",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_fujimoto_6": {
+        "label": "BSA (m²) Fujimoto (6+ years)",
+        "formula": "88.83 * weight ^ 0.444 * height ^ 0.663 / 10000",
+        "unit": "m²",
+        "precision": 4
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 170,
+          "weight": 70
+        },
+        "output": {
+          "bsa_mosteller": 1.8181
+        }
+      }
+    ],
+    "ref": {
+      "Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pubmed:2520314",
+      "Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876",
+      "藤本ら (1968), 日本衛生学雑誌 23(5):7-14": ""
+    }
+  },
+  "postconceptional_days": {
+    "name": "Postconceptional Days",
+    "input": {
+      "edc": {
+        "label": "Expected Date of Confinement",
+        "type": "date"
+      },
+      "target_date": {
+        "label": "Target Date",
+        "type": "date",
+        "default": "today"
+      }
+    },
+    "output": {
+      "_edc_d": {
+        "label": "hidden",
+        "formula": "(target_date-edc) / (24*60*60)"
+      },
+      "_pca_d": {
+        "label": "hidden",
+        "formula": "_edc_d + (40*7)"
+      },
+      "_edcmonth": {
+        "label": "hidden",
+        "formula": "floor(_edc_d/365*12)"
+      },
+      "postconceptional_days": {
+        "label": "Postconceptional Days",
+        "formula": "_pca_d",
+        "unit": "days",
+        "precision": 0
+      },
+      "postconceptional_age": {
+        "label": "Postconceptional Age",
+        "formula": "(_pca_d/7 < 1 || _pca_d/7 > 44) ? '-' : concat(floor(_pca_d/7), ' weeks ', (_pca_d % 7), ' days')"
+      },
+      "corrected_age": {
+        "label": "Corrected Age",
+        "formula": "(_edc_d < 0) ? '-' : concat(_edcmonth, ' months ', floor(_edc_d-floor(_edcmonth*365/12)), ' days')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "edc": 1705276800,
+          "target_date": 1705276800
+        },
+        "output": {
+          "postconceptional_days": 280
+        }
+      }
+    ],
+    "ref": {
+      "Standard obstetric calculation": ""
+    }
+  }
+}

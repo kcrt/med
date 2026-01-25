@@ -1,0 +1,524 @@
+{
+  "aado2": {
+    "name": "A-aDO₂",
+    "input": {
+      "fio2": {
+        "label": "FiO₂",
+        "type": "float",
+        "min": 0,
+        "max": 1
+      },
+      "pao2": {
+        "label": "PaO₂ [mmHg]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "paco2": {
+        "label": "PaCO₂ [mmHg]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "output": {
+      "aado2": {
+        "label": "A-aDO₂",
+        "formula": "(760-47)*fio2-paco2/0.8-pao2",
+        "precision": 1
+      },
+      "reference": {
+        "label": "Reference",
+        "text": "Normal: ≤10"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "fio2": 0.21,
+          "pao2": 100,
+          "paco2": 40
+        },
+        "output": {
+          "aado2": -0.3
+        }
+      }
+    ]
+  },
+  "psi": {
+    "name": "Pneumonia Severity Index (PSI)",
+    "input": {
+      "age": {
+        "label": "Age [years]",
+        "type": "float",
+        "min": 0,
+        "max": 150
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      },
+      "nursing_home": {
+        "label": "Nursing Home Resident",
+        "type": "onoff"
+      },
+      "neoplastic": {
+        "label": "Malignancy",
+        "type": "onoff"
+      },
+      "liver": {
+        "label": "Liver Disease",
+        "type": "onoff"
+      },
+      "congestive_hf": {
+        "label": "Congestive Heart Failure",
+        "type": "onoff"
+      },
+      "cerebrovascular": {
+        "label": "Cerebrovascular Disease",
+        "type": "onoff"
+      },
+      "renal": {
+        "label": "Renal Disease",
+        "type": "onoff"
+      },
+      "altered_mental": {
+        "label": "Altered Mental Status",
+        "type": "onoff"
+      },
+      "pulse_gt_125": {
+        "label": "Pulse ≥125 bpm",
+        "type": "onoff"
+      },
+      "rr_gt_30": {
+        "label": "Respiratory Rate >30 bpm",
+        "type": "onoff"
+      },
+      "sbp_lt_90": {
+        "label": "Systolic BP <90 mmHg",
+        "type": "onoff"
+      },
+      "temp_abnormal": {
+        "label": "Temperature <35°C or ≥40°C",
+        "type": "onoff"
+      },
+      "ph_lt_7_35": {
+        "label": "Arterial pH <7.35",
+        "type": "onoff"
+      },
+      "bun_ge_30": {
+        "label": "BUN ≥30 mg/dL",
+        "type": "onoff"
+      },
+      "na_lt_130": {
+        "label": "Na <130 mEq/L",
+        "type": "onoff"
+      },
+      "glucose_ge_250": {
+        "label": "Glucose ≥250 mg/dL",
+        "type": "onoff"
+      },
+      "hematocrit_lt_30": {
+        "label": "Ht <30%",
+        "type": "onoff"
+      },
+      "pao2_lt_60": {
+        "label": "PaO₂ <60 mmHg",
+        "type": "onoff"
+      },
+      "pleural_effusion": {
+        "label": "Pleural Effusion",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "(sex ? age : age - 10) + nursing_home*10 + neoplastic*30 + liver*20 + congestive_hf*10 + cerebrovascular*10 + renal*10 + altered_mental*20 + pulse_gt_125*20 + rr_gt_30*20 + sbp_lt_90*15 + temp_abnormal*10 + ph_lt_7_35*30 + bun_ge_30*20 + na_lt_130*20 + glucose_ge_250*10 + hematocrit_lt_30*10 + pao2_lt_60*10 + pleural_effusion*10"
+      },
+      "class": {
+        "label": "Class",
+        "formula": "CalculatePSIClass(age, altered_mental, pulse_gt_125, rr_gt_30, sbp_lt_90, temp_abnormal, neoplastic, congestive_hf, cerebrovascular, renal, liver, score)"
+      },
+      "mortality": {
+        "label": "Mortality (PORT Study) [%]",
+        "formula": "CalculatePSIMortality(class)"
+      }
+    },
+    "ref": {
+      "Wikipedia": "http://en.wikipedia.org/wiki/Pneumonia_severity_index"
+    }
+  },
+  "adrop": {
+    "name": "A-DROP Score",
+    "input": {
+      "age": {
+        "label": "Age (Male ≥70 / Female ≥75)",
+        "type": "onoff"
+      },
+      "dehydration": {
+        "label": "BUN ≥21 or Dehydration",
+        "type": "onoff"
+      },
+      "respiratory_failure": {
+        "label": "SpO₂≤90% (PaO₂≤60 Torr)",
+        "type": "onoff"
+      },
+      "orientation": {
+        "label": "Disturbance of Consciousness",
+        "type": "onoff"
+      },
+      "pressure": {
+        "label": "sBP≤90 mmHg",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "count": {
+        "label": "Count",
+        "formula": "age + dehydration + respiratory_failure + orientation + pressure"
+      },
+      "judgment": {
+        "label": "Judgment",
+        "formula": "iif(count==0, 'Outpatient', count<=2, 'Outpatient or Hospitalization', count==3, 'Hospitalization', 'ICU admission')"
+      },
+      "note": {
+        "label": "Note",
+        "text": "If shock present, consider severe regardless of count"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age": 1,
+          "dehydration": 0,
+          "respiratory_failure": 1,
+          "orientation": 0,
+          "pressure": 0
+        },
+        "output": {
+          "count": 2
+        }
+      }
+    ],
+    "ref": {
+      "Japanese Respiratory Society": ""
+    }
+  },
+  "venous_to_arterial_blood_gas": {
+    "name": "Central Venous to Arterial Blood Gas",
+    "input": {
+      "ph": {
+        "label": "pH",
+        "type": "float",
+        "min": 5,
+        "max": 9
+      },
+      "pvco2": {
+        "label": "pvCO₂ [mmHg]",
+        "type": "float",
+        "min": 0,
+        "max": 200
+      },
+      "pvhco3": {
+        "label": "pvHCO₃⁻ [mEq/L]",
+        "type": "float",
+        "min": 0,
+        "max": 80
+      }
+    },
+    "output": {
+      "arterial_ph": {
+        "label": "Arterial pH",
+        "formula": "-0.307 + 1.05 * ph",
+        "precision": 2
+      },
+      "paco2": {
+        "label": "paCO₂ [mmHg]",
+        "formula": "0.805 + 0.936 * pvco2",
+        "precision": 1
+      },
+      "Pahco3": {
+        "label": "paHCO₃⁻ [mEq/L]",
+        "formula": "0.513 + 0.94 * pvhco3",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "ph": 7.4,
+          "pvco2": 45,
+          "pvhco3": 24
+        },
+        "output": {
+          "arterial_ph": 7.46,
+          "paco2": 42.9,
+          "Pahco3": 23.1
+        }
+      }
+    ],
+    "ref": {
+      "Agreement between central venous and arterial blood gas measurements in the intensive care unit.": "doi:10.2215/CJN.00330109"
+    }
+  },
+  "curb65": {
+    "name": "CURB-65 Score",
+    "input": {
+      "confusion": {
+        "label": "Confusion (new onset)",
+        "type": "onoff"
+      },
+      "urea": {
+        "label": "BUN >20 mg/dL (or Urea >7 mmol/L)",
+        "type": "onoff"
+      },
+      "respiratory_rate": {
+        "label": "Respiratory Rate ≥30/min",
+        "type": "onoff"
+      },
+      "blood_pressure": {
+        "label": "SBP <90 or DBP ≤60 mmHg",
+        "type": "onoff"
+      },
+      "age_65": {
+        "label": "Age ≥65 years",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "CURB-65 Score",
+        "formula": "confusion + urea + respiratory_rate + blood_pressure + age_65"
+      },
+      "mortality": {
+        "label": "30-day Mortality",
+        "formula": "iif(score==0, '0.7%', score==1, '3.2%', score==2, '13.0%', score==3, '17.0%', score==4, '41.5%', '57.0%')"
+      },
+      "recommendation": {
+        "label": "Recommendation",
+        "formula": "iif(score<=1, 'Outpatient treatment', score<=2, 'Consider short hospitalization', 'Hospitalization, consider ICU if score ≥4')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "confusion": 0,
+          "urea": 0,
+          "respiratory_rate": 1,
+          "blood_pressure": 0,
+          "age_65": 1
+        },
+        "output": {
+          "score": 2,
+          "mortality": "13.0%"
+        }
+      }
+    ],
+    "ref": {
+      "Lim WS, et al. Thorax. 2003;58(5):377-82.": "pubmed:12728155"
+    }
+  },
+  "bode_index": {
+    "name": "BODE Index (COPD)",
+    "input": {
+      "fev1_percent": {
+        "label": "FEV1 (% predicted)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "≥65%"
+          },
+          {
+            "value": 1,
+            "label": "50-64%"
+          },
+          {
+            "value": 2,
+            "label": "36-49%"
+          },
+          {
+            "value": 3,
+            "label": "≤35%"
+          }
+        ]
+      },
+      "distance_6mwt": {
+        "label": "6-Minute Walk Distance",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "≥350 meters"
+          },
+          {
+            "value": 1,
+            "label": "250-349 meters"
+          },
+          {
+            "value": 2,
+            "label": "150-249 meters"
+          },
+          {
+            "value": 3,
+            "label": "<150 meters"
+          }
+        ]
+      },
+      "mmrc": {
+        "label": "mMRC Dyspnea Scale",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-1 (Not troubled/short of breath when hurrying)"
+          },
+          {
+            "value": 1,
+            "label": "2 (Walks slower than peers)"
+          },
+          {
+            "value": 2,
+            "label": "3 (Stops after ~100m)"
+          },
+          {
+            "value": 3,
+            "label": "4 (Too breathless to leave house)"
+          }
+        ]
+      },
+      "bmi": {
+        "label": "BMI",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": ">21"
+          },
+          {
+            "value": 1,
+            "label": "≤21"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "BODE Index",
+        "formula": "fev1_percent + distance_6mwt + mmrc + bmi"
+      },
+      "quartile": {
+        "label": "Quartile",
+        "formula": "iif(score<=2, 'Q1 (0-2)', score<=4, 'Q2 (3-4)', score<=6, 'Q3 (5-6)', 'Q4 (7-10)')"
+      },
+      "mortality_4year": {
+        "label": "4-year Mortality",
+        "formula": "iif(score<=2, '~19%', score<=4, '~32%', score<=6, '~36%', '~80%')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "fev1_percent": 2,
+          "distance_6mwt": 1,
+          "mmrc": 2,
+          "bmi": 0
+        },
+        "output": {
+          "score": 5,
+          "quartile": "Q3 (5-6)"
+        }
+      }
+    ],
+    "ref": {
+      "Celli BR, et al. N Engl J Med. 2004;350(10):1005-12.": "pubmed:14999112"
+    }
+  },
+  "gold_copd": {
+    "name": "GOLD COPD Classification",
+    "input": {
+      "fev1_percent": {
+        "label": "FEV1/FVC <0.7 and FEV1 (% predicted)",
+        "type": "select",
+        "options": [
+          {
+            "value": 1,
+            "label": "GOLD 1: FEV1 ≥80%"
+          },
+          {
+            "value": 2,
+            "label": "GOLD 2: 50% ≤ FEV1 <80%"
+          },
+          {
+            "value": 3,
+            "label": "GOLD 3: 30% ≤ FEV1 <50%"
+          },
+          {
+            "value": 4,
+            "label": "GOLD 4: FEV1 <30%"
+          }
+        ]
+      },
+      "exacerbations": {
+        "label": "Exacerbations in past year",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-1 (not leading to hospitalization)"
+          },
+          {
+            "value": 1,
+            "label": "≥2 or ≥1 leading to hospitalization"
+          }
+        ]
+      },
+      "symptoms": {
+        "label": "Symptoms (mMRC or CAT)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Low symptoms (mMRC 0-1, CAT <10)"
+          },
+          {
+            "value": 1,
+            "label": "High symptoms (mMRC ≥2, CAT ≥10)"
+          }
+        ]
+      }
+    },
+    "output": {
+      "grade": {
+        "label": "GOLD Grade",
+        "formula": "fev1_percent"
+      },
+      "group": {
+        "label": "GOLD Group (ABE)",
+        "formula": "iif(exacerbations==0 and symptoms==0, 'Group A', exacerbations==0 and symptoms==1, 'Group B', 'Group E')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Group A: Low risk, fewer symptoms. Group B: Low risk, more symptoms. Group E: High risk (≥2 exacerbations or ≥1 hospitalization)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "fev1_percent": 2,
+          "exacerbations": 0,
+          "symptoms": 1
+        },
+        "output": {
+          "grade": 2,
+          "group": "Group B"
+        }
+      }
+    ],
+    "ref": {
+      "GOLD 2023 Report": "https://goldcopd.org/",
+      "Global Strategy for the Diagnosis, Management, and Prevention of COPD": "https://goldcopd.org/2023-gold-report-2/"
+    }
+  }
+}

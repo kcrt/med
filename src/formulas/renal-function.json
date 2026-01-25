@@ -1,0 +1,593 @@
+{
+  "ccr_adult": {
+    "name": "CCr, eGFR (Adult)",
+    "input": {
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 3,
+        "max": 300
+      },
+      "age": {
+        "label": "Age [years]",
+        "type": "float",
+        "min": 17,
+        "max": 100
+      },
+      "scr": {
+        "label": "Serum Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.001,
+        "max": 20
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "cockcroft": {
+        "label": "CCr [mL/min] (Cockcroft-Gault)",
+        "formula": "sex==1 ? ((140-age) * weight) / (72 * scr) : (((140-age) * weight) / (72 * scr)) * 0.85",
+        "precision": 2
+      },
+      "mdrd_original": {
+        "label": "GFR [mL/min/1.73m²] (MDRD original)",
+        "formula": "sex==1 ? 186 * age ^ -0.203 * scr ^ -1.154 : (186 * age ^ -0.203 * scr ^ -1.154) * 0.742",
+        "precision": 2
+      },
+      "mdrd_japanese": {
+        "label": "GFR [mL/min/1.73m²] (Japanese MDRD)",
+        "formula": "sex==1 ? 175 * age ^ -0.203 * scr ^ -1.154 * 0.741 : (175 * age ^ -0.203 * scr ^ -1.154) * 0.741 * 0.742",
+        "precision": 2
+      },
+      "egfr": {
+        "label": "GFR [mL/min/1.73m²] (Japanese eGFR equation)",
+        "formula": "sex==1 ? 194 * age ^ -0.287 * scr ^ -1.094 : (194 * age ^ -0.287 * scr ^ -1.094) * 0.739",
+        "precision": 2
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "weight": 70,
+          "age": 50,
+          "scr": 1,
+          "sex": 1
+        },
+        "output": {
+          "cockcroft": 87.5
+        }
+      }
+    ],
+    "ref": {
+      "Cockcroft DW, Gault MH": "",
+      "MDRD Study Group": "",
+      "Japanese eGFR equation": ""
+    }
+  },
+  "ccr_measured": {
+    "name": "CCr from Serum/Urine Creatinine",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      },
+      "urine_cr": {
+        "label": "Urine Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.001,
+        "max": 1000
+      },
+      "serum_cr": {
+        "label": "Serum Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.001,
+        "max": 100
+      },
+      "urine_volume": {
+        "label": "24h Urine Volume [mL/day]",
+        "type": "float",
+        "min": 1,
+        "max": 50000
+      }
+    },
+    "output": {
+      "ccr": {
+        "label": "CCr [mL/min/1.73m²]",
+        "formula": "urine_cr * (urine_volume/24/60) / serum_cr * 1.73 / BSA_DuBois(height, weight)",
+        "precision": 2
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 170,
+          "weight": 70,
+          "urine_cr": 100,
+          "serum_cr": 1,
+          "urine_volume": 1440
+        },
+        "output": {
+          "ccr": 95.6
+        }
+      }
+    ],
+    "ref": {
+      "Wikipedia": "http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%82%A2%E3%83%81%E3%83%8B%E3%83%B3%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%A9%E3%83%B3%E3%82%B9"
+    }
+  },
+  "cystatin_c_age": {
+    "name": "eGFR from Cystatin C and Age (18+)",
+    "input": {
+      "cystatin_c": {
+        "label": "Serum Cystatin C [mg/L]",
+        "type": "float",
+        "min": 0,
+        "max": 100
+      },
+      "age": {
+        "label": "Age [years]",
+        "type": "float",
+        "min": 0,
+        "max": 100
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "egfr_cys": {
+        "label": "eGFRcys [mL/min/1.73m²]",
+        "formula": "(104 * cystatin_c ^ -1.019 * 0.996 ^ age * (sex ? 1 : 0.929)) - 8",
+        "precision": 2
+      }
+    },
+    "assert": [
+      {
+        "condition": "age >= 18",
+        "message": "This formula is for age 18 and older"
+      }
+    ],
+    "test": [
+      {
+        "input": {
+          "cystatin_c": 1,
+          "age": 50,
+          "sex": 1
+        },
+        "output": {
+          "egfr_cys": 77.11
+        }
+      }
+    ],
+    "ref": {
+      "CKD診療ガイドライン2018": "https://cdn.jsn.or.jp/data/CKD2018.pdf"
+    }
+  },
+  "cystatin_c": {
+    "name": "eGFR from Cystatin C",
+    "input": {
+      "cystatin_c": {
+        "label": "Serum Cystatin C [mg/L]",
+        "type": "float",
+        "min": 0,
+        "max": 100
+      }
+    },
+    "output": {
+      "hoek": {
+        "label": "eGFR [mL/min/1.73m²] (Hoek)",
+        "formula": "80.35/cystatin_c-4.32",
+        "precision": 2
+      },
+      "grubb_adult": {
+        "label": "eGFR [mL/min/1.73m²] (Grubb 14+ years)",
+        "formula": "84.69 * cystatin_c ^ -1.680",
+        "precision": 2
+      },
+      "grubb_child": {
+        "label": "eGFR [mL/min/1.73m²] (Grubb <14 years)",
+        "formula": "84.69 * cystatin_c ^ -1.680 * 1.384",
+        "precision": 2
+      },
+      "filler": {
+        "label": "eGFR [mL/min/1.73m²] (Filler; pediatric)",
+        "formula": "91.62 * cystatin_c ^ -1.123",
+        "precision": 2
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "cystatin_c": 1
+        },
+        "output": {
+          "hoek": 76.03
+        }
+      }
+    ],
+    "ref": {
+      "Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "pubmed:13679476",
+      "Nephrol Dial Transplant. 2008 Jan;23(1):154-60. Epub 2007 Oct 2.": "pubmed:17911090"
+    }
+  },
+  "ccr_child": {
+    "name": "eGFR (Child)",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 3,
+        "max": 300
+      },
+      "scr": {
+        "label": "Serum Creatinine (enzymatic) [mg/dL]",
+        "type": "float",
+        "min": 0.001,
+        "max": 20
+      },
+      "k": {
+        "label": "Age Constant k",
+        "type": "select",
+        "options": [
+          {
+            "value": 0.33,
+            "label": "Low birth weight infant"
+          },
+          {
+            "value": 0.45,
+            "label": "Normal birth weight infant"
+          },
+          {
+            "value": 0.55,
+            "label": "2-12 years or Female (13-21 years)"
+          },
+          {
+            "value": 0.7,
+            "label": "Male (13-21 years)"
+          }
+        ]
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "schwartz": {
+        "label": "eGFR [mL/min/1.73m²] (Schwartz)",
+        "formula": "k*height/(scr+0.2)",
+        "precision": 2
+      },
+      "schwartz_2009": {
+        "label": "eGFR [mL/min/1.73m²] (Schwartz 2009; 7.7-14.3y)",
+        "formula": "0.413 * height / scr",
+        "precision": 2
+      },
+      "japanese_child": {
+        "label": "eGFR [mL/min/1.73m²] (Japanese child equation; 2-19y)",
+        "formula": "CalculateJapaneseChildeGFR(height, scr, sex)",
+        "precision": 2
+      }
+    },
+    "assert": [
+      {
+        "condition": "not (k == 0.7 and sex == 0)",
+        "message": "Male (13-21 years) k value cannot be selected with Female sex"
+      }
+    ],
+    "test": [
+      {
+        "input": {
+          "height": 120,
+          "scr": 0.7,
+          "k": 0.55,
+          "sex": 1
+        },
+        "output": {
+          "schwartz": 73.33
+        }
+      }
+    ],
+    "ref": {
+      "Minds": "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142",
+      "New Equations to Estimate GFR in Children with CKD": "pubmed:19158356"
+    }
+  },
+  "fena": {
+    "name": "FENa Calculation",
+    "input": {
+      "sodium_serum": {
+        "label": "Serum Na [mEq/L]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "creatinine_serum": {
+        "label": "Serum Cre [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "sodium_urine": {
+        "label": "Urine Na [mEq/L]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "creatinine_urine": {
+        "label": "Urine Cre [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "output": {
+      "fena": {
+        "label": "FENa [%]",
+        "formula": "(sodium_urine*creatinine_serum)/(sodium_serum*creatinine_urine)*100",
+        "precision": 2
+      },
+      "reference": {
+        "label": "Reference",
+        "text": "Normal: <1%, Renal failure: >1%"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "sodium_serum": 140,
+          "creatinine_serum": 1,
+          "sodium_urine": 56,
+          "creatinine_urine": 56
+        },
+        "output": {
+          "fena": 0.71
+        }
+      }
+    ]
+  },
+  "trp": {
+    "name": "%TRP Calculation",
+    "input": {
+      "phosphate_serum": {
+        "label": "Serum P [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "creatinine_serum": {
+        "label": "Serum Cre [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "phosphate_urine": {
+        "label": "Urine P [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "creatinine_urine": {
+        "label": "Urine Cre [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "output": {
+      "trp": {
+        "label": "%TRP",
+        "formula": "(1-(phosphate_urine*creatinine_serum)/(phosphate_serum*creatinine_urine))*100",
+        "precision": 1
+      },
+      "tmp_gfr": {
+        "label": "TmP/GFR [mg/dL]",
+        "formula": "trp * phosphate_serum / 100",
+        "precision": 2
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "phosphate_serum": 4,
+          "creatinine_serum": 1,
+          "phosphate_urine": 20,
+          "creatinine_urine": 100
+        },
+        "output": {
+          "trp": 95,
+          "tmp_gfr": 3.8
+        }
+      }
+    ]
+  },
+  "ckd_epi_2021": {
+    "name": "CKD-EPI 2021 (Creatinine-Cystatin C)",
+    "input": {
+      "scr": {
+        "label": "Serum Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.1,
+        "max": 20
+      },
+      "cystatin_c": {
+        "label": "Serum Cystatin C [mg/L]",
+        "type": "float",
+        "min": 0.1,
+        "max": 20
+      },
+      "age": {
+        "label": "Age [years]",
+        "type": "float",
+        "min": 18,
+        "max": 120
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "egfr_2021": {
+        "label": "eGFR [mL/min/1.73m²] (CKD-EPI 2021)",
+        "formula": "142 * min(scr/(sex?0.9:0.7), 1)^(sex?-0.302:-0.241) * max(scr/(sex?0.9:0.7), 1)^-1.2 * min(cystatin_c/0.8, 1)^-0.171 * max(cystatin_c/0.8, 1)^-0.193 * 0.9938^age * (sex?1:1.012)",
+        "precision": 2
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "scr": 1,
+          "cystatin_c": 1,
+          "age": 50,
+          "sex": 1
+        },
+        "output": {
+          "egfr_2021": 87.83
+        }
+      }
+    ],
+    "ref": {
+      "Inker LA, et al. N Engl J Med 2021;385:629-638": "doi:10.1056/NEJMoa2104365"
+    }
+  },
+  "kdigo_ckd": {
+    "name": "KDIGO CKD Category",
+    "input": {
+      "gfr": {
+        "label": "eGFR [mL/min/1.73m²]",
+        "type": "float",
+        "min": 0,
+        "max": 200
+      },
+      "acr": {
+        "label": "Albumin-Creatinine Ratio [mg/g]",
+        "type": "float",
+        "min": 0,
+        "max": 5000
+      }
+    },
+    "output": {
+      "gfr_category": {
+        "label": "GFR Category",
+        "formula": "iif(gfr>=90, 'G1 (Normal or high)', gfr>=60, 'G2 (Mildly decreased)', gfr>=45, 'G3a (Mild-moderate decrease)', gfr>=30, 'G3b (Moderate-severe decrease)', gfr>=15, 'G4 (Severely decreased)', 'G5 (Kidney failure)')"
+      },
+      "albuminuria_category": {
+        "label": "Albuminuria Category",
+        "formula": "iif(acr<30, 'A1 (Normal to mildly increased)', acr<300, 'A2 (Moderately increased)', 'A3 (Severely increased)')"
+      },
+      "risk": {
+        "label": "Risk of CKD Progression",
+        "formula": "iif(gfr>=60 and acr<30, 'Green (low risk)', gfr>=60 and acr<300, 'Yellow (moderate risk)', gfr>=45 and acr<30, 'Yellow (moderate risk)', gfr>=30 and acr<30, 'Orange (high risk)', gfr>=15 and acr<30, 'Red (very high risk)', 'Red (very high risk)')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "KDIGO 2012 CKD classification. Combines GFR and albuminuria categories for risk stratification."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "gfr": 55,
+          "acr": 150
+        },
+        "output": {
+          "gfr_category": "G3a (Mild-moderate decrease)",
+          "albuminuria_category": "A2 (Moderately increased)"
+        }
+      }
+    ],
+    "ref": {
+      "KDIGO 2012 Clinical Practice Guideline": "https://kdigo.org/guidelines/ckd-evaluation-and-management/"
+    }
+  },
+  "kdigo_aki": {
+    "name": "KDIGO AKI Stage",
+    "input": {
+      "scr_increase": {
+        "label": "Serum Creatinine Increase",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "No AKI criteria met"
+          },
+          {
+            "value": 1,
+            "label": "Stage 1: ≥0.3 mg/dL increase or 1.5-1.9x baseline"
+          },
+          {
+            "value": 2,
+            "label": "Stage 2: 2.0-2.9x baseline"
+          },
+          {
+            "value": 3,
+            "label": "Stage 3: ≥3.0x baseline or ≥4.0 mg/dL or RRT"
+          }
+        ]
+      },
+      "urine_output": {
+        "label": "Urine Output",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "No oliguria"
+          },
+          {
+            "value": 1,
+            "label": "Stage 1: <0.5 mL/kg/h for 6-12h"
+          },
+          {
+            "value": 2,
+            "label": "Stage 2: <0.5 mL/kg/h for ≥12h"
+          },
+          {
+            "value": 3,
+            "label": "Stage 3: <0.3 mL/kg/h for ≥24h or anuria ≥12h"
+          }
+        ]
+      }
+    },
+    "output": {
+      "aki_stage": {
+        "label": "AKI Stage",
+        "formula": "max(scr_increase, urine_output)"
+      },
+      "stage_description": {
+        "label": "Stage",
+        "formula": "iif(aki_stage==0, 'No AKI', aki_stage==1, 'Stage 1 AKI', aki_stage==2, 'Stage 2 AKI', 'Stage 3 AKI')"
+      },
+      "recommendation": {
+        "label": "Management",
+        "formula": "iif(aki_stage==0, 'No specific AKI management', aki_stage==1, 'Monitor closely, address reversible causes', aki_stage==2, 'Intensive monitoring, nephrology consultation', 'Consider RRT, urgent nephrology consultation')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "scr_increase": 2,
+          "urine_output": 1
+        },
+        "output": {
+          "aki_stage": 2,
+          "stage_description": "Stage 2 AKI"
+        }
+      }
+    ],
+    "ref": {
+      "KDIGO Clinical Practice Guideline for AKI. Kidney Int Suppl. 2012;2(1):1-138": "https://kdigo.org/guidelines/acute-kidney-injury/"
+    }
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "ranson": {
+    "name": "Ranson Criteria (Pancreatitis)",
+    "input": {
+      "age_gt_55": {
+        "label": "Age >55 years",
+        "type": "onoff"
+      },
+      "wbc_gt_16": {
+        "label": "WBC >16,000/μL",
+        "type": "onoff"
+      },
+      "glucose_gt_200": {
+        "label": "Glucose >200 mg/dL",
+        "type": "onoff"
+      },
+      "ldh_gt_350": {
+        "label": "LDH >350 IU/L",
+        "type": "onoff"
+      },
+      "ast_gt_250": {
+        "label": "AST >250 IU/L",
+        "type": "onoff"
+      },
+      "hct_drop_10": {
+        "label": "Hct drop >10%",
+        "type": "onoff"
+      },
+      "bun_rise_5": {
+        "label": "BUN rise >5 mg/dL",
+        "type": "onoff"
+      },
+      "calcium_lt_8": {
+        "label": "Ca <8 mg/dL",
+        "type": "onoff"
+      },
+      "pao2_lt_60": {
+        "label": "PaO₂ <60 mmHg",
+        "type": "onoff"
+      },
+      "base_deficit_gt_4": {
+        "label": "Base deficit >4 mEq/L",
+        "type": "onoff"
+      },
+      "fluid_seq_gt_6l": {
+        "label": "Fluid sequestration >6L",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Ranson Score",
+        "formula": "age_gt_55 + wbc_gt_16 + glucose_gt_200 + ldh_gt_350 + ast_gt_250 + hct_drop_10 + bun_rise_5 + calcium_lt_8 + pao2_lt_60 + base_deficit_gt_4 + fluid_seq_gt_6l"
+      },
+      "mortality": {
+        "label": "Mortality",
+        "formula": "iif(score<=2, '<1%', score<=4, '~15%', score<=6, '~40%', '>50%')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "First 5 criteria at admission, remaining 6 at 48h. Score ≥3 indicates severe pancreatitis"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_gt_55": 1,
+          "wbc_gt_16": 0,
+          "glucose_gt_200": 1,
+          "ldh_gt_350": 0,
+          "ast_gt_250": 0,
+          "hct_drop_10": 0,
+          "bun_rise_5": 0,
+          "calcium_lt_8": 0,
+          "pao2_lt_60": 0,
+          "base_deficit_gt_4": 0,
+          "fluid_seq_gt_6l": 0
+        },
+        "output": {
+          "score": 2,
+          "mortality": "<1%"
+        }
+      }
+    ],
+    "ref": {
+      "Ranson JH, et al. Surg Gynecol Obstet. 1974;139(1):69-81.": "pubmed:4834279"
+    }
+  },
+  "bisap": {
+    "name": "BISAP Score (Pancreatitis)",
+    "input": {
+      "bun_gt_25": {
+        "label": "BUN >25 mg/dL",
+        "type": "onoff"
+      },
+      "impaired_mental": {
+        "label": "Impaired mental status (GCS <15)",
+        "type": "onoff"
+      },
+      "sirs": {
+        "label": "SIRS present (≥2 criteria)",
+        "type": "onoff"
+      },
+      "age_gt_60": {
+        "label": "Age >60 years",
+        "type": "onoff"
+      },
+      "pleural_effusion": {
+        "label": "Pleural effusion present",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "BISAP Score",
+        "formula": "bun_gt_25 + impaired_mental + sirs + age_gt_60 + pleural_effusion"
+      },
+      "mortality": {
+        "label": "In-hospital Mortality",
+        "formula": "iif(score==0, '<1%', score==1, '<2%', score==2, '~2%', score==3, '~5%', score==4, '~15%', '>20%')"
+      },
+      "severe_pancreatitis": {
+        "label": "Risk of Severe Pancreatitis",
+        "formula": "iif(score>=3, 'High risk', 'Low risk')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "bun_gt_25": 0,
+          "impaired_mental": 0,
+          "sirs": 1,
+          "age_gt_60": 0,
+          "pleural_effusion": 0
+        },
+        "output": {
+          "score": 1,
+          "mortality": "<2%"
+        }
+      }
+    ],
+    "ref": {
+      "Wu BU, et al. Gut. 2008;57(12):1698-703.": "pubmed:18519429"
+    }
+  },
+  "glasgow_imrie": {
+    "name": "Glasgow-Imrie Score (Pancreatitis)",
+    "input": {
+      "age_gt_55": {
+        "label": "Age >55 years",
+        "type": "onoff"
+      },
+      "wbc_gt_15": {
+        "label": "WBC >15,000/μL",
+        "type": "onoff"
+      },
+      "glucose_gt_180": {
+        "label": "Glucose >180 mg/dL",
+        "type": "onoff"
+      },
+      "bun_gt_45": {
+        "label": "BUN >45 mg/dL",
+        "type": "onoff"
+      },
+      "pao2_lt_60": {
+        "label": "PaO₂ <60 mmHg",
+        "type": "onoff"
+      },
+      "albumin_lt_32": {
+        "label": "Albumin <3.2 g/dL",
+        "type": "onoff"
+      },
+      "calcium_lt_8": {
+        "label": "Calcium <8 mg/dL",
+        "type": "onoff"
+      },
+      "ldh_gt_600": {
+        "label": "LDH >600 IU/L",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Glasgow-Imrie Score",
+        "formula": "age_gt_55 + wbc_gt_15 + glucose_gt_180 + bun_gt_45 + pao2_lt_60 + albumin_lt_32 + calcium_lt_8 + ldh_gt_600"
+      },
+      "severity": {
+        "label": "Severity",
+        "formula": "iif(score<=2, 'Mild pancreatitis', 'Severe pancreatitis')"
+      },
+      "mortality": {
+        "label": "Mortality Risk",
+        "formula": "iif(score<=2, '~0-2%', score<=4, '~15%', '>40%')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_gt_55": 0,
+          "wbc_gt_15": 0,
+          "glucose_gt_180": 0,
+          "bun_gt_45": 0,
+          "pao2_lt_60": 0,
+          "albumin_lt_32": 0,
+          "calcium_lt_8": 0,
+          "ldh_gt_600": 0
+        },
+        "output": {
+          "score": 0,
+          "severity": "Mild pancreatitis"
+        }
+      }
+    ],
+    "ref": {
+      "Blamey SL, et al. Gut. 1984;25(12):1340-6.": "pubmed:6510766"
+    }
+  }
+}

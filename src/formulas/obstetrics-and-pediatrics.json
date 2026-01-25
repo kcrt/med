@@ -1,0 +1,611 @@
+{
+  "apgar": {
+    "name": "Apgar Score",
+    "input": {
+      "appearance": {
+        "label": "Appearance (Color)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Blue/pale all over"
+          },
+          {
+            "value": 1,
+            "label": "1 - Body pink, extremities blue"
+          },
+          {
+            "value": 2,
+            "label": "2 - Pink all over"
+          }
+        ]
+      },
+      "pulse": {
+        "label": "Pulse (Heart rate)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Absent"
+          },
+          {
+            "value": 1,
+            "label": "1 - <100 bpm"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥100 bpm"
+          }
+        ]
+      },
+      "grimace": {
+        "label": "Grimace (Reflex irritability)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No response"
+          },
+          {
+            "value": 1,
+            "label": "1 - Grimace"
+          },
+          {
+            "value": 2,
+            "label": "2 - Cry/cough/sneeze"
+          }
+        ]
+      },
+      "activity": {
+        "label": "Activity (Muscle tone)",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Limp"
+          },
+          {
+            "value": 1,
+            "label": "1 - Some flexion"
+          },
+          {
+            "value": 2,
+            "label": "2 - Active movement"
+          }
+        ]
+      },
+      "respiration": {
+        "label": "Respiration",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Absent"
+          },
+          {
+            "value": 1,
+            "label": "1 - Slow/irregular"
+          },
+          {
+            "value": 2,
+            "label": "2 - Good/crying"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Apgar Score",
+        "formula": "appearance + pulse + grimace + activity + respiration"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(score>=7, 'Normal (7-10)', score>=4, 'Moderately abnormal (4-6)', 'Low (0-3) - needs immediate resuscitation')"
+      },
+      "note": {
+        "label": "Note",
+        "text": "Assessed at 1 and 5 minutes after birth. Score at 5 min is more predictive of outcome."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "appearance": 2,
+          "pulse": 2,
+          "grimace": 2,
+          "activity": 2,
+          "respiration": 2
+        },
+        "output": {
+          "score": 10,
+          "interpretation": "Normal (7-10)"
+        }
+      }
+    ],
+    "ref": {
+      "Apgar V. Curr Res Anesth Analg. 1953;32(4):260-7.": "pubmed:13083014"
+    }
+  },
+  "silverman_andersen": {
+    "name": "Silverman-Andersen Score",
+    "input": {
+      "chest_retraction": {
+        "label": "Upper Chest Retraction",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Synchronized"
+          },
+          {
+            "value": 1,
+            "label": "1 - Lag on inspiration"
+          },
+          {
+            "value": 2,
+            "label": "2 - See-saw respiration"
+          }
+        ]
+      },
+      "intercostal": {
+        "label": "Intercostal Retraction",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - None"
+          },
+          {
+            "value": 1,
+            "label": "1 - Just visible"
+          },
+          {
+            "value": 2,
+            "label": "2 - Marked"
+          }
+        ]
+      },
+      "xiphoid": {
+        "label": "Xiphoid Retraction",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - None"
+          },
+          {
+            "value": 1,
+            "label": "1 - Just visible"
+          },
+          {
+            "value": 2,
+            "label": "2 - Marked"
+          }
+        ]
+      },
+      "nares": {
+        "label": "Nares Dilation",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - None"
+          },
+          {
+            "value": 1,
+            "label": "1 - Minimal"
+          },
+          {
+            "value": 2,
+            "label": "2 - Marked"
+          }
+        ]
+      },
+      "grunt": {
+        "label": "Expiratory Grunt",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - None"
+          },
+          {
+            "value": 1,
+            "label": "1 - Audible with stethoscope"
+          },
+          {
+            "value": 2,
+            "label": "2 - Audible without stethoscope"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Silverman-Andersen Score",
+        "formula": "chest_retraction + intercostal + xiphoid + nares + grunt"
+      },
+      "severity": {
+        "label": "Respiratory Distress",
+        "formula": "iif(score==0, 'No distress', score<=3, 'Mild distress', score<=6, 'Moderate distress', 'Severe distress')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "chest_retraction": 1,
+          "intercostal": 1,
+          "xiphoid": 0,
+          "nares": 1,
+          "grunt": 1
+        },
+        "output": {
+          "score": 4,
+          "severity": "Moderate distress"
+        }
+      }
+    ],
+    "ref": {
+      "Silverman WA, Andersen DH. Pediatrics. 1956;17(1):1-10.": "pubmed:13283022"
+    }
+  },
+  "pews": {
+    "name": "Pediatric Early Warning Score (PEWS)",
+    "input": {
+      "behavior": {
+        "label": "Behavior",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Playing/appropriate"
+          },
+          {
+            "value": 1,
+            "label": "Sleeping"
+          },
+          {
+            "value": 2,
+            "label": "Irritable"
+          },
+          {
+            "value": 3,
+            "label": "Lethargic/confused"
+          }
+        ]
+      },
+      "cardiovascular": {
+        "label": "Cardiovascular",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Pink/capillary refill 1-2 sec"
+          },
+          {
+            "value": 1,
+            "label": "Pale/capillary refill 3 sec"
+          },
+          {
+            "value": 2,
+            "label": "Gray/capillary refill 4 sec"
+          },
+          {
+            "value": 3,
+            "label": "Mottled/capillary refill ≥5 sec"
+          }
+        ]
+      },
+      "respiratory": {
+        "label": "Respiratory",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Within normal parameters"
+          },
+          {
+            "value": 1,
+            "label": ">10 above normal or O₂"
+          },
+          {
+            "value": 2,
+            "label": ">20 above normal or FiO₂ ≥30%"
+          },
+          {
+            "value": 3,
+            "label": "Below normal or FiO₂ ≥50%"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "PEWS",
+        "formula": "behavior + cardiovascular + respiratory"
+      },
+      "action": {
+        "label": "Recommended Action",
+        "formula": "iif(score<=2, 'Continue routine care', score<=4, 'Increase observation frequency', 'Urgent medical review required')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "behavior": 1,
+          "cardiovascular": 0,
+          "respiratory": 1
+        },
+        "output": {
+          "score": 2,
+          "action": "Continue routine care"
+        }
+      }
+    ],
+    "ref": {
+      "Monaghan A. Paediatr Nurs. 2005;17(3):38.": "pubmed:15871596"
+    }
+  },
+  "westley_croup": {
+    "name": "Westley Croup Score",
+    "input": {
+      "inspiratory_stridor": {
+        "label": "Inspiratory Stridor",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "None"
+          },
+          {
+            "value": 1,
+            "label": "When agitated"
+          },
+          {
+            "value": 2,
+            "label": "At rest"
+          }
+        ]
+      },
+      "retractions": {
+        "label": "Retractions",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "None"
+          },
+          {
+            "value": 1,
+            "label": "Mild"
+          },
+          {
+            "value": 2,
+            "label": "Moderate"
+          },
+          {
+            "value": 3,
+            "label": "Severe"
+          }
+        ]
+      },
+      "air_entry": {
+        "label": "Air Entry",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Normal"
+          },
+          {
+            "value": 1,
+            "label": "Decreased"
+          },
+          {
+            "value": 2,
+            "label": "Markedly decreased"
+          }
+        ]
+      },
+      "cyanosis": {
+        "label": "Cyanosis",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "None"
+          },
+          {
+            "value": 4,
+            "label": "With agitation"
+          },
+          {
+            "value": 5,
+            "label": "At rest"
+          }
+        ]
+      },
+      "level_of_consciousness": {
+        "label": "Level of Consciousness",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Normal"
+          },
+          {
+            "value": 5,
+            "label": "Altered"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Westley Croup Score",
+        "formula": "inspiratory_stridor + retractions + air_entry + cyanosis + level_of_consciousness"
+      },
+      "severity": {
+        "label": "Severity",
+        "formula": "iif(score<=2, 'Mild croup', score<=7, 'Moderate croup', 'Severe croup')"
+      },
+      "treatment": {
+        "label": "Treatment",
+        "formula": "iif(score<=2, 'Dexamethasone', score<=7, 'Nebulized epinephrine + dexamethasone', 'Hospitalization + intensive treatment')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "inspiratory_stridor": 1,
+          "retractions": 1,
+          "air_entry": 0,
+          "cyanosis": 0,
+          "level_of_consciousness": 0
+        },
+        "output": {
+          "score": 2,
+          "severity": "Mild croup"
+        }
+      }
+    ],
+    "ref": {
+      "Westley CR, et al. Am J Dis Child. 1978;132(5):484-7.": "pubmed:645659"
+    }
+  },
+  "bishop_score": {
+    "name": "Bishop Score",
+    "input": {
+      "dilation": {
+        "label": "Cervical Dilation [cm]",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Closed"
+          },
+          {
+            "value": 1,
+            "label": "1-2 cm"
+          },
+          {
+            "value": 2,
+            "label": "3-4 cm"
+          },
+          {
+            "value": 3,
+            "label": "≥5 cm"
+          }
+        ]
+      },
+      "effacement": {
+        "label": "Cervical Effacement [%]",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-30%"
+          },
+          {
+            "value": 1,
+            "label": "40-50%"
+          },
+          {
+            "value": 2,
+            "label": "60-70%"
+          },
+          {
+            "value": 3,
+            "label": "≥80%"
+          }
+        ]
+      },
+      "station": {
+        "label": "Fetal Station",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "-3"
+          },
+          {
+            "value": 1,
+            "label": "-2"
+          },
+          {
+            "value": 2,
+            "label": "-1 or 0"
+          },
+          {
+            "value": 3,
+            "label": "+1 or +2"
+          }
+        ]
+      },
+      "consistency": {
+        "label": "Cervical Consistency",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Firm"
+          },
+          {
+            "value": 1,
+            "label": "Medium"
+          },
+          {
+            "value": 2,
+            "label": "Soft"
+          }
+        ]
+      },
+      "position": {
+        "label": "Cervical Position",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Posterior"
+          },
+          {
+            "value": 1,
+            "label": "Mid-position"
+          },
+          {
+            "value": 2,
+            "label": "Anterior"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Bishop Score",
+        "formula": "dilation + effacement + station + consistency + position"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(score>=8, 'Favorable for induction (high success rate)', score>=5, 'Moderately favorable', 'Unfavorable (consider cervical ripening)')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "dilation": 2,
+          "effacement": 2,
+          "station": 1,
+          "consistency": 1,
+          "position": 1
+        },
+        "output": {
+          "score": 7,
+          "interpretation": "Moderately favorable"
+        }
+      }
+    ],
+    "ref": {
+      "Bishop EH. Obstet Gynecol. 1964;24:266-8.": "pubmed:14199536"
+    }
+  }
+}

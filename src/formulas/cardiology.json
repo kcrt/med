@@ -1,0 +1,1118 @@
+{
+  "chads2": {
+    "name": "CHADS₂ Score",
+    "input": {
+      "heart_failure": {
+        "label": "Heart Failure",
+        "type": "onoff"
+      },
+      "hypertension": {
+        "label": "Hypertension",
+        "type": "onoff"
+      },
+      "age_75": {
+        "label": "Age ≥75",
+        "type": "onoff"
+      },
+      "diabetes": {
+        "label": "Diabetes Mellitus",
+        "type": "onoff"
+      },
+      "stroke": {
+        "label": "Stroke/TIA History",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "heart_failure + hypertension + age_75 + diabetes + stroke*2"
+      },
+      "risk": {
+        "label": "Stroke Risk",
+        "formula": "iif(score==0, 'Low risk 1.0%/year', score==1, 'Low-mod risk 1.5%/year', score==2, 'Mod risk 2.5%/year', score==3, 'High risk 5.0%/year', 'Very high risk >7.0%/year')"
+      },
+      "recommendation": {
+        "label": "Recommendation",
+        "text": "Consider warfarin for score ≥2"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "heart_failure": 0,
+          "hypertension": 1,
+          "age_75": 1,
+          "diabetes": 0,
+          "stroke": 0
+        },
+        "output": {
+          "score": 2
+        }
+      }
+    ],
+    "ref": {
+      "Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+    }
+  },
+  "cha2ds2_vasc": {
+    "name": "CHA₂DS₂-VASc Score",
+    "input": {
+      "heart_failure": {
+        "label": "Congestive Heart Failure",
+        "type": "onoff"
+      },
+      "hypertension": {
+        "label": "Hypertension",
+        "type": "onoff"
+      },
+      "age_75": {
+        "label": "Age ≥75",
+        "type": "onoff"
+      },
+      "diabetes": {
+        "label": "Diabetes Mellitus",
+        "type": "onoff"
+      },
+      "stroke": {
+        "label": "Stroke/TIA/Thromboembolism",
+        "type": "onoff"
+      },
+      "vascular_disease": {
+        "label": "Vascular Disease (MI, PAD, aortic plaque)",
+        "type": "onoff"
+      },
+      "age_65_74": {
+        "label": "Age 65-74",
+        "type": "onoff"
+      },
+      "sex": {
+        "label": "Female Sex",
+        "type": "sex"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "heart_failure + hypertension + age_75*2 + diabetes + stroke*2 + vascular_disease + age_65_74 + (sex==0?1:0)"
+      },
+      "risk": {
+        "label": "Stroke Risk (%/year)",
+        "formula": "iif(score==0, '0 (Low risk)', score==1, '0.5-0.9 (Low risk)', score==2, '1.5-2.5 (Moderate risk)', score==3, '3-5 (High risk)', '>5 (Very high risk)')"
+      },
+      "recommendation": {
+        "label": "OAC Recommendation",
+        "text": "Score ≥2 (men) or ≥3 (women): Consider oral anticoagulant"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "heart_failure": 1,
+          "hypertension": 1,
+          "age_75": 0,
+          "diabetes": 0,
+          "stroke": 0,
+          "vascular_disease": 0,
+          "age_65_74": 0,
+          "sex": 1
+        },
+        "output": {
+          "score": 2
+        }
+      }
+    ],
+    "ref": {
+      "Lip GYH et al: Chest. 2010;138(6):1493-1500": "pubmed:20199583",
+      "2012 ESC Guidelines for Atrial Fibrillation": "https://escardio.org/guidelines"
+    }
+  },
+  "cha2ds2_va": {
+    "name": "CHA₂DS₂-VA Score",
+    "input": {
+      "heart_failure": {
+        "label": "Congestive Heart Failure",
+        "type": "onoff"
+      },
+      "hypertension": {
+        "label": "Hypertension",
+        "type": "onoff"
+      },
+      "age_75": {
+        "label": "Age ≥75",
+        "type": "onoff"
+      },
+      "diabetes": {
+        "label": "Diabetes Mellitus",
+        "type": "onoff"
+      },
+      "stroke": {
+        "label": "Stroke/TIA/Thromboembolism",
+        "type": "onoff"
+      },
+      "vascular_disease": {
+        "label": "Vascular Disease (MI, PAD, aortic plaque)",
+        "type": "onoff"
+      },
+      "age_65_74": {
+        "label": "Age 65-74",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Score",
+        "formula": "heart_failure + hypertension + age_75*2 + diabetes + stroke*2 + vascular_disease + age_65_74"
+      },
+      "risk": {
+        "label": "Stroke Risk (%/year)",
+        "formula": "iif(score==0, '0 (Minimal risk)', score==1, '0.2 (Low risk)', score==2, '1.0 (Moderate risk)', score==3, '2.5 (High risk)', '>5 (Very high risk)')"
+      },
+      "recommendation": {
+        "label": "OAC Recommendation",
+        "text": "Score ≥2: Consider oral anticoagulant"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "heart_failure": 1,
+          "hypertension": 1,
+          "age_75": 0,
+          "diabetes": 0,
+          "stroke": 0,
+          "vascular_disease": 0,
+          "age_65_74": 0
+        },
+        "output": {
+          "score": 2
+        }
+      }
+    ],
+    "ref": {
+      "TODO": "TODO"
+    }
+  },
+  "ejection_fraction": {
+    "name": "Left Ventricular Ejection Fraction",
+    "input": {
+      "lvdd": {
+        "label": "LVDd [mm]",
+        "type": "float",
+        "min": 1,
+        "max": 100
+      },
+      "lvds": {
+        "label": "LVDs [mm]",
+        "type": "float",
+        "min": 2,
+        "max": 100
+      }
+    },
+    "output": {
+      "pombo": {
+        "label": "Pombo (Cubed) [%]",
+        "formula": "(lvdd ^ 3 - lvds ^ 3)/lvdd ^ 3 * 100",
+        "unit": "%",
+        "precision": 1
+      },
+      "gibson": {
+        "label": "Gibson [%]",
+        "formula": "CalculateGibsonEF(lvdd, lvds)",
+        "unit": "%",
+        "precision": 1
+      },
+      "teichholz": {
+        "label": "Teichholz [%]",
+        "formula": "CalculateTeichholzEF(lvdd, lvds)",
+        "unit": "%",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "lvdd": 50,
+          "lvds": 30
+        },
+        "output": {
+          "pombo": 78.4
+        }
+      }
+    ],
+    "ref": {
+      "J F. Pombo, Circulation 1971": "doi: 10.1161/01.CIR.43.4.480",
+      "Gibson, Teichholz references under investigation": ""
+    }
+  },
+  "pediatric_lvdd": {
+    "name": "Pediatric LVDd Standard Values",
+    "input": {
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 10,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0,
+        "max": 300
+      }
+    },
+    "output": {
+      "nagasawa_preterm": {
+        "label": "LVDd (mm) Preterm; Nagasawa",
+        "formula": "0.459*height-5.43",
+        "precision": 1
+      },
+      "nagasawa_term": {
+        "label": "LVDd (mm) Term & <1 year; Nagasawa",
+        "formula": "0.352*height+1.86",
+        "precision": 1
+      },
+      "kampmann": {
+        "label": "LVDd (mm) Infant; Kampmann",
+        "formula": "38.537 * BSA_DuBois(height, weight) ^ 0.4509",
+        "precision": 1
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 80,
+          "weight": 10
+        },
+        "output": {
+          "kampmann": 27.1
+        }
+      }
+    ],
+    "ref": {
+      "Nagasawa H.: Cardiol Young. 2010 Oct;20(5):526-31": "pubmed:20598214",
+      "Kampmann C et al.:Heart (British Cardiac Society). 2000;83(6):667-72": "pubmed:10814626"
+    }
+  },
+  "kawasaki_coronary": {
+    "name": "Kawasaki Disease Coronary Artery",
+    "input": {
+      "bsa": {
+        "label": "Body Surface Area [m²]",
+        "type": "float",
+        "min": 0,
+        "max": 4
+      },
+      "lmca": {
+        "label": "LMCA [cm]",
+        "type": "float",
+        "min": 0,
+        "max": 8
+      },
+      "plad": {
+        "label": "pLAD [cm]",
+        "type": "float",
+        "min": 0,
+        "max": 8
+      },
+      "prca": {
+        "label": "pRCA [cm]",
+        "type": "float",
+        "min": 0,
+        "max": 8
+      }
+    },
+    "output": {
+      "lmca_z": {
+        "label": "LMCA Z-score",
+        "formula": "CalculateZScore(lmca, 0.31747 * bsa ^ 0.36008 - 0.02887, 0.03040 + 0.01514 * bsa)"
+      },
+      "plad_z": {
+        "label": "pLAD Z-score",
+        "formula": "CalculateZScore(plad, 0.26108 * bsa ^ 0.37893 - 0.02852, 0.01465 + 0.01996 * bsa)"
+      },
+      "prca_z": {
+        "label": "pRCA Z-score",
+        "formula": "CalculateZScore(prca, 0.26117 * bsa ^ 0.39992 - 0.02756, 0.02407 + 0.01597 * bsa)"
+      }
+    },
+    "ref": {
+      "McCrindle BW et al.": "pubmed:17576863"
+    }
+  },
+  "has_bled": {
+    "name": "HAS-BLED Score",
+    "input": {
+      "hypertension": {
+        "label": "Hypertension (SBP >160 mmHg)",
+        "type": "onoff"
+      },
+      "renal_disease": {
+        "label": "Abnormal renal function",
+        "type": "onoff"
+      },
+      "liver_disease": {
+        "label": "Abnormal liver function",
+        "type": "onoff"
+      },
+      "stroke": {
+        "label": "Stroke history",
+        "type": "onoff"
+      },
+      "bleeding": {
+        "label": "Prior major bleeding or predisposition",
+        "type": "onoff"
+      },
+      "labile_inr": {
+        "label": "Labile INR (if on warfarin)",
+        "type": "onoff"
+      },
+      "elderly": {
+        "label": "Age >65 years",
+        "type": "onoff"
+      },
+      "drugs": {
+        "label": "Drugs (antiplatelets/NSAIDs)",
+        "type": "onoff"
+      },
+      "alcohol": {
+        "label": "Alcohol (≥8 drinks/week)",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "HAS-BLED Score",
+        "formula": "hypertension + renal_disease + liver_disease + stroke + bleeding + labile_inr + elderly + drugs + alcohol"
+      },
+      "risk": {
+        "label": "Bleeding Risk",
+        "formula": "iif(score<=2, 'Low risk (0.9-3.7%/year)', score==3, 'Moderate risk (4-5.8%/year)', 'High risk (8-12.5%/year)')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Score ≥3: High bleeding risk. Consider more careful follow-up and correction of modifiable risk factors"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "hypertension": 1,
+          "renal_disease": 0,
+          "liver_disease": 0,
+          "stroke": 0,
+          "bleeding": 0,
+          "labile_inr": 0,
+          "elderly": 1,
+          "drugs": 1,
+          "alcohol": 0
+        },
+        "output": {
+          "score": 3,
+          "risk": "Moderate risk (4-5.8%/year)"
+        }
+      }
+    ],
+    "ref": {
+      "Pisters R, et al. Chest. 2010;138(5):1093-100.": "pubmed:20299623"
+    }
+  },
+  "timi_stemi": {
+    "name": "TIMI Risk Score (STEMI)",
+    "input": {
+      "age_75": {
+        "label": "Age ≥75",
+        "type": "onoff"
+      },
+      "age_65_74": {
+        "label": "Age 65-74",
+        "type": "onoff"
+      },
+      "diabetes_htn_angina": {
+        "label": "Diabetes or Hypertension or Angina",
+        "type": "onoff"
+      },
+      "sbp_lt_100": {
+        "label": "Systolic BP <100 mmHg",
+        "type": "onoff"
+      },
+      "hr_gt_100": {
+        "label": "Heart rate >100 bpm",
+        "type": "onoff"
+      },
+      "killip_2to4": {
+        "label": "Killip class II-IV",
+        "type": "onoff"
+      },
+      "weight_lt_67": {
+        "label": "Weight <67 kg",
+        "type": "onoff"
+      },
+      "anterior_stemi_lbbb": {
+        "label": "Anterior STEMI or LBBB",
+        "type": "onoff"
+      },
+      "time_gt_4h": {
+        "label": "Time to treatment >4 hours",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "TIMI Risk Score",
+        "formula": "age_75*3 + age_65_74*2 + diabetes_htn_angina + sbp_lt_100*3 + hr_gt_100*2 + killip_2to4*2 + weight_lt_67 + anterior_stemi_lbbb + time_gt_4h"
+      },
+      "mortality": {
+        "label": "30-day Mortality",
+        "formula": "iif(score==0, '0.8%', score==1, '1.6%', score==2, '2.2%', score==3, '4.4%', score==4, '7.3%', score==5, '12.0%', score==6, '16.0%', score==7, '23.0%', score==8, '27.0%', '>36.0%')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Score range 0-14. Higher score = higher 30-day mortality risk"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_75": 0,
+          "age_65_74": 1,
+          "diabetes_htn_angina": 1,
+          "sbp_lt_100": 0,
+          "hr_gt_100": 0,
+          "killip_2to4": 0,
+          "weight_lt_67": 0,
+          "anterior_stemi_lbbb": 1,
+          "time_gt_4h": 0
+        },
+        "output": {
+          "score": 4,
+          "mortality": "7.3%"
+        }
+      }
+    ],
+    "ref": {
+      "Morrow DA, et al. Circulation. 2000;102(17):2031-7.": "pubmed:11044416"
+    }
+  },
+  "timi_nstemi": {
+    "name": "TIMI Risk Score (UA/NSTEMI)",
+    "input": {
+      "age_65": {
+        "label": "Age ≥65 years",
+        "type": "onoff"
+      },
+      "cad_risk": {
+        "label": "≥3 CAD risk factors",
+        "type": "onoff"
+      },
+      "known_cad": {
+        "label": "Known CAD (stenosis ≥50%)",
+        "type": "onoff"
+      },
+      "asa": {
+        "label": "ASA use in past 7 days",
+        "type": "onoff"
+      },
+      "severe_angina": {
+        "label": "Severe angina (≥2 episodes within 24h)",
+        "type": "onoff"
+      },
+      "st_changes": {
+        "label": "ST changes ≥0.5mm",
+        "type": "onoff"
+      },
+      "elevated_markers": {
+        "label": "Elevated cardiac markers",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "TIMI Risk Score",
+        "formula": "age_65 + cad_risk + known_cad + asa + severe_angina + st_changes + elevated_markers"
+      },
+      "risk": {
+        "label": "14-day Risk (Death/MI/Urgent revasc)",
+        "formula": "iif(score<=1, '4.7% (Low risk)', score==2, '8.3%', score==3, '13.2%', score==4, '19.9%', score==5, '26.2%', '41.0% (High risk)')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_65": 1,
+          "cad_risk": 1,
+          "known_cad": 0,
+          "asa": 1,
+          "severe_angina": 1,
+          "st_changes": 1,
+          "elevated_markers": 1
+        },
+        "output": {
+          "score": 6
+        }
+      }
+    ],
+    "ref": {
+      "Antman EM, et al. JAMA. 2000;284(7):835-42.": "pubmed:10938172"
+    }
+  },
+  "grace": {
+    "name": "GRACE Score (ACS)",
+    "input": {
+      "age": {
+        "label": "Age [years]",
+        "type": "int",
+        "min": 20,
+        "max": 120
+      },
+      "heart_rate": {
+        "label": "Heart Rate [bpm]",
+        "type": "int",
+        "min": 30,
+        "max": 250
+      },
+      "sbp": {
+        "label": "Systolic BP [mmHg]",
+        "type": "int",
+        "min": 50,
+        "max": 250
+      },
+      "creatinine": {
+        "label": "Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 20
+      },
+      "killip_class": {
+        "label": "Killip Class",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "I - No heart failure"
+          },
+          {
+            "value": 15,
+            "label": "II - Rales/JVD"
+          },
+          {
+            "value": 29,
+            "label": "III - Pulmonary edema"
+          },
+          {
+            "value": 43,
+            "label": "IV - Cardiogenic shock"
+          }
+        ]
+      },
+      "cardiac_arrest": {
+        "label": "Cardiac Arrest at admission",
+        "type": "onoff"
+      },
+      "st_deviation": {
+        "label": "ST segment deviation",
+        "type": "onoff"
+      },
+      "elevated_enzymes": {
+        "label": "Elevated cardiac enzymes",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "age_points": {
+        "label": "Age points",
+        "formula": "iif(age<30, 0, age<40, 8, age<50, 25, age<60, 41, age<70, 58, age<80, 75, age<90, 91, 100)"
+      },
+      "hr_points": {
+        "label": "HR points",
+        "formula": "iif(heart_rate<50, 0, heart_rate<70, 3, heart_rate<90, 9, heart_rate<110, 15, heart_rate<150, 24, heart_rate<200, 38, 46)"
+      },
+      "sbp_points": {
+        "label": "SBP points",
+        "formula": "iif(sbp<80, 58, sbp<100, 53, sbp<120, 43, sbp<140, 34, sbp<160, 24, sbp<200, 10, 0)"
+      },
+      "creat_points": {
+        "label": "Creatinine points",
+        "formula": "iif(creatinine<0.4, 1, creatinine<0.8, 4, creatinine<1.2, 7, creatinine<1.6, 10, creatinine<2.0, 13, creatinine<4.0, 21, 28)"
+      },
+      "score": {
+        "label": "GRACE Score",
+        "formula": "age_points + hr_points + sbp_points + creat_points + killip_class + cardiac_arrest*39 + st_deviation*28 + elevated_enzymes*14"
+      },
+      "hospital_mortality": {
+        "label": "In-hospital Mortality",
+        "formula": "iif(score<=108, '<1% (Low)', score<=140, '1-3% (Intermediate)', '>3% (High)')"
+      },
+      "six_month_mortality": {
+        "label": "6-month Mortality",
+        "formula": "iif(score<=88, '<3% (Low)', score<=118, '3-8% (Intermediate)', '>8% (High)')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age": 65,
+          "heart_rate": 85,
+          "sbp": 130,
+          "creatinine": 1,
+          "killip_class": 0,
+          "cardiac_arrest": 0,
+          "st_deviation": 1,
+          "elevated_enzymes": 1
+        },
+        "output": {
+          "score": 150
+        }
+      }
+    ],
+    "ref": {
+      "Fox KA, et al. BMJ. 2006;333(7578):1091.": "pubmed:17032691",
+      "Granger CB, et al. Arch Intern Med. 2003;163(19):2345-53.": "pubmed:14581255"
+    }
+  },
+  "heart_score": {
+    "name": "HEART Score",
+    "input": {
+      "history": {
+        "label": "History",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Slightly suspicious"
+          },
+          {
+            "value": 1,
+            "label": "1 - Moderately suspicious"
+          },
+          {
+            "value": 2,
+            "label": "2 - Highly suspicious"
+          }
+        ]
+      },
+      "ecg": {
+        "label": "ECG",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - Non-specific repolarization disturbance"
+          },
+          {
+            "value": 2,
+            "label": "2 - Significant ST depression"
+          }
+        ]
+      },
+      "age": {
+        "label": "Age",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <45 years"
+          },
+          {
+            "value": 1,
+            "label": "1 - 45-64 years"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥65 years"
+          }
+        ]
+      },
+      "risk_factors": {
+        "label": "Risk Factors",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - No risk factors"
+          },
+          {
+            "value": 1,
+            "label": "1 - 1-2 risk factors"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥3 risk factors or history of atherosclerotic disease"
+          }
+        ]
+      },
+      "troponin": {
+        "label": "Troponin",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Normal"
+          },
+          {
+            "value": 1,
+            "label": "1 - 1-3× normal limit"
+          },
+          {
+            "value": 2,
+            "label": "2 - >3× normal limit"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "HEART Score",
+        "formula": "history + ecg + age + risk_factors + troponin"
+      },
+      "risk": {
+        "label": "6-week MACE Risk",
+        "formula": "iif(score<=3, '0.9-1.7% (Low risk)', score<=6, '12-16.6% (Moderate risk)', '50-65% (High risk)')"
+      },
+      "disposition": {
+        "label": "Recommendation",
+        "formula": "iif(score<=3, 'Consider discharge', score<=6, 'Observe and further evaluate', 'Urgent cardiology consultation')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "history": 1,
+          "ecg": 1,
+          "age": 1,
+          "risk_factors": 1,
+          "troponin": 0
+        },
+        "output": {
+          "score": 4,
+          "risk": "12-16.6% (Moderate risk)"
+        }
+      }
+    ],
+    "ref": {
+      "Six AJ, et al. Neth Heart J. 2008;16(6):191-6.": "pubmed:18665203",
+      "Backus BE, et al. Arch Intern Med. 2010;170(15):1342-7.": "pubmed:20696966"
+    }
+  },
+  "wells_pe": {
+    "name": "Wells Score for Pulmonary Embolism",
+    "input": {
+      "previous_pe_dvt": {
+        "label": "Previous PE or DVT",
+        "type": "onoff"
+      },
+      "hr_gt_100": {
+        "label": "Heart Rate >100 bpm",
+        "type": "onoff"
+      },
+      "surgery_immobilization": {
+        "label": "Surgery or immobilization within 4 weeks",
+        "type": "onoff"
+      },
+      "hemoptysis": {
+        "label": "Hemoptysis",
+        "type": "onoff"
+      },
+      "active_cancer": {
+        "label": "Active cancer",
+        "type": "onoff"
+      },
+      "clinical_signs_dvt": {
+        "label": "Clinical signs of DVT",
+        "type": "onoff"
+      },
+      "alternative_less_likely": {
+        "label": "Alternative diagnosis less likely than PE",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Wells Score",
+        "formula": "previous_pe_dvt*1.5 + hr_gt_100*1.5 + surgery_immobilization*1.5 + hemoptysis + active_cancer + clinical_signs_dvt*3 + alternative_less_likely*3"
+      },
+      "risk": {
+        "label": "PE Probability",
+        "formula": "iif(score<2, 'Low risk (1.3%)', score<=6, 'Moderate risk (16.2%)', 'High risk (40.6%)')"
+      },
+      "recommendation": {
+        "label": "Recommendation",
+        "formula": "iif(score<2, 'Consider D-dimer', score<=6, 'Consider CT angiography', 'CT angiography indicated')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "previous_pe_dvt": 0,
+          "hr_gt_100": 1,
+          "surgery_immobilization": 0,
+          "hemoptysis": 0,
+          "active_cancer": 0,
+          "clinical_signs_dvt": 0,
+          "alternative_less_likely": 1
+        },
+        "output": {
+          "score": 4.5,
+          "risk": "Moderate risk (16.2%)"
+        }
+      }
+    ],
+    "ref": {
+      "Wells PS, et al. Thromb Haemost. 2000;83(3):416-20.": "pubmed:10744147"
+    }
+  },
+  "wells_dvt": {
+    "name": "Wells Score for DVT",
+    "input": {
+      "active_cancer": {
+        "label": "Active cancer",
+        "type": "onoff"
+      },
+      "paralysis_paresis": {
+        "label": "Paralysis, paresis, or recent cast",
+        "type": "onoff"
+      },
+      "bedridden_surgery": {
+        "label": "Bedridden >3 days or major surgery within 12 weeks",
+        "type": "onoff"
+      },
+      "tenderness": {
+        "label": "Localized tenderness along deep venous system",
+        "type": "onoff"
+      },
+      "entire_leg_swollen": {
+        "label": "Entire leg swollen",
+        "type": "onoff"
+      },
+      "calf_swelling": {
+        "label": "Calf swelling >3cm compared to other leg",
+        "type": "onoff"
+      },
+      "pitting_edema": {
+        "label": "Pitting edema (greater in symptomatic leg)",
+        "type": "onoff"
+      },
+      "collateral_veins": {
+        "label": "Collateral superficial veins",
+        "type": "onoff"
+      },
+      "alternative_diagnosis": {
+        "label": "Alternative diagnosis as likely or more likely",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Wells Score",
+        "formula": "active_cancer + paralysis_paresis + bedridden_surgery + tenderness + entire_leg_swollen + calf_swelling + pitting_edema + collateral_veins - alternative_diagnosis*2"
+      },
+      "probability": {
+        "label": "DVT Probability",
+        "formula": "iif(score<=0, 'Low risk (5%)', score<=2, 'Moderate risk (17%)', 'High risk (53%)')"
+      },
+      "recommendation": {
+        "label": "Recommendation",
+        "formula": "iif(score<=0, 'D-dimer recommended', score<=2, 'D-dimer or ultrasound', 'Ultrasound indicated')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "active_cancer": 0,
+          "paralysis_paresis": 0,
+          "bedridden_surgery": 0,
+          "tenderness": 1,
+          "entire_leg_swollen": 0,
+          "calf_swelling": 1,
+          "pitting_edema": 1,
+          "collateral_veins": 0,
+          "alternative_diagnosis": 0
+        },
+        "output": {
+          "score": 3,
+          "probability": "High risk (53%)"
+        }
+      }
+    ],
+    "ref": {
+      "Wells PS, et al. Lancet. 1997;350(9094):1795-8.": "pubmed:9428249"
+    }
+  },
+  "modified_geneva": {
+    "name": "Modified Geneva Score",
+    "input": {
+      "age_gt_65": {
+        "label": "Age >65 years",
+        "type": "onoff"
+      },
+      "previous_pe_dvt": {
+        "label": "Previous PE or DVT",
+        "type": "onoff"
+      },
+      "surgery_fracture": {
+        "label": "Surgery or fracture within 1 month",
+        "type": "onoff"
+      },
+      "active_malignancy": {
+        "label": "Active malignancy",
+        "type": "onoff"
+      },
+      "unilateral_pain": {
+        "label": "Unilateral lower limb pain",
+        "type": "onoff"
+      },
+      "hemoptysis": {
+        "label": "Hemoptysis",
+        "type": "onoff"
+      },
+      "hr_75_94": {
+        "label": "Heart rate 75-94 bpm",
+        "type": "onoff"
+      },
+      "hr_gt_94": {
+        "label": "Heart rate ≥95 bpm",
+        "type": "onoff"
+      },
+      "pain_edema": {
+        "label": "Pain on palpation and unilateral edema",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Modified Geneva Score",
+        "formula": "age_gt_65 + previous_pe_dvt*3 + surgery_fracture*2 + active_malignancy*2 + unilateral_pain*3 + hemoptysis*2 + hr_75_94*3 + hr_gt_94*5 + pain_edema*4"
+      },
+      "probability": {
+        "label": "PE Probability",
+        "formula": "iif(score<=3, 'Low (8%)', score<=10, 'Intermediate (28%)', 'High (74%)')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_gt_65": 1,
+          "previous_pe_dvt": 0,
+          "surgery_fracture": 0,
+          "active_malignancy": 0,
+          "unilateral_pain": 0,
+          "hemoptysis": 0,
+          "hr_75_94": 1,
+          "hr_gt_94": 0,
+          "pain_edema": 0
+        },
+        "output": {
+          "score": 4,
+          "probability": "Intermediate (28%)"
+        }
+      }
+    ],
+    "ref": {
+      "Le Gal G, et al. Ann Intern Med. 2006;144(3):165-71.": "pubmed:16461960"
+    }
+  },
+  "ascvd": {
+    "name": "ASCVD Risk Calculator (10-year)",
+    "input": {
+      "age": {
+        "label": "Age [years]",
+        "type": "int",
+        "min": 40,
+        "max": 79
+      },
+      "sex": {
+        "label": "Sex",
+        "type": "sex"
+      },
+      "race": {
+        "label": "Race",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "White"
+          },
+          {
+            "value": 1,
+            "label": "African American"
+          },
+          {
+            "value": 2,
+            "label": "Other"
+          }
+        ]
+      },
+      "total_chol": {
+        "label": "Total Cholesterol [mg/dL]",
+        "type": "int",
+        "min": 130,
+        "max": 320
+      },
+      "hdl": {
+        "label": "HDL Cholesterol [mg/dL]",
+        "type": "int",
+        "min": 20,
+        "max": 100
+      },
+      "sbp": {
+        "label": "Systolic BP [mmHg]",
+        "type": "int",
+        "min": 90,
+        "max": 200
+      },
+      "bp_treated": {
+        "label": "On BP medication",
+        "type": "onoff"
+      },
+      "diabetes": {
+        "label": "Diabetes",
+        "type": "onoff"
+      },
+      "smoker": {
+        "label": "Current smoker",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "risk_simple": {
+        "label": "Estimated 10-year ASCVD Risk (%)",
+        "formula": "iif(age<50 and diabetes==0 and smoker==0 and sbp<140 and total_chol<200, '<5% (Low)', age<60 and diabetes==0 and sbp<140, '5-7.5% (Borderline)', '7.5-20% or >20% (Intermediate to High) - Use full calculator')",
+        "text": "Simplified estimate. For accurate calculation, use online calculator with race-specific coefficients."
+      },
+      "recommendation": {
+        "label": "Statin Recommendation",
+        "text": "Risk ≥7.5%: Consider statin. Risk ≥20%: High-intensity statin recommended. Discuss with clinician-patient risk discussion."
+      },
+      "note": {
+        "label": "Note",
+        "text": "This is a simplified version. Full calculation requires race-specific logarithmic coefficients. Use official ACC/AHA calculator for precise risk."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age": 55,
+          "sex": 1,
+          "race": 0,
+          "total_chol": 200,
+          "hdl": 50,
+          "sbp": 130,
+          "bp_treated": 0,
+          "diabetes": 0,
+          "smoker": 0
+        },
+        "output": {
+          "risk_simple": "5-7.5% (Borderline)"
+        }
+      }
+    ],
+    "ref": {
+      "Goff DC Jr, et al. Circulation. 2014;129(25 Suppl 2):S49-73.": "pubmed:24222018",
+      "ACC/AHA Risk Calculator": "https://tools.acc.org/ASCVD-Risk-Estimator-Plus"
+    }
+  }
+}
