@@ -1,42 +1,42 @@
 ## Formulas we need to add
 
-  - [ ] NIHSS
-  - [ ] HAS-BLED Score
-  - [ ] MELD 3.0
-  - [ ] Child-Pugh
-  - [ ] CURB-65
-  - [ ] Wells Score (PE)
-  - [ ] Wells Score (DVT)
-  - [ ] APACHE II
-  - [ ] NEWS 2
-  - [ ] TIMI
-  - [ ] GRACE
-  - [ ] HEART
-  - [ ] Modified Geneva Score
-  - [ ] KDIGO CKD Category
-  - [ ] KDIGO AKI Category
-  - [ ] BODE Index
-  - [ ] GOLD Category
-  - [ ] Modified Rankin Scale
-  - [ ] Hunt and Hess 
-  - [ ] Fisher Grade
-  - [ ] ICH Score
-  - [ ] SIRS Criteria
-  - [ ] Modified Early arning Score
-  - [ ] ASCVD Rsik Calculator
-  - [ ] Ranson Criteria
-  - [ ] BISAP Score
-  - [ ] Glasgow Imrie Score
-  - [ ] Apgra Score
-  - [ ] Silverman-Andersen Score
-  - [ ] Pediatric Early Warning Score
-  - [ ] Westley Croup Score
-  - [ ] Centor/McIssac Score
-  - [ ] Duke Criteria
-  - [ ] Bishop score
-  - [ ] PHQ-9
-  - [ ] GAD-7
-  - [ ] MoCA
-  - [ ] MUST Score
-  - [ ] Miffin-St Jeor formula
-  - [ ] Harris Benedict formula
+  - [x] NIHSS
+  - [x] HAS-BLED Score
+  - [x] MELD 3.0
+  - [x] Child-Pugh
+  - [x] CURB-65
+  - [x] Wells Score (PE)
+  - [x] Wells Score (DVT)
+  - [x] APACHE II
+  - [x] NEWS 2
+  - [x] TIMI
+  - [x] GRACE
+  - [x] HEART
+  - [x] Modified Geneva Score
+  - [x] KDIGO CKD Category
+  - [x] KDIGO AKI Category
+  - [x] BODE Index
+  - [x] GOLD Category
+  - [x] Modified Rankin Scale
+  - [x] Hunt and Hess 
+  - [x] Fisher Grade
+  - [x] ICH Score
+  - [x] SIRS Criteria
+  - [x] Modified Early Warning Score
+  - [x] ASCVD Risk Calculator
+  - [x] Ranson Criteria
+  - [x] BISAP Score
+  - [x] Glasgow Imrie Score
+  - [x] Apgar Score
+  - [x] Silverman-Andersen Score
+  - [x] Pediatric Early Warning Score
+  - [x] Westley Croup Score
+  - [x] Centor/McIsaac Score
+  - [x] Duke Criteria
+  - [x] Bishop score
+  - [x] PHQ-9
+  - [x] GAD-7
+  - [x] MoCA
+  - [x] MUST Score
+  - [x] Mifflin-St Jeor formula
+  - [x] Harris Benedict formula
