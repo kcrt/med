@@ -88,8 +88,8 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
       case "sex":
         return false; // default to off/female
       case "select":
-        // Default to first option value if available
-        return inputDef.options?.[0]?.value ?? "";
+        // Default to first option index (0)
+        return 0;
       case "date":
         return "";
       case "int":
@@ -118,11 +118,10 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
           inputValues[key] = value === true || value === "true" ? 1 : 0;
           break;
         case "select":
-          // Select values are strings in the form, but may be numbers in JSON
-          const selectedOption = inputDef.options?.find(
-            (opt) => String(opt.value) === String(value)
-          );
-          inputValues[key] = selectedOption?.value ?? Number(value);
+          // Select uses index as value, map back to original option value
+          const selectedIndex = Number(value);
+          const selectedOption = inputDef.options?.[selectedIndex];
+          inputValues[key] = selectedOption?.value ?? 0;
           break;
         case "date":
           // Convert date string to timestamp or keep as string
@@ -207,8 +206,8 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
                     <Select
                       key={key}
                       label={inputDef.label}
-                      data={inputDef.options?.map((opt) => ({
-                        value: String(opt.value),
+                      data={inputDef.options?.map((opt, idx) => ({
+                        value: String(idx),
                         label: opt.label,
                       })) ?? []}
                       {...inputProps}

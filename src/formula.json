@@ -1110,6 +1110,12 @@
 					"precision": 2
 				}
 			},
+			"assert": [
+				{
+					"condition": "age >= 18",
+					"message": "This formula is for age 18 and older"
+				}
+			],
 			"test": [{
 				"input": {
 					"cystatin_c": 1.0,

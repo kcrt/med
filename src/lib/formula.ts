@@ -117,38 +117,46 @@ function mergeFormula(
     result.name = override.name;
   }
 
-  // Merge input definitions
-  if (override.input) {
-    result.input = { ...base.input };
-    for (const [inputKey, inputOverride] of Object.entries(override.input)) {
-      if (base.input[inputKey]) {
-        result.input[inputKey] = {
-          ...base.input[inputKey],
-          ...inputOverride
-        };
+  // Merge input/output only if both are calculation formulas
+  const baseCalc = base as any;
+  const overrideCalc = override as any;
+
+  if ('input' in base && 'input' in override) {
+    // Merge input definitions
+    if (overrideCalc.input) {
+      (result as any).input = { ...baseCalc.input };
+      for (const [inputKey, inputOverride] of Object.entries(overrideCalc.input)) {
+        if (baseCalc.input[inputKey]) {
+          (result as any).input[inputKey] = {
+            ...baseCalc.input[inputKey],
+            ...(inputOverride as object)
+          };
+        }
       }
+    }
+
+    // Merge output definitions
+    if (overrideCalc.output) {
+      (result as any).output = { ...baseCalc.output };
+      for (const [outputKey, outputOverride] of Object.entries(overrideCalc.output)) {
+        if (baseCalc.output[outputKey]) {
+          (result as any).output[outputKey] = {
+            ...baseCalc.output[outputKey],
+            ...(outputOverride as object)
+          };
+        }
+      }
+    }
+
+    // Merge tests
+    if (overrideCalc.test) {
+      (result as any).test = overrideCalc.test;
     }
   }
 
-  // Merge output definitions
-  if (override.output) {
-    result.output = { ...base.output };
-    for (const [outputKey, outputOverride] of Object.entries(override.output)) {
-      if (base.output[outputKey]) {
-        result.output[outputKey] = {
-          ...base.output[outputKey],
-          ...outputOverride
-        };
-      }
-    }
-  }
-
-  // Merge refs and tests
-  if (override.ref) {
-    result.ref = { ...base.ref, ...override.ref };
-  }
-  if (override.test) {
-    result.test = override.test;
+  // Merge refs (both formula types have ref)
+  if (overrideCalc.ref && 'ref' in base) {
+    (result as any).ref = { ...baseCalc.ref, ...overrideCalc.ref };
   }
 
   return result;
@@ -449,19 +457,25 @@ export function evaluateFormulaOutputs(
   const results: FormulaOutputValues = {};
   const maxIterations = 10; // Prevent infinite loops
 
+  // Only calculation formulas have output
+  if (!('output' in formula)) {
+    return results;
+  }
+
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     let progress = false;
 
-    for (const [outputKey, outputDef] of Object.entries(formula.output)) {
+    for (const [outputKey, outputDef] of Object.entries((formula as any).output)) {
       // Skip if already calculated
       if (outputKey in results) continue;
 
-      if ('formula' in outputDef && outputDef.formula) {
+      const def = outputDef as any;
+      if ('formula' in def && def.formula) {
         try {
           // Combine input values with previously calculated outputs
           const context = { ...inputValues, ...results };
-          const value = evaluateFormula(outputDef.formula, context);
-          results[outputKey] = formatOutput(value, outputDef.precision);
+          const value = evaluateFormula(def.formula, context);
+          results[outputKey] = formatOutput(value, def.precision);
           progress = true;
         } catch {
           // Variable not yet available, will retry in next iteration
@@ -484,15 +498,17 @@ export function evaluateFormulaOutputs(
  */
 export function getFormulaOutputs(
   formula: Formula,
-): Record<string, Extract<typeof formula.output[string], { label: string }>> {
-  const outputs: Record<
-    string,
-    Extract<typeof formula.output[string], { label: string }>
-  > = {};
+): Record<string, FormulaOutput | { text: string }> {
+  const outputs: Record<string, FormulaOutput | { text: string }> = {};
 
-  for (const [key, value] of Object.entries(formula.output)) {
-    if ('label' in value) {
-      outputs[key] = value as Extract<typeof value, { label: string }>;
+  // Only calculation formulas have output
+  if (!('output' in formula)) {
+    return outputs;
+  }
+
+  for (const [key, value] of Object.entries((formula as any).output)) {
+    if ('label' in (value as any)) {
+      outputs[key] = value as FormulaOutput | { text: string };
     }
   }
 
