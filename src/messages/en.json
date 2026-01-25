@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "Medicalculator",
+    "description": "Medical calculator app"
+  },
+  "home": {
+    "title": "Mantine is working!",
+    "description": "This page uses Mantine v8 components with your Geist fonts.",
+    "card": {
+      "title": "Example Card",
+      "description": "Try the buttons below:"
+    }
+  },
+  "config": {
+    "title": "Settings",
+    "description": "Configure your preferences"
+  }
+}

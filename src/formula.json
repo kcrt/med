@@ -1,0 +1,95 @@
+{
+	"_meta": {
+		"version": "1.0.0",
+		"lastModified": "2025-01-25",
+		"description": "Medical calculation formulas"
+	},
+	"体格指数": {
+		"bmi_adult": {
+			"name": "BMI (Adult)",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 30, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 3, "max": 300}
+			},
+			"output": {
+				"BMI": {
+					"label": "BMI",
+					"formula": "weight/(height/100)/(height/100)",
+					"unit": "kg/m²",
+					"precision": 1
+				},
+				"who": {"label": "WHO (World Health Organization)", "text": "≥25: overweight, ≥30: obese"},
+				"who_diag": {
+					"label": "WHO (World Health Organization)",
+					"formula": "iif(BMI>=30, 'obese', BMI>=25, 'overweight', 'normal')"
+				},
+				"jasso": {"label": "Japan Society for the Study of Obesity", "text": "Japan-specific BMI categories", "locales_in": ["ja"]},
+				"jasso_diag": {
+					"label": "JASSO Diagnosis",
+					"formula": "iif(BMI<18.5, 'Underweight', BMI<25, 'Normal', 'Obese')",
+					"locales_in": ["ja"]
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 170,
+					"weight": 70
+				},
+				"output": {
+					"BMI": 24.2,
+					"who_diag": "normal",
+					"jasso_diag": "Normal"
+				}
+			}],
+			"ref": {
+				"Wikipedia": "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"
+			}
+		},
+		"bmi_child": {
+			"name": "BMI (Child)",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"kaup": {
+					"label": "Kaup Index",
+					"formula": "weight/(height/100)/(height/100)",
+					"unit": "kg/m²",
+					"precision": 1
+				},
+				"info1": {"label": "Infants (3 months+)", "text": "Normal range: 15-18"},
+				"kaup_diag": {
+					"label": "Infants (3 months+)",
+					"formula": "if(kaup>=15 and kaup<=18, 'Normal range', 'Outside normal range')"
+				},
+				"rohrer": {
+					"label": "Rohrer Index",
+					"formula": "weight/((height/100)*(height/100)*(height/100))*10",
+					"unit": "",
+					"precision": 1
+				},
+				"info2": {"label": "School-age children", "text": "Standard: 130, ≥160 indicates obesity"},
+				"rohrer_diag": {
+					"label": "School-age children",
+					"formula": "iif(rohrer<130, 'Underweight', rohrer<160, 'Standard', 'Obese')"
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 80,
+					"weight": 10
+				},
+				"output": {
+					"kaup": 15.6,
+					"kaup_diag": "Normal range",
+					"rohrer": 195.3,
+					"rohrer_diag": "Obese"
+				}
+			}],
+			"ref": {
+				"Wikipedia": "http://ja.wikipedia.org/wiki/%E4%BD%93%E6%A0%BC%E6%8C%87%E6%95%B0"
+			}
+		}
+	}
+}

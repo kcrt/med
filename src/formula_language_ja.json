@@ -1,0 +1,75 @@
+{
+	"_meta": {
+		"language": "ja",
+		"version": "1.0.0",
+		"lastModified": "2025-01-25"
+	},
+	"体格指数": {
+		"bmi_adult": {
+			"name": "BMI (成人)",
+			"input": {
+				"height": {"label": "身長[cm]"},
+				"weight": {"label": "体重[kg]"}
+			},
+			"output": {
+				"who": {"label": "WHO(世界保健機関)", "text": "≧25: overwight, ≧30: obese"},
+				"who_diag": {
+					"label": "WHO(世界保健機関)"
+				},
+				"jasso": {"label": "日本肥満学会", "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"},
+				"jasso_diag": {
+					"label": "日本肥満学会",
+					"formula": "iif(BMI<18.5, '低体重', BMI<25, '標準', '肥満')"
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 170,
+					"weight": 70
+				},
+				"output": {
+					"BMI": 24.2,
+					"who_diag": "normal",
+					"jasso_diag": "標準"
+				}
+			}]
+		},
+		"bmi_child": {
+			"name": "BMI (小児)",
+			"input": {
+				"height": {"label": "身長[cm]"},
+				"weight": {"label": "体重[kg]"}
+			},
+			"output": {
+				"kaup": {
+					"label": "Kaup指数"
+				},
+				"info1": {"label": "乳幼児(3ヶ月以降)", "text": "正常範囲: 15-18"},
+				"kaup_diag": {
+					"label": "乳幼児(3ヶ月以降)",
+					"formula": "if(kaup>=15 and kaup<=18, '正常範囲', '正常範囲外')"
+				},
+				"rohrer": {
+					"label": "Rohrer指数"
+				},
+				"info2": {"label": "学童", "text": "標準: 130, 160以上で肥満"},
+				"rohrer_diag": {
+					"label": "学童",
+					"formula": "iif(rohrer<130, '痩身', rohrer<160, '標準', '肥満')"
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 80,
+					"weight": 10
+				},
+				"output": {
+					"kaup": 15.6,
+					"kaup_diag": "正常範囲",
+					"rohrer": 195.3,
+					"rohrer_diag": "肥満"
+				}
+			}]
+		}
+	}
+}
