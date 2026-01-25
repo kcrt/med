@@ -1,16 +1,38 @@
 import { z } from 'zod';
 
 /**
+ * Schema for select option
+ */
+export const FormulaSelectOptionSchema = z.object({
+  value: z.union([z.number(), z.string()]),
+  label: z.string(),
+});
+
+/**
  * Schema for formula input field definitions
  */
 export const FormulaInputSchema = z.object({
   label: z.string(),
-  type: z.enum(['float', 'int', 'string']),
+  type: z.enum(['float', 'int', 'string', 'onoff', 'sex', 'date', 'select']),
   min: z.number().optional(),
   max: z.number().optional(),
+  default: z.union([z.number(), z.string()]).optional(),
+  options: z.array(FormulaSelectOptionSchema).optional(),
 });
 
 export type FormulaInput = z.infer<typeof FormulaInputSchema>;
+export type FormulaInputType = FormulaInput['type'];
+export type FormulaSelectOption = z.infer<typeof FormulaSelectOptionSchema>;
+
+/**
+ * Schema for formula assertion (cross-field validation)
+ */
+export const FormulaAssertionSchema = z.object({
+  condition: z.string(),
+  message: z.string(),
+});
+
+export type FormulaAssertion = z.infer<typeof FormulaAssertionSchema>;
 
 /**
  * Schema for formula output field definitions
@@ -46,15 +68,35 @@ export const FormulaTestCaseSchema = z.object({
 export type FormulaTestCase = z.infer<typeof FormulaTestCaseSchema>;
 
 /**
- * Schema for individual formula definitions
+ * Schema for HTML-only formula (reference chart, no calculation)
  */
-export const FormulaSchema = z.object({
+const HtmlFormulaSchema = z.object({
+  name: z.string().optional(),
+  type: z.literal("html"),
+  html: z.string(),
+  ref: z.record(z.string(), z.string()).optional(),
+});
+
+/**
+ * Schema for calculation formula
+ */
+const CalculationFormulaSchema = z.object({
   name: z.string().optional(),
   input: z.record(z.string(), FormulaInputSchema),
   output: z.record(z.string(), FormulaOutputValueSchema),
+  assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
 });
+
+/**
+ * Schema for individual formula definitions
+ * Either a calculation formula (with input/output) or HTML formula
+ */
+export const FormulaSchema = z.union([
+  CalculationFormulaSchema,
+  HtmlFormulaSchema,
+]);
 
 export type Formula = z.infer<typeof FormulaSchema>;
 
@@ -119,9 +161,11 @@ export type FormulaLanguageMeta = z.infer<typeof FormulaLanguageMetaSchema>;
  */
 const PartialFormulaInputSchema = z.object({
   label: z.string().optional(),
-  type: z.enum(['float', 'int', 'string']).optional(),
+  type: z.enum(['float', 'int', 'string', 'onoff', 'sex', 'date', 'select']).optional(),
   min: z.number().optional(),
   max: z.number().optional(),
+  default: z.union([z.number(), z.string()]).optional(),
+  options: z.array(FormulaSelectOptionSchema).optional(),
 });
 
 /**
@@ -139,16 +183,36 @@ const PartialFormulaOutputSchema = z.object({
 });
 
 /**
- * Schema for partial formula (for language overrides)
+ * Schema for partial HTML formula (for language overrides)
+ */
+const PartialHtmlFormulaSchema = z.object({
+  name: z.string().optional(),
+  type: z.literal("html").optional(),
+  html: z.string().optional(),
+  ref: z.record(z.string(), z.string()).optional(),
+});
+
+/**
+ * Schema for partial calculation formula (for language overrides)
  * All fields are optional
  */
-const PartialFormulaSchema = z.object({
+const PartialCalculationFormulaSchema = z.object({
   name: z.string().optional(),
   input: z.record(z.string(), PartialFormulaInputSchema).optional(),
   output: z.record(z.string(), PartialFormulaOutputSchema).optional(),
+  assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
 });
+
+/**
+ * Schema for partial formula (for language overrides)
+ * All fields are optional, supports both calculation and HTML formulas
+ */
+const PartialFormulaSchema = z.union([
+  PartialCalculationFormulaSchema,
+  PartialHtmlFormulaSchema,
+]);
 
 /**
  * Schema for language override file

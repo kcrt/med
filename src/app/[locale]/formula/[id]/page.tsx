@@ -38,7 +38,9 @@ export default function FormulaPage() {
       <Stack gap="md">
         <Title order={1}>{formula.name ?? formulaId}</Title>
 
-        {formula.output && (
+        {"type" in formula && formula.type === "html" ? (
+          <div dangerouslySetInnerHTML={{ __html: formula.html }} />
+        ) : (
           <>
             <FormulaCalculator formula={formula} formulaId={formulaId} />
             <ReferenceLinks ref={formula.ref} />

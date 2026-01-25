@@ -90,6 +90,1474 @@
 			"ref": {
 				"Wikipedia": "http://ja.wikipedia.org/wiki/%E4%BD%93%E6%A0%BC%E6%8C%87%E6%95%B0"
 			}
+		},
+		"target_height": {
+			"name": "Target Height",
+			"input": {
+				"father_height": {"label": "Father's Height [cm]", "type": "float", "min": 0, "max": 300},
+				"mother_height": {"label": "Mother's Height [cm]", "type": "float", "min": 0, "max": 300},
+				"sex": {"label": "Sex", "type": "sex"}
+			},
+			"output": {
+				"target_height": {
+					"label": "Target Height [cm]",
+					"formula": "sex ? (father_height+mother_height+13)/2 : (father_height-13+mother_height)/2",
+					"precision": 1
+				},
+				"target_range_min": {
+					"label": "Target Range Min [cm]",
+					"formula": "sex ? target_height - 9 : target_height - 8",
+					"precision": 1
+				},
+				"target_range_max": {
+					"label": "Target Range Max [cm]",
+					"formula": "sex ? target_height + 9 : target_height + 8",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"father_height": 175,
+					"mother_height": 160,
+					"sex": 1
+				},
+				"output": {
+					"target_height": 174.0
+				}
+			}],
+			"ref": {
+				"Clinical pediatric endocrinology 16(4), 85-87, 2007-10": "https://www.jstage.jst.go.jp/article/cpe/16/4/16_4_85/_pdf"
+			}
+		},
+		"bsa": {
+			"name": "Body Surface Area",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"bsa_dubois": {
+					"label": "BSA (m²) Du Bois",
+					"formula": "BSA_DuBois(height, weight)",
+					"unit": "m²",
+					"precision": 4
+				},
+				"bsa_takahira": {
+					"label": "BSA (m²) Takahira",
+					"formula": "0.007246 * weight ^ 0.425 * height ^ 0.725",
+					"unit": "m²",
+					"precision": 4
+				},
+				"bsa_mosteller": {
+					"label": "BSA (m²) Mosteller",
+					"formula": "sqrt(height * weight / 3600)",
+					"unit": "m²",
+					"precision": 4
+				},
+				"bsa_fujimoto_0": {
+					"label": "BSA (m²) Fujimoto (0 years)",
+					"formula": "95.68 * weight ^ 0.473 * height ^ 0.655 / 10000",
+					"unit": "m²",
+					"precision": 4
+				},
+				"bsa_fujimoto_1_5": {
+					"label": "BSA (m²) Fujimoto (1-5 years)",
+					"formula": "381.89 * weight ^ 0.423 * height ^ 0.362 / 10000",
+					"unit": "m²",
+					"precision": 4
+				},
+				"bsa_fujimoto_6": {
+					"label": "BSA (m²) Fujimoto (6+ years)",
+					"formula": "88.83 * weight ^ 0.444 * height ^ 0.663 / 10000",
+					"unit": "m²",
+					"precision": 4
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 170,
+					"weight": 70
+				},
+				"output": {
+					"bsa_mosteller": 1.8147
+				}
+			}],
+			"ref": {
+				"Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pubmed:2520314",
+				"Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876",
+				"藤本ら (1968), 日本衛生学雑誌 23(5):7-14": ""
+			}
+		},
+		"postconceptional_days": {
+			"name": "Postconceptional Days",
+			"input": {
+				"edc": {"label": "Expected Date of Confinement", "type": "date"},
+				"target_date": {"label": "Target Date", "type": "date", "default": "today"}
+			},
+			"output": {
+				"postconceptional_age": {
+					"label": "Postconceptional Age",
+					"formula": "CalculatePostconceptionalAge(edc, target_date)"
+				},
+				"corrected_age": {
+					"label": "Corrected Age",
+					"formula": "CalculateCorrectedAge(edc, target_date)"
+				}
+			},
+			"ref": {
+				"Standard obstetric calculation": ""
+			}
+		}
+	},
+	"循環器": {
+		"chads2": {
+			"name": "CHADS₂ Score",
+			"input": {
+				"heart_failure": {"label": "Heart Failure", "type": "onoff"},
+				"hypertension": {"label": "Hypertension", "type": "onoff"},
+				"age_75": {"label": "Age ≥75", "type": "onoff"},
+				"diabetes": {"label": "Diabetes Mellitus", "type": "onoff"},
+				"stroke": {"label": "Stroke/TIA History", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "heart_failure + hypertension + age_75 + diabetes + stroke*2"
+				},
+				"risk": {
+					"label": "Stroke Risk",
+					"formula": "iif(score==0, 'Low risk 1.0%/year', score==1, 'Low-mod risk 1.5%/year', score==2, 'Mod risk 2.5%/year', score==3, 'High risk 5.0%/year', 'Very high risk >7.0%/year')"
+				},
+				"recommendation": {
+					"label": "Recommendation",
+					"text": "Consider warfarin for score ≥2"
+				}
+			},
+			"test": [{
+				"input": {
+					"heart_failure": 0,
+					"hypertension": 1,
+					"age_75": 1,
+					"diabetes": 0,
+					"stroke": 0
+				},
+				"output": {
+					"score": 2
+				}
+			}],
+			"ref": {
+				"Brian F. et al: JAMA. 2001;285(22):2864-2870": "http://jama.jamanetwork.com/article.aspx?volume=285&issue=22&page=2864"
+			}
+		},
+		"cha2ds2_vasc": {
+			"name": "CHA₂DS₂-VASc Score",
+			"input": {
+				"heart_failure": {"label": "Congestive Heart Failure", "type": "onoff"},
+				"hypertension": {"label": "Hypertension", "type": "onoff"},
+				"age_75": {"label": "Age ≥75", "type": "onoff"},
+				"diabetes": {"label": "Diabetes Mellitus", "type": "onoff"},
+				"stroke": {"label": "Stroke/TIA/Thromboembolism", "type": "onoff"},
+				"vascular_disease": {"label": "Vascular Disease (MI, PAD, aortic plaque)", "type": "onoff"},
+				"age_65_74": {"label": "Age 65-74", "type": "onoff"},
+				"sex": {"label": "Female Sex", "type": "sex"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "heart_failure + hypertension + age_75*2 + diabetes + stroke*2 + vascular_disease + age_65_74 + (sex==0?1:0)"
+				},
+				"risk": {
+					"label": "Stroke Risk (%/year)",
+					"formula": "iif(score==0, '0 (Low risk)', score==1, '0.5-0.9 (Low risk)', score==2, '1.5-2.5 (Moderate risk)', score==3, '3-5 (High risk)', '>5 (Very high risk)')"
+				},
+				"recommendation": {
+					"label": "OAC Recommendation",
+					"text": "Score ≥2 (men) or ≥3 (women): Consider oral anticoagulant"
+				}
+			},
+			"test": [{
+				"input": {
+					"heart_failure": 1,
+					"hypertension": 1,
+					"age_75": 0,
+					"diabetes": 0,
+					"stroke": 0,
+					"vascular_disease": 0,
+					"age_65_74": 0,
+					"sex": 1
+				},
+				"output": {
+					"score": 2
+				}
+			}],
+			"ref": {
+				"Lip GYH et al: Chest. 2010;138(6):1493-1500": "pubmed:20199583",
+				"2012 ESC Guidelines for Atrial Fibrillation": "https://escardio.org/guidelines"
+			}
+		},
+		"cha2ds2_va": {
+			"name": "CHA₂DS₂-VA Score",
+			"input": {
+				"heart_failure": {"label": "Congestive Heart Failure", "type": "onoff"},
+				"hypertension": {"label": "Hypertension", "type": "onoff"},
+				"age_75": {"label": "Age ≥75", "type": "onoff"},
+				"diabetes": {"label": "Diabetes Mellitus", "type": "onoff"},
+				"stroke": {"label": "Stroke/TIA/Thromboembolism", "type": "onoff"},
+				"vascular_disease": {"label": "Vascular Disease (MI, PAD, aortic plaque)", "type": "onoff"},
+				"age_65_74": {"label": "Age 65-74", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "heart_failure + hypertension + age_75*2 + diabetes + stroke*2 + vascular_disease + age_65_74"
+				},
+				"risk": {
+					"label": "Stroke Risk (%/year)",
+					"formula": "iif(score==0, '0 (Minimal risk)', score==1, '0.2 (Low risk)', score==2, '1.0 (Moderate risk)', score==3, '2.5 (High risk)', '>5 (Very high risk)')"
+				},
+				"recommendation": {
+					"label": "OAC Recommendation",
+					"text": "Score ≥2: Consider oral anticoagulant"
+				}
+			},
+			"test": [{
+				"input": {
+					"heart_failure": 1,
+					"hypertension": 1,
+					"age_75": 0,
+					"diabetes": 0,
+					"stroke": 0,
+					"vascular_disease": 0,
+					"age_65_74": 0
+				},
+				"output": {
+					"score": 2
+				}
+			}],
+			"ref": {
+				"TODO": "TODO"
+			}
+		},
+		"ejection_fraction": {
+			"name": "Left Ventricular Ejection Fraction",
+			"input": {
+				"lvdd": {"label": "LVDd [mm]", "type": "float", "min": 1, "max": 100},
+				"lvds": {"label": "LVDs [mm]", "type": "float", "min": 2, "max": 100}
+			},
+			"output": {
+				"pombo": {
+					"label": "Pombo (Cubed) [%]",
+					"formula": "(lvdd ^ 3 - lvds ^ 3)/lvdd ^ 3 * 100",
+					"unit": "%",
+					"precision": 1
+				},
+				"gibson": {
+					"label": "Gibson [%]",
+					"formula": "CalculateGibsonEF(lvdd, lvds)",
+					"unit": "%",
+					"precision": 1
+				},
+				"teichholz": {
+					"label": "Teichholz [%]",
+					"formula": "CalculateTeichholzEF(lvdd, lvds)",
+					"unit": "%",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"lvdd": 50,
+					"lvds": 30
+				},
+				"output": {
+					"pombo": 78.4
+				}
+			}],
+			"ref": {
+				"J F. Pombo, Circulation 1971": "doi: 10.1161/01.CIR.43.4.480",
+				"Gibson, Teichholz references under investigation": ""
+			}
+		},
+		"pediatric_lvdd": {
+			"name": "Pediatric LVDd Standard Values",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"nagasawa_preterm": {
+					"label": "LVDd (mm) Preterm; Nagasawa",
+					"formula": "0.459*height-5.43",
+					"precision": 1
+				},
+				"nagasawa_term": {
+					"label": "LVDd (mm) Term & <1 year; Nagasawa",
+					"formula": "0.352*height+1.86",
+					"precision": 1
+				},
+				"kampmann": {
+					"label": "LVDd (mm) Infant; Kampmann",
+					"formula": "38.537 * BSA_DuBois(height, weight) ^ 0.4509",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 80,
+					"weight": 10
+				},
+				"output": {
+					"kampmann": 31.2
+				}
+			}],
+			"ref": {
+				"Nagasawa H.: Cardiol Young. 2010 Oct;20(5):526-31": "pubmed:20598214",
+				"Kampmann C et al.:Heart (British Cardiac Society). 2000;83(6):667-72": "pubmed:10814626"
+			}
+		},
+		"kawasaki_coronary": {
+			"name": "Kawasaki Disease Coronary Artery",
+			"input": {
+				"bsa": {"label": "Body Surface Area [m²]", "type": "float", "min": 0, "max": 4},
+				"lmca": {"label": "LMCA [cm]", "type": "float", "min": 0, "max": 8},
+				"plad": {"label": "pLAD [cm]", "type": "float", "min": 0, "max": 8},
+				"prca": {"label": "pRCA [cm]", "type": "float", "min": 0, "max": 8}
+			},
+			"output": {
+				"lmca_z": {
+					"label": "LMCA Z-score",
+					"formula": "CalculateZScore(lmca, 0.31747 * bsa ^ 0.36008 - 0.02887, 0.03040 + 0.01514 * bsa)"
+				},
+				"plad_z": {
+					"label": "pLAD Z-score",
+					"formula": "CalculateZScore(plad, 0.26108 * bsa ^ 0.37893 - 0.02852, 0.01465 + 0.01996 * bsa)"
+				},
+				"prca_z": {
+					"label": "pRCA Z-score",
+					"formula": "CalculateZScore(prca, 0.26117 * bsa ^ 0.39992 - 0.02756, 0.02407 + 0.01597 * bsa)"
+				}
+			},
+			"ref": {
+				"McCrindle BW et al.": "pubmed:17576863"
+			}
+		}
+	},
+	"内分泌・代謝": {
+		"osmotic_pressure": {
+			"name": "Osmotic Pressure",
+			"input": {
+				"na": {"label": "Na [mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"k": {"label": "K [mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"bun": {"label": "BUN [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"glucose": {"label": "Glucose [mg/dL]", "type": "float", "min": 0, "max": 3000}
+			},
+			"output": {
+				"osm": {
+					"label": "Plasma Osmolarity [mOsm/kg]",
+					"formula": "2*(na+k)+glucose/18+bun/2.8",
+					"precision": 1
+				},
+				"reference": {
+					"label": "Reference [mOsm/kg]",
+					"text": "285-295"
+				}
+			},
+			"test": [{
+				"input": {
+					"na": 140,
+					"k": 4,
+					"bun": 15,
+					"glucose": 100
+				},
+				"output": {
+					"osm": 290.3
+				}
+			}]
+		},
+		"homa": {
+			"name": "HOMA-IR, HOMA-β",
+			"input": {
+				"fpg": {"label": "Fasting Plasma Glucose [mg/dL]", "type": "float", "min": 0, "max": 800},
+				"iri": {"label": "Fasting Immunoreactive Insulin [μU/mL]", "type": "float", "min": 0, "max": 100}
+			},
+			"output": {
+				"homa_ir": {
+					"label": "HOMA-IR (Insulin Resistance)",
+					"formula": "iri*fpg/405",
+					"precision": 2
+				},
+				"homa_ir_ref": {
+					"label": "HOMA-IR Reference",
+					"text": "≤1.6, ≥2.5 indicates insulin resistance"
+				},
+				"homa_beta": {
+					"label": "HOMA-β (β-cell function)",
+					"formula": "iri*360/(fpg-63)",
+					"precision": 1
+				},
+				"homa_beta_ref": {
+					"label": "HOMA-β Reference [%]",
+					"text": "40-60%, ≤30% indicates decreased secretion"
+				},
+				"quicki": {
+					"label": "QUICKI (Insulin Sensitivity)",
+					"formula": "1/((log(fpg) + log(iri))/log(10))",
+					"precision": 3
+				},
+				"quicki_ref": {
+					"label": "QUICKI Reference",
+					"text": "<0.3: resistance, 0.348-0.430: normal, ≥3.0: high sensitivity (type 1 DM)"
+				}
+			},
+			"test": [{
+				"input": {
+					"fpg": 100,
+					"iri": 10
+				},
+				"output": {
+					"homa_ir": 2.47
+				}
+			}],
+			"ref": {
+				"J Clin Endocrinol Metab. 2000 Jul;85(7):2402-10.": "pubmed:10902785"
+			}
+		},
+		"friedewald": {
+			"name": "LDL Cholesterol (Friedewald Equation)",
+			"input": {
+				"tc": {"label": "Total Cholesterol [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"hdl": {"label": "HDL Cholesterol [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"tg": {"label": "Triglycerides [mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"ldl": {
+					"label": "LDL Cholesterol [mg/dL]",
+					"formula": "tc-hdl-tg/5",
+					"precision": 1
+				},
+				"warning": {
+					"label": "Caution",
+					"text": "If TG ≥400 mg/dL, measure LDL directly"
+				}
+			},
+			"test": [{
+				"input": {
+					"tc": 220,
+					"hdl": 50,
+					"tg": 150
+				},
+				"output": {
+					"ldl": 140.0
+				}
+			}],
+			"ref": {
+				"Friedewald WT: Clin Chem. 1972 Jun;18(6):499-502.": "pubmed:4337382"
+			}
+		},
+		"sampson_nih": {
+			"name": "LDL Cholesterol (Sampson-NIH Equation)",
+			"input": {
+				"tc": {"label": "Total Cholesterol [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"hdl": {"label": "HDL Cholesterol [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"tg": {"label": "Triglycerides [mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"ldl": {
+					"label": "LDL Cholesterol [mg/dL]",
+					"formula": "tc/0.948-hdl/0.971-tg/18+9",
+					"precision": 1
+				},
+				"note": {
+					"label": "Note",
+					"text": "Valid for TG < 800 mg/dL; more accurate than Friedewald at low LDL-C and high TG"
+				}
+			},
+			"test": [{
+				"input": {
+					"tc": 220,
+					"hdl": 50,
+					"tg": 150
+				},
+				"output": {
+					"ldl": 148.3
+				}
+			}],
+			"ref": {
+				"Sampson M, et al: J Am Coll Cardiol. 2020;75(7):739-743.": "doi:10.1016/j.jacc.2019.12.044",
+				"Improved estimation of LDL-C from Friedewald formula: A database-based study.": "pubmed:32078676"
+			}
+		},
+		"igf1_zscore": {
+			"name": "IGF-1 Z-Score",
+			"input": {
+				"age": {"label": "Age [years]", "type": "float", "min": 0, "max": 77},
+				"sex": {"label": "Sex", "type": "sex"},
+				"igf1": {"label": "IGF-1 [ng/mL]", "type": "float", "min": 0, "max": 1000},
+				"method": {
+					"label": "Assay Method",
+					"type": "select",
+					"options": [
+						{"value": 1, "label": "IGF-I IRMA 'Daiichi'"},
+						{"value": 2, "label": "Somatomedin-C II 'Bayer'"}
+					]
+				}
+			},
+			"output": {
+				"igf1_corrected": {
+					"label": "IGF-1 Corrected [ng/mL]",
+					"formula": "method == 1 ? igf1 : 18.03 + 0.822 * igf1",
+					"precision": 1
+				},
+				"zscore": {
+					"label": "Z-Score",
+					"formula": "CalculateIGF1ZScore(igf1_corrected, age, sex)",
+					"precision": 2
+				},
+				"percentile": {
+					"label": "Percentile",
+					"formula": "CalculatePercentileFromZScore(zscore)",
+					"precision": 1
+				},
+				"minus_2sd": {
+					"label": "-2SD [ng/mL]",
+					"formula": "CalculateIGF1ValueFromZScore(-2, age, sex)",
+					"precision": 1
+				},
+				"mean": {
+					"label": "Mean [ng/mL]",
+					"formula": "CalculateIGF1ValueFromZScore(0, age, sex)",
+					"precision": 1
+				},
+				"plus_2sd": {
+					"label": "+2SD [ng/mL]",
+					"formula": "CalculateIGF1ValueFromZScore(2, age, sex)",
+					"precision": 1
+				}
+			},
+			"ref": {
+				"成長ホルモン及びIGF-Ⅰ測定の標準化に関する研究": "http://www.fgs.or.jp/public/05/2008_03.html",
+				"Isojima T et al. Standardized centile curves and reference intervals of serum insulin-like growth factor-I ( IGF-I ) levels in a normal Japanese population using the LMS method 2012;59(9):771–80.": "pubmed:22673406"
+			}
+		}
+	},
+	"腎機能": {
+		"ccr_adult": {
+			"name": "CCr, eGFR (Adult)",
+			"input": {
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 3, "max": 300},
+				"age": {"label": "Age [years]", "type": "float", "min": 17, "max": 100},
+				"scr": {"label": "Serum Creatinine [mg/dL]", "type": "float", "min": 0.001, "max": 20},
+				"sex": {"label": "Sex", "type": "sex"}
+			},
+			"output": {
+				"cockcroft": {
+					"label": "CCr [mL/min] (Cockcroft-Gault)",
+					"formula": "sex==1 ? ((140-age) * weight) / (72 * scr) : (((140-age) * weight) / (72 * scr)) * 0.85",
+					"precision": 2
+				},
+				"mdrd_original": {
+					"label": "GFR [mL/min/1.73m²] (MDRD original)",
+					"formula": "sex==1 ? 186 * age ^ -0.203 * scr ^ -1.154 : (186 * age ^ -0.203 * scr ^ -1.154) * 0.742",
+					"precision": 2
+				},
+				"mdrd_japanese": {
+					"label": "GFR [mL/min/1.73m²] (Japanese MDRD)",
+					"formula": "sex==1 ? 175 * age ^ -0.203 * scr ^ -1.154 * 0.741 : (175 * age ^ -0.203 * scr ^ -1.154) * 0.741 * 0.742",
+					"precision": 2
+				},
+				"egfr": {
+					"label": "GFR [mL/min/1.73m²] (Japanese eGFR equation)",
+					"formula": "sex==1 ? 194 * age ^ -0.287 * scr ^ -1.094 : (194 * age ^ -0.287 * scr ^ -1.094) * 0.739",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"weight": 70,
+					"age": 50,
+					"scr": 1.0,
+					"sex": 1
+				},
+				"output": {
+					"cockcroft": 87.5
+				}
+			}],
+			"ref": {
+				"Cockcroft DW, Gault MH": "",
+				"MDRD Study Group": "",
+				"Japanese eGFR equation": ""
+			}
+		},
+		"ccr_measured": {
+			"name": "CCr from Serum/Urine Creatinine",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 10, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 0, "max": 300},
+				"urine_cr": {"label": "Urine Creatinine [mg/dL]", "type": "float", "min": 0.001, "max": 1000},
+				"serum_cr": {"label": "Serum Creatinine [mg/dL]", "type": "float", "min": 0.001, "max": 100},
+				"urine_volume": {"label": "24h Urine Volume [mL/day]", "type": "float", "min": 1, "max": 50000}
+			},
+			"output": {
+				"ccr": {
+					"label": "CCr [mL/min/1.73m²]",
+					"formula": "urine_cr * (urine_volume/24/60) / serum_cr * 1.73 / BSA_DuBois(height, weight)",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 170,
+					"weight": 70,
+					"urine_cr": 100,
+					"serum_cr": 1.0,
+					"urine_volume": 1440
+				},
+				"output": {
+					"ccr": 100.0
+				}
+			}],
+			"ref": {
+				"Wikipedia": "http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%82%A2%E3%83%81%E3%83%8B%E3%83%B3%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%A9%E3%83%B3%E3%82%B9"
+			}
+		},
+		"cystatin_c_age": {
+			"name": "eGFR from Cystatin C and Age (18+)",
+			"input": {
+				"cystatin_c": {"label": "Serum Cystatin C [mg/L]", "type": "float", "min": 0, "max": 100},
+				"age": {"label": "Age [years]", "type": "float", "min": 0, "max": 100},
+				"sex": {"label": "Sex", "type": "sex"}
+			},
+			"output": {
+				"egfr_cys": {
+					"label": "eGFRcys [mL/min/1.73m²]",
+					"formula": "(104 * cystatin_c ^ -1.019 * 0.996 ^ age * (sex ? 1 : 0.929)) - 8",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"cystatin_c": 1.0,
+					"age": 50,
+					"sex": 1
+				},
+				"output": {
+					"egfr_cys": 75.4
+				}
+			}],
+			"ref": {
+				"CKD診療ガイドライン2018": "https://cdn.jsn.or.jp/data/CKD2018.pdf"
+			}
+		},
+		"cystatin_c": {
+			"name": "eGFR from Cystatin C",
+			"input": {
+				"cystatin_c": {"label": "Serum Cystatin C [mg/L]", "type": "float", "min": 0, "max": 100}
+			},
+			"output": {
+				"hoek": {
+					"label": "eGFR [mL/min/1.73m²] (Hoek)",
+					"formula": "80.35/cystatin_c-4.32",
+					"precision": 2
+				},
+				"grubb_adult": {
+					"label": "eGFR [mL/min/1.73m²] (Grubb 14+ years)",
+					"formula": "84.69 * cystatin_c ^ -1.680",
+					"precision": 2
+				},
+				"grubb_child": {
+					"label": "eGFR [mL/min/1.73m²] (Grubb <14 years)",
+					"formula": "84.69 * cystatin_c ^ -1.680 * 1.384",
+					"precision": 2
+				},
+				"filler": {
+					"label": "eGFR [mL/min/1.73m²] (Filler; pediatric)",
+					"formula": "91.62 * cystatin_c ^ -1.123",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"cystatin_c": 1.0
+				},
+				"output": {
+					"hoek": 76.03
+				}
+			}],
+			"ref": {
+				"Nephrol Dial Transplant. 2003 Oct;18(10):2024-31.": "pubmed:13679476",
+				"Nephrol Dial Transplant. 2008 Jan;23(1):154-60. Epub 2007 Oct 2.": "pubmed:17911090"
+			}
+		},
+		"ccr_child": {
+			"name": "eGFR (Child)",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 3, "max": 300},
+				"scr": {"label": "Serum Creatinine (enzymatic) [mg/dL]", "type": "float", "min": 0.001, "max": 20},
+				"k": {
+					"label": "Age Constant k",
+					"type": "select",
+					"options": [
+						{"value": 0.33, "label": "Low birth weight infant"},
+						{"value": 0.45, "label": "Normal birth weight infant"},
+						{"value": 0.55, "label": "2-12 years or Female (13-21 years)"},
+						{"value": 0.7, "label": "Male (13-21 years)"}
+					]
+				},
+				"sex": {"label": "Sex", "type": "sex"}
+			},
+			"output": {
+				"schwartz": {
+					"label": "eGFR [mL/min/1.73m²] (Schwartz)",
+					"formula": "k*height/(scr+0.2)",
+					"precision": 2
+				},
+				"schwartz_2009": {
+					"label": "eGFR [mL/min/1.73m²] (Schwartz 2009; 7.7-14.3y)",
+					"formula": "0.413 * height / scr",
+					"precision": 2
+				},
+				"japanese_child": {
+					"label": "eGFR [mL/min/1.73m²] (Japanese child equation; 2-19y)",
+					"formula": "CalculateJapaneseChildeGFR(height, scr, sex)",
+					"precision": 2
+				}
+			},
+			"assert": [
+				{
+					"condition": "not (k == 0.7 and sex == 0)",
+					"message": "Male (13-21 years) k value cannot be selected with Female sex"
+				}
+			],
+			"test": [{
+				"input": {
+					"height": 120,
+					"scr": 0.7,
+					"k": 0.55,
+					"sex": 1
+				},
+				"output": {
+					"schwartz": 84.9
+				}
+			}],
+			"ref": {
+				"Minds": "http://minds.jcqhc.or.jp/n/med/4/med0067/G0000189/0142",
+				"New Equations to Estimate GFR in Children with CKD": "pubmed:19158356"
+			}
+		},
+		"fena": {
+			"name": "FENa Calculation",
+			"input": {
+				"sodium_serum": {"label": "Serum Na [mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"creatinine_serum": {"label": "Serum Cre [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"sodium_urine": {"label": "Urine Na [mEq/L]", "type": "float", "min": 0, "max": 1000},
+				"creatinine_urine": {"label": "Urine Cre [mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"fena": {
+					"label": "FENa [%]",
+					"formula": "(sodium_urine*creatinine_serum)/(sodium_serum*creatinine_urine)*100",
+					"precision": 2
+				},
+				"reference": {
+					"label": "Reference",
+					"text": "Normal: <1%, Renal failure: >1%"
+				}
+			},
+			"test": [{
+				"input": {
+					"sodium_serum": 140,
+					"creatinine_serum": 1.0,
+					"sodium_urine": 56,
+					"creatinine_urine": 56
+				},
+				"output": {
+					"fena": 1.0
+				}
+			}]
+		},
+		"trp": {
+			"name": "%TRP Calculation",
+			"input": {
+				"phosphate_serum": {"label": "Serum P [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"creatinine_serum": {"label": "Serum Cre [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"phosphate_urine": {"label": "Urine P [mg/dL]", "type": "float", "min": 0, "max": 1000},
+				"creatinine_urine": {"label": "Urine Cre [mg/dL]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"trp": {
+					"label": "%TRP",
+					"formula": "(1-(phosphate_urine*creatinine_serum)/(phosphate_serum*creatinine_urine))*100",
+					"precision": 1
+				},
+				"tmp_gfr": {
+					"label": "TmP/GFR [mg/dL]",
+					"formula": "trp * phosphate_serum / 100",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"phosphate_serum": 4.0,
+					"creatinine_serum": 1.0,
+					"phosphate_urine": 20,
+					"creatinine_urine": 100
+				},
+				"output": {
+					"trp": 95.0,
+					"tmp_gfr": 3.8
+				}
+			}]
+		},
+		"ckd_epi_2021": {
+			"name": "CKD-EPI 2021 (Creatinine-Cystatin C)",
+			"input": {
+				"scr": {"label": "Serum Creatinine [mg/dL]", "type": "float", "min": 0.1, "max": 20},
+				"cystatin_c": {"label": "Serum Cystatin C [mg/L]", "type": "float", "min": 0.1, "max": 20},
+				"age": {"label": "Age [years]", "type": "float", "min": 18, "max": 120},
+				"sex": {"label": "Sex", "type": "sex"}
+			},
+			"output": {
+				"egfr_2021": {
+					"label": "eGFR [mL/min/1.73m²] (CKD-EPI 2021)",
+					"formula": "142 * min(scr/(sex?0.9:0.7), 1)^(sex?-0.302:-0.241) * max(scr/(sex?0.9:0.7), 1)^-1.2 * min(cystatin_c/0.8, 1)^-0.171 * max(cystatin_c/0.8, 1)^-0.193 * 0.9938^age * (sex?1:1.012)",
+					"precision": 2
+				}
+			},
+			"test": [{
+				"input": {
+					"scr": 1.0,
+					"cystatin_c": 1.0,
+					"age": 50,
+					"sex": 1
+				},
+				"output": {
+					"egfr_2021": 87.83
+				}
+			}],
+			"ref": {
+				"Inker LA, et al. N Engl J Med 2021;385:629-638": "doi:10.1056/NEJMoa2104365"
+			}
+		}
+	},
+	"呼吸器": {
+		"aado2": {
+			"name": "A-aDO₂",
+			"input": {
+				"fio2": {"label": "FiO₂", "type": "float", "min": 0, "max": 1},
+				"pao2": {"label": "PaO₂ [mmHg]", "type": "float", "min": 0, "max": 1000},
+				"paco2": {"label": "PaCO₂ [mmHg]", "type": "float", "min": 0, "max": 1000}
+			},
+			"output": {
+				"aado2": {
+					"label": "A-aDO₂",
+					"formula": "(760-47)*fio2-paco2/0.8-pao2",
+					"precision": 1
+				},
+				"reference": {
+					"label": "Reference",
+					"text": "Normal: ≤10"
+				}
+			},
+			"test": [{
+				"input": {
+					"fio2": 0.21,
+					"pao2": 100,
+					"paco2": 40
+				},
+				"output": {
+					"aado2": 4.4
+				}
+			}]
+		},
+		"psi": {
+			"name": "Pneumonia Severity Index (PSI)",
+			"input": {
+				"age": {"label": "Age [years]", "type": "float", "min": 0, "max": 150},
+				"sex": {"label": "Sex", "type": "sex"},
+				"nursing_home": {"label": "Nursing Home Resident", "type": "onoff"},
+				"neoplastic": {"label": "Malignancy", "type": "onoff"},
+				"liver": {"label": "Liver Disease", "type": "onoff"},
+				"congestive_hf": {"label": "Congestive Heart Failure", "type": "onoff"},
+				"cerebrovascular": {"label": "Cerebrovascular Disease", "type": "onoff"},
+				"renal": {"label": "Renal Disease", "type": "onoff"},
+				"altered_mental": {"label": "Altered Mental Status", "type": "onoff"},
+				"pulse_gt_125": {"label": "Pulse ≥125 bpm", "type": "onoff"},
+				"rr_gt_30": {"label": "Respiratory Rate >30 bpm", "type": "onoff"},
+				"sbp_lt_90": {"label": "Systolic BP <90 mmHg", "type": "onoff"},
+				"temp_abnormal": {"label": "Temperature <35°C or ≥40°C", "type": "onoff"},
+				"ph_lt_7_35": {"label": "Arterial pH <7.35", "type": "onoff"},
+				"bun_ge_30": {"label": "BUN ≥30 mg/dL", "type": "onoff"},
+				"na_lt_130": {"label": "Na <130 mEq/L", "type": "onoff"},
+				"glucose_ge_250": {"label": "Glucose ≥250 mg/dL", "type": "onoff"},
+				"hematocrit_lt_30": {"label": "Ht <30%", "type": "onoff"},
+				"pao2_lt_60": {"label": "PaO₂ <60 mmHg", "type": "onoff"},
+				"pleural_effusion": {"label": "Pleural Effusion", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "(sex ? age : age - 10) + nursing_home*10 + neoplastic*30 + liver*20 + congestive_hf*10 + cerebrovascular*10 + renal*10 + altered_mental*20 + pulse_gt_125*20 + rr_gt_30*20 + sbp_lt_90*15 + temp_abnormal*10 + ph_lt_7_35*30 + bun_ge_30*20 + na_lt_130*20 + glucose_ge_250*10 + hematocrit_lt_30*10 + pao2_lt_60*10 + pleural_effusion*10"
+				},
+				"class": {
+					"label": "Class",
+					"formula": "CalculatePSIClass(age, altered_mental, pulse_gt_125, rr_gt_30, sbp_lt_90, temp_abnormal, neoplastic, congestive_hf, cerebrovascular, renal, liver, score)"
+				},
+				"mortality": {
+					"label": "Mortality (PORT Study) [%]",
+					"formula": "CalculatePSIMortality(class)"
+				}
+			},
+			"ref": {
+				"Wikipedia": "http://en.wikipedia.org/wiki/Pneumonia_severity_index"
+			}
+		},
+		"adrop": {
+			"name": "A-DROP Score",
+			"input": {
+				"age": {"label": "Age (Male ≥70 / Female ≥75)", "type": "onoff"},
+				"dehydration": {"label": "BUN ≥21 or Dehydration", "type": "onoff"},
+				"respiratory_failure": {"label": "SpO₂≤90% (PaO₂≤60 Torr)", "type": "onoff"},
+				"orientation": {"label": "Disturbance of Consciousness", "type": "onoff"},
+				"pressure": {"label": "sBP≤90 mmHg", "type": "onoff"}
+			},
+			"output": {
+				"count": {
+					"label": "Count",
+					"formula": "age + dehydration + respiratory_failure + orientation + pressure"
+				},
+				"judgment": {
+					"label": "Judgment",
+					"formula": "iif(count==0, 'Outpatient', count<=2, 'Outpatient or Hospitalization', count==3, 'Hospitalization', 'ICU admission')"
+				},
+				"note": {
+					"label": "Note",
+					"text": "If shock present, consider severe regardless of count"
+				}
+			},
+			"test": [{
+				"input": {
+					"age": 1,
+					"dehydration": 0,
+					"respiratory_failure": 1,
+					"orientation": 0,
+					"pressure": 0
+				},
+				"output": {
+					"count": 2
+				}
+			}],
+			"ref": {
+				"Japanese Respiratory Society": ""
+			}
+		},
+		"venous_to_arterial_blood_gas": {
+			"name": "Central Venous to Arterial Blood Gas",
+			"input": {
+				"ph": {"label": "pH", "type": "float", "min": 5, "max": 9},
+				"pvco2": {"label": "pvCO₂ [mmHg]", "type": "float", "min": 0, "max": 200},
+				"pvhco3": {"label": "pvHCO₃⁻ [mEq/L]", "type": "float", "min": 0, "max": 80}
+			},
+			"output": {
+				"arterial_ph": {
+					"label": "Arterial pH",
+					"formula": "-0.307 + 1.05 * ph",
+					"precision": 2
+				},
+				"paco2": {
+					"label": "paCO₂ [mmHg]",
+					"formula": "0.805 + 0.936 * pvco2",
+					"precision": 1
+				},
+				"Pahco3": {
+					"label": "paHCO₃⁻ [mEq/L]",
+					"formula": "0.513 + 0.94 * pvhco3",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"ph": 7.4,
+					"pvco2": 45,
+					"pvhco3": 24
+				},
+				"output": {
+					"arterial_ph": 7.46,
+					"paco2": 42.9,
+					"Pahco3": 23.1
+				}
+			}],
+			"ref": {
+				"Agreement between central venous and arterial blood gas measurements in the intensive care unit.": "doi:10.2215/CJN.00330109"
+			}
+		}
+	},
+	"神経": {
+		"abcd2": {
+			"name": "ABCD² Score",
+			"input": {
+				"age": {"label": "Age ≥60", "type": "onoff"},
+				"bp": {"label": "sBP≥140 or dBP≥90 mmHg", "type": "onoff"},
+				"clinical": {
+					"label": "Clinical Features",
+					"type": "select",
+					"options": [
+						{"value": 2, "label": "Unilateral weakness"},
+						{"value": 1, "label": "Speech disturbance without weakness"},
+						{"value": 0, "label": "Other"}
+					]
+				},
+				"duration": {
+					"label": "Duration",
+					"type": "select",
+					"options": [
+						{"value": 2, "label": "≥60 minutes"},
+						{"value": 1, "label": "10-59 minutes"},
+						{"value": 0, "label": "<10 minutes"}
+					]
+				},
+				"diabetes": {"label": "Diabetes", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "age + bp + clinical + duration + diabetes"
+				},
+				"risk": {
+					"label": "Risk",
+					"formula": "iif(score>=6, 'High risk 8.1% stroke within 2 days', score>=4, 'Moderate risk 4.1% stroke within 2 days', 'Low risk 1.0% stroke within 2 days')"
+				}
+			},
+			"test": [{
+				"input": {
+					"age": 1,
+					"bp": 0,
+					"clinical": 2,
+					"duration": 1,
+					"diabetes": 0
+				},
+				"output": {
+					"score": 4
+				}
+			}],
+			"ref": {
+				"Stroke Service; Lancet. 2007 Jan 27;369(9558):283-92.": "pubmed:17258668"
+			}
+		},
+		"abcd2i": {
+			"name": "ABCD²-I Score",
+			"input": {
+				"age": {"label": "Age ≥60", "type": "onoff"},
+				"bp": {"label": "sBP≥140 or dBP≥90 mmHg", "type": "onoff"},
+				"clinical": {
+					"label": "Clinical Features",
+					"type": "select",
+					"options": [
+						{"value": 2, "label": "Unilateral weakness"},
+						{"value": 1, "label": "Speech disturbance without weakness"},
+						{"value": 0, "label": "Other"}
+					]
+				},
+				"duration": {
+					"label": "Duration",
+					"type": "select",
+					"options": [
+						{"value": 2, "label": "≥60 minutes"},
+						{"value": 1, "label": "10-59 minutes"},
+						{"value": 0, "label": "<10 minutes"}
+					]
+				},
+				"diabetes": {"label": "Diabetes", "type": "onoff"},
+				"dwi": {"label": "DWI lesion present", "type": "onoff"}
+			},
+			"output": {
+				"score": {
+					"label": "Score",
+					"formula": "age + bp + clinical + duration + diabetes + dwi*2"
+				},
+				"risk": {
+					"label": "Risk",
+					"formula": "iif(score>=7, 'Very high risk', score>=5, 'High risk', score>=3, 'Moderate risk', 'Low risk')"
+				},
+				"note": {
+					"label": "Note",
+					"text": "ABCD²-I adds DWI imaging to ABCD². Score range: 0-9. DWI lesion adds 2 points."
+				}
+			},
+			"test": [{
+				"input": {
+					"age": 1,
+					"bp": 0,
+					"clinical": 2,
+					"duration": 1,
+					"diabetes": 0,
+					"dwi": 1
+				},
+				"output": {
+					"score": 6
+				}
+			}],
+			"ref": {
+				"Merwick A, et al. Stroke. 2010;41(7):1468-73.": "pubmed:20530112",
+				"Other references": "doi:10.1001/jamaneurol.2013.4078"
+			}
+		},
+		"lumbar_puncture_depth": {
+			"name": "Lumbar Puncture Depth Prediction",
+			"input": {
+				"height": {"label": "Height [cm]", "type": "float", "min": 30, "max": 300},
+				"weight": {"label": "Weight [kg]", "type": "float", "min": 3, "max": 300}
+			},
+			"output": {
+				"adult": {
+					"label": "Adult [cm]",
+					"formula": "1+17*(weight/height)",
+					"precision": 1
+				},
+				"child_3m_plus": {
+					"label": "Child (≥3 months) [cm]",
+					"formula": "1.3 + 0.07*weight",
+					"precision": 1
+				},
+				"child_lt_3m": {
+					"label": "Child (<3 months) [cm]",
+					"formula": "height*0.03",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"height": 170,
+					"weight": 70
+				},
+				"output": {
+					"adult": 8.0
+				}
+			}],
+			"ref": {
+				"Am J Emerg Med. 2005 Oct;23(6):742-6.": "pubmed:16182981",
+				"Coll Antropol. 2003 Dec;27(2):623-6.": "pubmed:14746151",
+				"Arch Dis Child. 1997 Nov;77(5):450.": "pubmed:9487973"
+			}
+		},
+		"abr_reference": {
+			"name": "ABR Latency Reference Values",
+			"input": {
+				"wave_i": {"label": "Wave I [ms]", "type": "float", "min": 0, "max": 10},
+				"wave_iii": {"label": "Wave III [ms]", "type": "float", "min": 0, "max": 10},
+				"wave_v": {"label": "Wave V [ms]", "type": "float", "min": 0, "max": 10},
+				"period": {
+					"label": "Measurement Period",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "32-33 weeks gestation"},
+						{"value": 1, "label": "34-35 weeks gestation"},
+						{"value": 2, "label": "36-37 weeks gestation"},
+						{"value": 3, "label": "38-39 weeks gestation"},
+						{"value": 4, "label": "40-41 weeks gestation"},
+						{"value": 5, "label": "42-43 weeks gestation"},
+						{"value": 6, "label": "44-45 weeks gestation"},
+						{"value": 7, "label": "~5 months"},
+						{"value": 8, "label": "6-11 months"},
+						{"value": 9, "label": "1 year"},
+						{"value": 10, "label": "2-4 years"},
+						{"value": 11, "label": "5-13 years"},
+						{"value": 12, "label": "Adult"}
+					]
+				}
+			},
+			"output": {
+				"wave_i_result": {
+					"label": "Wave I",
+					"formula": "CalculateABRZScore(wave_i, period, 'I')"
+				},
+				"wave_iii_result": {
+					"label": "Wave III",
+					"formula": "CalculateABRZScore(wave_iii, period, 'III')"
+				},
+				"wave_v_result": {
+					"label": "Wave V",
+					"formula": "CalculateABRZScore(wave_v, period, 'V')"
+				},
+				"wave_i_iii_result": {
+					"label": "Wave I-III",
+					"formula": "CalculateABRIIIIntervalZScore(wave_i, wave_iii, period)"
+				},
+				"wave_i_v_result": {
+					"label": "Wave I-V",
+					"formula": "CalculateABRVIntervalZScore(wave_i, wave_v, period)"
+				},
+				"note": {
+					"label": "Note",
+					"text": "Newborns: 85dBHL, thereafter: 90dBHL"
+				}
+			},
+			"ref": {
+				"聴性脳幹反応(Auditory Brainstem Response:ABR)の新生児期への応用 木下洋 関西医大誌 第35巻第3号, 1983": "",
+				"小児科診療 2013増刊号 理解して出そう小児の検査―オーダー・手技・解釈": "isbn:4910047260434"
+			}
+		},
+		"gcs": {
+			"name": "Glasgow Coma Scale (GCS)",
+			"input": {
+				"eye": {
+					"label": "Eye Response",
+					"type": "select",
+					"options": [
+						{"value": 4, "label": "4 - Spontaneous"},
+						{"value": 3, "label": "3 - To speech"},
+						{"value": 2, "label": "2 - To pain"},
+						{"value": 1, "label": "1 - None"}
+					]
+				},
+				"verbal": {
+					"label": "Verbal Response",
+					"type": "select",
+					"options": [
+						{"value": 5, "label": "5 - Oriented"},
+						{"value": 4, "label": "4 - Confused"},
+						{"value": 3, "label": "3 - Inappropriate words"},
+						{"value": 2, "label": "2 - Incomprehensible sounds"},
+						{"value": 1, "label": "1 - None"}
+					]
+				},
+				"motor": {
+					"label": "Motor Response",
+					"type": "select",
+					"options": [
+						{"value": 6, "label": "6 - Obeys commands"},
+						{"value": 5, "label": "5 - Localizing"},
+						{"value": 4, "label": "4 - Normal flexion"},
+						{"value": 3, "label": "3 - Abnormal flexion"},
+						{"value": 2, "label": "2 - Extension"},
+						{"value": 1, "label": "1 - None"}
+					]
+				}
+			},
+			"output": {
+				"total": {
+					"label": "GCS Score",
+					"formula": "eye + verbal + motor"
+				},
+				"severity": {
+					"label": "Severity",
+					"formula": "iif(total>=13, 'Minor injury', total>=9, 'Moderate injury', 'Severe injury')"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"text": "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death"
+				}
+			},
+			"test": [{
+				"input": {
+					"eye": 4,
+					"verbal": 5,
+					"motor": 6
+				},
+				"output": {
+					"total": 15,
+					"severity": "Minor injury"
+				}
+			}, {
+				"input": {
+					"eye": 1,
+					"verbal": 1,
+					"motor": 2
+				},
+				"output": {
+					"total": 4,
+					"severity": "Severe injury"
+				}
+			}],
+			"ref": {
+				"Teasdale G, Jennett B: Lancet. 1974;2(7872):81-83.": "pubmed:4136564",
+				"Wikipedia": "https://en.wikipedia.org/wiki/Glasgow_Coma_Scale"
+			}
+		}
+	},
+	"その他": {
+		"lms_zscore": {
+			"name": "LMS Z-Score Calculation",
+			"input": {
+				"value": {"label": "Value", "type": "float", "min": -99999999, "max": 99999999},
+				"l": {"label": "L (Skewness)", "type": "float", "min": -10, "max": 10},
+				"m": {"label": "M (Median)", "type": "float", "min": -99999999, "max": 99999999},
+				"s": {"label": "S (Coefficient of Variation)", "type": "float", "min": -10, "max": 10}
+			},
+			"output": {
+				"zscore": {
+					"label": "Z-Score",
+					"formula": "CalculateLMSZScore(value, l, m, s)",
+					"precision": 2
+				},
+				"percentile": {
+					"label": "Percentile",
+					"formula": "CalculatePercentileFromZScore(zscore)",
+					"precision": 1
+				}
+			},
+			"test": [{
+				"input": {
+					"value": 50,
+					"l": 1,
+					"m": 50,
+					"s": 0.1
+				},
+				"output": {
+					"zscore": 0.0
+				}
+			}],
+			"ref": {
+				"Percentile Data Files with LMS Values": "http://www.cdc.gov/growthcharts/percentile_data_files.htm",
+				"入門統計学": "isbn:9784274068553",
+				"在胎期間別出生時体格標準値との比較": "http://app.kcrt.net/bw/"
+			}
+		}
+	},
+	"救急医療": {
+		"jcs": {
+			"name": "Japan Coma Scale (JCS)",
+			"type": "html",
+			"html": "<h3>I. Awake</h3><ul><li>0 Fully alert</li><li>I-1 Not fully alert but responsive to call</li><li>I-2 Disoriented</li><li>I-3 Cannot state name or birthday</li></ul><h3>II. Responds to stimuli with transient awakening</h3><ul><li>II-10 Opens eyes to normal call</li><li>II-20 Opens eyes to loud call or shaking</li><li>II-30 Opens eyes only to pain + continuous calling</li></ul><h3>III. Does not respond even to stimuli</h3><ul><li>III-100 Avoids pain stimuli</li><li>III-200 Reacts to pain with movement or grimacing</li><li>III-300 No response to pain</li></ul>",
+			"ref": {
+				"Japanese emergency medicine standard": ""
+			}
+		},
+		"pediatric_jcs": {
+			"name": "Pediatric Consciousness Level",
+			"type": "html",
+			"html": "<h3>I. Awake</h3><ul><li>0 Fully alert</li><li>I-1 Smiles when soothed (but insufficient response)</li><li>I-2 Does not smile but makes eye contact</li><li>I-3 Does not make eye contact with mother</li></ul><h3>II. Awakens with stimuli (falls asleep when stimuli stop)</h3><ul><li>II-10 Tries to drink when shown beverage or sucks when shown nipple</li><li>II-20 Opens eyes and looks when called</li><li>II-30 Opens eyes only with repeated calling</li></ul><h3>III. Does not awaken even with stimuli</h3><ul><li>III-100 Avoids/brushes away pain stimuli</li><li>III-200 Moves limbs slightly or grimaces to pain</li><li>III-300 No response to pain</li></ul>",
+			"ref": {
+				"インフルエンザ脳症ガイドライン": "http://idsc.nih.go.jp/disease/influenza/051121Guide.pdf"
+			}
+		},
+		"sofa": {
+			"name": "SOFA Score (Sepsis-related Organ Failure Assessment)",
+			"input": {
+				"pao2": {"label": "PaO₂ [mmHg]", "type": "float", "min": 0, "max": 1000},
+				"fio2": {"label": "FiO₂ (0-1)", "type": "float", "min": 0.21, "max": 1.0},
+				"platelets": {"label": "Platelets [×10³/μL]", "type": "float", "min": 0, "max": 1000},
+				"bilirubin": {"label": "Bilirubin [mg/dL]", "type": "float", "min": 0, "max": 100},
+				"map": {"label": "Mean Arterial Pressure [mmHg]", "type": "float", "min": 0, "max": 300},
+				"vasopressor": {
+					"label": "Vasopressor Use",
+					"type": "select",
+					"options": [
+						{"value": 0, "label": "None"},
+						{"value": 1, "label": "Dopamine ≤5 μg/kg/min or dobutamine"},
+						{"value": 2, "label": "Dopamine >5 μg/kg/min or epinephrine ≤0.1 μg/kg/min or norepinephrine ≤0.1 μg/kg/min"},
+						{"value": 3, "label": "Dopamine >15 μg/kg/min or epinephrine >0.1 μg/kg/min or norepinephrine >0.1 μg/kg/min"}
+					]
+				},
+				"gcs": {"label": "Glasgow Coma Scale", "type": "float", "min": 3, "max": 15},
+				"creatinine": {"label": "Creatinine [mg/dL]", "type": "float", "min": 0, "max": 20},
+				"urine_output": {"label": "Urine Output [mL/day]", "type": "float", "min": 0, "max": 10000, "default": 0}
+			},
+			"output": {
+				"pao2_fio2": {
+					"label": "PaO₂/FiO₂ Ratio",
+					"formula": "pao2/fio2",
+					"precision": 0
+				},
+				"respiration_score": {
+					"label": "Respiration Score",
+					"formula": "iif(pao2/fio2 < 100, 4, pao2/fio2 < 200, 3, pao2/fio2 < 300, 2, pao2/fio2 < 400, 1, 0)"
+				},
+				"coagulation_score": {
+					"label": "Coagulation Score",
+					"formula": "iif(platelets < 20, 4, platelets < 50, 3, platelets < 100, 2, platelets < 150, 1, 0)"
+				},
+				"liver_score": {
+					"label": "Liver Score",
+					"formula": "iif(bilirubin >= 12, 4, bilirubin >= 6, 3, bilirubin >= 2, 2, bilirubin >= 1.2, 1, 0)"
+				},
+				"cardiovascular_score": {
+					"label": "Cardiovascular Score",
+					"formula": "iif(vasopressor >= 3, 4, vasopressor == 2, 3, vasopressor == 1, 2, map < 70, 1, 0)"
+				},
+				"cns_score": {
+					"label": "CNS Score",
+					"formula": "iif(gcs < 6, 4, gcs < 10, 3, gcs < 13, 2, gcs < 15, 1, 0)"
+				},
+				"renal_score": {
+					"label": "Renal Score",
+					"formula": "iif(creatinine >= 5 or urine_output < 200, 4, creatinine >= 3.5 or urine_output < 500, 3, creatinine >= 2, 2, creatinine >= 1.2, 1, 0)"
+				},
+				"total": {
+					"label": "Total SOFA Score",
+					"formula": "respiration_score + coagulation_score + liver_score + cardiovascular_score + cns_score + renal_score"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"text": "≥2: Indicates organ dysfunction; Score change ≥2 indicates significant change in organ function"
+				}
+			},
+			"test": [{
+				"input": {
+					"pao2": 80,
+					"fio2": 0.5,
+					"platelets": 100,
+					"bilirubin": 2.5,
+					"map": 65,
+					"vasopressor": 1,
+					"gcs": 14,
+					"creatinine": 1.5,
+					"urine_output": 500
+				},
+				"output": {
+					"respiration_score": 2,
+					"coagulation_score": 2,
+					"liver_score": 1,
+					"cardiovascular_score": 1,
+					"cns_score": 1,
+					"renal_score": 2,
+					"total": 9
+				}
+			}],
+			"ref": {
+				"Vincent JL, et al. Intensive Care Med. 1996;22(7):707-10.": "pubmed:8844239",
+				"Seymour CW, et al. JAMA. 2016;315(8):801-10.": "pubmed:26871107",
+				"Sepsis-3 Definitions": "doi:10.1001/jama.2016.0287"
+			}
+		},
+		"qsofa": {
+			"name": "qSOFA Score (quick SOFA)",
+			"input": {
+				"respiratory_rate": {"label": "Respiratory Rate [/min]", "type": "float", "min": 0, "max": 100},
+				"altered_mentation": {"label": "Altered Mentation (GCS <15)", "type": "onoff"},
+				"systolic_bp": {"label": "Systolic Blood Pressure [mmHg]", "type": "float", "min": 0, "max": 300}
+			},
+			"output": {
+				"score": {
+					"label": "qSOFA Score",
+					"formula": "(respiratory_rate >= 22 ? 1 : 0) + altered_mentation + (systolic_bp <= 100 ? 1 : 0)"
+				},
+				"risk": {
+					"label": "Risk Assessment",
+					"formula": "iif(score >= 2, 'High risk - consider sepsis', 'Low risk')"
+				},
+				"interpretation": {
+					"label": "Interpretation",
+					"text": "Score ≥2: Associated with greater risk of poor outcome (mortality ≥10%); Prompt further evaluation and consider sepsis"
+				},
+				"note": {
+					"label": "Note",
+					"text": "qSOFA is a bedside prompt for early identification of patients with suspected infection who are at greater risk for poor outcome outside the ICU"
+				}
+			},
+			"test": [{
+				"input": {
+					"respiratory_rate": 24,
+					"altered_mentation": 1,
+					"systolic_bp": 95
+				},
+				"output": {
+					"score": 3
+				}
+			}],
+			"ref": {
+				"Seymour CW, et al. JAMA. 2016;315(8):801-10.": "pubmed:26871107",
+				"Sepsis-3 Definitions": "doi:10.1001/jama.2016.0287"
+			}
 		}
 	}
 }

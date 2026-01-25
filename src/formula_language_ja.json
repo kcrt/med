@@ -71,5 +71,193 @@
 				}
 			}]
 		}
+	},
+	"腎機能": {
+		"ckd_epi_2021": {
+			"name": "CKD-EPI 2021 (クレアチニン・シスタチンC)",
+			"input": {
+				"scr": {"label": "血清クレアチニン [mg/dL]"},
+				"cystatin_c": {"label": "血清シスタチンC [mg/L]"},
+				"age": {"label": "年齢 [歳]"},
+				"sex": {"label": "性別"}
+			},
+			"output": {
+				"egfr_2021": {
+					"label": "推算GFR [mL/min/1.73m²] (CKD-EPI 2021)"
+				}
+			}
+		}
+	},
+	"神経": {
+		"abcd2i": {
+			"name": "ABCD²-Iスコア",
+			"input": {
+				"age": {"label": "年齢≥60歳"},
+				"bp": {"label": "血圧≥140/90 mmHg"},
+				"clinical": {"label": "臨床症状"},
+				"duration": {"label": "持続時間"},
+				"diabetes": {"label": "糖尿病"},
+				"dwi": {"label": "DWI病変あり"}
+			},
+			"output": {
+				"score": {"label": "スコア"},
+				"risk": {
+					"label": "リスク",
+					"formula": "iif(score>=7, '超高リスク', score>=5, '高リスク', score>=3, '中リスク', '低リスク')"
+				},
+				"note": {
+					"label": "備考",
+					"text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
+				}
+			}
+		},
+		"gcs": {
+			"name": "Glasgow Coma Scale (GCS)",
+			"input": {
+				"eye": {
+					"label": "開眼",
+					"options": [
+						{"value": 4, "label": "4 - 自発的に開眼"},
+						{"value": 3, "label": "3 - 呼びかけで開眼"},
+						{"value": 2, "label": "2 - 痛刺激で開眼"},
+						{"value": 1, "label": "1 - 開眼なし"}
+					]
+				},
+				"verbal": {
+					"label": "言語",
+					"options": [
+						{"value": 5, "label": "5 - 見当識正常"},
+						{"value": 4, "label": "4 - 会話混乱"},
+						{"value": 3, "label": "3 - 不適切な言葉"},
+						{"value": 2, "label": "2 - 音声のみ（理解不能）"},
+						{"value": 1, "label": "1 - 発語なし"}
+					]
+				},
+				"motor": {
+					"label": "運動",
+					"options": [
+						{"value": 6, "label": "6 - 命令に従う"},
+						{"value": 5, "label": "5 - 痛刺激で定位"},
+						{"value": 4, "label": "4 - 痛刺激で退避（正常屈曲）"},
+						{"value": 3, "label": "3 - 異常屈曲（除皮質強直）"},
+						{"value": 2, "label": "2 - 伸展（除脳強直）"},
+						{"value": 1, "label": "1 - なし"}
+					]
+				}
+			},
+			"output": {
+				"total": {
+					"label": "GCSスコア"
+				},
+				"severity": {
+					"label": "重症度",
+					"formula": "iif(total>=13, '軽症', total>=9, '中等症', '重症')"
+				},
+				"interpretation": {
+					"label": "解釈",
+					"text": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
+				}
+			},
+			"test": [{
+				"input": {
+					"eye": 4,
+					"verbal": 5,
+					"motor": 6
+				},
+				"output": {
+					"total": 15,
+					"severity": "軽症"
+				}
+			}, {
+				"input": {
+					"eye": 1,
+					"verbal": 1,
+					"motor": 2
+				},
+				"output": {
+					"total": 4,
+					"severity": "重症"
+				}
+			}]
+		}
+	},
+	"救急医療": {
+		"sofa": {
+			"name": "SOFAスコア (敗血症関連臓器障害評価)",
+			"input": {
+				"pao2": {"label": "PaO₂ [mmHg]"},
+				"fio2": {"label": "FiO₂ (0-1)"},
+				"platelets": {"label": "血小板数 [×10³/μL]"},
+				"bilirubin": {"label": "総ビリルビン [mg/dL]"},
+				"map": {"label": "平均動脈圧 [mmHg]"},
+				"vasopressor": {
+					"label": "血管作動薬使用",
+					"options": [
+						{"value": 0, "label": "なし"},
+						{"value": 1, "label": "ドパミン≤5 μg/kg/min または ドブタミン"},
+						{"value": 2, "label": "ドパミン>5 μg/kg/min または エピネフリン≤0.1 μg/kg/min または ノルエピネフリン≤0.1 μg/kg/min"},
+						{"value": 3, "label": "ドパミン>15 μg/kg/min または エピネフリン>0.1 μg/kg/min または ノルエピネフリン>0.1 μg/kg/min"}
+					]
+				},
+				"gcs": {"label": "Glasgow Coma Scale"},
+				"creatinine": {"label": "クレアチニン [mg/dL]"},
+				"urine_output": {"label": "尿量 [mL/day]", "default": 0}
+			},
+			"output": {
+				"pao2_fio2": {
+					"label": "PaO₂/FiO₂比"
+				},
+				"respiration_score": {
+					"label": "呼吸器スコア"
+				},
+				"coagulation_score": {
+					"label": "凝固スコア"
+				},
+				"liver_score": {
+					"label": "肝臓スコア"
+				},
+				"cardiovascular_score": {
+					"label": "循環器スコア"
+				},
+				"cns_score": {
+					"label": "中枢神経スコア"
+				},
+				"renal_score": {
+					"label": "腎臓スコア"
+				},
+				"total": {
+					"label": "SOFAスコア合計"
+				},
+				"interpretation": {
+					"label": "解釈",
+					"text": "≧2点: 臓器障害を示唆; スコア変化≧2点: 臓器機能の有意な変化を示す"
+				}
+			}
+		},
+		"qsofa": {
+			"name": "qSOFAスコア (quick SOFA)",
+			"input": {
+				"respiratory_rate": {"label": "呼吸数 [/分]"},
+				"altered_mentation": {"label": "意識障害 (GCS<15)"},
+				"systolic_bp": {"label": "収縮期血圧 [mmHg]"}
+			},
+			"output": {
+				"score": {
+					"label": "qSOFAスコア"
+				},
+				"risk": {
+					"label": "リスク評価",
+					"formula": "iif(score >= 2, '高リスク - 敗血症を考慮', '低リスク')"
+				},
+				"interpretation": {
+					"label": "解釈",
+					"text": "スコア≧2点: 予後不良リスクが高い（死亡率≧10%）；敗血症の評価を要する"
+				},
+				"note": {
+					"label": "備考",
+					"text": "qSOFAは、ICU外で感染疑い例のうち予後不良リスクが高い症例を早期同定するためのベッドサイドスクリーニングツール"
+				}
+			}
+		}
 	}
 }

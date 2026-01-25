@@ -222,6 +222,22 @@ export function iif(...args: unknown[]): unknown {
 }
 
 /**
+ * Body Surface Area calculation using Du Bois formula.
+ *
+ * BSA = 0.007184 × height^0.725 × weight^0.425
+ *
+ * @param height - Height in centimeters
+ * @param weight - Weight in kilograms
+ * @returns Body Surface Area in square meters
+ *
+ * @example
+ * BSA_DuBois(170, 70) // Returns approximately 1.81
+ */
+export function BSA_DuBois(height: number, weight: number): number {
+  return 0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425);
+}
+
+/**
  * Expression parser with custom functions for formula evaluation.
  */
 const parser = new Parser({
@@ -235,6 +251,9 @@ const parser = new Parser({
 // Register custom functions
 parser.functions.iif = iif;
 parser.functions.if = iif; // Alias for compatibility
+parser.functions.BSA_DuBois = BSA_DuBois;
+parser.functions.min = Math.min;
+parser.functions.max = Math.max;
 
 /**
  * Input values for formula evaluation.
@@ -298,6 +317,47 @@ export function formatOutput(value: number | string, precision?: number): number
  * // Returns { BMI: 24.2, who_diag: "normal", jasso_diag: "標準" }
  * ```
  */
+/**
+ * Validate assertions against input values.
+ *
+ * @param assertions - Array of assertions to validate
+ * @param inputValues - The input values to validate against
+ * @returns Array of error messages for failed assertions
+ *
+ * @example
+ * ```ts
+ * const assertions = [
+ *   { condition: "systolic > diastolic", message: "収縮期血圧は拡張期血圧より高くなければなりません" },
+ *   { condition: "age >= 18", message: "18歳以上のみ対象です" }
+ * ];
+ * const errors = validateAssertions(assertions, { systolic: 120, diastolic: 80, age: 25 });
+ * // Returns [] (no errors)
+ * ```
+ */
+export function validateAssertions(
+  assertions: { condition: string; message: string }[],
+  inputValues: FormulaInputValues,
+): string[] {
+  const errors: string[] = [];
+
+  for (const assertion of assertions) {
+    try {
+      const expr = parser.parse(assertion.condition);
+      const result = expr.evaluate(inputValues);
+      // Assertion fails if condition is falsy
+      if (!result) {
+        errors.push(assertion.message);
+      }
+    } catch {
+      // If evaluation fails (e.g., missing variables), skip this assertion
+      // This prevents errors during partial input
+      continue;
+    }
+  }
+
+  return errors;
+}
+
 export function evaluateFormulaOutputs(
   formula: Formula,
   inputValues: FormulaInputValues,
