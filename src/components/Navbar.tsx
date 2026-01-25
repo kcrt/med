@@ -14,7 +14,7 @@ export function Navbar() {
   const menuItems = getMenuItems(locale);
 
   return (
-    <Stack>
+    <Stack h="100%" style={{ overflowY: "auto" }}>
       <Accordion variant="filled" defaultValue={menuItems[0]?.label}>
         {menuItems.map((category) => (
           <Accordion.Item key={category.path} value={category.label}>
