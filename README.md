@@ -1,6 +1,10 @@
 Medical Calculator (医療計算機)
 ======================
 
+Now we are rebuilding the Medical Calculator using modern web technologies.
+Current code does not work well!
+Please try `https://github.com/kcrt/med/tree/6a592ee2360f8d80ecf4460efc3b7bd36d6cb957` that works properly.
+
 ![Medical Calculator](http://app.kcrt.net/med/startup_1024x748.png)
 
 The old version (jQuery + jQuery Mobile) is available at `https://github.com/kcrt/med/tree/6a592ee2360f8d80ecf4460efc3b7bd36d6cb957`.
