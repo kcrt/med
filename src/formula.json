@@ -1,13 +1,1 @@
-  "pcd": {
-    "input": {
-      "edc": {"name": "出生予定日", "type": "date"},
-      "targetdate": {"name": "日付", "type": "date", "default": "today"}
-    },
-    "output": {
-      "edc_d": {"name": "hidden", "formula": "(targetdate-edc) / (24*60*60*1000)"},
-      "pca_d": {"name": "hidden", "formula": "edc_d + (40*7)"},
-      "pca": {"name": "在胎週数", "formula": "(pca_d/7 < 1 || pca_d/7 > 44) ? '-' : ('在胎 ' + Math.floor(pca_d/7) + '週' + (pca_d % 7) + '日')"},
-      "edcmonth": {"name": "hidden", "formula": "Math.floor(edc_d/365*12)"},
-      "edcplus": {"name": "修正月齢", "formula": "(edc_d < 0) ? '-' : ('修正 ' + edcmonth + 'ヶ月' + (edc_d-Math.floor(edcmonth*365/12)) + '日')"
-    }
-  }
+{"key":"value"}
