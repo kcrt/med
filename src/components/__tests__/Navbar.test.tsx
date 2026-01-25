@@ -31,7 +31,7 @@ describe("Navbar", () => {
   it("renders formula categories", () => {
     renderWithProviders(<Navbar />);
 
-    expect(screen.getByText("体格指数")).toBeInTheDocument();
+    expect(screen.getByText("Body Structure Index")).toBeInTheDocument();
   });
 
   it("renders formula items within categories", () => {

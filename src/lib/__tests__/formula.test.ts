@@ -65,14 +65,14 @@ describe('Locale-aware formula tests', () => {
     it('returns base data for English locale', () => {
       const data = getLocalizedFormulaData('en');
       expect(data).toBeDefined();
-      const bmiFormula = data['体格指数']['bmi_adult'];
+      const bmiFormula = data['Body Structure Index']['bmi_adult'];
       expect(bmiFormula?.input['height']?.label).toBe('Height [cm]');
     });
 
     it('returns merged data for Japanese locale', () => {
       const data = getLocalizedFormulaData('ja');
       expect(data).toBeDefined();
-      const bmiFormula = data['体格指数']['bmi_adult'];
+      const bmiFormula = data['Body Structure Index']['bmi_adult'];
       expect(bmiFormula?.input['height']?.label).toBe('身長[cm]');
     });
 
@@ -135,7 +135,7 @@ describe('Locale-aware formula tests', () => {
     it('returns English menu items by default', () => {
       const items = getMenuItems();
       expect(items).toBeDefined();
-      const bodyIndices = items.find(i => i.label === '体格指数');
+      const bodyIndices = items.find(i => i.label === 'Body Structure Index');
       expect(bodyIndices).toBeDefined();
       const bmiItem = bodyIndices?.items.find(i => i.path === '/formula/bmi_adult');
       expect(bmiItem?.label).toBe('BMI (Adult)');
@@ -144,7 +144,7 @@ describe('Locale-aware formula tests', () => {
     it('returns Japanese menu items when ja locale specified', () => {
       const items = getMenuItems('ja');
       expect(items).toBeDefined();
-      const bodyIndices = items.find(i => i.label === '体格指数');
+      const bodyIndices = items.find(i => i.label === 'Body Structure Index');
       expect(bodyIndices).toBeDefined();
       const bmiItem = bodyIndices?.items.find(i => i.path === '/formula/bmi_adult');
       expect(bmiItem?.label).toBe('BMI (成人)');

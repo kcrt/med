@@ -163,6 +163,11 @@ function mergeFormula(
     const overrideCalc = override as Partial<CalculationFormula>;
     const resultCalc: CalculationFormula = { ...baseCalc };
 
+    // Merge name (important: resultCalc is a new object, so we need to explicitly set the name)
+    if (override.name) {
+      resultCalc.name = override.name;
+    }
+
     // Merge input definitions
     if (overrideCalc.input) {
       resultCalc.input = { ...baseCalc.input };
@@ -223,7 +228,7 @@ const _validatedData = FormulaDataSchema.parse(formulaJson);
  * ```ts
  * import { formulaData } from '@/lib/formula';
  *
- * const bmiFormula = formulaData['体格指数']['bmi_adult'];
+ * const bmiFormula = formulaData['Body Structure Index']['bmi_adult'];
  * const heightInput = bmiFormula.input['height'];
  * console.log(heightInput.label); // "Height [cm]"
  * ```
@@ -449,7 +454,7 @@ export function formatOutput(value: number | string, precision?: number): number
  *
  * @example
  * ```ts
- * const bmiFormula = formulaData['体格指数']['bmi_adult'];
+ * const bmiFormula = formulaData['Body Structure Index']['bmi_adult'];
  * const results = evaluateFormulaOutputs(bmiFormula, { height: 170, weight: 70 });
  * // Returns { BMI: 24.2, who_diag: "normal", jasso_diag: "標準" }
  * ```
@@ -591,8 +596,8 @@ export interface CategoryMenuItem extends MenuItem {
  * // Returns:
  * // [
  * //   {
- * //     label: "体格指数",
- * //     path: "/category/体格指数",
+ * //     label: "Body Structure Index",
+ * //     path: "/category/Body%20Structure%20Index",
  * //     items: [
  * //       { label: "BMI (Adult)", path: "/formula/bmi_adult" },
  * //       { label: "BMI/Kaup/Rohrer Index (Child)", path: "/formula/bmi_child" }

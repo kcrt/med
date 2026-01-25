@@ -4,47 +4,66 @@
 		"version": "1.0.0",
 		"lastModified": "2025-01-25"
 	},
-	"体格指数": {
+	"Body Structure Index": {
 		"bmi_adult": {
 			"name": "BMI (成人)",
 			"input": {
-				"height": {"label": "身長[cm]"},
-				"weight": {"label": "体重[kg]"}
+				"height": {
+					"label": "身長[cm]"
+				},
+				"weight": {
+					"label": "体重[kg]"
+				}
 			},
 			"output": {
-				"who": {"label": "WHO(世界保健機関)", "text": "≧25: overwight, ≧30: obese"},
+				"who": {
+					"label": "WHO(世界保健機関)",
+					"text": "≧25: overwight, ≧30: obese"
+				},
 				"who_diag": {
 					"label": "WHO(世界保健機関)"
 				},
-				"jasso": {"label": "日本肥満学会", "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"},
+				"jasso": {
+					"label": "日本肥満学会",
+					"text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"
+				},
 				"jasso_diag": {
 					"label": "日本肥満学会",
 					"formula": "iif(BMI<18.5, '低体重', BMI<25, '標準', '肥満')"
 				}
 			},
-			"test": [{
-				"input": {
-					"height": 170,
-					"weight": 70
-				},
-				"output": {
-					"BMI": 24.2,
-					"who_diag": "normal",
-					"jasso_diag": "標準"
+			"test": [
+				{
+					"input": {
+						"height": 170,
+						"weight": 70
+					},
+					"output": {
+						"BMI": 24.2,
+						"who_diag": "normal",
+						"jasso_diag": "標準"
+					}
 				}
-			}]
+			]
 		},
 		"bmi_child": {
 			"name": "BMI (小児)",
 			"input": {
-				"height": {"label": "身長[cm]"},
-				"weight": {"label": "体重[kg]"}
+				"height": {
+					"label": "身長[cm]"
+				},
+				"weight": {
+					"label": "体重[kg]"
+				}
 			},
 			"output": {
 				"kaup": {
 					"label": "Kaup指数"
 				},
-				"info1": {"label": "乳幼児(3ヶ月以降)", "text": "正常範囲: 15-18"},
+				"info1": {
+					"label": "乳幼児(3ヶ月以降)",
+					"text": "正常範囲: 15-18"
+				},
 				"kaup_diag": {
 					"label": "乳幼児(3ヶ月以降)",
 					"formula": "if(kaup>=15 and kaup<=18, '正常範囲', '正常範囲外')"
@@ -52,34 +71,47 @@
 				"rohrer": {
 					"label": "Rohrer指数"
 				},
-				"info2": {"label": "学童", "text": "標準: 130, 160以上で肥満"},
+				"info2": {
+					"label": "学童",
+					"text": "標準: 130, 160以上で肥満"
+				},
 				"rohrer_diag": {
 					"label": "学童",
 					"formula": "iif(rohrer<130, '痩身', rohrer<160, '標準', '肥満')"
 				}
 			},
-			"test": [{
-				"input": {
-					"height": 80,
-					"weight": 10
-				},
-				"output": {
-					"kaup": 15.6,
-					"kaup_diag": "正常範囲",
-					"rohrer": 195.3,
-					"rohrer_diag": "肥満"
+			"test": [
+				{
+					"input": {
+						"height": 80,
+						"weight": 10
+					},
+					"output": {
+						"kaup": 15.6,
+						"kaup_diag": "正常範囲",
+						"rohrer": 195.3,
+						"rohrer_diag": "肥満"
+					}
 				}
-			}]
+			]
 		}
 	},
-	"腎機能": {
+	"Renal Function": {
 		"ckd_epi_2021": {
 			"name": "CKD-EPI 2021 (クレアチニン・シスタチンC)",
 			"input": {
-				"scr": {"label": "血清クレアチニン [mg/dL]"},
-				"cystatin_c": {"label": "血清シスタチンC [mg/L]"},
-				"age": {"label": "年齢 [歳]"},
-				"sex": {"label": "性別"}
+				"scr": {
+					"label": "血清クレアチニン [mg/dL]"
+				},
+				"cystatin_c": {
+					"label": "血清シスタチンC [mg/L]"
+				},
+				"age": {
+					"label": "年齢 [歳]"
+				},
+				"sex": {
+					"label": "性別"
+				}
 			},
 			"output": {
 				"egfr_2021": {
@@ -88,19 +120,33 @@
 			}
 		}
 	},
-	"神経": {
+	"Neurology": {
 		"abcd2i": {
 			"name": "ABCD²-Iスコア",
 			"input": {
-				"age": {"label": "年齢≥60歳"},
-				"bp": {"label": "血圧≥140/90 mmHg"},
-				"clinical": {"label": "臨床症状"},
-				"duration": {"label": "持続時間"},
-				"diabetes": {"label": "糖尿病"},
-				"dwi": {"label": "DWI病変あり"}
+				"age": {
+					"label": "年齢≥60歳"
+				},
+				"bp": {
+					"label": "血圧≥140/90 mmHg"
+				},
+				"clinical": {
+					"label": "臨床症状"
+				},
+				"duration": {
+					"label": "持続時間"
+				},
+				"diabetes": {
+					"label": "糖尿病"
+				},
+				"dwi": {
+					"label": "DWI病変あり"
+				}
 			},
 			"output": {
-				"score": {"label": "スコア"},
+				"score": {
+					"label": "スコア"
+				},
 				"risk": {
 					"label": "リスク",
 					"formula": "iif(score>=7, '超高リスク', score>=5, '高リスク', score>=3, '中リスク', '低リスク')"
@@ -117,31 +163,76 @@
 				"eye": {
 					"label": "開眼",
 					"options": [
-						{"value": 4, "label": "4 - 自発的に開眼"},
-						{"value": 3, "label": "3 - 呼びかけで開眼"},
-						{"value": 2, "label": "2 - 痛刺激で開眼"},
-						{"value": 1, "label": "1 - 開眼なし"}
+						{
+							"value": 4,
+							"label": "4 - 自発的に開眼"
+						},
+						{
+							"value": 3,
+							"label": "3 - 呼びかけで開眼"
+						},
+						{
+							"value": 2,
+							"label": "2 - 痛刺激で開眼"
+						},
+						{
+							"value": 1,
+							"label": "1 - 開眼なし"
+						}
 					]
 				},
 				"verbal": {
 					"label": "言語",
 					"options": [
-						{"value": 5, "label": "5 - 見当識正常"},
-						{"value": 4, "label": "4 - 会話混乱"},
-						{"value": 3, "label": "3 - 不適切な言葉"},
-						{"value": 2, "label": "2 - 音声のみ（理解不能）"},
-						{"value": 1, "label": "1 - 発語なし"}
+						{
+							"value": 5,
+							"label": "5 - 見当識正常"
+						},
+						{
+							"value": 4,
+							"label": "4 - 会話混乱"
+						},
+						{
+							"value": 3,
+							"label": "3 - 不適切な言葉"
+						},
+						{
+							"value": 2,
+							"label": "2 - 音声のみ（理解不能）"
+						},
+						{
+							"value": 1,
+							"label": "1 - 発語なし"
+						}
 					]
 				},
 				"motor": {
 					"label": "運動",
 					"options": [
-						{"value": 6, "label": "6 - 命令に従う"},
-						{"value": 5, "label": "5 - 痛刺激で定位"},
-						{"value": 4, "label": "4 - 痛刺激で退避（正常屈曲）"},
-						{"value": 3, "label": "3 - 異常屈曲（除皮質強直）"},
-						{"value": 2, "label": "2 - 伸展（除脳強直）"},
-						{"value": 1, "label": "1 - なし"}
+						{
+							"value": 6,
+							"label": "6 - 命令に従う"
+						},
+						{
+							"value": 5,
+							"label": "5 - 痛刺激で定位"
+						},
+						{
+							"value": 4,
+							"label": "4 - 痛刺激で退避（正常屈曲）"
+						},
+						{
+							"value": 3,
+							"label": "3 - 異常屈曲（除皮質強直）"
+						},
+						{
+							"value": 2,
+							"label": "2 - 伸展（除脳強直）"
+						},
+						{
+							"value": 1,
+							"label": "1 - なし"
+						}
 					]
 				}
 			},
@@ -158,50 +249,82 @@
 					"text": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
 				}
 			},
-			"test": [{
-				"input": {
-					"eye": 4,
-					"verbal": 5,
-					"motor": 6
+			"test": [
+				{
+					"input": {
+						"eye": 4,
+						"verbal": 5,
+						"motor": 6
+					},
+					"output": {
+						"total": 15,
+						"severity": "軽症"
+					}
 				},
-				"output": {
-					"total": 15,
-					"severity": "軽症"
+				{
+					"input": {
+						"eye": 1,
+						"verbal": 1,
+						"motor": 2
+					},
+					"output": {
+						"total": 4,
+						"severity": "重症"
+					}
 				}
-			}, {
-				"input": {
-					"eye": 1,
-					"verbal": 1,
-					"motor": 2
-				},
-				"output": {
-					"total": 4,
-					"severity": "重症"
-				}
-			}]
+			]
 		}
 	},
-	"救急医療": {
+	"Emergency Medicine": {
 		"sofa": {
 			"name": "SOFAスコア (敗血症関連臓器障害評価)",
 			"input": {
-				"pao2": {"label": "PaO₂ [mmHg]"},
-				"fio2": {"label": "FiO₂ (0-1)"},
-				"platelets": {"label": "血小板数 [×10³/μL]"},
-				"bilirubin": {"label": "総ビリルビン [mg/dL]"},
-				"map": {"label": "平均動脈圧 [mmHg]"},
+				"pao2": {
+					"label": "PaO₂ [mmHg]"
+				},
+				"fio2": {
+					"label": "FiO₂ (0-1)"
+				},
+				"platelets": {
+					"label": "血小板数 [×10³/μL]"
+				},
+				"bilirubin": {
+					"label": "総ビリルビン [mg/dL]"
+				},
+				"map": {
+					"label": "平均動脈圧 [mmHg]"
+				},
 				"vasopressor": {
 					"label": "血管作動薬使用",
 					"options": [
-						{"value": 0, "label": "なし"},
-						{"value": 1, "label": "ドパミン≤5 μg/kg/min または ドブタミン"},
-						{"value": 2, "label": "ドパミン>5 μg/kg/min または エピネフリン≤0.1 μg/kg/min または ノルエピネフリン≤0.1 μg/kg/min"},
-						{"value": 3, "label": "ドパミン>15 μg/kg/min または エピネフリン>0.1 μg/kg/min または ノルエピネフリン>0.1 μg/kg/min"}
+						{
+							"value": 0,
+							"label": "なし"
+						},
+						{
+							"value": 1,
+							"label": "ドパミン≤5 μg/kg/min または ドブタミン"
+						},
+						{
+							"value": 2,
+							"label": "ドパミン>5 μg/kg/min または エピネフリン≤0.1 μg/kg/min または ノルエピネフリン≤0.1 μg/kg/min"
+						},
+						{
+							"value": 3,
+							"label": "ドパミン>15 μg/kg/min または エピネフリン>0.1 μg/kg/min または ノルエピネフリン>0.1 μg/kg/min"
+						}
 					]
 				},
-				"gcs": {"label": "Glasgow Coma Scale"},
-				"creatinine": {"label": "クレアチニン [mg/dL]"},
-				"urine_output": {"label": "尿量 [mL/day]", "default": 0}
+				"gcs": {
+					"label": "Glasgow Coma Scale"
+				},
+				"creatinine": {
+					"label": "クレアチニン [mg/dL]"
+				},
+				"urine_output": {
+					"label": "尿量 [mL/day]",
+					"default": 0
+				}
 			},
 			"output": {
 				"pao2_fio2": {
@@ -237,9 +360,15 @@
 		"qsofa": {
 			"name": "qSOFAスコア (quick SOFA)",
 			"input": {
-				"respiratory_rate": {"label": "呼吸数 [/分]"},
-				"altered_mentation": {"label": "意識障害 (GCS<15)"},
-				"systolic_bp": {"label": "収縮期血圧 [mmHg]"}
+				"respiratory_rate": {
+					"label": "呼吸数 [/分]"
+				},
+				"altered_mentation": {
+					"label": "意識障害 (GCS<15)"
+				},
+				"systolic_bp": {
+					"label": "収縮期血圧 [mmHg]"
+				}
 			},
 			"output": {
 				"score": {
