@@ -276,7 +276,7 @@
         },
         "_edcmonth": {
           "label": "hidden",
-          "formula": "Math.floor(_edc_d/365*12)"
+          "formula": "floor(_edc_d/365*12)"
         },
         "postconceptional_days": {
           "label": "Postconceptional Days",
@@ -286,11 +286,11 @@
         },
         "postconceptional_age": {
           "label": "Postconceptional Age",
-          "formula": "(_pca_d/7 < 1 || _pca_d/7 > 44) ? '-' : (Math.floor(_pca_d/7) + ' weeks ' + (_pca_d % 7) + ' days')"
+          "formula": "(_pca_d/7 < 1 || _pca_d/7 > 44) ? '-' : concat(floor(_pca_d/7), ' weeks ', (_pca_d % 7), ' days')"
         },
         "corrected_age": {
           "label": "Corrected Age",
-          "formula": "(_edc_d < 0) ? '-' : (_edcmonth + ' months ' + Math.floor(_edc_d-Math.floor(_edcmonth*365/12)) + ' days')"
+          "formula": "(_edc_d < 0) ? '-' : concat(_edcmonth, ' months ', floor(_edc_d-floor(_edcmonth*365/12)), ' days')"
         }
       },
       "test": [

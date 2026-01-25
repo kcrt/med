@@ -427,6 +427,20 @@ export function dateparse(dateString: string): number {
   return Date.parse(dateString);
 }
 
+/**
+ * Concatenate values into a string.
+ * Supports any number of arguments and converts them to strings.
+ *
+ * @param args - Values to concatenate
+ * @returns Concatenated string
+ *
+ * @example
+ * concat(40, ' weeks ', 5, ' days') // Returns "40 weeks 5 days"
+ */
+export function concat(...args: unknown[]): string {
+  return args.join('');
+}
+
 // Register custom functions
 parser.functions.iif = iif;
 parser.functions.if = iif; // Alias for compatibility
@@ -437,6 +451,7 @@ parser.functions.sqrt = Math.sqrt;
 parser.functions.log = Math.log;
 parser.functions.pow = Math.pow;
 parser.functions.exp = Math.exp;
+parser.functions.floor = Math.floor;
 parser.functions.GetZScore = GetZScore;
 parser.functions.GetZScoreStr = GetZScoreStr;
 parser.functions.erf = erf;
@@ -444,6 +459,7 @@ parser.functions.GetZScoreFromLMS = GetZScoreFromLMS;
 parser.functions.GetPercentileFromZScore = GetPercentileFromZScore;
 parser.functions.GetValueFromZScore = GetValueFromZScore;
 parser.functions.dateparse = dateparse;
+parser.functions.concat = concat;
 
 /**
  * Input values for formula evaluation.
