@@ -94,6 +94,28 @@
           }
         }
       ]
+    },
+    "postconceptional_days": {
+      "name": "在胎週数・修正月齢",
+      "input": {
+        "edc": {
+          "label": "出生予定日"
+        },
+        "target_date": {
+          "label": "日付"
+        }
+      },
+      "output": {
+        "postconceptional_days": {
+          "label": "受胎日数"
+        },
+        "postconceptional_age": {
+          "label": "在胎週数"
+        },
+        "corrected_age": {
+          "label": "修正月齢"
+        }
+      }
     }
   },
   "Renal Function": {

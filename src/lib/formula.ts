@@ -418,6 +418,15 @@ export function GetValueFromZScore(
   }
 }
 
+/**
+ * Parse ISO date string (YYYY-MM-DD) to timestamp (milliseconds since epoch).
+ * @param dateString - ISO date string
+ * @returns Timestamp in milliseconds
+ */
+export function dateparse(dateString: string): number {
+  return Date.parse(dateString);
+}
+
 // Register custom functions
 parser.functions.iif = iif;
 parser.functions.if = iif; // Alias for compatibility
@@ -434,6 +443,7 @@ parser.functions.erf = erf;
 parser.functions.GetZScoreFromLMS = GetZScoreFromLMS;
 parser.functions.GetPercentileFromZScore = GetPercentileFromZScore;
 parser.functions.GetValueFromZScore = GetValueFromZScore;
+parser.functions.dateparse = dateparse;
 
 /**
  * Input values for formula evaluation.

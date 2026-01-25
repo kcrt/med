@@ -131,11 +131,11 @@ export function FormulaCalculator({
           inputValues[key] = selectedOption?.value ?? 0;
           break;
         case "date":
-          // Convert date string to timestamp or keep as string
+          // Convert date string to seconds since epoch
           if (value instanceof Date) {
-            inputValues[key] = value.toISOString().split("T")[0];
-          } else {
-            inputValues[key] = String(value);
+            inputValues[key] = Math.floor(value.getTime() / 1000);
+          } else if (typeof value === "string" && value) {
+            inputValues[key] = Math.floor(Date.parse(value) / 1000);
           }
           break;
         default:
@@ -275,6 +275,9 @@ export function FormulaCalculator({
             </Box>
             <Stack gap="xs">
               {allOutputs.map(([key, outputDef]) => {
+                // Skip hidden outputs (intermediate calculation values)
+                if (outputDef.label === "hidden") return null;
+
                 // Check locale filtering
                 if (!shouldDisplayForLocale(outputDef, locale)) return null;
 

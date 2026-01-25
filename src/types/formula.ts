@@ -36,6 +36,7 @@ export type FormulaAssertion = z.infer<typeof FormulaAssertionSchema>;
 
 /**
  * Schema for formula output field definitions
+ * All outputs must have a label. Text outputs use the `text` field.
  */
 export const FormulaOutputSchema = z.object({
   label: z.string(),
@@ -48,14 +49,6 @@ export const FormulaOutputSchema = z.object({
 });
 
 export type FormulaOutput = z.infer<typeof FormulaOutputSchema>;
-
-/**
- * Schema for output values (either a full output or just text)
- */
-const FormulaOutputValueSchema = z.union([
-  FormulaOutputSchema,
-  z.object({ text: z.string() }),
-]);
 
 /**
  * Schema for test cases
@@ -83,7 +76,7 @@ const HtmlFormulaSchema = z.object({
 const CalculationFormulaSchema = z.object({
   name: z.string().optional(),
   input: z.record(z.string(), FormulaInputSchema),
-  output: z.record(z.string(), FormulaOutputValueSchema),
+  output: z.record(z.string(), FormulaOutputSchema),
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
