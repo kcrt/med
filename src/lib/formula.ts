@@ -1,4 +1,4 @@
-import { FormulaDataSchema, FormulaLanguageOverrideSchema, type FormulaData, type Formula, type FormulaOutput, type FormulaLanguageOverride } from '@/types/formula';
+import { FormulaDataSchema, FormulaLanguageOverrideSchema, type FormulaData, type Formula, type FormulaOutput, type FormulaInput, type FormulaLanguageOverride } from '@/types/formula';
 import formulaJson from '@/formula.json';
 import { Parser } from 'expr-eval';
 
@@ -7,6 +7,37 @@ import formulaLanguageJa from '@/formula_language_ja.json';
 
 // Cache for locale-specific formula data
 const localeDataCache = new Map<string, FormulaData>();
+
+// Type guards for Formula types
+export type CalculationFormula = {
+  name?: string;
+  input: Record<string, FormulaInput>;
+  output: Record<string, FormulaOutput | { text: string }>;
+  assert?: Array<{ condition: string; message: string }>;
+  test?: Array<{ input: Record<string, number | string>; output: Record<string, number | string> }>;
+  ref?: Record<string, string>;
+};
+
+export type HtmlFormula = {
+  name?: string;
+  type: "html";
+  html: string;
+  ref?: Record<string, string>;
+};
+
+export function isCalculationFormula(formula: Formula): formula is CalculationFormula {
+  return 'input' in formula && 'output' in formula;
+}
+
+export function isHtmlFormula(formula: Formula): formula is HtmlFormula {
+  return 'type' in formula && formula.type === 'html';
+}
+
+export function hasFormulaProperty(
+  output: FormulaOutput | { text: string }
+): output is FormulaOutput & { formula: string } {
+  return 'formula' in output && typeof output.formula === 'string';
+}
 
 /**
  * Get locale-specific formula data with merged language overrides.
@@ -117,19 +148,29 @@ function mergeFormula(
     result.name = override.name;
   }
 
-  // Merge input/output only if both are calculation formulas
-  const baseCalc = base as any;
-  const overrideCalc = override as any;
+  // Handle HTML formulas
+  if (isHtmlFormula(base) && 'type' in override && override.type === 'html') {
+    return {
+      ...base,
+      ...override,
+      ref: override.ref ? { ...base.ref, ...override.ref } : base.ref,
+    } as HtmlFormula;
+  }
 
-  if ('input' in base && 'input' in override) {
+  // Handle calculation formulas
+  if (isCalculationFormula(base) && 'input' in override) {
+    const baseCalc = base;
+    const overrideCalc = override as Partial<CalculationFormula>;
+    const resultCalc: CalculationFormula = { ...baseCalc };
+
     // Merge input definitions
     if (overrideCalc.input) {
-      (result as any).input = { ...baseCalc.input };
+      resultCalc.input = { ...baseCalc.input };
       for (const [inputKey, inputOverride] of Object.entries(overrideCalc.input)) {
         if (baseCalc.input[inputKey]) {
-          (result as any).input[inputKey] = {
+          resultCalc.input[inputKey] = {
             ...baseCalc.input[inputKey],
-            ...(inputOverride as object)
+            ...inputOverride,
           };
         }
       }
@@ -137,12 +178,12 @@ function mergeFormula(
 
     // Merge output definitions
     if (overrideCalc.output) {
-      (result as any).output = { ...baseCalc.output };
+      resultCalc.output = { ...baseCalc.output };
       for (const [outputKey, outputOverride] of Object.entries(overrideCalc.output)) {
         if (baseCalc.output[outputKey]) {
-          (result as any).output[outputKey] = {
+          resultCalc.output[outputKey] = {
             ...baseCalc.output[outputKey],
-            ...(outputOverride as object)
+            ...outputOverride,
           };
         }
       }
@@ -150,13 +191,17 @@ function mergeFormula(
 
     // Merge tests
     if (overrideCalc.test) {
-      (result as any).test = overrideCalc.test;
+      resultCalc.test = overrideCalc.test;
     }
-  }
 
-  // Merge refs (both formula types have ref)
-  if (overrideCalc.ref && 'ref' in base) {
-    (result as any).ref = { ...baseCalc.ref, ...overrideCalc.ref };
+    // Merge refs
+    if (overrideCalc.ref && baseCalc.ref) {
+      resultCalc.ref = { ...baseCalc.ref, ...overrideCalc.ref };
+    } else if (overrideCalc.ref) {
+      resultCalc.ref = overrideCalc.ref;
+    }
+
+    return resultCalc;
   }
 
   return result;
@@ -458,24 +503,23 @@ export function evaluateFormulaOutputs(
   const maxIterations = 10; // Prevent infinite loops
 
   // Only calculation formulas have output
-  if (!('output' in formula)) {
+  if (!isCalculationFormula(formula)) {
     return results;
   }
 
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     let progress = false;
 
-    for (const [outputKey, outputDef] of Object.entries((formula as any).output)) {
+    for (const [outputKey, outputDef] of Object.entries(formula.output)) {
       // Skip if already calculated
       if (outputKey in results) continue;
 
-      const def = outputDef as any;
-      if ('formula' in def && def.formula) {
+      if (hasFormulaProperty(outputDef)) {
         try {
           // Combine input values with previously calculated outputs
           const context = { ...inputValues, ...results };
-          const value = evaluateFormula(def.formula, context);
-          results[outputKey] = formatOutput(value, def.precision);
+          const value = evaluateFormula(outputDef.formula, context);
+          results[outputKey] = formatOutput(value, outputDef.precision);
           progress = true;
         } catch {
           // Variable not yet available, will retry in next iteration
@@ -502,13 +546,13 @@ export function getFormulaOutputs(
   const outputs: Record<string, FormulaOutput | { text: string }> = {};
 
   // Only calculation formulas have output
-  if (!('output' in formula)) {
+  if (!isCalculationFormula(formula)) {
     return outputs;
   }
 
-  for (const [key, value] of Object.entries((formula as any).output)) {
-    if ('label' in (value as any)) {
-      outputs[key] = value as FormulaOutput | { text: string };
+  for (const [key, value] of Object.entries(formula.output)) {
+    if ('label' in value) {
+      outputs[key] = value;
     }
   }
 
