@@ -1,9 +1,17 @@
-import { FormulaDataSchema, FormulaLanguageOverrideSchema, type FormulaData, type Formula, type FormulaOutput, type FormulaInput, type FormulaLanguageOverride } from '@/types/formula';
-import formulaJson from '@/formula.json';
-import { Parser } from 'expr-eval';
+import {
+  FormulaDataSchema,
+  FormulaLanguageOverrideSchema,
+  type FormulaData,
+  type Formula,
+  type FormulaOutput,
+  type FormulaInput,
+  type FormulaLanguageOverride,
+} from "@/types/formula";
+import formulaJson from "@/formula.json";
+import { Parser } from "expr-eval";
 
 // Import language override files
-import formulaLanguageJa from '@/formula_language_ja.json';
+import formulaLanguageJa from "@/formula_language_ja.json";
 
 // Cache for locale-specific formula data
 const localeDataCache = new Map<string, FormulaData>();
@@ -14,7 +22,10 @@ export type CalculationFormula = {
   input: Record<string, FormulaInput>;
   output: Record<string, FormulaOutput | { text: string }>;
   assert?: Array<{ condition: string; message: string }>;
-  test?: Array<{ input: Record<string, number | string>; output: Record<string, number | string> }>;
+  test?: Array<{
+    input: Record<string, number | string>;
+    output: Record<string, number | string>;
+  }>;
   ref?: Record<string, string>;
 };
 
@@ -25,18 +36,20 @@ export type HtmlFormula = {
   ref?: Record<string, string>;
 };
 
-export function isCalculationFormula(formula: Formula): formula is CalculationFormula {
-  return 'input' in formula && 'output' in formula;
+export function isCalculationFormula(
+  formula: Formula,
+): formula is CalculationFormula {
+  return "input" in formula && "output" in formula;
 }
 
 export function isHtmlFormula(formula: Formula): formula is HtmlFormula {
-  return 'type' in formula && formula.type === 'html';
+  return "type" in formula && formula.type === "html";
 }
 
 export function hasFormulaProperty(
-  output: FormulaOutput | { text: string }
+  output: FormulaOutput | { text: string },
 ): output is FormulaOutput & { formula: string } {
-  return 'formula' in output && typeof output.formula === 'string';
+  return "formula" in output && typeof output.formula === "string";
 }
 
 /**
@@ -57,7 +70,7 @@ export function getLocalizedFormulaData(locale: string): FormulaData {
   // Apply language overrides if available
   let mergedData = baseData;
 
-  if (locale === 'ja') {
+  if (locale === "ja") {
     const jaOverrides = FormulaLanguageOverrideSchema.parse(formulaLanguageJa);
     mergedData = mergeFormulaData(baseData, jaOverrides);
   }
@@ -77,15 +90,23 @@ export function getLocalizedFormulaData(locale: string): FormulaData {
  */
 export function shouldDisplayForLocale(
   output: FormulaOutput | { text: string; label?: string },
-  locale: string
+  locale: string,
 ): boolean {
   // locales_in: only show if locale is in the list
-  if ('locales_in' in output && output.locales_in && output.locales_in.length > 0) {
+  if (
+    "locales_in" in output &&
+    output.locales_in &&
+    output.locales_in.length > 0
+  ) {
     return output.locales_in.includes(locale);
   }
 
   // locales_not_in: hide if locale is in the list
-  if ('locales_not_in' in output && output.locales_not_in && output.locales_not_in.length > 0) {
+  if (
+    "locales_not_in" in output &&
+    output.locales_not_in &&
+    output.locales_not_in.length > 0
+  ) {
     return !output.locales_not_in.includes(locale);
   }
 
@@ -102,19 +123,19 @@ export function shouldDisplayForLocale(
  */
 function mergeFormulaData(
   base: FormulaData,
-  overrides: FormulaLanguageOverride
+  overrides: FormulaLanguageOverride,
 ): FormulaData {
   const result: FormulaData = { ...base };
 
   for (const [categoryKey, categoryOverride] of Object.entries(overrides)) {
-    if (categoryKey === '_meta') continue;
+    if (categoryKey === "_meta") continue;
 
     const baseCategory = base[categoryKey];
     if (!baseCategory) continue;
 
     result[categoryKey] = mergeCategory(
       baseCategory as Record<string, Formula>,
-      categoryOverride as Record<string, Partial<Formula>>
+      categoryOverride as Record<string, Partial<Formula>>,
     );
   }
 
@@ -123,11 +144,13 @@ function mergeFormulaData(
 
 function mergeCategory(
   baseCategory: Record<string, Formula>,
-  categoryOverride: Record<string, Partial<Formula>>
+  categoryOverride: Record<string, Partial<Formula>>,
 ): Record<string, Formula> {
   const result: Record<string, Formula> = { ...baseCategory };
 
-  for (const [formulaKey, formulaOverride] of Object.entries(categoryOverride)) {
+  for (const [formulaKey, formulaOverride] of Object.entries(
+    categoryOverride,
+  )) {
     const baseFormula = baseCategory[formulaKey];
     if (!baseFormula) continue;
 
@@ -137,10 +160,7 @@ function mergeCategory(
   return result;
 }
 
-function mergeFormula(
-  base: Formula,
-  override: Partial<Formula>
-): Formula {
+function mergeFormula(base: Formula, override: Partial<Formula>): Formula {
   const result: Formula = { ...base };
 
   // Merge name
@@ -149,7 +169,7 @@ function mergeFormula(
   }
 
   // Handle HTML formulas
-  if (isHtmlFormula(base) && 'type' in override && override.type === 'html') {
+  if (isHtmlFormula(base) && "type" in override && override.type === "html") {
     return {
       ...base,
       ...override,
@@ -158,15 +178,22 @@ function mergeFormula(
   }
 
   // Handle calculation formulas
-  if (isCalculationFormula(base) && 'input' in override) {
+  if (isCalculationFormula(base) && "input" in override) {
     const baseCalc = base;
     const overrideCalc = override as Partial<CalculationFormula>;
     const resultCalc: CalculationFormula = { ...baseCalc };
 
+    // Merge name (important: resultCalc is a new object, so we need to explicitly set the name)
+    if (override.name) {
+      resultCalc.name = override.name;
+    }
+
     // Merge input definitions
     if (overrideCalc.input) {
       resultCalc.input = { ...baseCalc.input };
-      for (const [inputKey, inputOverride] of Object.entries(overrideCalc.input)) {
+      for (const [inputKey, inputOverride] of Object.entries(
+        overrideCalc.input,
+      )) {
         if (baseCalc.input[inputKey]) {
           resultCalc.input[inputKey] = {
             ...baseCalc.input[inputKey],
@@ -179,7 +206,9 @@ function mergeFormula(
     // Merge output definitions
     if (overrideCalc.output) {
       resultCalc.output = { ...baseCalc.output };
-      for (const [outputKey, outputOverride] of Object.entries(overrideCalc.output)) {
+      for (const [outputKey, outputOverride] of Object.entries(
+        overrideCalc.output,
+      )) {
         if (baseCalc.output[outputKey]) {
           resultCalc.output[outputKey] = {
             ...baseCalc.output[outputKey],
@@ -223,7 +252,7 @@ const _validatedData = FormulaDataSchema.parse(formulaJson);
  * ```ts
  * import { formulaData } from '@/lib/formula';
  *
- * const bmiFormula = formulaData['体格指数']['bmi_adult'];
+ * const bmiFormula = formulaData['Body Structure Index']['bmi_adult'];
  * const heightInput = bmiFormula.input['height'];
  * console.log(heightInput.label); // "Height [cm]"
  * ```
@@ -242,7 +271,7 @@ export function getFormula(id: string, locale?: string): Formula | undefined {
   const data = getLocalizedFormulaData(effectiveLocale);
 
   for (const category of Object.keys(data)) {
-    if (category === '_meta') continue;
+    if (category === "_meta") continue;
     const categoryData = data[category] as Record<string, Formula> | undefined;
     if (categoryData?.[id]) {
       return categoryData[id];
@@ -311,9 +340,13 @@ export function GetZScore(value: number, average: number, sd: number): number {
 /**
  * Calculate Z-score with formatted string.
  */
-export function GetZScoreStr(value: number, average: number, sd: number): string {
+export function GetZScoreStr(
+  value: number,
+  average: number,
+  sd: number,
+): string {
   const zscore = GetZScore(value, average, sd).toFixed(2);
-  if (zscore === '0.00' || zscore === '-0.00') {
+  if (zscore === "0.00" || zscore === "-0.00") {
     return `${value} ( ±0.00 SD )`;
   } else if (parseFloat(zscore) > 0) {
     return `${value} ( +${zscore} SD )`;
@@ -348,7 +381,12 @@ function factorialHelper(n: number): number {
 /**
  * Get Z-score from LMS parameters.
  */
-export function GetZScoreFromLMS(value: number, l: number, m: number, s: number): number {
+export function GetZScoreFromLMS(
+  value: number,
+  l: number,
+  m: number,
+  s: number,
+): number {
   if (l === 0) {
     return Math.log(value / m) / s;
   } else {
@@ -367,7 +405,12 @@ export function GetPercentileFromZScore(sd: number): number {
 /**
  * Get value from Z-score using LMS parameters.
  */
-export function GetValueFromZScore(zscore: number, l: number, m: number, s: number): number {
+export function GetValueFromZScore(
+  zscore: number,
+  l: number,
+  m: number,
+  s: number,
+): number {
   if (l === 0) {
     return Math.exp(zscore * s) * m;
   } else {
@@ -431,8 +474,11 @@ export function evaluateFormula(
  * @param precision - The number of decimal places to keep
  * @returns The formatted value
  */
-export function formatOutput(value: number | string, precision?: number): number | string {
-  if (typeof value === 'number' && precision !== undefined) {
+export function formatOutput(
+  value: number | string,
+  precision?: number,
+): number | string {
+  if (typeof value === "number" && precision !== undefined) {
     return Number(value.toFixed(precision));
   }
   return value;
@@ -449,7 +495,7 @@ export function formatOutput(value: number | string, precision?: number): number
  *
  * @example
  * ```ts
- * const bmiFormula = formulaData['体格指数']['bmi_adult'];
+ * const bmiFormula = formulaData['Body Structure Index']['bmi_adult'];
  * const results = evaluateFormulaOutputs(bmiFormula, { height: 170, weight: 70 });
  * // Returns { BMI: 24.2, who_diag: "normal", jasso_diag: "標準" }
  * ```
@@ -551,7 +597,7 @@ export function getFormulaOutputs(
   }
 
   for (const [key, value] of Object.entries(formula.output)) {
-    if ('label' in value) {
+    if ("label" in value) {
       outputs[key] = value;
     }
   }
@@ -591,8 +637,8 @@ export interface CategoryMenuItem extends MenuItem {
  * // Returns:
  * // [
  * //   {
- * //     label: "体格指数",
- * //     path: "/category/体格指数",
+ * //     label: "Body Structure Index",
+ * //     path: "/category/Body%20Structure%20Index",
  * //     items: [
  * //       { label: "BMI (Adult)", path: "/formula/bmi_adult" },
  * //       { label: "BMI/Kaup/Rohrer Index (Child)", path: "/formula/bmi_child" }
@@ -607,7 +653,7 @@ export function getMenuItems(locale?: string): CategoryMenuItem[] {
   const items: CategoryMenuItem[] = [];
 
   for (const [category, categoryData] of Object.entries(data)) {
-    if (category === '_meta') continue;
+    if (category === "_meta") continue;
 
     const formulas: MenuItem[] = [];
     const categoryDataRecord = categoryData as Record<string, Formula>;

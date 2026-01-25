@@ -17,7 +17,11 @@ import {
 } from "@mantine/core";
 import { IconCalculator } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
-import { type Formula, type FormulaOutput, type FormulaInput } from "@/types/formula";
+import {
+  type Formula,
+  type FormulaOutput,
+  type FormulaInput,
+} from "@/types/formula";
 import {
   evaluateFormulaOutputs,
   shouldDisplayForLocale,
@@ -36,9 +40,7 @@ interface FormValues {
 }
 
 // Type guard to check if formula is a calculation formula (has input/output)
-function isCalculationFormula(
-  formula: Formula
-): formula is Formula & {
+function isCalculationFormula(formula: Formula): formula is Formula & {
   input: Record<string, FormulaInput>;
   output: Record<string, FormulaOutput | { text: string }>;
   assert?: { condition: string; message: string }[];
@@ -48,19 +50,22 @@ function isCalculationFormula(
 
 // Type guard to check if output has formula
 function hasFormula(
-  output: FormulaOutput | { text: string }
+  output: FormulaOutput | { text: string },
 ): output is FormulaOutput & { formula: string } {
   return "formula" in output && typeof output.formula === "string";
 }
 
 // Type guard to check if output has text
 function hasText(
-  output: FormulaOutput | { text: string }
+  output: FormulaOutput | { text: string },
 ): output is { text: string; label?: string } {
   return "text" in output && typeof output.text === "string";
 }
 
-export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps) {
+export function FormulaCalculator({
+  formula,
+  formulaId,
+}: FormulaCalculatorProps) {
   // This component only handles calculation formulas (with input/output)
   if (!isCalculationFormula(formula)) {
     return null;
@@ -73,7 +78,9 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
   // State for assertion errors - updates when form values change
   const [assertionErrors, setAssertionErrors] = useState<string[]>([]);
 
-  const getInitialValue = (key: string): number | string | boolean | Date | null => {
+  const getInitialValue = (
+    key: string,
+  ): number | string | boolean | Date | null => {
     const inputDef = formula.input[key];
     if (inputDef?.default !== undefined) {
       // Handle "today" default for date inputs
@@ -126,7 +133,7 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
         case "date":
           // Convert date string to timestamp or keep as string
           if (value instanceof Date) {
-            inputValues[key] = value.toISOString().split('T')[0];
+            inputValues[key] = value.toISOString().split("T")[0];
           } else {
             inputValues[key] = String(value);
           }
@@ -141,7 +148,7 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
 
   const form = useForm<FormValues>({
     initialValues: Object.fromEntries(
-      inputKeys.map((key) => [key, getInitialValue(key)])
+      inputKeys.map((key) => [key, getInitialValue(key)]),
     ) as FormValues,
     onValuesChange: (values) => {
       // Re-validate assertions when form values change
@@ -153,11 +160,14 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
     },
   });
 
-  const currentInputValues = form.values ? getInputValues(form.values as FormValues) : {};
-
-  const results = Object.keys(currentInputValues).length > 0
-    ? evaluateFormulaOutputs(formula, currentInputValues)
+  const currentInputValues = form.values
+    ? getInputValues(form.values as FormValues)
     : {};
+
+  const results =
+    Object.keys(currentInputValues).length > 0
+      ? evaluateFormulaOutputs(formula, currentInputValues)
+      : {};
 
   const hasValidInputs = inputKeys.some((key) => {
     const value = form.values[key];
@@ -184,16 +194,16 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
               switch (inputDef.type) {
                 case "onoff":
                   return (
-                    <Switch
-                      key={key}
-                      label={inputDef.label}
-                      {...inputProps}
-                    />
+                    <Switch key={key} label={inputDef.label} {...inputProps} />
                   );
 
                 case "sex":
                   return (
-                    <Radio.Group key={key} label={inputDef.label} {...inputProps}>
+                    <Radio.Group
+                      key={key}
+                      label={inputDef.label}
+                      {...inputProps}
+                    >
                       <Group>
                         <Radio value="true" label="Male" />
                         <Radio value="false" label="Female" />
@@ -206,10 +216,12 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
                     <Select
                       key={key}
                       label={inputDef.label}
-                      data={inputDef.options?.map((opt, idx) => ({
-                        value: String(idx),
-                        label: opt.label,
-                      })) ?? []}
+                      data={
+                        inputDef.options?.map((opt, idx) => ({
+                          value: String(idx),
+                          label: opt.label,
+                        })) ?? []
+                      }
                       {...inputProps}
                     />
                   );
@@ -248,7 +260,9 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
         {assertionErrors.length > 0 && (
           <Alert variant="light" color="red" title="入力エラー">
             {assertionErrors.map((error: string, i: number) => (
-              <Text key={i} size="sm">{error}</Text>
+              <Text key={i} size="sm">
+                {error}
+              </Text>
             ))}
           </Alert>
         )}
@@ -283,8 +297,7 @@ export function FormulaCalculator({ formula, formulaId }: FormulaCalculatorProps
                 // Formula item - only show when valid inputs
                 if (hasValidInputs && hasFormula(outputDef)) {
                   const result = results[key];
-                  const value =
-                    result !== undefined ? String(result) : "-";
+                  const value = result !== undefined ? String(result) : "-";
                   const unit = outputDef.unit ?? "";
 
                   return (
