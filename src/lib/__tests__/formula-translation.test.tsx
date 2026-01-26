@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import {
   useFormulaName,
   useInputLabel,
+  useOptionLabel,
   useOutputLabel,
   useOutputText,
   useTranslatedMenuItems,
@@ -162,6 +163,67 @@ describe("formula-translation", () => {
       );
 
       expect(result.current).toBe("身長 [cm]");
+    });
+  });
+
+  describe("useOptionLabel", () => {
+    it("should translate option labels", () => {
+      const messages = {
+        labels: {
+          "3-14 years": "3-14歳",
+          "15-44 years": "15-44歳",
+        },
+      };
+
+      const { result: result1 } = renderHook(
+        () => useOptionLabel("3-14 years"),
+        {
+          wrapper: createWrapper("ja", messages),
+        }
+      );
+
+      expect(result1.current).toBe("3-14歳");
+
+      const { result: result2 } = renderHook(
+        () => useOptionLabel("15-44 years"),
+        {
+          wrapper: createWrapper("ja", messages),
+        }
+      );
+
+      expect(result2.current).toBe("15-44歳");
+    });
+
+    it("should handle option labels with dots", () => {
+      const messages = {
+        labels: {
+          "CRP ≥3{{dot}}0 mg/dL": "CRP ≥3.0 mg/dL",
+        },
+      };
+
+      const { result } = renderHook(
+        () => useOptionLabel("CRP ≥3.0 mg/dL"),
+        {
+          wrapper: createWrapper("ja", messages),
+        }
+      );
+
+      expect(result.current).toBe("CRP ≥3.0 mg/dL");
+    });
+
+    it("should return English label if translation not found", () => {
+      const messages = {
+        labels: {},
+      };
+
+      const { result } = renderHook(
+        () => useOptionLabel("Untranslated Option"),
+        {
+          wrapper: createWrapper("ja", messages),
+        }
+      );
+
+      expect(result.current).toBe("Untranslated Option");
     });
   });
 

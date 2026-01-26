@@ -27,6 +27,7 @@ import {
 } from "@/lib/formula";
 import {
   useInputLabel,
+  useOptionLabel,
   useOutputLabel,
   useOutputText,
 } from "@/lib/formula-translation";
@@ -65,6 +66,30 @@ function hasText(
   output: FormulaOutput,
 ): output is FormulaOutput & { text: string } {
   return "text" in output && typeof output.text === "string";
+}
+
+// Helper component for translated select options
+interface SelectInputFieldProps {
+  inputKey: string;
+  label: string;
+  options: { value: number | string; label: string }[] | undefined;
+  inputProps: ReturnType<ReturnType<typeof useForm>["getInputProps"]>;
+}
+
+function SelectInputField({ inputKey, label, options, inputProps }: SelectInputFieldProps) {
+  const translatedOptions = options?.map((opt, idx) => ({
+    value: String(idx),
+    label: useOptionLabel(opt.label),
+  })) ?? [];
+
+  return (
+    <Select
+      key={inputKey}
+      label={label}
+      data={translatedOptions}
+      {...inputProps}
+    />
+  );
 }
 
 export function FormulaCalculator({
@@ -287,16 +312,12 @@ export function FormulaCalculator({
 
                 case "select":
                   return (
-                    <Select
+                    <SelectInputField
                       key={key}
+                      inputKey={key}
                       label={label}
-                      data={
-                        inputDef.options?.map((opt, idx) => ({
-                          value: String(idx),
-                          label: opt.label,
-                        })) ?? []
-                      }
-                      {...inputProps}
+                      options={inputDef.options}
+                      inputProps={inputProps}
                     />
                   );
 
