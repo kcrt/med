@@ -5,12 +5,17 @@ import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 
 /**
+ * Placeholder used to escape dots in translation keys.
+ * next-intl treats dots as path separators, so we replace them with this safe placeholder.
+ */
+const DOT_PLACEHOLDER = "{{dot}}";
+
+/**
  * Escape dots in translation keys to avoid next-intl's dot-splitting behavior.
  * next-intl treats dots as path separators, so we replace them with a placeholder.
  */
 function escapeTranslationKey(key: string): string {
-  // Replace dots with a safe placeholder that won't appear in normal text
-  return key.replace(/\./g, "{{dot}}");
+  return key.replace(/\./g, DOT_PLACEHOLDER);
 }
 
 /**
@@ -22,7 +27,7 @@ function getTranslationDirect(
   labels: Record<string, unknown> | undefined,
   key: string,
 ): string | undefined {
-  if (!labels || typeof labels !== "object") {
+  if (!labels) {
     return undefined;
   }
   
