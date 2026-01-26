@@ -28,5 +28,12 @@
     "noFavoritesDescription": "計算式にスターを付けて、ここに追加しましょう！",
     "category": "カテゴリ",
     "remove": "削除"
+  },
+  "share": {
+    "title": "計算結果の共有",
+    "description": "このURLをコピーして、入力値を含む計算を共有できます。",
+    "buttonLabel": "URLで共有",
+    "copyButton": "URLをコピー",
+    "copied": "URLをクリップボードにコピーしました！"
   }
 }

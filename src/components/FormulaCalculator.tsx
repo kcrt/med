@@ -1,35 +1,33 @@
 "use client";
 
-import { useForm } from "@mantine/form";
 import {
-  Stack,
-  NumberInput,
-  Card,
-  Text,
-  Group,
-  Title,
   Alert,
   Box,
-  Switch,
+  Card,
+  Group,
+  NumberInput,
   Radio,
   Select,
+  Stack,
+  Switch,
+  Text,
   TextInput,
+  Title,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
-import {
-  type Formula,
-  type FormulaOutput,
-  type FormulaInput,
-} from "@/types/formula";
+import { useEffect, useState } from "react";
 import {
   evaluateFormulaOutputs,
+  type FormulaInputValues,
   shouldDisplayForLocale,
   validateAssertions,
-  type FormulaInputValues,
 } from "@/lib/formula";
-import { useState } from "react";
+import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { QRCodeExport } from "./QRCodeExport";
+import { ShareButton } from "./ShareButton";
 
 interface FormulaCalculatorProps {
   formula: Formula;
@@ -73,6 +71,7 @@ export function FormulaCalculator({
   }
 
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input);
   const allOutputs = Object.entries(formula.output);
 
@@ -125,12 +124,13 @@ export function FormulaCalculator({
           // Convert boolean/string to number (1/0)
           inputValues[key] = value === true || value === "true" ? 1 : 0;
           break;
-        case "select":
+        case "select": {
           // Select uses index as value, map back to original option value
           const selectedIndex = Number(value);
           const selectedOption = inputDef.options?.[selectedIndex];
           inputValues[key] = selectedOption?.value ?? 0;
           break;
+        }
         case "date":
           // Convert date string to seconds since epoch
           if (value instanceof Date) {
@@ -160,6 +160,61 @@ export function FormulaCalculator({
       setAssertionErrors(errors);
     },
   });
+
+  // Handle query parameters on mount
+  useEffect(() => {
+    const initialValues: FormValues = {};
+    let hasQueryParams = false;
+
+    inputKeys.forEach((key) => {
+      const paramValue = searchParams.get(key);
+      if (paramValue !== null) {
+        hasQueryParams = true;
+        const inputDef = formula.input[key];
+
+        // Convert to appropriate type based on input definition
+        switch (inputDef?.type) {
+          case "int":
+          case "float": {
+            const numValue = parseFloat(paramValue);
+            if (!Number.isNaN(numValue)) {
+              initialValues[key] = numValue;
+            }
+            break;
+          }
+          case "onoff":
+          case "sex":
+            initialValues[key] = paramValue === "true";
+            break;
+          case "select": {
+            // Find the option index by value or label
+            const optionIndex = inputDef.options?.findIndex(
+              (opt) =>
+                String(opt.value) === paramValue || opt.label === paramValue,
+            );
+            // Only set if we found a match, otherwise keep the default
+            if (optionIndex !== undefined && optionIndex >= 0) {
+              initialValues[key] = optionIndex;
+            }
+            break;
+          }
+          case "date":
+            initialValues[key] = paramValue;
+            break;
+          default:
+            initialValues[key] = paramValue;
+        }
+      }
+    });
+
+    // Only update form values if there are query parameters
+    if (hasQueryParams) {
+      form.setValues(initialValues);
+    }
+    // We only depend on searchParams to trigger this effect
+    // formula and inputKeys are stable and don't need to trigger re-runs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const currentInputValues = form.values
     ? getInputValues(form.values as FormValues)
@@ -341,6 +396,9 @@ export function FormulaCalculator({
         inputValues={currentInputValues}
         outputResults={results}
       />
+
+      {/* Share Button Component */}
+      <ShareButton formula={formula} inputValues={form.values} />
     </Card>
   );
 }
