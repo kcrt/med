@@ -14,5 +14,10 @@
   "config": {
     "title": "Settings",
     "description": "Configure your preferences"
+  },
+  "qrcode": {
+    "title": "Export Calculation",
+    "description": "Scan this QR code to transfer the calculation data to your medical records system.",
+    "buttonLabel": "Export as QR Code"
   }
 }

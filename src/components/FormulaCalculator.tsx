@@ -29,6 +29,7 @@ import {
   type FormulaInputValues,
 } from "@/lib/formula";
 import { useState } from "react";
+import { QRCodeExport } from "./QRCodeExport";
 
 interface FormulaCalculatorProps {
   formula: Formula;
@@ -42,7 +43,7 @@ interface FormValues {
 // Type guard to check if formula is a calculation formula (has input/output)
 function isCalculationFormula(formula: Formula): formula is Formula & {
   input: Record<string, FormulaInput>;
-  output: Record<string, FormulaOutput | { text: string }>;
+  output: Record<string, FormulaOutput>;
   assert?: { condition: string; message: string }[];
 } {
   return "input" in formula && "output" in formula;
@@ -50,15 +51,15 @@ function isCalculationFormula(formula: Formula): formula is Formula & {
 
 // Type guard to check if output has formula
 function hasFormula(
-  output: FormulaOutput | { text: string },
+  output: FormulaOutput,
 ): output is FormulaOutput & { formula: string } {
   return "formula" in output && typeof output.formula === "string";
 }
 
 // Type guard to check if output has text
 function hasText(
-  output: FormulaOutput | { text: string },
-): output is { text: string; label?: string } {
+  output: FormulaOutput,
+): output is FormulaOutput & { text: string } {
   return "text" in output && typeof output.text === "string";
 }
 
@@ -276,7 +277,7 @@ export function FormulaCalculator({
             <Stack gap="xs">
               {allOutputs.map(([key, outputDef]) => {
                 // Skip hidden outputs (intermediate calculation values)
-                if (outputDef.label === "hidden") return null;
+                if ("label" in outputDef && outputDef.label === "hidden") return null;
 
                 // Check locale filtering
                 if (!shouldDisplayForLocale(outputDef, locale)) return null;
@@ -331,6 +332,14 @@ export function FormulaCalculator({
           </Alert>
         )}
       </Stack>
+
+      {/* QR Code Export Component */}
+      <QRCodeExport
+        formula={formula}
+        formulaId={formulaId}
+        inputValues={currentInputValues}
+        outputResults={results}
+      />
     </Card>
   );
 }

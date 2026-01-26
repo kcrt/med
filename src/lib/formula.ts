@@ -36,28 +36,28 @@ import pediatricScoring from "@/formulas/pediatric-scoring.json";
 
 // Map category names to imported data
 const categoryModules: Record<string, Record<string, Formula>> = {
-  "Body Structure Index": bodyStructureIndex,
-  "Gastroenterology": gastroenterology,
-  "Hepatology": hepatology,
-  "Cardiology": cardiology,
-  "Endocrinology and Metabolism": endocrinologyAndMetabolism,
-  "Renal Function": renalFunction,
-  "Electrolytes and Fluid Balance": electrolytes,
+  "Body Structure Index": bodyStructureIndex as Record<string, Formula>,
+  "Gastroenterology": gastroenterology as Record<string, Formula>,
+  "Hepatology": hepatology as Record<string, Formula>,
+  "Cardiology": cardiology as Record<string, Formula>,
+  "Endocrinology and Metabolism": endocrinologyAndMetabolism as Record<string, Formula>,
+  "Renal Function": renalFunction as Record<string, Formula>,
+  "Electrolytes and Fluid Balance": electrolytes as Record<string, Formula>,
   /* Immunology and Allergy here */
-  "Hematology": hematology,
-  "Infectious Diseases": infectiousDiseases,
-  "Pulmonology": pulmonology,
-  "Neurology": neurology,
+  "Hematology": hematology as Record<string, Formula>,
+  "Infectious Diseases": infectiousDiseases as Record<string, Formula>,
+  "Pulmonology": pulmonology as Record<string, Formula>,
+  "Neurology": neurology as Record<string, Formula>,
   /* Toxin here */
-  "Emergency Medicine": emergencyMedicine,
+  "Emergency Medicine": emergencyMedicine as Record<string, Formula>,
   /* Anethesiology here */
-  "Obstetrics": obstetrics,
-  "Pediatrics": pediatrics,
-  "Neonatology": neonatology,
-  "Pediatric Scoring Systems": pediatricScoring,
-  "Nutrition": nutrition,
-  "Psychiatry": psychiatry,
-  "Others": others,
+  "Obstetrics": obstetrics as Record<string, Formula>,
+  "Pediatrics": pediatrics as Record<string, Formula>,
+  "Neonatology": neonatology as Record<string, Formula>,
+  "Pediatric Scoring Systems": pediatricScoring as Record<string, Formula>,
+  "Nutrition": nutrition as Record<string, Formula>,
+  "Psychiatry": psychiatry as Record<string, Formula>,
+  "Others": others as Record<string, Formula>,
 };
 
 // Reconstruct the original formulaJson structure from modular files
@@ -73,7 +73,7 @@ const localeDataCache = new Map<string, FormulaData>();
 export type CalculationFormula = {
   name?: string;
   input: Record<string, FormulaInput>;
-  output: Record<string, FormulaOutput | { text: string }>;
+  output: Record<string, FormulaOutput>;
   assert?: Array<{ condition: string; message: string }>;
   test?: Array<{
     input: Record<string, number | string>;
@@ -100,7 +100,7 @@ export function isHtmlFormula(formula: Formula): formula is HtmlFormula {
 }
 
 export function hasFormulaProperty(
-  output: FormulaOutput | { text: string },
+  output: FormulaOutput,
 ): output is FormulaOutput & { formula: string } {
   return "formula" in output && typeof output.formula === "string";
 }
@@ -137,12 +137,12 @@ export function getLocalizedFormulaData(locale: string): FormulaData {
 /**
  * Check if an output should be displayed for the given locale.
  *
- * @param output - The output definition (FormulaOutput or text-only output)
+ * @param output - The output definition (FormulaOutput)
  * @param locale - The locale code (e.g., "en", "ja")
  * @returns True if the output should be displayed, false otherwise
  */
 export function shouldDisplayForLocale(
-  output: FormulaOutput | { text: string; label?: string },
+  output: FormulaOutput,
   locale: string,
 ): boolean {
   // locales_in: only show if locale is in the list
@@ -686,8 +686,8 @@ export function evaluateFormulaOutputs(
  */
 export function getFormulaOutputs(
   formula: Formula,
-): Record<string, FormulaOutput | { text: string }> {
-  const outputs: Record<string, FormulaOutput | { text: string }> = {};
+): Record<string, FormulaOutput> {
+  const outputs: Record<string, FormulaOutput> = {};
 
   // Only calculation formulas have output
   if (!isCalculationFormula(formula)) {
@@ -695,9 +695,7 @@ export function getFormulaOutputs(
   }
 
   for (const [key, value] of Object.entries(formula.output)) {
-    if ("label" in value) {
-      outputs[key] = value;
-    }
+    outputs[key] = value;
   }
 
   return outputs;
