@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { getFormula, evaluateFormulaOutputs, isCalculationFormula, type CalculationFormula } from "@/lib/formula";
+import {
+  getFormula,
+  evaluateFormulaOutputs,
+  isCalculationFormula,
+  type CalculationFormula,
+} from "@/lib/formula";
 
 describe("postconceptional_days formula", () => {
   it("evaluates all three outputs in Japanese", () => {
@@ -26,8 +31,8 @@ describe("postconceptional_days formula", () => {
 
     // Test evaluation with same EDC and target date (term birth)
     const inputValues = {
-      edc: 1705276800,  // Jan 15, 2024
-      target_date: 1705276800  // Same date
+      edc: 1705276800, // Jan 15, 2024
+      target_date: 1705276800, // Same date
     };
 
     const results = evaluateFormulaOutputs(formula!, inputValues);
@@ -61,14 +66,18 @@ describe("postconceptional_days formula", () => {
       return output as { label: string };
     };
 
-    expect(getFormulaOutput("postconceptional_days").label).toBe("Postconceptional Days");
-    expect(getFormulaOutput("postconceptional_age").label).toBe("Postconceptional Age");
+    expect(getFormulaOutput("postconceptional_days").label).toBe(
+      "Postconceptional Days",
+    );
+    expect(getFormulaOutput("postconceptional_age").label).toBe(
+      "Postconceptional Age",
+    );
     expect(getFormulaOutput("corrected_age").label).toBe("Corrected Age");
 
     // Test evaluation
     const inputValues = {
       edc: 1705276800,
-      target_date: 1705276800
+      target_date: 1705276800,
     };
 
     const results = evaluateFormulaOutputs(formula!, inputValues);

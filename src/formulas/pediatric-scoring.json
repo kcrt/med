@@ -300,7 +300,10 @@
         "options": [
           { "value": 0, "label": "0 - SpO₂/FiO₂ ≥292 or PaO₂/FiO₂ ≥400" },
           { "value": 1, "label": "1 - SpO₂/FiO₂ 264-291 or PaO₂/FiO₂ 300-399" },
-          { "value": 2, "label": "2 - SpO₂/FiO₂ 221-263 or PaO₂/FiO₂ 200-299 + IMV" },
+          {
+            "value": 2,
+            "label": "2 - SpO₂/FiO₂ 221-263 or PaO₂/FiO₂ 200-299 + IMV"
+          },
           { "value": 3, "label": "3 - SpO₂/FiO₂ <221 or PaO₂/FiO₂ <200 + IMV" },
           { "value": 4, "label": "4 - Severe respiratory failure" }
         ]
@@ -310,8 +313,14 @@
         "type": "select",
         "options": [
           { "value": 0, "label": "0 - Normal MAP, no vasopressors" },
-          { "value": 1, "label": "1 - MAP below threshold OR lactate 5-10.9 mmol/L" },
-          { "value": 2, "label": "2 - MAP below + 1 vasopressor OR lactate ≥11" },
+          {
+            "value": 1,
+            "label": "1 - MAP below threshold OR lactate 5-10.9 mmol/L"
+          },
+          {
+            "value": 2,
+            "label": "2 - MAP below + 1 vasopressor OR lactate ≥11"
+          },
           { "value": 3, "label": "3 - MAP below + ≥2 vasopressors" },
           { "value": 4, "label": "4 - Severe cardiovascular failure" }
         ]

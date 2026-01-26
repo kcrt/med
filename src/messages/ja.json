@@ -17,7 +17,16 @@
   },
   "qrcode": {
     "title": "計算結果のエクスポート",
-    "description": "このQRコードをスキャンして、計算データを医療記録システムに転送できます。",
-    "buttonLabel": "QRコードとしてエクスポート"
+    "description": "このQRコードをスキャンして、計算データを電子カルテなどに転送できます。",
+    "buttonLabel": "QRコードを表示"
+  },
+  "favorites": {
+    "title": "お気に入り",
+    "addToFavorites": "お気に入りに追加",
+    "removeFromFavorites": "お気に入りから削除",
+    "noFavorites": "お気に入りはまだありません",
+    "noFavoritesDescription": "計算式にスターを付けて、ここに追加しましょう！",
+    "category": "カテゴリ",
+    "remove": "削除"
   }
 }

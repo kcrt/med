@@ -1,20 +1,29 @@
 "use client";
 
 import { Accordion, NavLink, Stack } from "@mantine/core";
+import { IconSettings, IconStar } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { getMenuItems } from "@/lib/formula";
-import { useTranslations, useLocale } from "next-intl";
-import { IconSettings } from "@tabler/icons-react";
 
 export function Navbar() {
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("config");
+  const tFavorites = useTranslations("favorites");
   const menuItems = getMenuItems(locale);
 
   return (
     <Stack h="100%" style={{ overflowY: "auto" }}>
+      <NavLink
+        component={Link}
+        href={`/${locale}/favorites`}
+        label={tFavorites("title")}
+        leftSection={<IconStar size={18} />}
+        active={pathname === `/${locale}/favorites`}
+      />
+
       <Accordion variant="filled" defaultValue={menuItems[0]?.label}>
         {menuItems.map((category) => (
           <Accordion.Item key={category.path} value={category.label}>

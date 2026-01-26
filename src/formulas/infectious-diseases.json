@@ -339,8 +339,14 @@
         "label": "Respiratory Score",
         "type": "select",
         "options": [
-          { "value": 0, "label": "0 - SpO₂/FiO₂ ≥292 or PaO₂/FiO₂ ≥400, no IMV" },
-          { "value": 1, "label": "1 - SpO₂/FiO₂ <292 or PaO₂/FiO₂ <400, no IMV" },
+          {
+            "value": 0,
+            "label": "0 - SpO₂/FiO₂ ≥292 or PaO₂/FiO₂ ≥400, no IMV"
+          },
+          {
+            "value": 1,
+            "label": "1 - SpO₂/FiO₂ <292 or PaO₂/FiO₂ <400, no IMV"
+          },
           { "value": 2, "label": "2 - Any IMV or HFNC/CPAP/BiPAP" },
           { "value": 3, "label": "3 - IMV + FiO₂ ≥50%" }
         ]
