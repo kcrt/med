@@ -211,7 +211,7 @@ const PartialFormulaSchema = z.union([
 
 /**
  * Schema for language override file
- * Matches base structure but all fields are optional partial overrides
+ * Flat structure with formula IDs as top-level keys
  */
 export const FormulaLanguageOverrideSchema = z
   .object({
@@ -221,12 +221,10 @@ export const FormulaLanguageOverrideSchema = z
   .superRefine((data, ctx) => {
     for (const [key, value] of Object.entries(data)) {
       if (key === "_meta") continue;
-      const categoryResult = z
-        .record(z.string(), PartialFormulaSchema)
-        .safeParse(value);
+      const formulaResult = PartialFormulaSchema.safeParse(value);
 
-      if (!categoryResult.success) {
-        categoryResult.error.issues.forEach((issue) => {
+      if (!formulaResult.success) {
+        formulaResult.error.issues.forEach((issue) => {
           ctx.addIssue({
             ...issue,
             path: [key, ...(issue.path ?? [])],

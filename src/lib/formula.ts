@@ -23,8 +23,9 @@ import hepatology from "@/formulas/hepatology.json";
 import infectiousDiseases from "@/formulas/infectious-diseases.json";
 import neurology from "@/formulas/neurology.json";
 import nutrition from "@/formulas/nutrition.json";
-import obstetricsAndPediatrics from "@/formulas/obstetrics-and-pediatrics.json";
+import obstetrics from "@/formulas/obstetrics.json";
 import others from "@/formulas/others.json";
+import pediatrics from "@/formulas/pediatrics.json";
 import psychiatry from "@/formulas/psychiatry.json";
 import pulmonology from "@/formulas/pulmonology.json";
 import renalFunction from "@/formulas/renal-function.json";
@@ -32,19 +33,24 @@ import renalFunction from "@/formulas/renal-function.json";
 // Map category names to imported data
 const categoryModules: Record<string, Record<string, Formula>> = {
   "Body Structure Index": bodyStructureIndex,
-  "Cardiology": cardiology,
-  "Emergency Medicine": emergencyMedicine,
-  "Endocrinology and Metabolism": endocrinologyAndMetabolism,
   "Gastroenterology": gastroenterology,
   "Hepatology": hepatology,
-  "Infectious Diseases": infectiousDiseases,
-  "Neurology": neurology,
-  "Nutrition": nutrition,
-  "Obstetrics and Pediatrics": obstetricsAndPediatrics,
-  "Others": others,
-  "Psychiatry": psychiatry,
-  "Pulmonology": pulmonology,
+  "Cardiology": cardiology,
+  "Endocrinology and Metabolism": endocrinologyAndMetabolism,
   "Renal Function": renalFunction,
+  /* Immunology and Allergy here */
+  /* Hematology here */
+  "Infectious Diseases": infectiousDiseases,
+  "Pulmonology": pulmonology,
+  "Neurology": neurology,
+  /* Toxin here */
+  "Emergency Medicine": emergencyMedicine,
+  /* Anethesiology here */
+  "Obstetrics": obstetrics,
+  "Pediatrics": pediatrics,
+  "Nutrition": nutrition,
+  "Psychiatry": psychiatry,
+  "Others": others,
 };
 
 // Reconstruct the original formulaJson structure from modular files
@@ -158,7 +164,7 @@ export function shouldDisplayForLocale(
  * Deep merge formula base with language overrides.
  *
  * @param base - The base formula data
- * @param overrides - The language override data
+ * @param overrides - The language override data (flat structure with formula IDs as keys)
  * @returns Merged formula data
  */
 function mergeFormulaData(
@@ -167,16 +173,35 @@ function mergeFormulaData(
 ): FormulaData {
   const result: FormulaData = { ...base };
 
-  for (const [categoryKey, categoryOverride] of Object.entries(overrides)) {
-    if (categoryKey === "_meta") continue;
+  // Group overrides by category for efficient merging
+  const overridesByCategory = new Map<
+    string,
+    Record<string, Partial<Formula>>
+  >();
 
-    const baseCategory = base[categoryKey];
-    if (!baseCategory) continue;
+  for (const [formulaId, formulaOverride] of Object.entries(overrides)) {
+    if (formulaId === "_meta") continue;
 
-    result[categoryKey] = mergeCategory(
-      baseCategory as Record<string, Formula>,
-      categoryOverride as Record<string, Partial<Formula>>,
-    );
+    // Find which category this formula ID belongs to
+    for (const [categoryKey, categoryData] of Object.entries(base)) {
+      if (categoryKey === "_meta") continue;
+
+      const categoryRecord = categoryData as Record<string, Formula>;
+      if (categoryRecord[formulaId]) {
+        if (!overridesByCategory.has(categoryKey)) {
+          overridesByCategory.set(categoryKey, {});
+        }
+        overridesByCategory.get(categoryKey)![formulaId] =
+          formulaOverride as Partial<Formula>;
+        break;
+      }
+    }
+  }
+
+  // Merge overrides into their respective categories
+  for (const [categoryKey, categoryOverrides] of overridesByCategory) {
+    const baseCategory = base[categoryKey] as Record<string, Formula>;
+    result[categoryKey] = mergeCategory(baseCategory, categoryOverrides);
   }
 
   return result;

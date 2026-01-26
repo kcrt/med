@@ -1,0 +1,193 @@
+{
+  "bishop_score": {
+    "name": "Bishop Score",
+    "input": {
+      "dilation": {
+        "label": "Cervical Dilation [cm]",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Closed"
+          },
+          {
+            "value": 1,
+            "label": "1-2 cm"
+          },
+          {
+            "value": 2,
+            "label": "3-4 cm"
+          },
+          {
+            "value": 3,
+            "label": "≥5 cm"
+          }
+        ]
+      },
+      "effacement": {
+        "label": "Cervical Effacement [%]",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-30%"
+          },
+          {
+            "value": 1,
+            "label": "40-50%"
+          },
+          {
+            "value": 2,
+            "label": "60-70%"
+          },
+          {
+            "value": 3,
+            "label": "≥80%"
+          }
+        ]
+      },
+      "station": {
+        "label": "Fetal Station",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "-3"
+          },
+          {
+            "value": 1,
+            "label": "-2"
+          },
+          {
+            "value": 2,
+            "label": "-1 or 0"
+          },
+          {
+            "value": 3,
+            "label": "+1 or +2"
+          }
+        ]
+      },
+      "consistency": {
+        "label": "Cervical Consistency",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Firm"
+          },
+          {
+            "value": 1,
+            "label": "Medium"
+          },
+          {
+            "value": 2,
+            "label": "Soft"
+          }
+        ]
+      },
+      "position": {
+        "label": "Cervical Position",
+        "type": "select",
+        "options": [
+          {
+            "value": 0,
+            "label": "Posterior"
+          },
+          {
+            "value": 1,
+            "label": "Mid-position"
+          },
+          {
+            "value": 2,
+            "label": "Anterior"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Bishop Score",
+        "formula": "dilation + effacement + station + consistency + position"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(score>=8, 'Favorable for induction (high success rate)', score>=5, 'Moderately favorable', 'Unfavorable (consider cervical ripening)')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "dilation": 2,
+          "effacement": 2,
+          "station": 1,
+          "consistency": 1,
+          "position": 1
+        },
+        "output": {
+          "score": 7,
+          "interpretation": "Moderately favorable"
+        }
+      }
+    ],
+    "ref": {
+      "Bishop EH. Obstet Gynecol. 1964;24:266-8.": "pubmed:14199536"
+    }
+  },
+  "postconceptional_days": {
+    "name": "Postconceptional Days",
+    "input": {
+      "edc": {
+        "label": "Expected Date of Confinement",
+        "type": "date"
+      },
+      "target_date": {
+        "label": "Target Date",
+        "type": "date",
+        "default": "today"
+      }
+    },
+    "output": {
+      "_edc_d": {
+        "label": "hidden",
+        "formula": "(target_date-edc) / (24*60*60)"
+      },
+      "_pca_d": {
+        "label": "hidden",
+        "formula": "_edc_d + (40*7)"
+      },
+      "_edcmonth": {
+        "label": "hidden",
+        "formula": "floor(_edc_d/365*12)"
+      },
+      "postconceptional_days": {
+        "label": "Postconceptional Days",
+        "formula": "_pca_d",
+        "unit": "days",
+        "precision": 0
+      },
+      "postconceptional_age": {
+        "label": "Postconceptional Age",
+        "formula": "(_pca_d/7 < 1 || _pca_d/7 > 44) ? '-' : concat(floor(_pca_d/7), ' weeks ', (_pca_d % 7), ' days')"
+      },
+      "corrected_age": {
+        "label": "Corrected Age",
+        "formula": "(_edc_d < 0) ? '-' : concat(_edcmonth, ' months ', floor(_edc_d-floor(_edcmonth*365/12)), ' days')"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "edc": 1705276800,
+          "target_date": 1705276800
+        },
+        "output": {
+          "postconceptional_days": 280
+        }
+      }
+    ],
+    "ref": {
+      "Standard obstetric calculation": ""
+    }
+  }
+}
