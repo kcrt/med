@@ -20,7 +20,25 @@ export function getFavorites(): string[] {
 
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+
+    const parsed = JSON.parse(stored);
+
+    // Validate that parsed data is an array of strings
+    if (!Array.isArray(parsed)) {
+      console.error("Invalid favorites data: not an array");
+      return [];
+    }
+
+    // Filter out non-string values
+    const validated = parsed.filter((item) => typeof item === "string");
+
+    // If some items were filtered out, update storage
+    if (validated.length !== parsed.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
+    }
+
+    return validated;
   } catch (error) {
     // Handle corrupted data or localStorage errors
     console.error("Error reading favorites from localStorage:", error);

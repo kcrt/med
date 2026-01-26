@@ -50,7 +50,8 @@ export default function FormulaPage() {
 
   const handleToggleFavorite = () => {
     toggleFavorite(formulaId);
-    setFavorited(!favorited);
+    // Update local state based on actual storage state after toggle
+    setFavorited(isFavorite(formulaId));
   };
 
   if (!formula) {

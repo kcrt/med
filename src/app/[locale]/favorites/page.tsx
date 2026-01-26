@@ -15,7 +15,7 @@ import {
 import { IconStar, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getFavorites, toggleFavorite } from "@/lib/favorites";
 import { getFormula, getLocalizedFormulaData } from "@/lib/formula";
 
@@ -45,18 +45,21 @@ export default function FavoritesPage() {
     toggleFavorite(formulaId);
   };
 
-  // Get category name for a formula ID
-  const getCategoryForFormula = (formulaId: string): string | null => {
+  // Memoize category mapping to avoid repeated lookups
+  const categoryMap = useMemo(() => {
     const data = getLocalizedFormulaData(locale);
+    const map = new Map<string, string>();
+
     for (const [categoryName, categoryData] of Object.entries(data)) {
       if (categoryName === "_meta") continue;
       const categoryRecord = categoryData as Record<string, unknown>;
-      if (categoryRecord[formulaId]) {
-        return categoryName;
+      for (const formulaId of Object.keys(categoryRecord)) {
+        map.set(formulaId, categoryName);
       }
     }
-    return null;
-  };
+
+    return map;
+  }, [locale]);
 
   return (
     <Container size="md" py="xl">
@@ -75,7 +78,7 @@ export default function FavoritesPage() {
           <Stack gap="md">
             {favorites.map((formulaId) => {
               const formula = getFormula(formulaId, locale);
-              const category = getCategoryForFormula(formulaId);
+              const category = categoryMap.get(formulaId);
 
               // Skip if formula no longer exists
               if (!formula) return null;
