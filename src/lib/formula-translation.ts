@@ -92,6 +92,32 @@ export function useInputLabel(
 }
 
 /**
+ * Get translated label for a formula input option (for select inputs).
+ * Uses the English label as the translation key under "labels" namespace.
+ * Falls back to English label if translation doesn't exist.
+ */
+export function useOptionLabel(optionLabel: string): string {
+  const locale = useLocale();
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return optionLabel;
+  }
+  
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
+  
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(optionLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
+  }
+  
+  return optionLabel;
+}
+
+/**
  * Get translated label for a formula output field.
  * Uses the English label as the translation key under "labels" namespace.
  * Falls back to English label if translation doesn't exist.
