@@ -1,0 +1,430 @@
+{
+  "pews_brighton": {
+    "name": "PEWS (Pediatric Early Warning Score) - Brighton",
+    "input": {
+      "behavior": {
+        "label": "Behavior",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Playing/appropriate" },
+          { "value": 1, "label": "1 - Sleeping" },
+          { "value": 2, "label": "2 - Irritable/agitated" },
+          { "value": 3, "label": "3 - Lethargic/reduced response" }
+        ]
+      },
+      "cardiovascular": {
+        "label": "Cardiovascular",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Pink, CRT 1-2s" },
+          { "value": 1, "label": "1 - Pale, CRT 3s" },
+          { "value": 2, "label": "2 - Grey, CRT 4s, HR +20" },
+          { "value": 3, "label": "3 - Grey/mottled, CRT ≥5s, bradycardia" }
+        ]
+      },
+      "respiratory": {
+        "label": "Respiratory",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Normal, no retractions" },
+          { "value": 1, "label": "1 - RR +10 above normal, accessory muscles" },
+          { "value": 2, "label": "2 - RR +20 above normal, retractions" },
+          { "value": 3, "label": "3 - RR -5 below normal, grunting" }
+        ]
+      },
+      "postop_vomiting": {
+        "label": "Persistent Postoperative Vomiting",
+        "type": "onoff"
+      },
+      "nebulizer_cpap": {
+        "label": "Continuous Nebulizer/CPAP",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "base_score": {
+        "label": "Base Score",
+        "formula": "behavior + cardiovascular + respiratory",
+        "precision": 0
+      },
+      "additional_points": {
+        "label": "Additional Points",
+        "formula": "(postop_vomiting == 1 ? 2 : 0) + (nebulizer_cpap == 1 ? 2 : 0)",
+        "precision": 0
+      },
+      "total_score": {
+        "label": "Total PEWS Score",
+        "formula": "base_score + additional_points",
+        "precision": 0
+      },
+      "risk_level": {
+        "label": "Risk Level",
+        "formula": "iif(total_score >= 5, 'High Risk', total_score >= 3, 'Medium Risk', 'Low Risk')"
+      },
+      "action": {
+        "label": "Recommended Action",
+        "formula": "iif(total_score >= 5, 'MANDATORY RRT ACTIVATION', total_score >= 3, 'Notify physician, reassess within 2h', 'Routine monitoring q4h')"
+      },
+      "performance": {
+        "label": "Performance Characteristics",
+        "text": "Sensitivity 78-97% (cutoff 3), Specificity 74-95% (cutoff 5)"
+      },
+      "purpose": {
+        "label": "Purpose",
+        "text": "Early detection of clinical deterioration in hospitalized children, trigger Rapid Response Team (RRT)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "behavior": 0,
+          "cardiovascular": 0,
+          "respiratory": 0,
+          "postop_vomiting": 0,
+          "nebulizer_cpap": 0
+        },
+        "output": {
+          "base_score": 0,
+          "additional_points": 0,
+          "total_score": 0,
+          "risk_level": "Low Risk",
+          "action": "Routine monitoring q4h"
+        }
+      },
+      {
+        "input": {
+          "behavior": 1,
+          "cardiovascular": 1,
+          "respiratory": 1,
+          "postop_vomiting": 0,
+          "nebulizer_cpap": 0
+        },
+        "output": {
+          "base_score": 3,
+          "additional_points": 0,
+          "total_score": 3,
+          "risk_level": "Medium Risk",
+          "action": "Notify physician, reassess within 2h"
+        }
+      },
+      {
+        "input": {
+          "behavior": 2,
+          "cardiovascular": 2,
+          "respiratory": 1,
+          "postop_vomiting": 1,
+          "nebulizer_cpap": 0
+        },
+        "output": {
+          "base_score": 5,
+          "additional_points": 2,
+          "total_score": 7,
+          "risk_level": "High Risk",
+          "action": "MANDATORY RRT ACTIVATION"
+        }
+      }
+    ],
+    "ref": {
+      "Monaghan A. Arch Dis Child. 2005;90(6):657": "pubmed:15908635",
+      "Duncan H, Hutchison J, Parshuram CS. Pediatrics. 2006;118(3):e739-e746": "pubmed:16950965"
+    }
+  },
+  "pgcs_infant": {
+    "name": "Pediatric Glasgow Coma Scale (Infant)",
+    "input": {
+      "eye_opening": {
+        "label": "Eye Opening (E)",
+        "type": "select",
+        "options": [
+          { "value": 4, "label": "4 - Spontaneous" },
+          { "value": 3, "label": "3 - To voice" },
+          { "value": 2, "label": "2 - To pain" },
+          { "value": 1, "label": "1 - None" }
+        ]
+      },
+      "verbal_infant": {
+        "label": "Verbal Response (V) - Infant",
+        "type": "select",
+        "options": [
+          { "value": 5, "label": "5 - Cooing, babbling" },
+          { "value": 4, "label": "4 - Irritable cry" },
+          { "value": 3, "label": "3 - Cries to pain" },
+          { "value": 2, "label": "2 - Moans to pain" },
+          { "value": 1, "label": "1 - No response" }
+        ]
+      },
+      "motor_infant": {
+        "label": "Motor Response (M) - Infant",
+        "type": "select",
+        "options": [
+          { "value": 6, "label": "6 - Spontaneous/purposeful movement" },
+          { "value": 5, "label": "5 - Withdrawal to touch" },
+          { "value": 4, "label": "4 - Withdrawal to pain" },
+          { "value": 3, "label": "3 - Decorticate posturing" },
+          { "value": 2, "label": "2 - Decerebrate posturing" },
+          { "value": 1, "label": "1 - No response" }
+        ]
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "Total pGCS Score",
+        "formula": "eye_opening + verbal_infant + motor_infant",
+        "precision": 0
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(total_score <= 8, 'Severe (≤8) - Consider intubation/ICP monitoring', total_score <= 12, 'Moderate (9-12)', 'Mild (13-15)')"
+      },
+      "age_group": {
+        "label": "Age Group",
+        "text": "Infant version"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "eye_opening": 4,
+          "verbal_infant": 5,
+          "motor_infant": 6
+        },
+        "output": {
+          "total_score": 15,
+          "interpretation": "Mild (13-15)"
+        }
+      },
+      {
+        "input": {
+          "eye_opening": 2,
+          "verbal_infant": 2,
+          "motor_infant": 3
+        },
+        "output": {
+          "total_score": 7,
+          "interpretation": "Severe (≤8) - Consider intubation/ICP monitoring"
+        }
+      }
+    ],
+    "ref": {
+      "Teasdale G, Jennett B. Lancet. 1974;2(7872):81-4": "pubmed:4136544",
+      "Holmes JF, Palchak MJ, MacFarlane T, Kuppermann N. J Trauma. 2005;59(5):1093-7": "pubmed:16385285"
+    }
+  },
+  "pgcs_child": {
+    "name": "Pediatric Glasgow Coma Scale (Child)",
+    "input": {
+      "eye_opening": {
+        "label": "Eye Opening (E)",
+        "type": "select",
+        "options": [
+          { "value": 4, "label": "4 - Spontaneous" },
+          { "value": 3, "label": "3 - To voice" },
+          { "value": 2, "label": "2 - To pain" },
+          { "value": 1, "label": "1 - None" }
+        ]
+      },
+      "verbal_child": {
+        "label": "Verbal Response (V) - Child",
+        "type": "select",
+        "options": [
+          { "value": 5, "label": "5 - Oriented" },
+          { "value": 4, "label": "4 - Confused" },
+          { "value": 3, "label": "3 - Inappropriate words" },
+          { "value": 2, "label": "2 - Incomprehensible sounds" },
+          { "value": 1, "label": "1 - No response" }
+        ]
+      },
+      "motor_child": {
+        "label": "Motor Response (M) - Child",
+        "type": "select",
+        "options": [
+          { "value": 6, "label": "6 - Obeys commands" },
+          { "value": 5, "label": "5 - Localizes pain" },
+          { "value": 4, "label": "4 - Withdrawal to pain" },
+          { "value": 3, "label": "3 - Decorticate posturing" },
+          { "value": 2, "label": "2 - Decerebrate posturing" },
+          { "value": 1, "label": "1 - No response" }
+        ]
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "Total pGCS Score",
+        "formula": "eye_opening + verbal_child + motor_child",
+        "precision": 0
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(total_score <= 8, 'Severe (≤8) - Consider intubation/ICP monitoring', total_score <= 12, 'Moderate (9-12)', 'Mild (13-15)')"
+      },
+      "age_group": {
+        "label": "Age Group",
+        "text": "Child version"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "eye_opening": 4,
+          "verbal_child": 5,
+          "motor_child": 6
+        },
+        "output": {
+          "total_score": 15,
+          "interpretation": "Mild (13-15)"
+        }
+      },
+      {
+        "input": {
+          "eye_opening": 2,
+          "verbal_child": 2,
+          "motor_child": 4
+        },
+        "output": {
+          "total_score": 8,
+          "interpretation": "Severe (≤8) - Consider intubation/ICP monitoring"
+        }
+      }
+    ],
+    "ref": {
+      "Teasdale G, Jennett B. Lancet. 1974;2(7872):81-4": "pubmed:4136544",
+      "Holmes JF, Palchak MJ, MacFarlane T, Kuppermann N. J Trauma. 2005;59(5):1093-7": "pubmed:16385285"
+    }
+  },
+  "psofa_simplified": {
+    "name": "pSOFA (Pediatric Sequential Organ Failure Assessment)",
+    "input": {
+      "respiratory_score": {
+        "label": "Respiratory Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - SpO₂/FiO₂ ≥292 or PaO₂/FiO₂ ≥400" },
+          { "value": 1, "label": "1 - SpO₂/FiO₂ 264-291 or PaO₂/FiO₂ 300-399" },
+          { "value": 2, "label": "2 - SpO₂/FiO₂ 221-263 or PaO₂/FiO₂ 200-299 + IMV" },
+          { "value": 3, "label": "3 - SpO₂/FiO₂ <221 or PaO₂/FiO₂ <200 + IMV" },
+          { "value": 4, "label": "4 - Severe respiratory failure" }
+        ]
+      },
+      "cardiovascular_score": {
+        "label": "Cardiovascular Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Normal MAP, no vasopressors" },
+          { "value": 1, "label": "1 - MAP below threshold OR lactate 5-10.9 mmol/L" },
+          { "value": 2, "label": "2 - MAP below + 1 vasopressor OR lactate ≥11" },
+          { "value": 3, "label": "3 - MAP below + ≥2 vasopressors" },
+          { "value": 4, "label": "4 - Severe cardiovascular failure" }
+        ]
+      },
+      "coagulation_score": {
+        "label": "Coagulation Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Platelets >200×10³/µL" },
+          { "value": 1, "label": "1 - Platelets 150-200×10³/µL" },
+          { "value": 2, "label": "2 - Platelets 100-149×10³/µL" },
+          { "value": 3, "label": "3 - Platelets 50-99×10³/µL" },
+          { "value": 4, "label": "4 - Platelets <50×10³/µL" }
+        ]
+      },
+      "hepatic_score": {
+        "label": "Hepatic Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Bilirubin <1.2 mg/dL" },
+          { "value": 1, "label": "1 - Bilirubin 1.2-1.9 mg/dL" },
+          { "value": 2, "label": "2 - Bilirubin 2.0-5.9 mg/dL" },
+          { "value": 3, "label": "3 - Bilirubin 6.0-11.9 mg/dL" },
+          { "value": 4, "label": "4 - Bilirubin ≥12.0 mg/dL" }
+        ]
+      },
+      "renal_score": {
+        "label": "Renal Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Creatinine <1.2× baseline" },
+          { "value": 1, "label": "1 - Creatinine 1.2-1.9× baseline" },
+          { "value": 2, "label": "2 - Creatinine 2.0-3.4× baseline" },
+          { "value": 3, "label": "3 - Creatinine 3.5-4.9× baseline" },
+          { "value": 4, "label": "4 - Creatinine ≥5.0× baseline" }
+        ]
+      },
+      "neurologic_score": {
+        "label": "Neurologic Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - GCS 15" },
+          { "value": 1, "label": "1 - GCS 13-14" },
+          { "value": 2, "label": "2 - GCS 11-12 OR bilateral fixed pupils" },
+          { "value": 3, "label": "3 - GCS 9-10" },
+          { "value": 4, "label": "4 - GCS ≤8" }
+        ]
+      }
+    },
+    "output": {
+      "psofa_score": {
+        "label": "Total pSOFA Score",
+        "formula": "respiratory_score + cardiovascular_score + coagulation_score + hepatic_score + renal_score + neurologic_score",
+        "precision": 0
+      },
+      "sepsis_diagnosis": {
+        "label": "Sepsis Diagnosis",
+        "formula": "iif(psofa_score >= 2, 'pSOFA ≥2: Sepsis criteria met (if suspected infection)', 'pSOFA <2: Does not meet sepsis criteria')"
+      },
+      "septic_shock": {
+        "label": "Septic Shock",
+        "formula": "iif(psofa_score >= 2 and cardiovascular_score >= 1, 'Consider septic shock (pSOFA ≥2 + cardiovascular dysfunction)', 'Not septic shock')"
+      },
+      "mortality_risk": {
+        "label": "Mortality Risk Estimate",
+        "formula": "iif(psofa_score >= 17, '~50% (pSOFA 17-20)', psofa_score >= 9, '~8% (pSOFA 9-12)', psofa_score >= 5, '~2-5% (pSOFA 5-8)', '~0% (pSOFA 0-4)')"
+      },
+      "validation": {
+        "label": "Validation",
+        "text": "AUC 0.94 (Matics & Sanchez-Pinto, JAMA Pediatr 2017)"
+      },
+      "definition": {
+        "label": "Sepsis-3 Definition",
+        "text": "Sepsis: pSOFA ≥2 + suspected infection | Septic Shock: Sepsis + vasopressors + lactate >18 mg/dL"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "respiratory_score": 0,
+          "cardiovascular_score": 0,
+          "coagulation_score": 0,
+          "hepatic_score": 0,
+          "renal_score": 0,
+          "neurologic_score": 0
+        },
+        "output": {
+          "psofa_score": 0,
+          "sepsis_diagnosis": "pSOFA <2: Does not meet sepsis criteria",
+          "septic_shock": "Not septic shock",
+          "mortality_risk": "~0% (pSOFA 0-4)"
+        }
+      },
+      {
+        "input": {
+          "respiratory_score": 2,
+          "cardiovascular_score": 2,
+          "coagulation_score": 1,
+          "hepatic_score": 0,
+          "renal_score": 1,
+          "neurologic_score": 1
+        },
+        "output": {
+          "psofa_score": 7,
+          "sepsis_diagnosis": "pSOFA ≥2: Sepsis criteria met (if suspected infection)",
+          "septic_shock": "Consider septic shock (pSOFA ≥2 + cardiovascular dysfunction)",
+          "mortality_risk": "~2-5% (pSOFA 5-8)"
+        }
+      }
+    ],
+    "ref": {
+      "Matics TJ, Sanchez-Pinto LN. JAMA Pediatr. 2017;171(10):e172352": "pubmed:28783810",
+      "Singer M, Deutschman CS, Seymour CW, et al. JAMA. 2016;315(8):801-10": "pubmed:26903338"
+    }
+  }
+}

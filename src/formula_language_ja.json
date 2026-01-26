@@ -402,5 +402,331 @@
         "text": "qSOFAは、ICU外で感染疑い例のうち予後不良リスクが高い症例を早期同定するためのベッドサイドスクリーニングツール"
       }
     }
+  },
+  "corrected_sodium_katz": {
+    "name": "補正ナトリウム (高血糖時) - Katz式",
+    "input": {
+      "measured_na": {
+        "label": "測定ナトリウム [mmol/L]"
+      },
+      "glucose": {
+        "label": "血糖 [mg/dL]"
+      }
+    },
+    "output": {
+      "corrected_na": {
+        "label": "補正ナトリウム [mmol/L]"
+      },
+      "interpretation": {
+        "label": "判定"
+      },
+      "clinical_note": {
+        "label": "臨床的意義",
+        "text": "DKAにおいて、補正Naが8時間で約5 mmol/L上昇しない場合、脳浮腫のリスクを示す"
+      }
+    }
+  },
+  "serum_osmolality": {
+    "name": "血清浸透圧 (計算値)",
+    "input": {
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "glucose": {
+        "label": "血糖 [mg/dL]"
+      },
+      "bun": {
+        "label": "BUN [mg/dL]"
+      }
+    },
+    "output": {
+      "osmolality": {
+        "label": "計算浸透圧 [mOsm/kg]"
+      },
+      "interpretation": {
+        "label": "判定"
+      },
+      "pediatric_note": {
+        "label": "小児基準値",
+        "text": "小児正常範囲: 275-290 mOsm/kg"
+      }
+    }
+  },
+  "anion_gap": {
+    "name": "アニオンギャップ",
+    "input": {
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "chloride": {
+        "label": "クロール [mmol/L]"
+      },
+      "bicarbonate": {
+        "label": "重炭酸 [mmol/L]"
+      }
+    },
+    "output": {
+      "anion_gap": {
+        "label": "アニオンギャップ [mEq/L]"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "fena": {
+    "name": "尿中ナトリウム排泄率 (FENa)",
+    "input": {
+      "urine_na": {
+        "label": "尿中ナトリウム [mmol/L]"
+      },
+      "serum_na": {
+        "label": "血清ナトリウム [mmol/L]"
+      },
+      "urine_cr": {
+        "label": "尿中クレアチニン [mg/dL]"
+      },
+      "serum_cr": {
+        "label": "血清クレアチニン [mg/dL]"
+      }
+    },
+    "output": {
+      "fena": {
+        "label": "FENa [%]"
+      },
+      "interpretation": {
+        "label": "判定"
+      },
+      "limitation": {
+        "label": "注意点",
+        "text": "利尿薬使用時は信頼性が低下 → FEUreaを使用"
+      }
+    }
+  },
+  "reticulocyte_production_index": {
+    "name": "網状赤血球産生指数 (RPI)",
+    "input": {
+      "reticulocyte_percent": {
+        "label": "網状赤血球 [%]"
+      },
+      "patient_hct": {
+        "label": "患者ヘマトクリット [%]"
+      }
+    },
+    "output": {
+      "reticulocyte_index": {
+        "label": "網状赤血球指数 (RI)"
+      },
+      "rpi": {
+        "label": "網状赤血球産生指数 (RPI)"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "phototherapy_threshold": {
+    "name": "光線療法開始基準 (AAP 2022)",
+    "input": {
+      "bilirubin": {
+        "label": "総ビリルビン [mg/dL]"
+      },
+      "age_hours": {
+        "label": "日齢 [時間]"
+      },
+      "gestational_age": {
+        "label": "在胎週数 [週]"
+      },
+      "has_risk_factors": {
+        "label": "リスク因子あり"
+      }
+    },
+    "output": {
+      "threshold_adjusted": {
+        "label": "調整後基準値 [mg/dL]"
+      },
+      "recommendation": {
+        "label": "推奨"
+      },
+      "risk_factors": {
+        "label": "リスク因子",
+        "text": "在胎38週未満、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT陽性)、G6PD欠損症、敗血症、臨床的不安定"
+      }
+    }
+  },
+  "pews_brighton": {
+    "name": "小児早期警告スコア (PEWS) - Brighton版",
+    "input": {
+      "behavior": {
+        "label": "行動"
+      },
+      "cardiovascular": {
+        "label": "循環"
+      },
+      "respiratory": {
+        "label": "呼吸"
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "PEWS合計スコア"
+      },
+      "risk_level": {
+        "label": "リスクレベル"
+      },
+      "action": {
+        "label": "推奨対応"
+      },
+      "purpose": {
+        "label": "目的",
+        "text": "入院小児の臨床悪化の早期発見、迅速対応チーム(RRT)のトリガー"
+      }
+    }
+  },
+  "pgcs_infant": {
+    "name": "小児Glasgow昏睡尺度 (乳児)",
+    "input": {
+      "eye_opening": {
+        "label": "開眼 (E)"
+      },
+      "verbal_infant": {
+        "label": "言語反応 (V) - 乳児"
+      },
+      "motor_infant": {
+        "label": "運動反応 (M) - 乳児"
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "pGCS合計スコア"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "psofa_simplified": {
+    "name": "小児SOFA (pSOFA)",
+    "input": {
+      "respiratory_score": {
+        "label": "呼吸スコア"
+      },
+      "cardiovascular_score": {
+        "label": "循環スコア"
+      },
+      "coagulation_score": {
+        "label": "凝固スコア"
+      },
+      "hepatic_score": {
+        "label": "肝スコア"
+      },
+      "renal_score": {
+        "label": "腎スコア"
+      },
+      "neurologic_score": {
+        "label": "神経スコア"
+      }
+    },
+    "output": {
+      "psofa_score": {
+        "label": "pSOFA合計スコア"
+      },
+      "sepsis_diagnosis": {
+        "label": "敗血症診断"
+      },
+      "definition": {
+        "label": "Sepsis-3定義",
+        "text": "敗血症: pSOFA≥2 + 感染疑い | 敗血症性ショック: 敗血症 + 昇圧薬 + 乳酸>18 mg/dL"
+      }
+    }
+  },
+  "free_t4_index": {
+    "name": "遊離T4指数 (FT4I)",
+    "input": {
+      "total_t4": {
+        "label": "総T4 [µg/dL]"
+      },
+      "t3_uptake": {
+        "label": "T3摂取率 (T3RU) [%]"
+      }
+    },
+    "output": {
+      "ft4_index": {
+        "label": "遊離T4指数"
+      }
+    }
+  },
+  "t3_t4_ratio": {
+    "name": "T3/T4比",
+    "input": {
+      "t3": {
+        "label": "T3 [ng/dL]"
+      },
+      "t4": {
+        "label": "T4 [µg/dL]"
+      }
+    },
+    "output": {
+      "t3_t4_ratio": {
+        "label": "T3/T4比"
+      },
+      "interpretation": {
+        "label": "判定"
+      },
+      "clinical_note": {
+        "label": "臨床的意義",
+        "text": "T3/T4比上昇(>20)はバセドウ病または中毒性腺腫を示唆（優先的T3分泌）"
+      }
+    }
+  },
+  "jones_criteria_low_risk": {
+    "name": "Jones基準 リウマチ熱診断 (低リスク)",
+    "output": {
+      "major_count": {
+        "label": "主要基準数"
+      },
+      "minor_count": {
+        "label": "副次基準数"
+      },
+      "diagnosis": {
+        "label": "診断"
+      },
+      "population": {
+        "label": "対象集団",
+        "text": "低リスク: ARF発生率<2/10万学齢児 または RHD有病率≤1/1,000"
+      }
+    }
+  },
+  "phoenix_sepsis_score": {
+    "name": "Phoenix敗血症スコア (2024)",
+    "input": {
+      "respiratory_score": {
+        "label": "呼吸スコア"
+      },
+      "cardiovascular_points": {
+        "label": "循環ポイント (0-6)"
+      },
+      "coagulation_score": {
+        "label": "凝固スコア"
+      },
+      "neurologic_score": {
+        "label": "神経スコア"
+      }
+    },
+    "output": {
+      "phoenix_score": {
+        "label": "Phoenix合計スコア"
+      },
+      "sepsis_diagnosis": {
+        "label": "敗血症診断"
+      },
+      "septic_shock": {
+        "label": "敗血症性ショック"
+      },
+      "purpose": {
+        "label": "目的",
+        "text": "新しい小児敗血症定義(2024) - SIRS基準を特異度向上で置換"
+      }
+    }
   }
 }

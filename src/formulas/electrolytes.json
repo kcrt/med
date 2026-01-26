@@ -1,0 +1,656 @@
+{
+  "corrected_sodium_katz": {
+    "name": "Corrected Sodium (Hyperglycemia) - Katz Formula",
+    "input": {
+      "measured_na": {
+        "label": "Measured Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "glucose": {
+        "label": "Glucose [mg/dL]",
+        "type": "float",
+        "min": 50,
+        "max": 1000
+      }
+    },
+    "output": {
+      "corrected_na": {
+        "label": "Corrected Sodium [mmol/L]",
+        "formula": "measured_na + 1.6 * ((glucose - 100) / 100)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(corrected_na >= 143, 'High (>143 mmol/L)', corrected_na >= 137, 'Normal (137-143 mmol/L)', 'Low (<137 mmol/L)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Significance",
+        "text": "In DKA, if corrected Na doesn't rise ~5 mmol/L in 8h, indicates cerebral edema risk"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "measured_na": 135,
+          "glucose": 400
+        },
+        "output": {
+          "corrected_na": 139.8,
+          "interpretation": "Normal (137-143 mmol/L)"
+        }
+      },
+      {
+        "input": {
+          "measured_na": 140,
+          "glucose": 100
+        },
+        "output": {
+          "corrected_na": 140.0,
+          "interpretation": "Normal (137-143 mmol/L)"
+        }
+      }
+    ],
+    "ref": {
+      "Katz MA. N Engl J Med. 1973;289(16):843-4": "pubmed:4763428"
+    }
+  },
+  "corrected_sodium_hillier": {
+    "name": "Corrected Sodium (Hyperglycemia) - Hillier Formula",
+    "input": {
+      "measured_na": {
+        "label": "Measured Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "glucose": {
+        "label": "Glucose [mg/dL]",
+        "type": "float",
+        "min": 400,
+        "max": 1000
+      }
+    },
+    "output": {
+      "corrected_na": {
+        "label": "Corrected Sodium [mmol/L]",
+        "formula": "measured_na + 2.4 * ((glucose - 100) / 100)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(corrected_na >= 143, 'High (>143 mmol/L)', corrected_na >= 137, 'Normal (137-143 mmol/L)', 'Low (<137 mmol/L)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Note",
+        "text": "Use Hillier formula for glucose >400 mg/dL. For glucose ≤400 mg/dL, use Katz formula (1.6 correction factor)."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "measured_na": 135,
+          "glucose": 500
+        },
+        "output": {
+          "corrected_na": 144.6,
+          "interpretation": "High (>143 mmol/L)"
+        }
+      }
+    ],
+    "ref": {
+      "Hillier TA, Abbott RD, Barrett EJ. J Clin Endocrinol Metab. 1999;84(12):4733-8": "pubmed:10599740"
+    }
+  },
+  "serum_osmolality": {
+    "name": "Serum Osmolality (Calculated)",
+    "input": {
+      "sodium": {
+        "label": "Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "glucose": {
+        "label": "Glucose [mg/dL]",
+        "type": "float",
+        "min": 50,
+        "max": 1000
+      },
+      "bun": {
+        "label": "BUN [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 200
+      }
+    },
+    "output": {
+      "osmolality": {
+        "label": "Calculated Osmolality [mOsm/kg]",
+        "formula": "2 * sodium + glucose / 18 + bun / 2.8",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(osmolality > 295, 'High (>295 mOsm/kg)', osmolality >= 275, 'Normal (275-295 mOsm/kg)', 'Low (<275 mOsm/kg)')"
+      },
+      "pediatric_note": {
+        "label": "Pediatric Reference",
+        "text": "Pediatric normal range: 275-290 mOsm/kg"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "sodium": 140,
+          "glucose": 90,
+          "bun": 14
+        },
+        "output": {
+          "osmolality": 290.0,
+          "interpretation": "Normal (275-295 mOsm/kg)"
+        }
+      },
+      {
+        "input": {
+          "sodium": 150,
+          "glucose": 180,
+          "bun": 28
+        },
+        "output": {
+          "osmolality": 320.0,
+          "interpretation": "High (>295 mOsm/kg)"
+        }
+      }
+    ],
+    "ref": {
+      "Smithline N, Gardner KD Jr. Ann Intern Med. 1976;85(6):727-9": "pubmed:999107"
+    }
+  },
+  "anion_gap": {
+    "name": "Anion Gap",
+    "input": {
+      "sodium": {
+        "label": "Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "chloride": {
+        "label": "Chloride [mmol/L]",
+        "type": "float",
+        "min": 50,
+        "max": 150
+      },
+      "bicarbonate": {
+        "label": "Bicarbonate [mmol/L]",
+        "type": "float",
+        "min": 1,
+        "max": 50
+      }
+    },
+    "output": {
+      "anion_gap": {
+        "label": "Anion Gap [mEq/L]",
+        "formula": "sodium - (chloride + bicarbonate)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(anion_gap > 12, 'Elevated (>12 mEq/L)', anion_gap >= 8, 'Normal (8-12 mEq/L)', 'Low (<8 mEq/L)')"
+      },
+      "differential": {
+        "label": "Elevated AG Differential (CATMUDPILES)",
+        "text": "CO/cyanide, Aminoglycosides, Theophylline, Methanol, Uremia, DKA, Paracetamol, Iron/INH, Lactic acidosis, Ethanol/Ethylene glycol, Salicylates"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "sodium": 140,
+          "chloride": 100,
+          "bicarbonate": 24
+        },
+        "output": {
+          "anion_gap": 16.0,
+          "interpretation": "Elevated (>12 mEq/L)"
+        }
+      },
+      {
+        "input": {
+          "sodium": 140,
+          "chloride": 105,
+          "bicarbonate": 25
+        },
+        "output": {
+          "anion_gap": 10.0,
+          "interpretation": "Normal (8-12 mEq/L)"
+        }
+      }
+    ],
+    "ref": {
+      "Oh MS, Carroll HJ. N Engl J Med. 1977;297(15):814-8": "pubmed:895822"
+    }
+  },
+  "anion_gap_corrected": {
+    "name": "Albumin-Corrected Anion Gap (Figge)",
+    "input": {
+      "sodium": {
+        "label": "Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "chloride": {
+        "label": "Chloride [mmol/L]",
+        "type": "float",
+        "min": 50,
+        "max": 150
+      },
+      "bicarbonate": {
+        "label": "Bicarbonate [mmol/L]",
+        "type": "float",
+        "min": 1,
+        "max": 50
+      },
+      "albumin": {
+        "label": "Albumin [g/dL]",
+        "type": "float",
+        "min": 1.0,
+        "max": 6.0
+      }
+    },
+    "output": {
+      "anion_gap": {
+        "label": "Standard Anion Gap [mEq/L]",
+        "formula": "sodium - (chloride + bicarbonate)",
+        "precision": 1
+      },
+      "corrected_ag": {
+        "label": "Albumin-Corrected Anion Gap [mEq/L]",
+        "formula": "anion_gap + 2.5 * (4.0 - albumin)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(corrected_ag > 12, 'Elevated (>12 mEq/L)', corrected_ag >= 8, 'Normal (8-12 mEq/L)', 'Low (<8 mEq/L)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Note",
+        "text": "Correction is important because low albumin artificially lowers the anion gap, potentially masking metabolic acidosis"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "sodium": 140,
+          "chloride": 105,
+          "bicarbonate": 25,
+          "albumin": 2.0
+        },
+        "output": {
+          "anion_gap": 10.0,
+          "corrected_ag": 15.0,
+          "interpretation": "Elevated (>12 mEq/L)"
+        }
+      }
+    ],
+    "ref": {
+      "Figge J, Jabor A, Kazda A, Fencl V. Crit Care Med. 1998;26(12):1807-10": "pubmed:9824069"
+    }
+  },
+  "corrected_calcium_payne": {
+    "name": "Corrected Calcium (Payne Formula)",
+    "input": {
+      "total_calcium": {
+        "label": "Total Calcium [mg/dL]",
+        "type": "float",
+        "min": 1.0,
+        "max": 20.0
+      },
+      "albumin": {
+        "label": "Albumin [g/dL]",
+        "type": "float",
+        "min": 1.0,
+        "max": 6.0
+      }
+    },
+    "output": {
+      "corrected_calcium": {
+        "label": "Corrected Calcium [mg/dL]",
+        "formula": "total_calcium + 0.8 * (4.0 - albumin)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(corrected_calcium > 10.5, 'Hypercalcemia (>10.5 mg/dL)', corrected_calcium >= 8.5, 'Normal (8.5-10.5 mg/dL)', 'Hypocalcemia (<8.5 mg/dL)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Note",
+        "text": "JAMA Network Open 2025 study recommends ionized Ca measurement for critically ill, CKD, elderly patients"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "total_calcium": 8.0,
+          "albumin": 2.0
+        },
+        "output": {
+          "corrected_calcium": 9.6,
+          "interpretation": "Normal (8.5-10.5 mg/dL)"
+        }
+      },
+      {
+        "input": {
+          "total_calcium": 9.5,
+          "albumin": 4.0
+        },
+        "output": {
+          "corrected_calcium": 9.5,
+          "interpretation": "Normal (8.5-10.5 mg/dL)"
+        }
+      }
+    ],
+    "ref": {
+      "Payne RB, Little AJ, Williams RB, Milner JR. Br Med J. 1973;4(5893):643-6": "pubmed:4758544"
+    }
+  },
+  "corrected_calcium_japanese": {
+    "name": "Corrected Calcium (Japanese BCP Method)",
+    "input": {
+      "total_calcium": {
+        "label": "Total Calcium [mg/dL]",
+        "type": "float",
+        "min": 1.0,
+        "max": 20.0
+      },
+      "albumin": {
+        "label": "Albumin [g/dL]",
+        "type": "float",
+        "min": 1.0,
+        "max": 6.0
+      }
+    },
+    "output": {
+      "corrected_calcium": {
+        "label": "Corrected Calcium [mg/dL]",
+        "formula": "total_calcium + 0.7 * (4.0 - albumin)",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(corrected_calcium > 10.5, 'Hypercalcemia (>10.5 mg/dL)', corrected_calcium >= 8.5, 'Normal (8.5-10.5 mg/dL)', 'Hypocalcemia (<8.5 mg/dL)')"
+      },
+      "method_note": {
+        "label": "Note",
+        "text": "Japanese BCP method uses 0.7 correction factor (vs. 0.8 in Payne formula)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "total_calcium": 8.0,
+          "albumin": 2.0
+        },
+        "output": {
+          "corrected_calcium": 9.4,
+          "interpretation": "Normal (8.5-10.5 mg/dL)"
+        }
+      }
+    ],
+    "ref": {
+      "Japanese Society of Clinical Chemistry": ""
+    }
+  },
+  "fena": {
+    "name": "Fractional Excretion of Sodium (FENa)",
+    "input": {
+      "urine_na": {
+        "label": "Urine Sodium [mmol/L]",
+        "type": "float",
+        "min": 1,
+        "max": 300
+      },
+      "serum_na": {
+        "label": "Serum Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "urine_cr": {
+        "label": "Urine Creatinine [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 500
+      },
+      "serum_cr": {
+        "label": "Serum Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.1,
+        "max": 20
+      }
+    },
+    "output": {
+      "fena": {
+        "label": "FENa [%]",
+        "formula": "((urine_na * serum_cr) / (serum_na * urine_cr)) * 100",
+        "precision": 2
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(fena < 1, 'Prerenal AKI (<1%)', fena <= 2, 'Indeterminate (1-2%)', 'Renal AKI/ATN (>2-3%)')"
+      },
+      "pediatric_note": {
+        "label": "Pediatric Considerations",
+        "text": "Term neonates: FENa <3% suggests prerenal. Preterm: Up to 4% normal (immature tubules)"
+      },
+      "limitation": {
+        "label": "Limitation",
+        "text": "Unreliable with diuretics → use FEUrea instead"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "urine_na": 20,
+          "serum_na": 140,
+          "urine_cr": 100,
+          "serum_cr": 2.0
+        },
+        "output": {
+          "fena": 0.29,
+          "interpretation": "Prerenal AKI (<1%)"
+        }
+      },
+      {
+        "input": {
+          "urine_na": 50,
+          "serum_na": 140,
+          "urine_cr": 50,
+          "serum_cr": 1.5
+        },
+        "output": {
+          "fena": 1.07,
+          "interpretation": "Indeterminate (1-2%)"
+        }
+      }
+    ],
+    "ref": {
+      "Steiner RW. Am J Med Sci. 1984;287(2):40-7": "pubmed:6702735"
+    }
+  },
+  "feurea": {
+    "name": "Fractional Excretion of Urea (FEUrea)",
+    "input": {
+      "urine_urea": {
+        "label": "Urine Urea [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 2000
+      },
+      "serum_urea": {
+        "label": "Serum Urea (BUN) [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 200
+      },
+      "urine_cr": {
+        "label": "Urine Creatinine [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 500
+      },
+      "serum_cr": {
+        "label": "Serum Creatinine [mg/dL]",
+        "type": "float",
+        "min": 0.1,
+        "max": 20
+      }
+    },
+    "output": {
+      "feurea": {
+        "label": "FEUrea [%]",
+        "formula": "((urine_urea * serum_cr) / (serum_urea * urine_cr)) * 100",
+        "precision": 2
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(feurea < 35, 'Prerenal AKI (<35%)', feurea >= 50, 'Renal AKI/ATN (>50%)', 'Indeterminate (35-50%)')"
+      },
+      "advantage": {
+        "label": "Advantage",
+        "text": "Less affected by diuretics (proximal tubule reabsorption). More reliable than FENa in patients on diuretics"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "urine_urea": 500,
+          "serum_urea": 50,
+          "urine_cr": 100,
+          "serum_cr": 2.0
+        },
+        "output": {
+          "feurea": 20.0,
+          "interpretation": "Prerenal AKI (<35%)"
+        }
+      },
+      {
+        "input": {
+          "urine_urea": 300,
+          "serum_urea": 40,
+          "urine_cr": 40,
+          "serum_cr": 1.5
+        },
+        "output": {
+          "feurea": 28.13,
+          "interpretation": "Prerenal AKI (<35%)"
+        }
+      }
+    ],
+    "ref": {
+      "Carvounis CP, Nisar S, Guro-Razuman S. Am J Kidney Dis. 2002;40(4):689-93": "pubmed:12324902"
+    }
+  },
+  "osmolar_gap": {
+    "name": "Osmolar Gap",
+    "input": {
+      "measured_osm": {
+        "label": "Measured Osmolality [mOsm/kg]",
+        "type": "float",
+        "min": 200,
+        "max": 500
+      },
+      "sodium": {
+        "label": "Sodium [mmol/L]",
+        "type": "float",
+        "min": 100,
+        "max": 200
+      },
+      "glucose": {
+        "label": "Glucose [mg/dL]",
+        "type": "float",
+        "min": 50,
+        "max": 1000
+      },
+      "bun": {
+        "label": "BUN [mg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 200
+      }
+    },
+    "output": {
+      "calculated_osm": {
+        "label": "Calculated Osmolality [mOsm/kg]",
+        "formula": "2 * sodium + glucose / 18 + bun / 2.8",
+        "precision": 1
+      },
+      "osmolar_gap": {
+        "label": "Osmolar Gap [mOsm/kg]",
+        "formula": "measured_osm - calculated_osm",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(osmolar_gap > 20, 'Strong indicator of intoxication (>20)', osmolar_gap > 15, 'Toxic alcohol highly suspected (>15)', osmolar_gap > 10, 'Abnormal, requires investigation (>10)', 'Normal (-10 to +10)')"
+      },
+      "toxic_methanol": {
+        "label": "Estimated Methanol [mg/dL]",
+        "formula": "osmolar_gap * 3.2",
+        "precision": 1
+      },
+      "toxic_ethylene_glycol": {
+        "label": "Estimated Ethylene Glycol [mg/dL]",
+        "formula": "osmolar_gap * 6.2",
+        "precision": 1
+      },
+      "toxic_isopropanol": {
+        "label": "Estimated Isopropanol [mg/dL]",
+        "formula": "osmolar_gap * 6.0",
+        "precision": 1
+      },
+      "warning": {
+        "label": "Warning",
+        "text": "Normal osmolar gap does NOT exclude toxic alcohol (gap decreases as metabolism progresses, anion gap increases)"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "measured_osm": 320,
+          "sodium": 140,
+          "glucose": 90,
+          "bun": 14
+        },
+        "output": {
+          "calculated_osm": 290.0,
+          "osmolar_gap": 30.0,
+          "interpretation": "Strong indicator of intoxication (>20)",
+          "toxic_methanol": 96.0,
+          "toxic_ethylene_glycol": 186.0,
+          "toxic_isopropanol": 180.0
+        }
+      },
+      {
+        "input": {
+          "measured_osm": 295,
+          "sodium": 140,
+          "glucose": 90,
+          "bun": 14
+        },
+        "output": {
+          "calculated_osm": 290.0,
+          "osmolar_gap": 5.0,
+          "interpretation": "Normal (-10 to +10)"
+        }
+      }
+    ],
+    "ref": {
+      "Kraut JA, Kurtz I. Am J Kidney Dis. 2008;51(6):1074-84": "pubmed:18501803",
+      "Purssell RA, Lynd LD, Koga Y. Ann Emerg Med. 2001;38(6):653-9": "pubmed:11719745"
+    }
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "corrected_reticulocyte_count": {
+    "name": "Corrected Reticulocyte Count (Reticulocyte Index)",
+    "input": {
+      "reticulocyte_percent": {
+        "label": "Reticulocyte [%]",
+        "type": "float",
+        "min": 0,
+        "max": 50
+      },
+      "patient_hct": {
+        "label": "Patient Hematocrit [%]",
+        "type": "float",
+        "min": 5,
+        "max": 70
+      }
+    },
+    "output": {
+      "reticulocyte_index": {
+        "label": "Reticulocyte Index (RI)",
+        "formula": "reticulocyte_percent * (patient_hct / 45)",
+        "precision": 2
+      },
+      "note": {
+        "label": "Note",
+        "text": "Normal Hct reference: 45%. This corrects for the degree of anemia."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "reticulocyte_percent": 3.0,
+          "patient_hct": 30
+        },
+        "output": {
+          "reticulocyte_index": 2.0
+        }
+      },
+      {
+        "input": {
+          "reticulocyte_percent": 2.0,
+          "patient_hct": 45
+        },
+        "output": {
+          "reticulocyte_index": 2.0
+        }
+      }
+    ],
+    "ref": {
+      "Hillman RS, Finch CA. Red Cell Manual. 7th ed. FA Davis; 1996": ""
+    }
+  },
+  "reticulocyte_production_index": {
+    "name": "Reticulocyte Production Index (RPI)",
+    "input": {
+      "reticulocyte_percent": {
+        "label": "Reticulocyte [%]",
+        "type": "float",
+        "min": 0,
+        "max": 50
+      },
+      "patient_hct": {
+        "label": "Patient Hematocrit [%]",
+        "type": "float",
+        "min": 5,
+        "max": 70
+      }
+    },
+    "output": {
+      "reticulocyte_index": {
+        "label": "Reticulocyte Index (RI)",
+        "formula": "reticulocyte_percent * (patient_hct / 45)",
+        "precision": 2
+      },
+      "maturation_factor": {
+        "label": "Maturation Correction Factor",
+        "formula": "iif(patient_hct >= 36, 1.0, patient_hct >= 26, 1.5, patient_hct >= 16, 2.0, 2.5)"
+      },
+      "rpi": {
+        "label": "Reticulocyte Production Index (RPI)",
+        "formula": "reticulocyte_index / maturation_factor",
+        "precision": 2
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(rpi < 2, 'Inadequate marrow response (hypoproliferative)', rpi > 3, 'Appropriate marrow response (hemolysis/bleeding)', 'Borderline response')"
+      },
+      "maturation_table": {
+        "label": "Maturation Correction Factors",
+        "text": "Hct 36-45%: 1.0 | Hct 26-35%: 1.5 | Hct 16-25%: 2.0 | Hct <16%: 2.5"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "reticulocyte_percent": 3.0,
+          "patient_hct": 30
+        },
+        "output": {
+          "reticulocyte_index": 2.0,
+          "maturation_factor": 1.5,
+          "rpi": 1.33,
+          "interpretation": "Inadequate marrow response (hypoproliferative)"
+        }
+      },
+      {
+        "input": {
+          "reticulocyte_percent": 10.0,
+          "patient_hct": 20
+        },
+        "output": {
+          "reticulocyte_index": 4.44,
+          "maturation_factor": 2.0,
+          "rpi": 2.22,
+          "interpretation": "Borderline response"
+        }
+      },
+      {
+        "input": {
+          "reticulocyte_percent": 15.0,
+          "patient_hct": 25
+        },
+        "output": {
+          "reticulocyte_index": 8.33,
+          "maturation_factor": 2.0,
+          "rpi": 4.17,
+          "interpretation": "Appropriate marrow response (hemolysis/bleeding)"
+        }
+      }
+    ],
+    "ref": {
+      "Hillman RS, Finch CA. Red Cell Manual. 7th ed. FA Davis; 1996": ""
+    }
+  },
+  "platelet_transfusion_pediatric": {
+    "name": "Platelet Transfusion Dosing (Pediatric)",
+    "input": {
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0.5,
+        "max": 150
+      }
+    },
+    "output": {
+      "dose_min": {
+        "label": "Minimum Dose [mL platelet concentrate]",
+        "formula": "5 * weight",
+        "precision": 0
+      },
+      "dose_max": {
+        "label": "Maximum Dose [mL platelet concentrate]",
+        "formula": "10 * weight",
+        "precision": 0
+      },
+      "dosing_note": {
+        "label": "Dosing Note",
+        "text": "Pediatric dose: 5-10 mL/kg of platelet concentrate"
+      },
+      "thresholds": {
+        "label": "Transfusion Thresholds",
+        "text": "Stable: 10,000/µL | Fever/infection/minor procedure: 20,000/µL | Major surgery/LP: 50,000/µL | CNS/ophthalmic surgery: 100,000/µL"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "weight": 20
+        },
+        "output": {
+          "dose_min": 100,
+          "dose_max": 200
+        }
+      },
+      {
+        "input": {
+          "weight": 50
+        },
+        "output": {
+          "dose_min": 250,
+          "dose_max": 500
+        }
+      }
+    ],
+    "ref": {
+      "British Committee for Standards in Haematology": ""
+    }
+  },
+  "corrected_count_increment": {
+    "name": "Corrected Count Increment (CCI)",
+    "input": {
+      "post_transfusion_plt": {
+        "label": "Post-transfusion Platelet Count [×10³/µL]",
+        "type": "float",
+        "min": 0,
+        "max": 1000
+      },
+      "pre_transfusion_plt": {
+        "label": "Pre-transfusion Platelet Count [×10³/µL]",
+        "type": "float",
+        "min": 0,
+        "max": 500
+      },
+      "height": {
+        "label": "Height [cm]",
+        "type": "float",
+        "min": 30,
+        "max": 250
+      },
+      "weight": {
+        "label": "Weight [kg]",
+        "type": "float",
+        "min": 0.5,
+        "max": 300
+      },
+      "transfused_platelets": {
+        "label": "Transfused Platelets [×10¹¹]",
+        "type": "float",
+        "min": 0.1,
+        "max": 10
+      }
+    },
+    "output": {
+      "bsa": {
+        "label": "Body Surface Area [m²]",
+        "formula": "BSA_DuBois(height, weight)",
+        "precision": 2
+      },
+      "cci": {
+        "label": "Corrected Count Increment (CCI)",
+        "formula": "((post_transfusion_plt - pre_transfusion_plt) * 1000 * bsa) / transfused_platelets",
+        "precision": 0
+      },
+      "interpretation_1h": {
+        "label": "Interpretation at 1 hour",
+        "formula": "iif(cci >= 7500, 'Adequate (≥7,500)', cci >= 5000, 'Borderline (5,000-7,499)', 'Poor (<5,000)')"
+      },
+      "interpretation_24h": {
+        "label": "Interpretation at 24 hours",
+        "formula": "iif(cci >= 4500, 'Adequate (≥4,500)', 'Poor (<4,500)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Note",
+        "text": "CCI <5,000 at 1h or <4,500 at 24h suggests platelet refractoriness. Consider causes: alloimmunization, fever, sepsis, DIC, splenomegaly, medications"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "post_transfusion_plt": 50,
+          "pre_transfusion_plt": 10,
+          "height": 170,
+          "weight": 70,
+          "transfused_platelets": 3.0
+        },
+        "output": {
+          "bsa": 1.81,
+          "cci": 24133,
+          "interpretation_1h": "Adequate (≥7,500)",
+          "interpretation_24h": "Adequate (≥4,500)"
+        }
+      },
+      {
+        "input": {
+          "post_transfusion_plt": 15,
+          "pre_transfusion_plt": 10,
+          "height": 170,
+          "weight": 70,
+          "transfused_platelets": 3.0
+        },
+        "output": {
+          "bsa": 1.81,
+          "cci": 3017,
+          "interpretation_1h": "Poor (<5,000)",
+          "interpretation_24h": "Poor (<4,500)"
+        }
+      }
+    ],
+    "ref": {
+      "Davis KB, Slichter SJ, Corash L. Blood. 1999;94(4):1465-76": "pubmed:10438734"
+    }
+  }
+}

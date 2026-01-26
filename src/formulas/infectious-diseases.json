@@ -120,5 +120,313 @@
       "Durack DT, et al. Am J Med. 1994;96(3):200-9.": "pubmed:8154507",
       "Li JS, et al. Clin Infect Dis. 2000;30(4):633-8.": "pubmed:10770721"
     }
+  },
+  "jones_criteria_low_risk": {
+    "name": "Jones Criteria for Rheumatic Fever (Low Risk)",
+    "input": {
+      "carditis": {
+        "label": "Carditis (Clinical or Subclinical)",
+        "type": "onoff"
+      },
+      "polyarthritis": {
+        "label": "Polyarthritis",
+        "type": "onoff"
+      },
+      "chorea": {
+        "label": "Chorea",
+        "type": "onoff"
+      },
+      "erythema_marginatum": {
+        "label": "Erythema Marginatum",
+        "type": "onoff"
+      },
+      "subcutaneous_nodules": {
+        "label": "Subcutaneous Nodules",
+        "type": "onoff"
+      },
+      "polyarthralgia": {
+        "label": "Polyarthralgia",
+        "type": "onoff"
+      },
+      "fever": {
+        "label": "Fever ≥38.5°C",
+        "type": "onoff"
+      },
+      "esr": {
+        "label": "ESR ≥60 mm/hr",
+        "type": "onoff"
+      },
+      "crp": {
+        "label": "CRP ≥3.0 mg/dL",
+        "type": "onoff"
+      },
+      "strep_evidence": {
+        "label": "Evidence of Streptococcal Infection",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "major_count": {
+        "label": "Major Criteria Count",
+        "formula": "(carditis == 1 ? 1 : 0) + (polyarthritis == 1 ? 1 : 0) + (chorea == 1 ? 1 : 0) + (erythema_marginatum == 1 ? 1 : 0) + (subcutaneous_nodules == 1 ? 1 : 0)",
+        "precision": 0
+      },
+      "minor_count": {
+        "label": "Minor Criteria Count",
+        "formula": "(polyarthralgia == 1 ? 1 : 0) + (fever == 1 ? 1 : 0) + iif(esr == 1 or crp == 1, 1, 0)",
+        "precision": 0
+      },
+      "diagnosis": {
+        "label": "Diagnosis",
+        "formula": "iif(strep_evidence == 0, 'Requires evidence of streptococcal infection', major_count >= 2, 'Acute Rheumatic Fever', major_count >= 1 and minor_count >= 2, 'Acute Rheumatic Fever', 'Does not meet criteria')"
+      },
+      "population": {
+        "label": "Population",
+        "text": "Low Risk: ARF incidence <2/100,000 school-age children OR RHD prevalence ≤1/1,000"
+      },
+      "criteria_note": {
+        "label": "Criteria for Low Risk",
+        "text": "Major: Carditis, Polyarthritis only, Chorea, Erythema marginatum, Subcutaneous nodules | Minor: Polyarthralgia, Fever ≥38.5°C, ESR ≥60 OR CRP ≥3.0"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "carditis": 1,
+          "polyarthritis": 1,
+          "chorea": 0,
+          "erythema_marginatum": 0,
+          "subcutaneous_nodules": 0,
+          "polyarthralgia": 0,
+          "fever": 0,
+          "esr": 0,
+          "crp": 0,
+          "strep_evidence": 1
+        },
+        "output": {
+          "major_count": 2,
+          "minor_count": 0,
+          "diagnosis": "Acute Rheumatic Fever"
+        }
+      },
+      {
+        "input": {
+          "carditis": 1,
+          "polyarthritis": 0,
+          "chorea": 0,
+          "erythema_marginatum": 0,
+          "subcutaneous_nodules": 0,
+          "polyarthralgia": 1,
+          "fever": 1,
+          "esr": 1,
+          "crp": 0,
+          "strep_evidence": 1
+        },
+        "output": {
+          "major_count": 1,
+          "minor_count": 3,
+          "diagnosis": "Acute Rheumatic Fever"
+        }
+      }
+    ],
+    "ref": {
+      "Gewitz MH, et al. AHA Scientific Statement. Circulation. 2015;131(20):1806-18": "pubmed:25908771"
+    }
+  },
+  "jones_criteria_mod_high_risk": {
+    "name": "Jones Criteria for Rheumatic Fever (Moderate-High Risk)",
+    "input": {
+      "carditis": {
+        "label": "Carditis (Clinical or Subclinical)",
+        "type": "onoff"
+      },
+      "arthritis_type": {
+        "label": "Arthritis",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "None" },
+          { "value": 1, "label": "Monoarthritis" },
+          { "value": 1, "label": "Polyarthritis" },
+          { "value": 1, "label": "Polyarthralgia" }
+        ]
+      },
+      "chorea": {
+        "label": "Chorea",
+        "type": "onoff"
+      },
+      "erythema_marginatum": {
+        "label": "Erythema Marginatum",
+        "type": "onoff"
+      },
+      "subcutaneous_nodules": {
+        "label": "Subcutaneous Nodules",
+        "type": "onoff"
+      },
+      "monoarthralgia": {
+        "label": "Monoarthralgia",
+        "type": "onoff"
+      },
+      "fever": {
+        "label": "Fever ≥38.0°C",
+        "type": "onoff"
+      },
+      "esr": {
+        "label": "ESR ≥30 mm/hr",
+        "type": "onoff"
+      },
+      "crp": {
+        "label": "CRP ≥3.0 mg/dL",
+        "type": "onoff"
+      },
+      "strep_evidence": {
+        "label": "Evidence of Streptococcal Infection",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "major_count": {
+        "label": "Major Criteria Count",
+        "formula": "(carditis == 1 ? 1 : 0) + (arthritis_type >= 1 ? 1 : 0) + (chorea == 1 ? 1 : 0) + (erythema_marginatum == 1 ? 1 : 0) + (subcutaneous_nodules == 1 ? 1 : 0)",
+        "precision": 0
+      },
+      "minor_count": {
+        "label": "Minor Criteria Count",
+        "formula": "(monoarthralgia == 1 ? 1 : 0) + (fever == 1 ? 1 : 0) + iif(esr == 1 or crp == 1, 1, 0)",
+        "precision": 0
+      },
+      "diagnosis": {
+        "label": "Diagnosis",
+        "formula": "iif(strep_evidence == 0, 'Requires evidence of streptococcal infection', major_count >= 2, 'Acute Rheumatic Fever', major_count >= 1 and minor_count >= 2, 'Acute Rheumatic Fever', 'Does not meet criteria')"
+      },
+      "population": {
+        "label": "Population",
+        "text": "Moderate-High Risk: ARF incidence ≥2/100,000 OR RHD prevalence >1/1,000 (includes most countries including Japan)"
+      },
+      "criteria_note": {
+        "label": "Criteria for Moderate-High Risk",
+        "text": "Major: Carditis, Mono/Poly-arthritis/arthralgia, Chorea, Erythema marginatum, Subcutaneous nodules | Minor: Monoarthralgia, Fever ≥38.0°C, ESR ≥30 OR CRP ≥3.0"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "carditis": 1,
+          "arthritis_type": 1,
+          "chorea": 0,
+          "erythema_marginatum": 0,
+          "subcutaneous_nodules": 0,
+          "monoarthralgia": 0,
+          "fever": 0,
+          "esr": 0,
+          "crp": 0,
+          "strep_evidence": 1
+        },
+        "output": {
+          "major_count": 2,
+          "minor_count": 0,
+          "diagnosis": "Acute Rheumatic Fever"
+        }
+      }
+    ],
+    "ref": {
+      "Gewitz MH, et al. AHA Scientific Statement. Circulation. 2015;131(20):1806-18": "pubmed:25908771"
+    }
+  },
+  "phoenix_sepsis_score": {
+    "name": "Phoenix Sepsis Score (2024)",
+    "input": {
+      "respiratory_score": {
+        "label": "Respiratory Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - SpO₂/FiO₂ ≥292 or PaO₂/FiO₂ ≥400, no IMV" },
+          { "value": 1, "label": "1 - SpO₂/FiO₂ <292 or PaO₂/FiO₂ <400, no IMV" },
+          { "value": 2, "label": "2 - Any IMV or HFNC/CPAP/BiPAP" },
+          { "value": 3, "label": "3 - IMV + FiO₂ ≥50%" }
+        ]
+      },
+      "cardiovascular_points": {
+        "label": "Cardiovascular Points (0-6)",
+        "type": "float",
+        "min": 0,
+        "max": 6
+      },
+      "coagulation_score": {
+        "label": "Coagulation Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - Platelets >100×10³/µL, INR ≤1.3" },
+          { "value": 1, "label": "1 - Platelets 50-100×10³/µL OR INR >1.3" },
+          { "value": 2, "label": "2 - Platelets <50×10³/µL AND INR >1.3" }
+        ]
+      },
+      "neurologic_score": {
+        "label": "Neurologic Score",
+        "type": "select",
+        "options": [
+          { "value": 0, "label": "0 - GCS >10" },
+          { "value": 1, "label": "1 - GCS ≤10 OR bilateral fixed pupils" },
+          { "value": 2, "label": "2 - GCS ≤10 AND bilateral fixed pupils" }
+        ]
+      }
+    },
+    "output": {
+      "phoenix_score": {
+        "label": "Total Phoenix Score",
+        "formula": "respiratory_score + cardiovascular_points + coagulation_score + neurologic_score",
+        "precision": 0
+      },
+      "sepsis_diagnosis": {
+        "label": "Sepsis Diagnosis",
+        "formula": "iif(phoenix_score >= 2, 'Sepsis (Phoenix ≥2 + suspected infection)', 'Does not meet sepsis criteria')"
+      },
+      "septic_shock": {
+        "label": "Septic Shock",
+        "formula": "iif(phoenix_score >= 2 and cardiovascular_points >= 1, 'Septic Shock (Sepsis + cardiovascular dysfunction)', 'Not septic shock')"
+      },
+      "cardiovascular_note": {
+        "label": "Cardiovascular Scoring",
+        "text": "MAP below age threshold: +1 | Lactate 5-10.9 mmol/L: +1, ≥11: +2 | 1 vasopressor: +1, ≥2: +2"
+      },
+      "map_thresholds": {
+        "label": "Age-Specific MAP Thresholds",
+        "text": "0-<1mo: 17 | 1-<12mo: 25 | 1-<2y: 31 | 2-<5y: 32 | 5-<12y: 36 | ≥12y: 38 mmHg"
+      },
+      "purpose": {
+        "label": "Purpose",
+        "text": "New pediatric sepsis definition (2024) replacing SIRS criteria with improved specificity"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "respiratory_score": 0,
+          "cardiovascular_points": 0,
+          "coagulation_score": 0,
+          "neurologic_score": 0
+        },
+        "output": {
+          "phoenix_score": 0,
+          "sepsis_diagnosis": "Does not meet sepsis criteria",
+          "septic_shock": "Not septic shock"
+        }
+      },
+      {
+        "input": {
+          "respiratory_score": 2,
+          "cardiovascular_points": 3,
+          "coagulation_score": 1,
+          "neurologic_score": 1
+        },
+        "output": {
+          "phoenix_score": 7,
+          "sepsis_diagnosis": "Sepsis (Phoenix ≥2 + suspected infection)",
+          "septic_shock": "Septic Shock (Sepsis + cardiovascular dysfunction)"
+        }
+      }
+    ],
+    "ref": {
+      "Schlapbach LJ, et al. JAMA. 2024;331(8):665-674": "pubmed:38231189"
+    }
   }
 }
