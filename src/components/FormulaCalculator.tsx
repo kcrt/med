@@ -1,35 +1,31 @@
 "use client";
 
-import { useForm } from "@mantine/form";
 import {
-  Stack,
-  NumberInput,
-  Card,
-  Text,
-  Group,
-  Title,
   Alert,
   Box,
-  Switch,
+  Card,
+  Group,
+  NumberInput,
   Radio,
   Select,
+  Stack,
+  Switch,
+  Text,
   TextInput,
+  Title,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
-import {
-  type Formula,
-  type FormulaOutput,
-  type FormulaInput,
-} from "@/types/formula";
+import { useEffect, useState } from "react";
 import {
   evaluateFormulaOutputs,
+  type FormulaInputValues,
   shouldDisplayForLocale,
   validateAssertions,
-  type FormulaInputValues,
 } from "@/lib/formula";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
 
@@ -128,12 +124,13 @@ export function FormulaCalculator({
           // Convert boolean/string to number (1/0)
           inputValues[key] = value === true || value === "true" ? 1 : 0;
           break;
-        case "select":
+        case "select": {
           // Select uses index as value, map back to original option value
           const selectedIndex = Number(value);
           const selectedOption = inputDef.options?.[selectedIndex];
           inputValues[key] = selectedOption?.value ?? 0;
           break;
+        }
         case "date":
           // Convert date string to seconds since epoch
           if (value instanceof Date) {
@@ -174,27 +171,33 @@ export function FormulaCalculator({
       if (paramValue !== null) {
         hasQueryParams = true;
         const inputDef = formula.input[key];
-        
+
         // Convert to appropriate type based on input definition
         switch (inputDef?.type) {
           case "int":
-          case "float":
+          case "float": {
             const numValue = parseFloat(paramValue);
-            if (!isNaN(numValue)) {
+            if (!Number.isNaN(numValue)) {
               initialValues[key] = numValue;
             }
             break;
+          }
           case "onoff":
           case "sex":
             initialValues[key] = paramValue === "true";
             break;
-          case "select":
+          case "select": {
             // Find the option index by value or label
             const optionIndex = inputDef.options?.findIndex(
-              (opt) => String(opt.value) === paramValue || opt.label === paramValue
-            ) ?? 0;
-            initialValues[key] = optionIndex >= 0 ? optionIndex : 0;
+              (opt) =>
+                String(opt.value) === paramValue || opt.label === paramValue,
+            );
+            // Only set if we found a match, otherwise keep the default
+            if (optionIndex !== undefined && optionIndex >= 0) {
+              initialValues[key] = optionIndex;
+            }
             break;
+          }
           case "date":
             initialValues[key] = paramValue;
             break;
@@ -208,6 +211,8 @@ export function FormulaCalculator({
     if (hasQueryParams) {
       form.setValues(initialValues);
     }
+    // We only depend on searchParams to trigger this effect
+    // formula and inputKeys are stable and don't need to trigger re-runs
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
@@ -393,10 +398,7 @@ export function FormulaCalculator({
       />
 
       {/* Share Button Component */}
-      <ShareButton
-        formula={formula}
-        inputValues={form.values}
-      />
+      <ShareButton formula={formula} inputValues={form.values} />
     </Card>
   );
 }

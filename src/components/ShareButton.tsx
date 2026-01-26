@@ -20,10 +20,7 @@ interface ShareButtonProps {
   inputValues: Record<string, number | string | boolean | Date | null>;
 }
 
-export function ShareButton({
-  formula,
-  inputValues,
-}: ShareButtonProps) {
+export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const [opened, setOpened] = useState(false);
   const [copied, setCopied] = useState(false);
   const t = useTranslations("share");
@@ -34,9 +31,9 @@ export function ShareButton({
   }
 
   const hasInputs = Object.values(inputValues).some((value) => {
-    if (typeof value === "boolean") return true;
-    if (typeof value === "number") return value !== 0;
-    return value !== "" && value !== null;
+    // Consider any non-null, non-undefined value as valid input
+    // This includes zero, false, and empty strings
+    return value !== null && value !== undefined;
   });
 
   if (!hasInputs) {
