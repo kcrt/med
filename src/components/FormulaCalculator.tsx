@@ -231,7 +231,7 @@ export function FormulaCalculator({
       ? evaluateFormulaOutputs(formula, currentInputValues)
       : {};
 
-  const hasValidInputs = inputKeys.some((key) => {
+  const hasValidInputs = inputKeys.every((key) => {
     const value = form.values[key];
     // Consider non-empty strings, non-zero numbers, and booleans as valid
     if (typeof value === "boolean") return true;
