@@ -35,5 +35,6 @@
     "buttonLabel": "Share with URL",
     "copyButton": "Copy URL",
     "copied": "URL copied to clipboard!"
-  }
+  },
+  "labels": {}
 }

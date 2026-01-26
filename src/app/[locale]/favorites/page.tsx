@@ -15,14 +15,17 @@ import {
 import { IconStar, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getFavorites, toggleFavorite } from "@/lib/favorites";
-import { getFormula, getLocalizedFormulaData } from "@/lib/formula";
+import { useFormulaData } from "@/lib/formula-hooks";
+import { useFormulaName } from "@/lib/formula-translation";
+import type { Formula } from "@/types/formula";
 
 export default function FavoritesPage() {
   const locale = useLocale();
   const t = useTranslations("favorites");
   const [favorites, setFavorites] = useState<string[]>([]);
+  const formulaData = useFormulaData();
 
   // Load favorites on mount
   useEffect(() => {
@@ -47,10 +50,9 @@ export default function FavoritesPage() {
 
   // Memoize category mapping to avoid repeated lookups
   const categoryMap = useMemo(() => {
-    const data = getLocalizedFormulaData(locale);
     const map = new Map<string, string>();
 
-    for (const [categoryName, categoryData] of Object.entries(data)) {
+    for (const [categoryName, categoryData] of Object.entries(formulaData)) {
       if (categoryName === "_meta") continue;
       const categoryRecord = categoryData as Record<string, unknown>;
       for (const formulaId of Object.keys(categoryRecord)) {
@@ -59,7 +61,72 @@ export default function FavoritesPage() {
     }
 
     return map;
-  }, [locale]);
+  }, [formulaData]);
+
+  // Helper function to get formula from formulaData by ID
+  // Note: We use this instead of useFormula() hook because hooks can't be called 
+  // inside loops/maps, and we already have formulaData from useFormulaData()
+  const getFormulaById = (id: string): Formula | undefined => {
+    for (const [categoryName, categoryData] of Object.entries(formulaData)) {
+      if (categoryName === "_meta") continue;
+      const categoryRecord = categoryData as Record<string, Formula>;
+      if (categoryRecord[id]) {
+        return categoryRecord[id];
+      }
+    }
+    return undefined;
+  };
+
+  // Component to render a favorite item with translated name
+  const FavoriteItem = ({ formulaId }: { formulaId: string }) => {
+    const formula = getFormulaById(formulaId);
+    const category = categoryMap.get(formulaId);
+    const formulaName = formula ? useFormulaName(formulaId, formula) : formulaId;
+
+    // Skip if formula no longer exists
+    if (!formula) return null;
+
+    return (
+      <Card
+        key={formulaId}
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+      >
+        <Group justify="space-between" wrap="nowrap">
+          <Stack gap="xs" style={{ flex: 1 }}>
+            <Anchor
+              component={Link}
+              href={`/${locale}/formula/${formulaId}`}
+              size="lg"
+              fw={600}
+            >
+              {formulaName}
+            </Anchor>
+            {category && (
+              <Group gap="xs">
+                <Text size="sm" c="dimmed">
+                  {t("category")}:
+                </Text>
+                <Badge variant="light" size="sm">
+                  {category}
+                </Badge>
+              </Group>
+            )}
+          </Stack>
+          <ActionIcon
+            variant="subtle"
+            color="red"
+            onClick={() => handleRemoveFavorite(formulaId)}
+            aria-label={t("remove")}
+          >
+            <IconTrash size={20} />
+          </ActionIcon>
+        </Group>
+      </Card>
+    );
+  };
 
   return (
     <Container size="md" py="xl">
@@ -76,54 +143,9 @@ export default function FavoritesPage() {
           </Alert>
         ) : (
           <Stack gap="md">
-            {favorites.map((formulaId) => {
-              const formula = getFormula(formulaId, locale);
-              const category = categoryMap.get(formulaId);
-
-              // Skip if formula no longer exists
-              if (!formula) return null;
-
-              return (
-                <Card
-                  key={formulaId}
-                  shadow="sm"
-                  padding="lg"
-                  radius="md"
-                  withBorder
-                >
-                  <Group justify="space-between" wrap="nowrap">
-                    <Stack gap="xs" style={{ flex: 1 }}>
-                      <Anchor
-                        component={Link}
-                        href={`/${locale}/formula/${formulaId}`}
-                        size="lg"
-                        fw={600}
-                      >
-                        {formula.name ?? formulaId}
-                      </Anchor>
-                      {category && (
-                        <Group gap="xs">
-                          <Text size="sm" c="dimmed">
-                            {t("category")}:
-                          </Text>
-                          <Badge variant="light" size="sm">
-                            {category}
-                          </Badge>
-                        </Group>
-                      )}
-                    </Stack>
-                    <ActionIcon
-                      variant="subtle"
-                      color="red"
-                      onClick={() => handleRemoveFavorite(formulaId)}
-                      aria-label={t("remove")}
-                    >
-                      <IconTrash size={20} />
-                    </ActionIcon>
-                  </Group>
-                </Card>
-              );
-            })}
+            {favorites.map((formulaId) => (
+              <FavoriteItem key={formulaId} formulaId={formulaId} />
+            ))}
           </Stack>
         )}
       </Stack>

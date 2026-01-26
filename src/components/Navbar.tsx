@@ -5,14 +5,14 @@ import { IconSettings, IconStar } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { getMenuItems } from "@/lib/formula";
+import { useMenuItems } from "@/lib/formula-hooks";
 
 export function Navbar() {
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("config");
   const tFavorites = useTranslations("favorites");
-  const menuItems = getMenuItems(locale);
+  const menuItems = useMenuItems();
 
   return (
     <Stack h="100%" style={{ overflowY: "auto" }}>

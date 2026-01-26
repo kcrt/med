@@ -12,6 +12,13 @@ vi.mock("next/navigation", () => ({
 vi.mock("next-intl", () => ({
   useTranslations: (namespace: string) => (key: string) => {
     if (namespace === "config" && key === "title") return "Config";
+    if (namespace === "formulas") {
+      // Mock formula translations
+      if (key === "bmi_adult.name") return "BMI (Adult)";
+      if (key === "bmi_child.name") return "BMI (Child)";
+      if (key === "target_height.name") return "Target Height";
+      if (key === "bsa.name") return "Body Surface Area";
+    }
     return key;
   },
   useLocale: () => "en",

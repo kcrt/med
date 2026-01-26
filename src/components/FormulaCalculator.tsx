@@ -25,6 +25,11 @@ import {
   shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
+import {
+  useInputLabel,
+  useOutputLabel,
+  useOutputText,
+} from "@/lib/formula-translation";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
@@ -246,18 +251,19 @@ export function FormulaCalculator({
             {inputKeys.map((key) => {
               const inputDef = formula.input[key]!;
               const inputProps = form.getInputProps(key);
+              const label = useInputLabel(formulaId, key, inputDef);
 
               switch (inputDef.type) {
                 case "onoff":
                   return (
-                    <Switch key={key} label={inputDef.label} {...inputProps} />
+                    <Switch key={key} label={label} {...inputProps} />
                   );
 
                 case "sex":
                   return (
                     <Radio.Group
                       key={key}
-                      label={inputDef.label}
+                      label={label}
                       {...inputProps}
                     >
                       <Group>
@@ -271,7 +277,7 @@ export function FormulaCalculator({
                   return (
                     <Select
                       key={key}
-                      label={inputDef.label}
+                      label={label}
                       data={
                         inputDef.options?.map((opt, idx) => ({
                           value: String(idx),
@@ -287,7 +293,7 @@ export function FormulaCalculator({
                     <TextInput
                       key={key}
                       type="date"
-                      label={inputDef.label}
+                      label={label}
                       {...inputProps}
                     />
                   );
@@ -298,8 +304,8 @@ export function FormulaCalculator({
                   return (
                     <NumberInput
                       key={key}
-                      label={inputDef.label}
-                      placeholder={`Enter ${inputDef.label}`}
+                      label={label}
+                      placeholder={`Enter ${label}`}
                       min={inputDef.min}
                       max={inputDef.max}
                       step={inputDef.type === "int" ? 1 : 0.1}
@@ -338,17 +344,21 @@ export function FormulaCalculator({
                 // Check locale filtering
                 if (!shouldDisplayForLocale(outputDef, locale)) return null;
 
+                // Get translated labels
+                const label = useOutputLabel(formulaId, key, outputDef);
+                const text = useOutputText(formulaId, key, outputDef);
+
                 // Text item - always show
                 if (hasText(outputDef)) {
                   return (
                     <Box key={key}>
-                      {outputDef.label && (
+                      {label && label !== key && (
                         <Text size="sm" fw={500} mb={2}>
-                          {outputDef.label}
+                          {label}
                         </Text>
                       )}
                       <Text size="sm" c="dimmed">
-                        {outputDef.text}
+                        {text || outputDef.text}
                       </Text>
                     </Box>
                   );
@@ -362,7 +372,7 @@ export function FormulaCalculator({
 
                   return (
                     <Group key={key} justify="space-between">
-                      <Text fw={500}>{outputDef.label}</Text>
+                      <Text fw={500}>{label}</Text>
                       <Group gap={4}>
                         <Text>{value}</Text>
                         {unit && <Text c="dimmed">{unit}</Text>}
