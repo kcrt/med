@@ -63,6 +63,8 @@ export default function FavoritesPage() {
   }, [formulaData]);
 
   // Helper function to get formula from formulaData by ID
+  // Note: We use this instead of useFormula() hook because hooks can't be called 
+  // inside loops/maps, and we already have formulaData from useLocalizedFormulaData()
   const getFormulaById = (id: string): Formula | undefined => {
     for (const [categoryName, categoryData] of Object.entries(formulaData)) {
       if (categoryName === "_meta") continue;
