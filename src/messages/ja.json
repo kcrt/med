@@ -14,5 +14,14 @@
   "config": {
     "title": "設定",
     "description": "設定を変更します"
+  },
+  "favorites": {
+    "title": "お気に入り",
+    "addToFavorites": "お気に入りに追加",
+    "removeFromFavorites": "お気に入りから削除",
+    "noFavorites": "お気に入りはまだありません",
+    "noFavoritesDescription": "計算式にスターを付けて、ここに追加しましょう！",
+    "category": "カテゴリ",
+    "remove": "削除"
   }
 }
