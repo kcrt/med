@@ -16,20 +16,6 @@ interface QRCodeExportProps {
   outputResults: FormulaOutputValues;
 }
 
-interface QRCodeData {
-  formulaId: string;
-  formulaName: string;
-  timestamp: string;
-  inputs: Record<
-    string,
-    { label: string; value: number | string }
-  >;
-  outputs: Record<
-    string,
-    { label: string; value: number | string; unit?: string }
-  >;
-}
-
 export function QRCodeExport({
   formula,
   formulaId,
@@ -51,44 +37,38 @@ export function QRCodeExport({
     return null;
   }
 
-  // Build QR code data
-  const buildQRCodeData = (): QRCodeData => {
-    const data: QRCodeData = {
-      formulaId,
-      formulaName: formula.name ?? formulaId,
-      timestamp: new Date().toISOString(),
-      inputs: {},
-      outputs: {},
-    };
-
-    // Add input values with their labels and units
+  // Build human-readable QR code data
+  const buildHumanReadableData = (): string => {
+    const lines: string[] = [];
+    
+    // Add formula name and timestamp
+    lines.push(formula.name ?? formulaId);
+    lines.push(new Date().toLocaleString());
+    lines.push("");
+    
+    // Add inputs
     for (const [key, value] of Object.entries(inputValues)) {
       const inputDef = formula.input[key];
       if (inputDef) {
-        data.inputs[key] = {
-          label: inputDef.label,
-          value,
-        };
+        lines.push(`${inputDef.label}: ${value}`);
       }
     }
-
-    // Add output values with their labels and units
+    
+    lines.push("");
+    
+    // Add outputs
     for (const [key, value] of Object.entries(outputResults)) {
       const outputDef = formula.output[key];
       if (outputDef && hasFormulaProperty(outputDef)) {
-        data.outputs[key] = {
-          label: outputDef.label,
-          value,
-          unit: outputDef.unit,
-        };
+        const unit = outputDef.unit ? ` ${outputDef.unit}` : "";
+        lines.push(`${outputDef.label}: ${value}${unit}`);
       }
     }
-
-    return data;
+    
+    return lines.join("\n");
   };
 
-  const qrData = buildQRCodeData();
-  const qrDataString = JSON.stringify(qrData, null, 2);
+  const qrDataString = buildHumanReadableData();
 
   return (
     <>
