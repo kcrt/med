@@ -43,7 +43,11 @@ export function QRCodeExport({
     
     // Add formula name and timestamp
     lines.push(formula.name ?? formulaId);
-    lines.push(new Date().toLocaleString());
+    // Use ISO format for consistency across locales, but make it more readable
+    const timestamp = new Date();
+    const dateStr = timestamp.toISOString().split('T')[0]; // YYYY-MM-DD
+    const timeStr = timestamp.toTimeString().split(' ')[0]; // HH:MM:SS
+    lines.push(`${dateStr} ${timeStr}`);
     lines.push("");
     
     // Add inputs
