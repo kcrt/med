@@ -6,8 +6,10 @@ import {
   useInputLabel,
   useOutputLabel,
   useOutputText,
+  useTranslatedMenuItems,
 } from "../formula-translation";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+import jaMessages from "@/messages/ja.json";
 
 describe("formula-translation", () => {
   const createWrapper = (locale: string, messages: Record<string, unknown>) => {
@@ -106,8 +108,8 @@ describe("formula-translation", () => {
 
       const messages = {
         labels: {
-          // Use semantic key for text entries with dots
-          "abcd2i.note.text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
+          // Use semantic key for text entries (with underscores)
+          "abcd2i_note_text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
         },
       };
 
@@ -184,6 +186,35 @@ describe("formula-translation", () => {
       );
 
       expect(result.current).toBe("推算GFR [mL/min/1.73m²]");
+    });
+  });
+
+  describe("useTranslatedMenuItems", () => {
+    it("should translate category labels", () => {
+      const { result } = renderHook(() => useTranslatedMenuItems(), {
+        wrapper: createWrapper("ja", jaMessages),
+      });
+
+      const pediatricsCategory = result.current.find(
+        (category) => category.label === "小児科"
+      );
+      expect(pediatricsCategory).toBeDefined();
+    });
+
+    it("should translate both category labels and item labels", () => {
+      const { result } = renderHook(() => useTranslatedMenuItems(), {
+        wrapper: createWrapper("ja", jaMessages),
+      });
+
+      const bodyStructureCategory = result.current.find(
+        (category) => category.label === "体格指数"
+      );
+      expect(bodyStructureCategory).toBeDefined();
+
+      const bmiItem = bodyStructureCategory?.items.find(
+        (item) => item.label === "BMI (小児)"
+      );
+      expect(bmiItem).toBeDefined();
     });
   });
 });

@@ -20,6 +20,10 @@
     "description": "Scan this QR code to transfer the calculation data to your medical records system.",
     "buttonLabel": "Export as QR Code"
   },
+  "copyResult": {
+    "buttonLabel": "Copy result",
+    "copied": "Copied!"
+  },
   "favorites": {
     "title": "Favorites",
     "addToFavorites": "Add to favorites",

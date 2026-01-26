@@ -20,6 +20,10 @@
     "description": "このQRコードをスキャンして、計算データを電子カルテなどに転送できます。",
     "buttonLabel": "QRコードを表示"
   },
+  "copyResult": {
+    "buttonLabel": "結果をコピー",
+    "copied": "コピーしました！"
+  },
   "favorites": {
     "title": "お気に入り",
     "addToFavorites": "お気に入りに追加",
@@ -28,6 +32,27 @@
     "noFavoritesDescription": "計算式にスターを付けて、ここに追加しましょう！",
     "category": "カテゴリ",
     "remove": "削除"
+  },
+  "category": {
+    "Body Structure Index": "体格指数",
+    "Gastroenterology": "消化器",
+    "Hepatology": "肝臓",
+    "Cardiology": "循環器",
+    "Endocrinology and Metabolism": "内分泌・代謝",
+    "Renal Function": "腎機能",
+    "Electrolytes and Fluid Balance": "電解質・体液",
+    "Hematology": "血液",
+    "Infectious Diseases": "感染症",
+    "Pulmonology": "呼吸器",
+    "Neurology": "神経",
+    "Emergency Medicine": "救急",
+    "Obstetrics": "産科婦人科",
+    "Pediatrics": "小児科",
+    "Neonatology": "新生児",
+    "Pediatric Scoring Systems": "小児スコアリング",
+    "Nutrition": "栄養",
+    "Psychiatry": "精神科",
+    "Others": "その他"
   },
   "share": {
     "title": "計算結果の共有",
@@ -442,6 +467,6 @@
     "Motor Response": "運動",
     "GCS Score": "GCSスコア",
     "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死",
-    "abcd2i.note.text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
+    "abcd2i_note_text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
   }
 }

@@ -5,9 +5,10 @@ import { Modal, ActionIcon, Stack, Text, Box } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useTranslations } from "next-intl";
-import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+import type { Formula } from "@/types/formula";
 import type { FormulaInputValues, FormulaOutputValues } from "@/lib/formula";
-import { isCalculationFormula, hasFormulaProperty } from "@/lib/formula";
+import { isCalculationFormula } from "@/lib/formula";
+import { buildHumanReadableData } from "@/lib/calculation-export";
 
 interface QRCodeExportProps {
   formula: Formula;
@@ -37,42 +38,12 @@ export function QRCodeExport({
     return null;
   }
 
-  // Build human-readable QR code data
-  const buildHumanReadableData = (): string => {
-    const lines: string[] = [];
-    
-    // Add formula name and timestamp
-    lines.push(formula.name ?? formulaId);
-    // Use ISO format for consistency across locales, but make it more readable
-    const timestamp = new Date();
-    const dateStr = timestamp.toISOString().split('T')[0]; // YYYY-MM-DD
-    const timeStr = timestamp.toTimeString().split(' ')[0]; // HH:MM:SS
-    lines.push(`${dateStr} ${timeStr}`);
-    lines.push("");
-    
-    // Add inputs
-    for (const [key, value] of Object.entries(inputValues)) {
-      const inputDef = formula.input[key];
-      if (inputDef) {
-        lines.push(`${inputDef.label}: ${value}`);
-      }
-    }
-    
-    lines.push("");
-    
-    // Add outputs
-    for (const [key, value] of Object.entries(outputResults)) {
-      const outputDef = formula.output[key];
-      if (outputDef && hasFormulaProperty(outputDef)) {
-        const unit = outputDef.unit ? ` ${outputDef.unit}` : "";
-        lines.push(`${outputDef.label}: ${value}${unit}`);
-      }
-    }
-    
-    return lines.join("\n");
-  };
-
-  const qrDataString = buildHumanReadableData();
+  const qrDataString = buildHumanReadableData(
+    formula,
+    formulaId,
+    inputValues,
+    outputResults,
+  );
 
   return (
     <>

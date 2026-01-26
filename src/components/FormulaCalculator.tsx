@@ -33,6 +33,7 @@ import {
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
+import { CopyResultButton } from "./CopyResultButton";
 
 interface FormulaCalculatorProps {
   formula: Formula;
@@ -239,7 +240,18 @@ export function FormulaCalculator({
   });
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card shadow="sm" padding="lg" radius="md" withBorder pos="relative">
+      {/* Copy Result Button - Top Right Corner */}
+      {hasValidInputs && Object.keys(results).length > 0 && (
+        <Box style={{ position: "absolute", top: "16px", right: "16px", zIndex: 1 }}>
+          <CopyResultButton
+            formula={formula}
+            formulaId={formulaId}
+            inputValues={currentInputValues}
+            outputResults={results}
+          />
+        </Box>
+      )}
       <Stack gap="md">
         <Group>
           <IconCalculator size={20} />

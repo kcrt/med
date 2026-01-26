@@ -145,9 +145,9 @@ export function useOutputText(
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try semantic key first for text entries (e.g., "abcd2i.note.text")
+  // Try semantic key first for text entries (e.g., "abcd2i_note_text")
   // This is the recommended approach for long text with multiple sentences
-  const semanticKey = `${formulaId}.${outputKey}.text`;
+  const semanticKey = `${formulaId}_${outputKey}_text`;
   const semanticTranslation = getTranslationDirect(labels, semanticKey);
   if (semanticTranslation) {
     return semanticTranslation;
@@ -190,24 +190,32 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
   
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
-  
+  const categories = messages.category as Record<string, unknown> | undefined;
+
   // Map through menu items and translate labels
-  return menuItems.map((category) => ({
-    ...category,
-    items: category.items.map((item) => {
-      // Use the English label as the translation key
-      const englishLabel = item.label;
-      
-      // Get translation directly to handle keys with dots
-      const translated = getTranslationDirect(labels, englishLabel);
-      if (translated) {
-        return {
-          ...item,
-          label: translated,
-        };
-      }
-      
-      return item;
-    }),
-  }));
+  return menuItems.map((category) => {
+    // Translate the category label itself
+    const categoryLabel = category.label;
+    const translatedCategoryLabel = getTranslationDirect(categories, categoryLabel);
+
+    return {
+      ...category,
+      label: translatedCategoryLabel ?? categoryLabel,
+      items: category.items.map((item) => {
+        // Use the English label as the translation key
+        const englishLabel = item.label;
+
+        // Get translation directly to handle keys with dots
+        const translated = getTranslationDirect(labels, englishLabel);
+        if (translated) {
+          return {
+            ...item,
+            label: translated,
+          };
+        }
+
+        return item;
+      }),
+    };
+  });
 }
