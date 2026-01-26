@@ -17,7 +17,7 @@
     "output": {
       "who": {
         "label": "WHO(世界保健機関)",
-        "text": "≧25: overwight, ≧30: obese"
+        "text": "≧25: overweight, ≧30: obese"
       },
       "who_diag": {
         "label": "WHO(世界保健機関)"
@@ -2660,23 +2660,19 @@
         "options": [
           {
             "value": 0,
-            "label": "0 - 激しい運動で息切れ"
+            "label": "0-1 (問題なし/急ぎ足で息切れ)"
           },
           {
             "value": 1,
-            "label": "1 - 平地を急ぎ足で息切れ"
+            "label": "2 (平地歩行で同年代より遅い)"
           },
           {
             "value": 2,
-            "label": "2 - 平地歩行で同年代より遅い"
+            "label": "3 (約100m歩行で休憩が必要)"
           },
           {
             "value": 3,
-            "label": "3 - 約100m歩行で休憩が必要"
-          },
-          {
-            "value": 3,
-            "label": "4 - 着替えでも息切れ"
+            "label": "4 (息切れのため外出できない)"
           }
         ]
       },
