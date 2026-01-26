@@ -1,38 +1,35 @@
 "use client";
 
+import { getFormula, getFormulaData, shouldDisplayForLocale } from "./formula";
+import { useTranslatedMenuItems } from "./formula-translation";
+import type { Formula, FormulaOutput } from "@/types/formula";
 import { useLocale } from "next-intl";
-import type { Formula, FormulaData, FormulaOutput } from "@/types/formula";
-import {
-  type CategoryMenuItem,
-  getFormula,
-  getLocalizedFormulaData,
-  getMenuItems,
-  shouldDisplayForLocale,
-} from "./formula";
 
 /**
- * Client-side hook to get a formula by ID using the current locale from next-intl.
+ * Client-side hook to get a formula by ID.
+ * Returns English base data. Use translation hooks from formula-translation.ts
+ * for localized labels.
  *
  * @param id - The formula ID (e.g., "bmi_adult")
- * @returns The formula definition for the current locale, or undefined if not found
+ * @returns The formula definition, or undefined if not found
  *
  * @example
  * ```tsx
  * function FormulaComponent() {
  *   const formula = useFormula("bmi_adult");
- *   return <div>{formula?.name}</div>;
+ *   const name = useFormulaName("bmi_adult", formula);
+ *   return <div>{name}</div>;
  * }
  * ```
  */
 export function useFormula(id: string): Formula | undefined {
-  const locale = useLocale();
-  return getFormula(id, locale);
+  return getFormula(id);
 }
 
 /**
- * Client-side hook to get menu items using the current locale from next-intl.
+ * Client-side hook to get menu items with translated labels.
  *
- * @returns Array of category menu items with nested formula items for the current locale
+ * @returns Array of category menu items with translated formula names
  *
  * @example
  * ```tsx
@@ -42,27 +39,26 @@ export function useFormula(id: string): Formula | undefined {
  * }
  * ```
  */
-export function useMenuItems(): CategoryMenuItem[] {
-  const locale = useLocale();
-  return getMenuItems(locale);
+export function useMenuItems() {
+  return useTranslatedMenuItems();
 }
 
 /**
- * Client-side hook to get localized formula data using the current locale from next-intl.
+ * Client-side hook to get formula data.
+ * Returns English base data. Use translation hooks for localized labels.
  *
- * @returns Merged formula data for the current locale
+ * @returns Formula data
  *
  * @example
  * ```tsx
  * function FormulaDataComponent() {
- *   const data = useLocalizedFormulaData();
+ *   const data = useFormulaData();
  *   return <div>{Object.keys(data).length} categories</div>;
  * }
  * ```
  */
-export function useLocalizedFormulaData(): FormulaData {
-  const locale = useLocale();
-  return getLocalizedFormulaData(locale);
+export function useFormulaData() {
+  return getFormulaData();
 }
 
 /**

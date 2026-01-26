@@ -1,16 +1,11 @@
 import {
   FormulaDataSchema,
-  FormulaLanguageOverrideSchema,
   type FormulaData,
   type Formula,
   type FormulaOutput,
   type FormulaInput,
-  type FormulaLanguageOverride,
 } from "@/types/formula";
 import { Parser } from "expr-eval";
-
-// Import language override files
-import formulaLanguageJa from "@/formula_language_ja.json";
 
 // Import modular formula structure
 import formulasIndex from "@/formulas/index.json";
@@ -66,9 +61,6 @@ const formulaJson: FormulaData = {
   ...categoryModules,
 };
 
-// Cache for locale-specific formula data
-const localeDataCache = new Map<string, FormulaData>();
-
 // Type guards for Formula types
 export type CalculationFormula = {
   name?: string;
@@ -106,32 +98,13 @@ export function hasFormulaProperty(
 }
 
 /**
- * Get locale-specific formula data with merged language overrides.
+ * Get formula data (always returns English base data).
+ * Translations are handled via next-intl messages.
  *
- * @param locale - The locale code (e.g., "en", "ja")
- * @returns Merged formula data for the specified locale
+ * @returns Formula data
  */
-export function getLocalizedFormulaData(locale: string): FormulaData {
-  // Check cache first
-  if (localeDataCache.has(locale)) {
-    return localeDataCache.get(locale)!;
-  }
-
-  // Start with base data
-  const baseData = FormulaDataSchema.parse(formulaJson);
-
-  // Apply language overrides if available
-  let mergedData = baseData;
-
-  if (locale === "ja") {
-    const jaOverrides = FormulaLanguageOverrideSchema.parse(formulaLanguageJa);
-    mergedData = mergeFormulaData(baseData, jaOverrides);
-  }
-
-  // Cache the result
-  localeDataCache.set(locale, mergedData);
-
-  return mergedData;
+export function getFormulaData(): FormulaData {
+  return FormulaDataSchema.parse(formulaJson);
 }
 
 /**
@@ -167,146 +140,7 @@ export function shouldDisplayForLocale(
   return true;
 }
 
-/**
- * Deep merge formula base with language overrides.
- *
- * @param base - The base formula data
- * @param overrides - The language override data (flat structure with formula IDs as keys)
- * @returns Merged formula data
- */
-function mergeFormulaData(
-  base: FormulaData,
-  overrides: FormulaLanguageOverride,
-): FormulaData {
-  const result: FormulaData = { ...base };
 
-  // Group overrides by category for efficient merging
-  const overridesByCategory = new Map<
-    string,
-    Record<string, Partial<Formula>>
-  >();
-
-  for (const [formulaId, formulaOverride] of Object.entries(overrides)) {
-    if (formulaId === "_meta") continue;
-
-    // Find which category this formula ID belongs to
-    for (const [categoryKey, categoryData] of Object.entries(base)) {
-      if (categoryKey === "_meta") continue;
-
-      const categoryRecord = categoryData as Record<string, Formula>;
-      if (categoryRecord[formulaId]) {
-        if (!overridesByCategory.has(categoryKey)) {
-          overridesByCategory.set(categoryKey, {});
-        }
-        overridesByCategory.get(categoryKey)![formulaId] =
-          formulaOverride as Partial<Formula>;
-        break;
-      }
-    }
-  }
-
-  // Merge overrides into their respective categories
-  for (const [categoryKey, categoryOverrides] of overridesByCategory) {
-    const baseCategory = base[categoryKey] as Record<string, Formula>;
-    result[categoryKey] = mergeCategory(baseCategory, categoryOverrides);
-  }
-
-  return result;
-}
-
-function mergeCategory(
-  baseCategory: Record<string, Formula>,
-  categoryOverride: Record<string, Partial<Formula>>,
-): Record<string, Formula> {
-  const result: Record<string, Formula> = { ...baseCategory };
-
-  for (const [formulaKey, formulaOverride] of Object.entries(
-    categoryOverride,
-  )) {
-    const baseFormula = baseCategory[formulaKey];
-    if (!baseFormula) continue;
-
-    result[formulaKey] = mergeFormula(baseFormula, formulaOverride);
-  }
-
-  return result;
-}
-
-function mergeFormula(base: Formula, override: Partial<Formula>): Formula {
-  const result: Formula = { ...base };
-
-  // Merge name
-  if (override.name) {
-    result.name = override.name;
-  }
-
-  // Handle HTML formulas
-  if (isHtmlFormula(base) && "type" in override && override.type === "html") {
-    return {
-      ...base,
-      ...override,
-      ref: override.ref ? { ...base.ref, ...override.ref } : base.ref,
-    } as HtmlFormula;
-  }
-
-  // Handle calculation formulas
-  if (isCalculationFormula(base) && "input" in override) {
-    const baseCalc = base;
-    const overrideCalc = override as Partial<CalculationFormula>;
-    const resultCalc: CalculationFormula = { ...baseCalc };
-
-    // Merge name (important: resultCalc is a new object, so we need to explicitly set the name)
-    if (override.name) {
-      resultCalc.name = override.name;
-    }
-
-    // Merge input definitions
-    if (overrideCalc.input) {
-      resultCalc.input = { ...baseCalc.input };
-      for (const [inputKey, inputOverride] of Object.entries(
-        overrideCalc.input,
-      )) {
-        if (baseCalc.input[inputKey]) {
-          resultCalc.input[inputKey] = {
-            ...baseCalc.input[inputKey],
-            ...inputOverride,
-          };
-        }
-      }
-    }
-
-    // Merge output definitions
-    if (overrideCalc.output) {
-      resultCalc.output = { ...baseCalc.output };
-      for (const [outputKey, outputOverride] of Object.entries(
-        overrideCalc.output,
-      )) {
-        if (baseCalc.output[outputKey]) {
-          resultCalc.output[outputKey] = {
-            ...baseCalc.output[outputKey],
-            ...outputOverride,
-          };
-        }
-      }
-    }
-
-    // Merge tests
-    if (overrideCalc.test) {
-      resultCalc.test = overrideCalc.test;
-    }
-
-    // Merge refs
-    if (overrideCalc.ref && baseCalc.ref) {
-      resultCalc.ref = { ...baseCalc.ref, ...overrideCalc.ref };
-    } else if (overrideCalc.ref) {
-      resultCalc.ref = overrideCalc.ref;
-    }
-
-    return resultCalc;
-  }
-
-  return result;
-}
 
 /**
  * Singleton instance of the validated formula data.
@@ -318,7 +152,8 @@ function mergeFormula(base: Formula, override: Partial<Formula>): Formula {
 const _validatedData = FormulaDataSchema.parse(formulaJson);
 
 /**
- * Type-safe, validated formula data (defaults to English).
+ * Type-safe, validated formula data (English base data).
+ * Translations are handled via next-intl messages.
  *
  * @example
  * ```ts
@@ -332,14 +167,14 @@ const _validatedData = FormulaDataSchema.parse(formulaJson);
 export const formulaData: FormulaData = _validatedData;
 
 /**
- * Get a formula by ID (searches across all categories) with locale support.
+ * Get a formula by ID (searches across all categories).
+ * Returns English base data. Use translation helpers for localized labels.
  *
  * @param id - The formula ID (e.g., "bmi_adult")
- * @param locale - The locale code (e.g., "en", "ja"), defaults to "en"
  * @returns The formula definition, or undefined if not found
  */
-export function getFormula(id: string, locale = "en"): Formula | undefined {
-  const data = getLocalizedFormulaData(locale);
+export function getFormula(id: string): Formula | undefined {
+  const data = formulaData;
 
   for (const category of Object.keys(data)) {
     if (category === "_meta") continue;
@@ -720,15 +555,15 @@ export interface CategoryMenuItem extends MenuItem {
 
 /**
  * Get all categories and formulas as a menu structure for navigation.
+ * Returns English base data. Use translation helpers for localized labels.
  *
- * @param locale - The locale code (e.g., "en", "ja"), defaults to "en"
  * @returns Array of category menu items with nested formula items
  *
  * @example
  * ```ts
  * import { getMenuItems } from '@/lib/formula';
  *
- * const menuItems = getMenuItems('en');
+ * const menuItems = getMenuItems();
  * // Returns:
  * // [
  * //   {
@@ -742,8 +577,8 @@ export interface CategoryMenuItem extends MenuItem {
  * // ]
  * ```
  */
-export function getMenuItems(locale = "en"): CategoryMenuItem[] {
-  const data = getLocalizedFormulaData(locale);
+export function getMenuItems(): CategoryMenuItem[] {
+  const data = formulaData;
   const items: CategoryMenuItem[] = [];
 
   for (const [category, categoryData] of Object.entries(data)) {
