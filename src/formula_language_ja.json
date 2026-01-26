@@ -17,7 +17,7 @@
     "output": {
       "who": {
         "label": "WHO(世界保健機関)",
-        "text": "≧25: overwight, ≧30: obese"
+        "text": "≧25: overweight, ≧30: obese"
       },
       "who_diag": {
         "label": "WHO(世界保健機関)"
@@ -173,123 +173,6 @@
         "text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
       }
     }
-  },
-  "gcs": {
-    "name": "Glasgow Coma Scale (GCS)",
-    "input": {
-      "eye": {
-        "label": "開眼",
-        "options": [
-          {
-            "value": 4,
-            "label": "4 - 自発的に開眼"
-          },
-          {
-            "value": 3,
-            "label": "3 - 呼びかけで開眼"
-          },
-          {
-            "value": 2,
-            "label": "2 - 痛刺激で開眼"
-          },
-          {
-            "value": 1,
-            "label": "1 - 開眼なし"
-          }
-        ]
-      },
-      "verbal": {
-        "label": "言語",
-        "options": [
-          {
-            "value": 5,
-            "label": "5 - 見当識正常"
-          },
-          {
-            "value": 4,
-            "label": "4 - 会話混乱"
-          },
-          {
-            "value": 3,
-            "label": "3 - 不適切な言葉"
-          },
-          {
-            "value": 2,
-            "label": "2 - 音声のみ（理解不能）"
-          },
-          {
-            "value": 1,
-            "label": "1 - 発語なし"
-          }
-        ]
-      },
-      "motor": {
-        "label": "運動",
-        "options": [
-          {
-            "value": 6,
-            "label": "6 - 命令に従う"
-          },
-          {
-            "value": 5,
-            "label": "5 - 痛刺激で定位"
-          },
-          {
-            "value": 4,
-            "label": "4 - 痛刺激で退避（正常屈曲）"
-          },
-          {
-            "value": 3,
-            "label": "3 - 異常屈曲（除皮質強直）"
-          },
-          {
-            "value": 2,
-            "label": "2 - 伸展（除脳強直）"
-          },
-          {
-            "value": 1,
-            "label": "1 - なし"
-          }
-        ]
-      }
-    },
-    "output": {
-      "total": {
-        "label": "GCSスコア"
-      },
-      "severity": {
-        "label": "重症度",
-        "formula": "iif(total>=13, '軽症', total>=9, '中等症', '重症')"
-      },
-      "interpretation": {
-        "label": "解釈",
-        "text": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
-      }
-    },
-    "test": [
-      {
-        "input": {
-          "eye": 4,
-          "verbal": 5,
-          "motor": 6
-        },
-        "output": {
-          "total": 15,
-          "severity": "軽症"
-        }
-      },
-      {
-        "input": {
-          "eye": 1,
-          "verbal": 1,
-          "motor": 2
-        },
-        "output": {
-          "total": 4,
-          "severity": "重症"
-        }
-      }
-    ]
   },
   "sofa": {
     "name": "SOFAスコア (敗血症関連臓器障害評価)",
@@ -449,28 +332,6 @@
       "pediatric_note": {
         "label": "小児基準値",
         "text": "小児正常範囲: 275-290 mOsm/kg"
-      }
-    }
-  },
-  "anion_gap": {
-    "name": "アニオンギャップ",
-    "input": {
-      "sodium": {
-        "label": "ナトリウム [mmol/L]"
-      },
-      "chloride": {
-        "label": "クロール [mmol/L]"
-      },
-      "bicarbonate": {
-        "label": "重炭酸 [mmol/L]"
-      }
-    },
-    "output": {
-      "anion_gap": {
-        "label": "アニオンギャップ [mEq/L]"
-      },
-      "interpretation": {
-        "label": "判定"
       }
     }
   },
@@ -728,5 +589,3811 @@
         "text": "新しい小児敗血症定義(2024) - SIRS基準を特異度向上で置換"
       }
     }
+  },
+  "jones_criteria_mod_high_risk": {
+    "name": "Jones基準 リウマチ熱診断 (中高リスク)",
+    "output": {
+      "major_count": {
+        "label": "主要基準数"
+      },
+      "minor_count": {
+        "label": "副次基準数"
+      },
+      "diagnosis": {
+        "label": "診断"
+      },
+      "population": {
+        "label": "対象集団",
+        "text": "中高リスク: ARF発生率≥2/10万学齢児 または RHD有病率>1/1,000"
+      }
+    }
+  },
+  "kawasaki_coronary": {
+    "name": "川崎病冠動脈病変重症度",
+    "input": {
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "lad": {
+        "label": "左冠動脈前下行枝内径 [mm]"
+      },
+      "rca": {
+        "label": "右冠動脈内径 [mm]"
+      }
+    },
+    "output": {
+      "z_score_lad": {
+        "label": "LAD Zスコア"
+      },
+      "z_score_rca": {
+        "label": "RCA Zスコア"
+      },
+      "classification": {
+        "label": "分類",
+        "formula": "iif(max(z_score_lad, z_score_rca)>=10, '巨大瘤', max(z_score_lad, z_score_rca)>=5, '中等瘤', max(z_score_lad, z_score_rca)>=2.5, '小瘤', '正常')"
+      }
+    }
+  },
+  "kdigo_aki": {
+    "name": "KDIGO急性腎障害(AKI)分類",
+    "input": {
+      "baseline_cr": {
+        "label": "ベースライン血清クレアチニン [mg/dL]"
+      },
+      "current_cr": {
+        "label": "現在の血清クレアチニン [mg/dL]"
+      },
+      "urine_output": {
+        "label": "尿量 [mL/kg/h]"
+      },
+      "duration_hours": {
+        "label": "乏尿持続時間 [時間]"
+      }
+    },
+    "output": {
+      "stage_creatinine": {
+        "label": "クレアチニンによるステージ"
+      },
+      "stage_urine": {
+        "label": "尿量によるステージ"
+      },
+      "final_stage": {
+        "label": "最終ステージ"
+      }
+    }
+  },
+  "kdigo_ckd": {
+    "name": "KDIGO慢性腎臓病(CKD)分類",
+    "input": {
+      "egfr": {
+        "label": "推算GFR [mL/min/1.73m²]"
+      },
+      "acr": {
+        "label": "尿アルブミン/クレアチニン比 [mg/g]",
+        "options": [
+          {
+            "value": 0,
+            "label": "A1: <30 (正常～軽度上昇)"
+          },
+          {
+            "value": 1,
+            "label": "A2: 30-300 (中等度上昇)"
+          },
+          {
+            "value": 2,
+            "label": "A3: >300 (高度上昇)"
+          }
+        ]
+      }
+    },
+    "output": {
+      "gfr_category": {
+        "label": "GFRカテゴリー",
+        "formula": "iif(egfr>=90, 'G1', egfr>=60, 'G2', egfr>=45, 'G3a', egfr>=30, 'G3b', egfr>=15, 'G4', 'G5')"
+      },
+      "risk": {
+        "label": "予後リスク"
+      }
+    }
+  },
+  "lms_zscore": {
+    "name": "LMS法 Zスコア計算 (成長曲線)",
+    "input": {
+      "value": {
+        "label": "測定値 (身長・体重等)"
+      },
+      "L": {
+        "label": "L (歪度パラメータ)"
+      },
+      "M": {
+        "label": "M (中央値)"
+      },
+      "S": {
+        "label": "S (変動係数)"
+      }
+    },
+    "output": {
+      "zscore": {
+        "label": "Zスコア (SD)"
+      },
+      "percentile": {
+        "label": "パーセンタイル"
+      }
+    }
+  },
+  "lumbar_puncture_depth": {
+    "name": "腰椎穿刺深度予測 (小児)",
+    "input": {
+      "weight": {
+        "label": "体重 [kg]"
+      }
+    },
+    "output": {
+      "depth": {
+        "label": "予測深度 [cm]"
+      },
+      "note": {
+        "label": "注意",
+        "text": "実際の深度は個人差あり。慎重に進める。"
+      }
+    }
+  },
+  "meld": {
+    "name": "MELDスコア (肝移植優先度)",
+    "input": {
+      "creatinine": {
+        "label": "血清クレアチニン [mg/dL]"
+      },
+      "bilirubin": {
+        "label": "総ビリルビン [mg/dL]"
+      },
+      "inr": {
+        "label": "PT-INR"
+      },
+      "dialysis": {
+        "label": "透析 (週2回以上)"
+      }
+    },
+    "output": {
+      "meld": {
+        "label": "MELDスコア"
+      },
+      "mortality_3mo": {
+        "label": "3ヶ月死亡率",
+        "formula": "iif(meld<10, '1.9%', meld<20, '6.0%', meld<30, '19.6%', meld<40, '52.6%', '71.3%')"
+      }
+    }
+  },
+  "mews": {
+    "name": "MEWS (Modified Early Warning Score)",
+    "input": {
+      "systolic_bp": {
+        "label": "収縮期血圧 [mmHg]",
+        "options": [
+          {
+            "value": 3,
+            "label": "3 - ≤70"
+          },
+          {
+            "value": 2,
+            "label": "2 - 71-80"
+          },
+          {
+            "value": 1,
+            "label": "1 - 81-100"
+          },
+          {
+            "value": 0,
+            "label": "0 - 101-199"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥200"
+          }
+        ]
+      },
+      "heart_rate": {
+        "label": "心拍数 [/分]",
+        "options": [
+          {
+            "value": 2,
+            "label": "2 - <40"
+          },
+          {
+            "value": 1,
+            "label": "1 - 40-50"
+          },
+          {
+            "value": 0,
+            "label": "0 - 51-100"
+          },
+          {
+            "value": 1,
+            "label": "1 - 101-110"
+          },
+          {
+            "value": 2,
+            "label": "2 - 111-129"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥130"
+          }
+        ]
+      },
+      "respiratory_rate": {
+        "label": "呼吸数 [/分]",
+        "options": [
+          {
+            "value": 2,
+            "label": "2 - <9"
+          },
+          {
+            "value": 0,
+            "label": "0 - 9-14"
+          },
+          {
+            "value": 1,
+            "label": "1 - 15-20"
+          },
+          {
+            "value": 2,
+            "label": "2 - 21-29"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥30"
+          }
+        ]
+      },
+      "temperature": {
+        "label": "体温 [°C]",
+        "options": [
+          {
+            "value": 2,
+            "label": "2 - <35"
+          },
+          {
+            "value": 0,
+            "label": "0 - 35-38.4"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥38.5"
+          }
+        ]
+      },
+      "avpu": {
+        "label": "意識レベル (AVPU)",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Alert (清明)"
+          },
+          {
+            "value": 1,
+            "label": "1 - Voice (音声反応)"
+          },
+          {
+            "value": 2,
+            "label": "2 - Pain (疼痛反応)"
+          },
+          {
+            "value": 3,
+            "label": "3 - Unresponsive (無反応)"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "MEWSスコア"
+      },
+      "risk": {
+        "label": "リスク評価",
+        "formula": "iif(score<=2, '低リスク', score<=4, '中リスク', '高リスク - 緊急対応要')"
+      }
+    }
+  },
+  "mifflin_st_jeor": {
+    "name": "Mifflin-St Jeor式 (基礎代謝量)",
+    "input": {
+      "weight": {
+        "label": "体重 [kg]"
+      },
+      "height": {
+        "label": "身長 [cm]"
+      },
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      }
+    },
+    "output": {
+      "bmr": {
+        "label": "基礎代謝量 (BMR) [kcal/day]"
+      }
+    }
+  },
+  "moca": {
+    "name": "MoCA (Montreal Cognitive Assessment)",
+    "type": "html",
+    "html": "<h3>MoCA (Montreal Cognitive Assessment)</h3><p>認知機能スクリーニング検査。30点満点。</p><h4>評価項目:</h4><ul><li>視空間/実行機能 (5点)</li><li>命名 (3点)</li><li>記憶 (なし - 遅延再生で評価)</li><li>注意 (6点)</li><li>言語 (3点)</li><li>抽象的思考 (2点)</li><li>遅延再生 (5点)</li><li>見当識 (6点)</li></ul><h4>判定:</h4><ul><li>≥26点: 正常</li><li><26点: 軽度認知機能障害を示唆</li><li>教育年数≤12年の場合: +1点を加算</li></ul>"
+  },
+  "modified_geneva": {
+    "name": "修正Geneva肺塞栓症スコア",
+    "input": {
+      "age": {
+        "label": "年齢>65歳"
+      },
+      "previous_vte": {
+        "label": "DVT/PE既往"
+      },
+      "surgery": {
+        "label": "1ヶ月以内の手術または骨折"
+      },
+      "malignancy": {
+        "label": "活動性悪性腫瘍"
+      },
+      "unilateral_leg_pain": {
+        "label": "片側下肢痛"
+      },
+      "hemoptysis": {
+        "label": "喀血"
+      },
+      "heart_rate": {
+        "label": "心拍数",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <75 /分"
+          },
+          {
+            "value": 3,
+            "label": "3 - 75-94 /分"
+          },
+          {
+            "value": 5,
+            "label": "5 - ≥95 /分"
+          }
+        ]
+      },
+      "dvt_signs": {
+        "label": "DVT臨床徴候 (片側下肢圧痛・浮腫)"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "risk": {
+        "label": "PE可能性",
+        "formula": "iif(score<=3, '低リスク: 8%', score<=10, '中リスク: 28%', '高リスク: 74%')"
+      }
+    }
+  },
+  "modified_rankin": {
+    "name": "Modified Rankin Scale (mRS)",
+    "type": "html",
+    "html": "<h3>Modified Rankin Scale (mRS)</h3><p>脳卒中後の機能障害度評価</p><table><tr><th>スコア</th><th>説明</th></tr><tr><td>0</td><td>まったく症候がない</td></tr><tr><td>1</td><td>明らかな障害はない: 日常の勤めや活動は行える</td></tr><tr><td>2</td><td>軽度の障害: 発症以前の活動すべてを行えるわけではないが、自分の身の回りのことは介助なしに行える</td></tr><tr><td>3</td><td>中等度の障害: 何らかの介助を必要とするが、歩行は介助なしに行える</td></tr><tr><td>4</td><td>中等度から重度の障害: 歩行や身体的要求には介助が必要</td></tr><tr><td>5</td><td>重度の障害: 寝たきり、失禁状態、常に介護と見守りを必要とする</td></tr><tr><td>6</td><td>死亡</td></tr></table>"
+  },
+  "must": {
+    "name": "MUST (Malnutrition Universal Screening Tool)",
+    "input": {
+      "bmi": {
+        "label": "BMI [kg/m²]",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - >20 (高齢者>20)"
+          },
+          {
+            "value": 1,
+            "label": "1 - 18.5-20"
+          },
+          {
+            "value": 2,
+            "label": "2 - <18.5"
+          }
+        ]
+      },
+      "weight_loss": {
+        "label": "3-6ヶ月の体重減少",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <5%"
+          },
+          {
+            "value": 1,
+            "label": "1 - 5-10%"
+          },
+          {
+            "value": 2,
+            "label": "2 - >10%"
+          }
+        ]
+      },
+      "acute_disease": {
+        "label": "急性疾患による5日以上の栄養摂取なし",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 2,
+            "label": "2 - あり"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "MUSTスコア"
+      },
+      "risk": {
+        "label": "リスク分類",
+        "formula": "iif(score==0, '低リスク', score==1, '中リスク', '高リスク')"
+      },
+      "action": {
+        "label": "推奨",
+        "text": "低リスク: 定期的再評価, 中リスク: 食事記録・経過観察, 高リスク: 栄養士介入・治療計画"
+      }
+    }
+  },
+  "news2": {
+    "name": "NEWS2 (National Early Warning Score 2)",
+    "input": {
+      "respiratory_rate": {
+        "label": "呼吸数 [/分]",
+        "options": [
+          {
+            "value": 3,
+            "label": "3 - ≤8"
+          },
+          {
+            "value": 1,
+            "label": "1 - 9-11"
+          },
+          {
+            "value": 0,
+            "label": "0 - 12-20"
+          },
+          {
+            "value": 2,
+            "label": "2 - 21-24"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥25"
+          }
+        ]
+      },
+      "spo2_scale": {
+        "label": "SpO₂スケール (COPD患者はスケール2)",
+        "options": [
+          {
+            "value": 1,
+            "label": "スケール1 (通常)"
+          },
+          {
+            "value": 2,
+            "label": "スケール2 (COPD等)"
+          }
+        ]
+      },
+      "spo2": {
+        "label": "SpO₂ [%]"
+      },
+      "oxygen": {
+        "label": "酸素投与",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし (室内気)"
+          },
+          {
+            "value": 2,
+            "label": "2 - あり"
+          }
+        ]
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧 [mmHg]",
+        "options": [
+          {
+            "value": 3,
+            "label": "3 - ≤90"
+          },
+          {
+            "value": 2,
+            "label": "2 - 91-100"
+          },
+          {
+            "value": 1,
+            "label": "1 - 101-110"
+          },
+          {
+            "value": 0,
+            "label": "0 - 111-219"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥220"
+          }
+        ]
+      },
+      "heart_rate": {
+        "label": "心拍数 [/分]",
+        "options": [
+          {
+            "value": 3,
+            "label": "3 - ≤40"
+          },
+          {
+            "value": 1,
+            "label": "1 - 41-50"
+          },
+          {
+            "value": 0,
+            "label": "0 - 51-90"
+          },
+          {
+            "value": 1,
+            "label": "1 - 91-110"
+          },
+          {
+            "value": 2,
+            "label": "2 - 111-130"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥131"
+          }
+        ]
+      },
+      "consciousness": {
+        "label": "意識レベル (ACVPU)",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - Alert (清明)"
+          },
+          {
+            "value": 3,
+            "label": "3 - C/V/P/U (清明以外)"
+          }
+        ]
+      },
+      "temperature": {
+        "label": "体温 [°C]",
+        "options": [
+          {
+            "value": 3,
+            "label": "3 - ≤35.0"
+          },
+          {
+            "value": 1,
+            "label": "1 - 35.1-36.0"
+          },
+          {
+            "value": 0,
+            "label": "0 - 36.1-38.0"
+          },
+          {
+            "value": 1,
+            "label": "1 - 38.1-39.0"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥39.1"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "NEWS2スコア"
+      },
+      "risk": {
+        "label": "臨床リスク",
+        "formula": "iif(score==0, '低', score<=4, '低-中', score<=6, '中', '高')"
+      },
+      "response": {
+        "label": "推奨対応",
+        "text": "0点: 通常ケア継続, 1-4点: 頻回評価, 5-6点: 緊急評価, ≥7点: 緊急対応"
+      }
+    }
+  },
+  "nihss": {
+    "name": "NIHSSスコア (脳卒中重症度)",
+    "type": "html",
+    "html": "<h3>NIHSS (NIH Stroke Scale)</h3><p>脳卒中の神経学的重症度評価。15項目、最大42点。</p><h4>評価項目:</h4><ol><li>意識レベル (0-3)</li><li>質問応答 (0-2)</li><li>従命 (0-2)</li><li>注視 (0-2)</li><li>視野 (0-3)</li><li>顔面麻痺 (0-3)</li><li>上肢運動(右) (0-4)</li><li>上肢運動(左) (0-4)</li><li>下肢運動(右) (0-4)</li><li>下肢運動(左) (0-4)</li><li>運動失調 (0-2)</li><li>感覚 (0-2)</li><li>言語 (0-3)</li><li>構音障害 (0-2)</li><li>消去現象と注意障害 (0-2)</li></ol><h4>判定:</h4><ul><li>0点: 症状なし</li><li>1-4点: 軽症</li><li>5-15点: 中等症</li><li>16-20点: 中等症-重症</li><li>21-42点: 重症</li></ul>"
+  },
+  "osmolar_gap": {
+    "name": "浸透圧ギャップ",
+    "input": {
+      "measured_osm": {
+        "label": "測定浸透圧 [mOsm/kg]"
+      },
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "glucose": {
+        "label": "血糖 [mg/dL]"
+      },
+      "bun": {
+        "label": "BUN [mg/dL]"
+      },
+      "ethanol": {
+        "label": "エタノール [mg/dL]"
+      }
+    },
+    "output": {
+      "calculated_osm": {
+        "label": "計算浸透圧 [mOsm/kg]"
+      },
+      "osmolar_gap": {
+        "label": "浸透圧ギャップ [mOsm/kg]"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "osmotic_pressure": {
+    "name": "膠質浸透圧",
+    "input": {
+      "albumin": {
+        "label": "アルブミン [g/dL]"
+      },
+      "globulin": {
+        "label": "グロブリン [g/dL]"
+      }
+    },
+    "output": {
+      "cop": {
+        "label": "膠質浸透圧 [mmHg]"
+      }
+    }
+  },
+  "pediatric_lvdd": {
+    "name": "小児左室拡張末期径 (LVEDD) Zスコア",
+    "input": {
+      "lvedd": {
+        "label": "左室拡張末期径 [mm]"
+      },
+      "bsa": {
+        "label": "体表面積 [m²]"
+      }
+    },
+    "output": {
+      "zscore": {
+        "label": "Zスコア"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(zscore<-2, '小さい', zscore>2, '大きい', '正常範囲')"
+      }
+    }
+  },
+  "pews": {
+    "name": "小児早期警告スコア (PEWS)",
+    "input": {
+      "behavior": {
+        "label": "行動",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 遊んでいる/適切"
+          },
+          {
+            "value": 1,
+            "label": "1 - 眠っている"
+          },
+          {
+            "value": 2,
+            "label": "2 - 易刺激性"
+          },
+          {
+            "value": 3,
+            "label": "3 - 嗜眠/混乱/刺激に反応低下"
+          }
+        ]
+      },
+      "cardiovascular": {
+        "label": "循環",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - ピンク色 または CRT 1-2秒"
+          },
+          {
+            "value": 1,
+            "label": "1 - 蒼白 または CRT 3秒"
+          },
+          {
+            "value": 2,
+            "label": "2 - 灰白色 または CRT 4秒 または HR+5%超"
+          },
+          {
+            "value": 3,
+            "label": "3 - 灰白色斑状 または CRT≥5秒 または HR+25%超"
+          }
+        ]
+      },
+      "respiratory": {
+        "label": "呼吸",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 正常範囲内、努力呼吸なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - >正常値+10、FiO₂>0.3使用、陥没呼吸"
+          },
+          {
+            "value": 2,
+            "label": "2 - >正常値+20、FiO₂≥0.4、陥没呼吸"
+          },
+          {
+            "value": 3,
+            "label": "3 - <正常値-5、努力呼吸+うめき、FiO₂≥0.5"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "PEWS合計スコア"
+      },
+      "risk_level": {
+        "label": "リスクレベル",
+        "formula": "iif(total_score<=2, '低リスク', total_score<=4, '中リスク', '高リスク')"
+      },
+      "action": {
+        "label": "推奨対応",
+        "text": "0-2点: 通常ケア継続, 3-4点: 医師に連絡・評価増, 5+点: 緊急医師評価・RRT考慮"
+      }
+    }
+  },
+  "pgcs_child": {
+    "name": "小児Glasgow昏睡尺度 (幼児・小児)",
+    "input": {
+      "eye_opening": {
+        "label": "開眼 (E)",
+        "options": [
+          {
+            "value": 4,
+            "label": "4 - 自発的に開眼"
+          },
+          {
+            "value": 3,
+            "label": "3 - 音刺激で開眼"
+          },
+          {
+            "value": 2,
+            "label": "2 - 痛刺激で開眼"
+          },
+          {
+            "value": 1,
+            "label": "1 - 開眼なし"
+          }
+        ]
+      },
+      "verbal_child": {
+        "label": "言語反応 (V) - 小児",
+        "options": [
+          {
+            "value": 5,
+            "label": "5 - 適切な言語・社会的笑顔"
+          },
+          {
+            "value": 4,
+            "label": "4 - 泣くがなだめられる"
+          },
+          {
+            "value": 3,
+            "label": "3 - 痛刺激にのみ不適切に泣く"
+          },
+          {
+            "value": 2,
+            "label": "2 - 刺激に対し不穏・激しく泣く"
+          },
+          {
+            "value": 1,
+            "label": "1 - 反応なし"
+          }
+        ]
+      },
+      "motor_child": {
+        "label": "運動反応 (M) - 小児",
+        "options": [
+          {
+            "value": 6,
+            "label": "6 - 自発的または命令に従う"
+          },
+          {
+            "value": 5,
+            "label": "5 - 痛刺激で定位反応"
+          },
+          {
+            "value": 4,
+            "label": "4 - 痛刺激から逃避"
+          },
+          {
+            "value": 3,
+            "label": "3 - 異常屈曲 (除皮質姿勢)"
+          },
+          {
+            "value": 2,
+            "label": "2 - 異常伸展 (除脳姿勢)"
+          },
+          {
+            "value": 1,
+            "label": "1 - なし"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total_score": {
+        "label": "pGCS合計スコア"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(total_score>=13, '軽症', total_score>=9, '中等症', '重症')"
+      }
+    }
+  },
+  "platelet_transfusion_pediatric": {
+    "name": "小児血小板輸血基準",
+    "input": {
+      "platelet_count": {
+        "label": "血小板数 [×10³/μL]"
+      },
+      "clinical_status": {
+        "label": "臨床状態",
+        "options": [
+          {
+            "value": 0,
+            "label": "安定、出血なし"
+          },
+          {
+            "value": 1,
+            "label": "活動性出血"
+          },
+          {
+            "value": 2,
+            "label": "侵襲的処置前"
+          },
+          {
+            "value": 3,
+            "label": "大手術前"
+          }
+        ]
+      }
+    },
+    "output": {
+      "recommendation": {
+        "label": "推奨"
+      }
+    }
+  },
+  "psi": {
+    "name": "PSI/PORTスコア (肺炎重症度)",
+    "input": {
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      },
+      "nursing_home": {
+        "label": "施設入所"
+      },
+      "neoplastic": {
+        "label": "悪性腫瘍"
+      },
+      "liver": {
+        "label": "肝疾患"
+      },
+      "chf": {
+        "label": "うっ血性心不全"
+      },
+      "cerebrovascular": {
+        "label": "脳血管疾患"
+      },
+      "renal": {
+        "label": "腎疾患"
+      },
+      "altered_mental": {
+        "label": "意識障害"
+      },
+      "respiratory_rate": {
+        "label": "呼吸数≥30 /分"
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧<90 mmHg"
+      },
+      "temperature": {
+        "label": "体温<35°C または ≥40°C"
+      },
+      "pulse": {
+        "label": "脈拍≥125 /分"
+      },
+      "ph": {
+        "label": "動脈血pH<7.35"
+      },
+      "bun": {
+        "label": "BUN≥30 mg/dL"
+      },
+      "sodium": {
+        "label": "Na<130 mmol/L"
+      },
+      "glucose": {
+        "label": "血糖≥250 mg/dL"
+      },
+      "hematocrit": {
+        "label": "Ht<30%"
+      },
+      "pao2": {
+        "label": "PaO₂<60 mmHg"
+      },
+      "pleural_effusion": {
+        "label": "胸水"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "PSIスコア"
+      },
+      "class": {
+        "label": "リスククラス"
+      },
+      "mortality": {
+        "label": "30日死亡率"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "クラスI-II: 外来, クラスIII: 短期入院考慮, クラスIV-V: 入院"
+      }
+    }
+  },
+  "ranson": {
+    "name": "Ranson基準 (急性膵炎)",
+    "input": {
+      "age": {
+        "label": "年齢>55歳"
+      },
+      "wbc": {
+        "label": "白血球>16,000 /μL"
+      },
+      "glucose": {
+        "label": "血糖>200 mg/dL"
+      },
+      "ldh": {
+        "label": "LDH>350 IU/L"
+      },
+      "ast": {
+        "label": "AST>250 IU/L"
+      },
+      "hct_drop": {
+        "label": "ヘマトクリット低下>10%"
+      },
+      "bun_rise": {
+        "label": "BUN上昇>5 mg/dL"
+      },
+      "calcium": {
+        "label": "カルシウム<8 mg/dL"
+      },
+      "pao2": {
+        "label": "PaO₂<60 mmHg"
+      },
+      "base_deficit": {
+        "label": "塩基欠乏>4 mEq/L"
+      },
+      "fluid_sequestration": {
+        "label": "体液貯留>6 L"
+      }
+    },
+    "output": {
+      "admission_score": {
+        "label": "入院時スコア (0-5)"
+      },
+      "48hr_score": {
+        "label": "48時間スコア (0-6)"
+      },
+      "total_score": {
+        "label": "合計スコア"
+      },
+      "mortality": {
+        "label": "死亡率",
+        "formula": "iif(total_score<3, '<1%', total_score<=5, '10-20%', total_score<=7, '40%', '>80%')"
+      }
+    }
+  },
+  "sampson_nih": {
+    "name": "Sampson-NIH式 (LDLコレステロール)",
+    "input": {
+      "total_cholesterol": {
+        "label": "総コレステロール [mg/dL]"
+      },
+      "hdl": {
+        "label": "HDLコレステロール [mg/dL]"
+      },
+      "triglycerides": {
+        "label": "中性脂肪 [mg/dL]"
+      }
+    },
+    "output": {
+      "ldl": {
+        "label": "LDLコレステロール [mg/dL]"
+      },
+      "vldl": {
+        "label": "VLDLコレステロール [mg/dL]"
+      },
+      "advantage": {
+        "label": "利点",
+        "text": "Friedewald式より高TG時も正確"
+      }
+    }
+  },
+  "silverman_andersen": {
+    "name": "Silverman-Andersenスコア (新生児呼吸窮迫)",
+    "input": {
+      "chest_retraction": {
+        "label": "胸郭陥凹",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 同期運動"
+          },
+          {
+            "value": 1,
+            "label": "1 - 吸気時わずかに沈下"
+          },
+          {
+            "value": 2,
+            "label": "2 - シーソー呼吸"
+          }
+        ]
+      },
+      "intercostal_retraction": {
+        "label": "肋間陥凹",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 軽度"
+          },
+          {
+            "value": 2,
+            "label": "2 - 著明"
+          }
+        ]
+      },
+      "xiphoid_retraction": {
+        "label": "剣状突起下陥凹",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 軽度"
+          },
+          {
+            "value": 2,
+            "label": "2 - 著明"
+          }
+        ]
+      },
+      "nasal_flaring": {
+        "label": "鼻翼呼吸",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 軽度"
+          },
+          {
+            "value": 2,
+            "label": "2 - 著明"
+          }
+        ]
+      },
+      "expiratory_grunt": {
+        "label": "呼気性うめき",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 聴診器で聴取"
+          },
+          {
+            "value": 2,
+            "label": "2 - 聴診器なしで聴取"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Silverman-Andersenスコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(score<=3, '軽度', score<=5, '中等度', '重度')"
+      }
+    }
+  },
+  "target_height": {
+    "name": "目標身長 (遺伝身長)",
+    "input": {
+      "father_height": {
+        "label": "父親の身長 [cm]"
+      },
+      "mother_height": {
+        "label": "母親の身長 [cm]"
+      },
+      "child_sex": {
+        "label": "子の性別"
+      }
+    },
+    "output": {
+      "target_height": {
+        "label": "目標身長 [cm]"
+      },
+      "range": {
+        "label": "予測範囲 [cm]",
+        "text": "±9 cm (2SD)"
+      }
+    }
+  },
+  "timi_nstemi": {
+    "name": "TIMIリスクスコア (NSTEMI/UA)",
+    "input": {
+      "age": {
+        "label": "年齢≥65歳"
+      },
+      "cad_risk_factors": {
+        "label": "冠危険因子≥3個"
+      },
+      "known_cad": {
+        "label": "既知の冠動脈狭窄≥50%"
+      },
+      "asa_use": {
+        "label": "過去7日以内のアスピリン使用"
+      },
+      "severe_angina": {
+        "label": "24時間以内の重度狭心症≥2回"
+      },
+      "st_deviation": {
+        "label": "ST変化≥0.5mm"
+      },
+      "elevated_markers": {
+        "label": "心筋マーカー上昇"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "TIMIスコア"
+      },
+      "risk_14day": {
+        "label": "14日イベントリスク",
+        "formula": "iif(score<=1, '5%', score==2, '8%', score==3, '13%', score==4, '20%', score==5, '26%', score==6, '41%', '52%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥3: 早期侵襲的治療を考慮"
+      }
+    }
+  },
+  "timi_stemi": {
+    "name": "TIMIリスクスコア (STEMI)",
+    "input": {
+      "age": {
+        "label": "年齢",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <65歳"
+          },
+          {
+            "value": 2,
+            "label": "2 - 65-74歳"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥75歳"
+          }
+        ]
+      },
+      "diabetes_htn_angina": {
+        "label": "糖尿病/高血圧/狭心症"
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧<100 mmHg"
+      },
+      "heart_rate": {
+        "label": "心拍数>100 /分"
+      },
+      "killip_class": {
+        "label": "Killip分類II-IV"
+      },
+      "weight": {
+        "label": "体重<67 kg"
+      },
+      "anterior_stemi": {
+        "label": "前壁梗塞またはLBBB"
+      },
+      "time_to_treatment": {
+        "label": "発症から治療まで>4時間"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "TIMIスコア"
+      },
+      "mortality_30day": {
+        "label": "30日死亡率",
+        "formula": "iif(score==0, '0.8%', score==1, '1.6%', score==2, '2.2%', score==3, '4.4%', score==4, '7.3%', score==5, '12.4%', score==6, '16.1%', score==7, '23.4%', score==8, '26.8%', '>35.9%')"
+      }
+    }
+  },
+  "trp": {
+    "name": "輸血後血小板増加数",
+    "input": {
+      "post_platelets": {
+        "label": "輸血後血小板数 [×10³/μL]"
+      },
+      "pre_platelets": {
+        "label": "輸血前血小板数 [×10³/μL]"
+      }
+    },
+    "output": {
+      "increment": {
+        "label": "血小板増加数 [×10³/μL]"
+      }
+    }
+  },
+  "venous_to_arterial_blood_gas": {
+    "name": "静脈血から動脈血ガスの推定",
+    "input": {
+      "venous_ph": {
+        "label": "静脈血pH"
+      },
+      "venous_pco2": {
+        "label": "静脈血PCO₂ [mmHg]"
+      },
+      "venous_hco3": {
+        "label": "静脈血HCO₃⁻ [mmol/L]"
+      }
+    },
+    "output": {
+      "arterial_ph": {
+        "label": "推定動脈血pH"
+      },
+      "arterial_pco2": {
+        "label": "推定動脈血PCO₂ [mmHg]"
+      },
+      "arterial_hco3": {
+        "label": "推定動脈血HCO₃⁻ [mmol/L]"
+      },
+      "limitation": {
+        "label": "制限事項",
+        "text": "ショック状態や重度低酸素では不正確。動脈血が望ましい。"
+      }
+    }
+  },
+  "wells_dvt": {
+    "name": "Wells基準 (深部静脈血栓症)",
+    "input": {
+      "active_cancer": {
+        "label": "活動性悪性腫瘍"
+      },
+      "paralysis": {
+        "label": "麻痺・不動化"
+      },
+      "bedridden": {
+        "label": "臥床>3日 または 手術<4週"
+      },
+      "tenderness": {
+        "label": "深部静脈に沿った圧痛"
+      },
+      "entire_leg_swollen": {
+        "label": "下肢全体の腫脹"
+      },
+      "calf_swelling": {
+        "label": "下腿周囲径差>3 cm"
+      },
+      "pitting_edema": {
+        "label": "圧痕浮腫"
+      },
+      "collateral_veins": {
+        "label": "側副静脈"
+      },
+      "alternative_diagnosis": {
+        "label": "他の診断の方が可能性高い",
+        "options": [
+          {
+            "value": -2,
+            "label": "-2 - はい"
+          },
+          {
+            "value": 0,
+            "label": "0 - いいえ"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Wellsスコア"
+      },
+      "probability": {
+        "label": "DVT可能性",
+        "formula": "iif(score<=0, '低リスク: 5%', score<=2, '中リスク: 17%', '高リスク: 53%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "低リスク: Dダイマー, 中-高リスク: 画像検査"
+      }
+    }
+  },
+  "wells_pe": {
+    "name": "Wells基準 (肺塞栓症)",
+    "input": {
+      "clinical_dvt": {
+        "label": "DVT臨床徴候"
+      },
+      "pe_likely": {
+        "label": "他の診断よりPEの可能性高い"
+      },
+      "heart_rate": {
+        "label": "心拍数>100 /分"
+      },
+      "immobilization": {
+        "label": "不動化≥3日 または 手術<4週"
+      },
+      "previous_dvt_pe": {
+        "label": "DVT/PE既往"
+      },
+      "hemoptysis": {
+        "label": "喀血"
+      },
+      "malignancy": {
+        "label": "悪性腫瘍"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Wellsスコア"
+      },
+      "probability": {
+        "label": "PE可能性",
+        "formula": "iif(score<=1, '低リスク: 1.3%', score<=4, '中リスク: 16.2%', '高リスク: 37.5%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "低リスク: Dダイマー, 中-高リスク: 画像検査(CTPA)"
+      }
+    }
+  },
+  "westley_croup": {
+    "name": "Westleyクループスコア",
+    "input": {
+      "stridor": {
+        "label": "吸気性喘鳴",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 興奮時"
+          },
+          {
+            "value": 2,
+            "label": "2 - 安静時"
+          }
+        ]
+      },
+      "retraction": {
+        "label": "陥凹呼吸",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 軽度"
+          },
+          {
+            "value": 2,
+            "label": "2 - 中等度"
+          },
+          {
+            "value": 3,
+            "label": "3 - 高度"
+          }
+        ]
+      },
+      "air_entry": {
+        "label": "換気音",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 正常"
+          },
+          {
+            "value": 1,
+            "label": "1 - 減弱"
+          },
+          {
+            "value": 2,
+            "label": "2 - 著明減弱"
+          }
+        ]
+      },
+      "cyanosis": {
+        "label": "チアノーゼ",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 4,
+            "label": "4 - 興奮時"
+          },
+          {
+            "value": 5,
+            "label": "5 - 安静時"
+          }
+        ]
+      },
+      "consciousness": {
+        "label": "意識レベル",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 正常"
+          },
+          {
+            "value": 5,
+            "label": "5 - 変容"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Westleyスコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(score<=2, '軽症', score<=7, '中等症', '重症')"
+      },
+      "treatment": {
+        "label": "推奨治療",
+        "text": "軽症: デキサメタゾン経口, 中等症: デキサメタゾン+エピネフリン吸入, 重症: 入院管理"
+      }
+    }
+  },
+  "aado2": {
+    "name": "A-aDO₂ (肺胞気-動脈血酸素分圧較差)",
+    "input": {
+      "fio2": {
+        "label": "FiO₂ (吸入酸素濃度)"
+      },
+      "pao2": {
+        "label": "PaO₂ (動脈血酸素分圧) [mmHg]"
+      },
+      "paco2": {
+        "label": "PaCO₂ (動脈血二酸化炭素分圧) [mmHg]"
+      }
+    },
+    "output": {
+      "aado2": {
+        "label": "A-aDO₂"
+      },
+      "reference": {
+        "label": "基準値",
+        "text": "正常: ≤10"
+      }
+    }
+  },
+  "abcd2": {
+    "name": "ABCD²スコア",
+    "input": {
+      "age": {
+        "label": "年齢≥60歳"
+      },
+      "bp": {
+        "label": "血圧≥140/90 mmHg"
+      },
+      "clinical": {
+        "label": "臨床症状",
+        "options": [
+          {
+            "value": 2,
+            "label": "片側の脱力"
+          },
+          {
+            "value": 1,
+            "label": "脱力を伴わない言語障害"
+          },
+          {
+            "value": 0,
+            "label": "その他"
+          }
+        ]
+      },
+      "duration": {
+        "label": "持続時間",
+        "options": [
+          {
+            "value": 2,
+            "label": "≥60分"
+          },
+          {
+            "value": 1,
+            "label": "10-59分"
+          },
+          {
+            "value": 0,
+            "label": "<10分"
+          }
+        ]
+      },
+      "diabetes": {
+        "label": "糖尿病"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "risk": {
+        "label": "リスク",
+        "formula": "iif(score>=6, '高リスク 2日以内の脳卒中リスク8.1%', score>=4, '中リスク 2日以内の脳卒中リスク4.1%', '低リスク 2日以内の脳卒中リスク1.0%')"
+      }
+    }
+  },
+  "abr_reference": {
+    "name": "ABR潜時基準値",
+    "type": "html",
+    "html": "<h3>聴性脳幹反応(ABR)潜時基準値</h3><p>新生児・乳児の聴力スクリーニングに使用</p><table><tr><th>波</th><th>潜時(ms)</th></tr><tr><td>I波</td><td>1.5-1.9</td></tr><tr><td>III波</td><td>3.5-4.5</td></tr><tr><td>V波</td><td>5.5-6.5</td></tr></table><p>I-III間隔: 2.0-2.5 ms<br>III-V間隔: 1.8-2.4 ms<br>I-V間隔: 3.8-4.8 ms</p>"
+  },
+  "adrop": {
+    "name": "A-DROPスコア (市中肺炎重症度)",
+    "input": {
+      "age_male": {
+        "label": "男性70歳以上 または 女性75歳以上"
+      },
+      "bun": {
+        "label": "BUN≥21 mg/dL または 脱水あり"
+      },
+      "spo2": {
+        "label": "SpO₂≤90% (PaO₂≤60 mmHg)"
+      },
+      "altered_mental": {
+        "label": "意識障害"
+      },
+      "sbp": {
+        "label": "収縮期血圧≤90 mmHg"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(score==0, '軽症', score<=2, '中等症', score==3, '重症', score>=4, '超重症', '')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "軽症: 外来治療, 中等症: 外来または入院, 重症: 入院, 超重症: ICU入室を考慮"
+      }
+    }
+  },
+  "anion_gap_corrected": {
+    "name": "補正アニオンギャップ (Figge式)",
+    "input": {
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "chloride": {
+        "label": "クロール [mmol/L]"
+      },
+      "bicarbonate": {
+        "label": "重炭酸 [mmol/L]"
+      },
+      "albumin": {
+        "label": "アルブミン [g/dL]"
+      }
+    },
+    "output": {
+      "anion_gap": {
+        "label": "測定アニオンギャップ [mEq/L]"
+      },
+      "corrected_ag": {
+        "label": "補正アニオンギャップ [mEq/L]"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "apache2": {
+    "name": "APACHE IIスコア",
+    "input": {
+      "temperature": {
+        "label": "体温 [°C]"
+      },
+      "map": {
+        "label": "平均動脈圧 [mmHg]"
+      },
+      "heart_rate": {
+        "label": "心拍数 [/分]"
+      },
+      "respiratory_rate": {
+        "label": "呼吸数 [/分]"
+      },
+      "fio2": {
+        "label": "FiO₂≥0.5"
+      },
+      "pao2": {
+        "label": "PaO₂ [mmHg] (FiO₂<0.5の場合)"
+      },
+      "aado2": {
+        "label": "A-aDO₂ [mmHg] (FiO₂≥0.5の場合)"
+      },
+      "ph": {
+        "label": "動脈血pH"
+      },
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "potassium": {
+        "label": "カリウム [mmol/L]"
+      },
+      "creatinine": {
+        "label": "クレアチニン [mg/dL]"
+      },
+      "acute_renal_failure": {
+        "label": "急性腎不全"
+      },
+      "hematocrit": {
+        "label": "ヘマトクリット [%]"
+      },
+      "wbc": {
+        "label": "白血球数 [×10³/μL]"
+      },
+      "gcs": {
+        "label": "Glasgow Coma Scale"
+      },
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "chronic_health": {
+        "label": "慢性健康状態",
+        "options": [
+          {
+            "value": 0,
+            "label": "なし"
+          },
+          {
+            "value": 2,
+            "label": "待機手術患者"
+          },
+          {
+            "value": 5,
+            "label": "緊急手術またはICU入室の非手術患者"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "APACHE IIスコア"
+      },
+      "mortality": {
+        "label": "推定死亡率 (%)"
+      }
+    }
+  },
+  "apgar": {
+    "name": "Apgarスコア",
+    "input": {
+      "heart_rate": {
+        "label": "心拍数",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - <100/分"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥100/分"
+          }
+        ]
+      },
+      "respiratory": {
+        "label": "呼吸",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 弱い泣き、換気不良"
+          },
+          {
+            "value": 2,
+            "label": "2 - 強い泣き"
+          }
+        ]
+      },
+      "muscle_tone": {
+        "label": "筋緊張",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - ぐったり"
+          },
+          {
+            "value": 1,
+            "label": "1 - 四肢の屈曲"
+          },
+          {
+            "value": 2,
+            "label": "2 - 活発な動き"
+          }
+        ]
+      },
+      "reflex": {
+        "label": "反射",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - しかめ面"
+          },
+          {
+            "value": 2,
+            "label": "2 - くしゃみ/咳/啼泣"
+          }
+        ]
+      },
+      "color": {
+        "label": "皮膚色",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全身チアノーゼ・蒼白"
+          },
+          {
+            "value": 1,
+            "label": "1 - 体幹ピンク、四肢チアノーゼ"
+          },
+          {
+            "value": 2,
+            "label": "2 - 全身ピンク"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "Apgarスコア"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(total>=7, '正常', total>=4, '中等度抑制', '重度抑制')"
+      }
+    }
+  },
+  "ascvd": {
+    "name": "ASCVD リスク計算 (10年)",
+    "input": {
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      },
+      "race": {
+        "label": "人種",
+        "options": [
+          {
+            "value": 0,
+            "label": "白人"
+          },
+          {
+            "value": 1,
+            "label": "アフリカ系アメリカ人"
+          }
+        ]
+      },
+      "total_cholesterol": {
+        "label": "総コレステロール [mg/dL]"
+      },
+      "hdl": {
+        "label": "HDLコレステロール [mg/dL]"
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧 [mmHg]"
+      },
+      "bp_treated": {
+        "label": "降圧薬治療中"
+      },
+      "diabetes": {
+        "label": "糖尿病"
+      },
+      "smoker": {
+        "label": "喫煙"
+      }
+    },
+    "output": {
+      "risk": {
+        "label": "10年ASCVDリスク (%)"
+      },
+      "interpretation": {
+        "label": "リスク分類",
+        "formula": "iif(risk<5, '低リスク', risk<7.5, '境界リスク', risk<20, '中リスク', '高リスク')"
+      }
+    }
+  },
+  "bilirubin_albumin_ratio": {
+    "name": "ビリルビン/アルブミン比",
+    "input": {
+      "total_bilirubin": {
+        "label": "総ビリルビン [mg/dL]"
+      },
+      "albumin": {
+        "label": "アルブミン [g/dL]"
+      }
+    },
+    "output": {
+      "ratio": {
+        "label": "B/A比"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "bisap": {
+    "name": "BISAPスコア (膵炎)",
+    "input": {
+      "bun": {
+        "label": "BUN>25 mg/dL"
+      },
+      "impaired_mental": {
+        "label": "意識障害 (GCS<15)"
+      },
+      "sirs": {
+        "label": "SIRS基準≥2項目"
+      },
+      "age": {
+        "label": "年齢>60歳"
+      },
+      "pleural_effusion": {
+        "label": "胸水あり"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "BISAPスコア"
+      },
+      "mortality": {
+        "label": "死亡率",
+        "formula": "iif(score==0, '<1%', score==1, '<2%', score==2, '<5%', score==3, '<10%', score==4, '<20%', '>20%')"
+      }
+    }
+  },
+  "bishop_score": {
+    "name": "Bishopスコア (頸管成熟度)",
+    "input": {
+      "dilation": {
+        "label": "子宮頸管開大度",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 閉鎖"
+          },
+          {
+            "value": 1,
+            "label": "1 - 1-2 cm"
+          },
+          {
+            "value": 2,
+            "label": "2 - 3-4 cm"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥5 cm"
+          }
+        ]
+      },
+      "effacement": {
+        "label": "子宮頸管展退度",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 0-30%"
+          },
+          {
+            "value": 1,
+            "label": "1 - 40-50%"
+          },
+          {
+            "value": 2,
+            "label": "2 - 60-70%"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≥80%"
+          }
+        ]
+      },
+      "station": {
+        "label": "児頭位置",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - -3"
+          },
+          {
+            "value": 1,
+            "label": "1 - -2"
+          },
+          {
+            "value": 2,
+            "label": "2 - -1, 0"
+          },
+          {
+            "value": 3,
+            "label": "3 - +1, +2"
+          }
+        ]
+      },
+      "consistency": {
+        "label": "子宮頸管硬度",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 硬い"
+          },
+          {
+            "value": 1,
+            "label": "1 - 中等度"
+          },
+          {
+            "value": 2,
+            "label": "2 - 軟らかい"
+          }
+        ]
+      },
+      "position": {
+        "label": "子宮頸管位置",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 後方"
+          },
+          {
+            "value": 1,
+            "label": "1 - 中間"
+          },
+          {
+            "value": 2,
+            "label": "2 - 前方"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Bishopスコア"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(score>=8, '分娩誘発成功の可能性が高い', score>=5, '中程度の成功率', '頸管熟化が必要')"
+      }
+    }
+  },
+  "bode_index": {
+    "name": "BODEインデックス (COPD予後予測)",
+    "input": {
+      "fev1_predicted": {
+        "label": "FEV1 (予測値%) [%]",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - ≥65%"
+          },
+          {
+            "value": 1,
+            "label": "1 - 50-64%"
+          },
+          {
+            "value": 2,
+            "label": "2 - 36-49%"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≤35%"
+          }
+        ]
+      },
+      "mmrc": {
+        "label": "mMRC呼吸困難スケール",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-1 (問題なし/急ぎ足で息切れ)"
+          },
+          {
+            "value": 1,
+            "label": "2 (平地歩行で同年代より遅い)"
+          },
+          {
+            "value": 2,
+            "label": "3 (約100m歩行で休憩が必要)"
+          },
+          {
+            "value": 3,
+            "label": "4 (息切れのため外出できない)"
+          }
+        ]
+      },
+      "distance_6mwt": {
+        "label": "6分間歩行距離 [m]",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - ≥350m"
+          },
+          {
+            "value": 1,
+            "label": "1 - 250-349m"
+          },
+          {
+            "value": 2,
+            "label": "2 - 150-249m"
+          },
+          {
+            "value": 3,
+            "label": "3 - ≤149m"
+          }
+        ]
+      },
+      "bmi": {
+        "label": "BMI [kg/m²]",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - >21"
+          },
+          {
+            "value": 1,
+            "label": "1 - ≤21"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "BODEインデックス"
+      },
+      "mortality": {
+        "label": "4年死亡率",
+        "formula": "iif(score<=2, '低リスク: 80%生存', score<=4, '中リスク: 60%生存', score<=6, '高リスク: 40%生存', '超高リスク: 20%生存')"
+      }
+    }
+  },
+  "bsa": {
+    "name": "体表面積 (BSA)",
+    "input": {
+      "height": {
+        "label": "身長 [cm]"
+      },
+      "weight": {
+        "label": "体重 [kg]"
+      }
+    },
+    "output": {
+      "mosteller": {
+        "label": "Mosteller式 [m²]"
+      },
+      "dubois": {
+        "label": "DuBois式 [m²]"
+      },
+      "fujimoto": {
+        "label": "藤本式 [m²]"
+      }
+    }
+  },
+  "ccr_adult": {
+    "name": "クレアチニンクリアランス (成人) Cockcroft-Gault式",
+    "input": {
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "weight": {
+        "label": "体重 [kg]"
+      },
+      "creatinine": {
+        "label": "血清クレアチニン [mg/dL]"
+      },
+      "sex": {
+        "label": "性別"
+      }
+    },
+    "output": {
+      "ccr": {
+        "label": "クレアチニンクリアランス [mL/min]"
+      }
+    }
+  },
+  "ccr_child": {
+    "name": "クレアチニンクリアランス (小児) Schwartz式",
+    "input": {
+      "height": {
+        "label": "身長 [cm]"
+      },
+      "creatinine": {
+        "label": "血清クレアチニン [mg/dL]"
+      },
+      "age": {
+        "label": "年齢",
+        "options": [
+          {
+            "value": 0.45,
+            "label": "低出生体重児"
+          },
+          {
+            "value": 0.33,
+            "label": "正期産児 (生後1年まで)"
+          },
+          {
+            "value": 0.45,
+            "label": "小児 (2-12歳)"
+          },
+          {
+            "value": 0.55,
+            "label": "男子 (13-21歳)"
+          },
+          {
+            "value": 0.55,
+            "label": "女子 (13-21歳)"
+          }
+        ]
+      }
+    },
+    "output": {
+      "ccr": {
+        "label": "クレアチニンクリアランス [mL/min/1.73m²]"
+      }
+    }
+  },
+  "ccr_measured": {
+    "name": "クレアチニンクリアランス (実測値)",
+    "input": {
+      "urine_cr": {
+        "label": "尿中クレアチニン [mg/dL]"
+      },
+      "serum_cr": {
+        "label": "血清クレアチニン [mg/dL]"
+      },
+      "urine_volume": {
+        "label": "尿量 [mL/day]"
+      },
+      "collection_time": {
+        "label": "蓄尿時間 [分]"
+      }
+    },
+    "output": {
+      "ccr": {
+        "label": "クレアチニンクリアランス [mL/min]"
+      }
+    }
+  },
+  "centor": {
+    "name": "Centorスコア (連鎖球菌性咽頭炎)",
+    "input": {
+      "fever": {
+        "label": "発熱 (>38°C)"
+      },
+      "no_cough": {
+        "label": "咳なし"
+      },
+      "exudate": {
+        "label": "扁桃滲出物・腫脹"
+      },
+      "adenopathy": {
+        "label": "前頸部リンパ節腫脹・圧痛"
+      },
+      "age": {
+        "label": "年齢",
+        "options": [
+          {
+            "value": 1,
+            "label": "3-14歳"
+          },
+          {
+            "value": 0,
+            "label": "15-44歳"
+          },
+          {
+            "value": -1,
+            "label": "≥45歳"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Centorスコア"
+      },
+      "risk": {
+        "label": "連鎖球菌陽性率",
+        "formula": "iif(score<0, '1-2.5%', score==0, '2.5-7%', score==1, '6.5-11%', score==2, '11-17%', score==3, '28-35%', '>50%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥3: 迅速抗原検査または培養を推奨"
+      }
+    }
+  },
+  "cha2ds2_va": {
+    "name": "CHA₂DS₂-VA スコア (心房細動血栓塞栓症リスク)",
+    "input": {
+      "heart_failure": {
+        "label": "うっ血性心不全"
+      },
+      "hypertension": {
+        "label": "高血圧"
+      },
+      "age": {
+        "label": "年齢",
+        "options": [
+          {
+            "value": 0,
+            "label": "<65歳"
+          },
+          {
+            "value": 1,
+            "label": "65-74歳"
+          },
+          {
+            "value": 2,
+            "label": "≥75歳"
+          }
+        ]
+      },
+      "diabetes": {
+        "label": "糖尿病"
+      },
+      "stroke": {
+        "label": "脳卒中/TIA/血栓塞栓症"
+      },
+      "vascular_disease": {
+        "label": "血管疾患 (MI, PAD, 大動脈プラーク)"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "risk": {
+        "label": "年間脳卒中リスク (%)"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥2: 抗凝固療法を強く推奨; スコア=1: 抗凝固療法を考慮"
+      }
+    }
+  },
+  "cha2ds2_vasc": {
+    "name": "CHA₂DS₂-VASc スコア",
+    "input": {
+      "heart_failure": {
+        "label": "うっ血性心不全"
+      },
+      "hypertension": {
+        "label": "高血圧"
+      },
+      "age_75": {
+        "label": "年齢≥75歳"
+      },
+      "diabetes": {
+        "label": "糖尿病"
+      },
+      "stroke": {
+        "label": "脳卒中/TIA/血栓塞栓症"
+      },
+      "vascular_disease": {
+        "label": "血管疾患 (MI, PAD, 大動脈プラーク)"
+      },
+      "age_65_74": {
+        "label": "年齢 65-74歳"
+      },
+      "sex": {
+        "label": "女性"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "risk": {
+        "label": "年間脳卒中リスク (%)"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "男性スコア≥2または女性スコア≥3: 抗凝固療法を推奨"
+      }
+    }
+  },
+  "chads2": {
+    "name": "CHADS₂ スコア",
+    "input": {
+      "heart_failure": {
+        "label": "心不全"
+      },
+      "hypertension": {
+        "label": "高血圧"
+      },
+      "age_75": {
+        "label": "年齢≥75歳"
+      },
+      "diabetes": {
+        "label": "糖尿病"
+      },
+      "stroke": {
+        "label": "脳卒中/TIA既往"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "risk": {
+        "label": "脳卒中リスク",
+        "formula": "iif(score==0, '低リスク 1.0%/年', score==1, '低-中リスク 1.5%/年', score==2, '中リスク 2.5%/年', score==3, '高リスク 5.0%/年', '超高リスク >7.0%/年')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥2ではワルファリンを考慮"
+      }
+    }
+  },
+  "child_pugh": {
+    "name": "Child-Pughスコア (肝硬変重症度)",
+    "input": {
+      "bilirubin": {
+        "label": "総ビリルビン [mg/dL]",
+        "options": [
+          {
+            "value": 1,
+            "label": "1 - <2"
+          },
+          {
+            "value": 2,
+            "label": "2 - 2-3"
+          },
+          {
+            "value": 3,
+            "label": "3 - >3"
+          }
+        ]
+      },
+      "albumin": {
+        "label": "アルブミン [g/dL]",
+        "options": [
+          {
+            "value": 1,
+            "label": "1 - >3.5"
+          },
+          {
+            "value": 2,
+            "label": "2 - 2.8-3.5"
+          },
+          {
+            "value": 3,
+            "label": "3 - <2.8"
+          }
+        ]
+      },
+      "inr": {
+        "label": "PT-INR",
+        "options": [
+          {
+            "value": 1,
+            "label": "1 - <1.7"
+          },
+          {
+            "value": 2,
+            "label": "2 - 1.7-2.3"
+          },
+          {
+            "value": 3,
+            "label": "3 - >2.3"
+          }
+        ]
+      },
+      "ascites": {
+        "label": "腹水",
+        "options": [
+          {
+            "value": 1,
+            "label": "1 - なし"
+          },
+          {
+            "value": 2,
+            "label": "2 - 軽度"
+          },
+          {
+            "value": 3,
+            "label": "3 - 中等度-高度"
+          }
+        ]
+      },
+      "encephalopathy": {
+        "label": "肝性脳症",
+        "options": [
+          {
+            "value": 1,
+            "label": "1 - なし"
+          },
+          {
+            "value": 2,
+            "label": "2 - グレード1-2 (軽度)"
+          },
+          {
+            "value": 3,
+            "label": "3 - グレード3-4 (昏睡)"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "class": {
+        "label": "分類",
+        "formula": "iif(score<=6, 'A (代償性)', score<=9, 'B (中等度機能不全)', 'C (非代償性)')"
+      },
+      "mortality_1yr": {
+        "label": "1年生存率",
+        "formula": "iif(score<=6, '100%', score<=9, '80%', '45%')"
+      },
+      "mortality_2yr": {
+        "label": "2年生存率",
+        "formula": "iif(score<=6, '85%', score<=9, '60%', '35%')"
+      }
+    }
+  },
+  "corrected_calcium_japanese": {
+    "name": "補正カルシウム (日本式)",
+    "input": {
+      "measured_ca": {
+        "label": "測定カルシウム [mg/dL]"
+      },
+      "albumin": {
+        "label": "アルブミン [g/dL]"
+      }
+    },
+    "output": {
+      "corrected_ca": {
+        "label": "補正カルシウム [mg/dL]"
+      }
+    }
+  },
+  "corrected_calcium_payne": {
+    "name": "補正カルシウム (Payne式)",
+    "input": {
+      "measured_ca": {
+        "label": "測定カルシウム [mg/dL]"
+      },
+      "albumin": {
+        "label": "アルブミン [g/dL]"
+      }
+    },
+    "output": {
+      "corrected_ca": {
+        "label": "補正カルシウム [mg/dL]"
+      }
+    }
+  },
+  "corrected_count_increment": {
+    "name": "補正血小板増加数 (CCI)",
+    "input": {
+      "post_platelets": {
+        "label": "輸血後血小板数 [×10³/μL]"
+      },
+      "pre_platelets": {
+        "label": "輸血前血小板数 [×10³/μL]"
+      },
+      "bsa": {
+        "label": "体表面積 [m²]"
+      },
+      "platelets_transfused": {
+        "label": "輸血血小板数 [×10¹¹]"
+      }
+    },
+    "output": {
+      "cci": {
+        "label": "補正血小板増加数 (CCI)"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "corrected_reticulocyte_count": {
+    "name": "補正網状赤血球数",
+    "input": {
+      "reticulocyte_percent": {
+        "label": "網状赤血球 [%]"
+      },
+      "patient_hct": {
+        "label": "患者ヘマトクリット [%]"
+      }
+    },
+    "output": {
+      "corrected_retic": {
+        "label": "補正網状赤血球 [%]"
+      }
+    }
+  },
+  "corrected_sodium_hillier": {
+    "name": "補正ナトリウム (高血糖時) - Hillier式",
+    "input": {
+      "measured_na": {
+        "label": "測定ナトリウム [mmol/L]"
+      },
+      "glucose": {
+        "label": "血糖 [mg/dL]"
+      }
+    },
+    "output": {
+      "corrected_na": {
+        "label": "補正ナトリウム [mmol/L]"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "curb65": {
+    "name": "CURB-65スコア (市中肺炎重症度)",
+    "input": {
+      "confusion": {
+        "label": "意識障害"
+      },
+      "bun": {
+        "label": "BUN>19 mg/dL (>7 mmol/L)"
+      },
+      "respiratory_rate": {
+        "label": "呼吸数≥30 /分"
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧<90 mmHg"
+      },
+      "diastolic_bp": {
+        "label": "拡張期血圧≤60 mmHg"
+      },
+      "age": {
+        "label": "年齢≥65歳"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "CURB-65スコア"
+      },
+      "mortality": {
+        "label": "30日死亡率",
+        "formula": "iif(score==0, '0.7%', score==1, '2.1%', score==2, '9.2%', score==3, '14.5%', '40%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "0-1点: 外来治療, 2点: 入院を考慮, 3-5点: 入院推奨/ICUを考慮"
+      }
+    }
+  },
+  "cystatin_c": {
+    "name": "推算GFR (シスタチンC)",
+    "input": {
+      "cystatin_c": {
+        "label": "血清シスタチンC [mg/L]"
+      },
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      }
+    },
+    "output": {
+      "egfr": {
+        "label": "推算GFR [mL/min/1.73m²]"
+      }
+    }
+  },
+  "cystatin_c_age": {
+    "name": "年齢別シスタチンC基準値",
+    "type": "html",
+    "html": "<h3>年齢別シスタチンC基準値</h3><table><tr><th>年齢</th><th>基準値 (mg/L)</th></tr><tr><td>新生児</td><td>1.3-1.9</td></tr><tr><td>1-11ヶ月</td><td>0.75-1.35</td></tr><tr><td>1-3歳</td><td>0.60-1.15</td></tr><tr><td>4-6歳</td><td>0.55-1.00</td></tr><tr><td>7-12歳</td><td>0.50-0.95</td></tr><tr><td>13-17歳</td><td>0.55-0.95</td></tr><tr><td>成人</td><td>0.50-0.95</td></tr></table>"
+  },
+  "duke_endocarditis": {
+    "name": "Duke基準 (感染性心内膜炎診断)",
+    "type": "html",
+    "html": "<h3>確定診断</h3><p>以下のいずれか:</p><ul><li>大基準2項目</li><li>大基準1項目+小基準3項目</li><li>小基準5項目</li></ul><h3>大基準</h3><ol><li>血液培養陽性:<ul><li>IE典型菌が2回以上の血液培養陽性</li><li>持続菌血症</li></ul></li><li>心内膜病変:<ul><li>心エコーで疣贅、膿瘍、弁逆流の新規出現</li></ul></li></ol><h3>小基準</h3><ol><li>素因: 心疾患既往、静注薬物使用</li><li>発熱≥38°C</li><li>血管現象: 動脈塞栓、敗血症性肺梗塞、Janeway病変</li><li>免疫現象: Osler結節、Roth斑、リウマチ因子陽性</li><li>微生物学的証拠: 血液培養陽性(大基準に該当しない)</li></ol>"
+  },
+  "ejection_fraction": {
+    "name": "駆出率 (EF)",
+    "input": {
+      "edv": {
+        "label": "拡張末期容積 [mL]"
+      },
+      "esv": {
+        "label": "収縮末期容積 [mL]"
+      }
+    },
+    "output": {
+      "ef": {
+        "label": "駆出率 [%]"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(ef>=55, '正常', ef>=40, '軽度低下', ef>=30, '中等度低下', '高度低下')"
+      }
+    }
+  },
+  "exchange_transfusion_threshold": {
+    "name": "交換輸血基準 (AAP 2022)",
+    "input": {
+      "bilirubin": {
+        "label": "総ビリルビン [mg/dL]"
+      },
+      "age_hours": {
+        "label": "日齢 [時間]"
+      },
+      "gestational_age": {
+        "label": "在胎週数 [週]"
+      },
+      "has_risk_factors": {
+        "label": "リスク因子あり"
+      }
+    },
+    "output": {
+      "threshold_adjusted": {
+        "label": "調整後基準値 [mg/dL]"
+      },
+      "recommendation": {
+        "label": "推奨"
+      },
+      "risk_factors": {
+        "label": "リスク因子",
+        "text": "在胎38週未満、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT陽性)、G6PD欠損症、敗血症、臨床的不安定"
+      }
+    }
+  },
+  "feurea": {
+    "name": "尿素排泄率 (FEUrea)",
+    "input": {
+      "urine_urea": {
+        "label": "尿中尿素窒素 [mg/dL]"
+      },
+      "serum_urea": {
+        "label": "血清尿素窒素 [mg/dL]"
+      },
+      "urine_cr": {
+        "label": "尿中クレアチニン [mg/dL]"
+      },
+      "serum_cr": {
+        "label": "血清クレアチニン [mg/dL]"
+      }
+    },
+    "output": {
+      "feurea": {
+        "label": "FEUrea [%]"
+      },
+      "interpretation": {
+        "label": "判定"
+      },
+      "advantage": {
+        "label": "利点",
+        "text": "利尿薬使用時もFENaより信頼性が高い"
+      }
+    }
+  },
+  "fisher_grade": {
+    "name": "Fisherグレード (くも膜下出血)",
+    "type": "html",
+    "html": "<h3>Fisherグレード分類</h3><table><tr><th>グレード</th><th>CT所見</th><th>血管攣縮リスク</th></tr><tr><td>1</td><td>くも膜下出血なし</td><td>低</td></tr><tr><td>2</td><td>びまん性または厚さ<1mm</td><td>中</td></tr><tr><td>3</td><td>局所性凝血塊または厚さ>1mm</td><td>高</td></tr><tr><td>4</td><td>脳室内または実質内出血(±SAH)</td><td>中</td></tr></table><p>グレード3が最も血管攣縮リスクが高い</p>"
+  },
+  "friedewald": {
+    "name": "LDLコレステロール (Friedewald式)",
+    "input": {
+      "total_cholesterol": {
+        "label": "総コレステロール [mg/dL]"
+      },
+      "hdl": {
+        "label": "HDLコレステロール [mg/dL]"
+      },
+      "triglycerides": {
+        "label": "中性脂肪 [mg/dL]"
+      }
+    },
+    "output": {
+      "ldl": {
+        "label": "LDLコレステロール [mg/dL]"
+      },
+      "limitation": {
+        "label": "制限事項",
+        "text": "中性脂肪≥400 mg/dLでは使用不可"
+      }
+    }
+  },
+  "gad7": {
+    "name": "GAD-7 (全般性不安障害スクリーニング)",
+    "input": {
+      "q1_nervous": {
+        "label": "緊張感、不安、いらいら",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q2_control": {
+        "label": "心配を止められない、または制御できない",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q3_worry": {
+        "label": "様々なことを過度に心配する",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q4_relax": {
+        "label": "リラックスすることが難しい",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q5_restless": {
+        "label": "じっとしていられないほど落ち着かない",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q6_annoyed": {
+        "label": "簡単にイライラしたり怒ったりする",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "q7_afraid": {
+        "label": "何か恐ろしいことが起こる気がする",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "GAD-7スコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(total>=15, '重度の不安', total>=10, '中等度の不安', total>=5, '軽度の不安', '最小限の不安')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥10: 専門家への紹介を考慮"
+      }
+    }
+  },
+  "glasgow_imrie": {
+    "name": "Glasgow-Imrie基準 (急性膵炎重症度)",
+    "input": {
+      "age": {
+        "label": "年齢>55歳"
+      },
+      "wbc": {
+        "label": "白血球>15,000 /μL"
+      },
+      "glucose": {
+        "label": "血糖>180 mg/dL"
+      },
+      "bun": {
+        "label": "BUN>45 mg/dL"
+      },
+      "pao2": {
+        "label": "PaO₂<60 mmHg"
+      },
+      "albumin": {
+        "label": "アルブミン<3.2 g/dL"
+      },
+      "calcium": {
+        "label": "カルシウム<8 mg/dL"
+      },
+      "ldh": {
+        "label": "LDH>600 IU/L"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "スコア"
+      },
+      "mortality": {
+        "label": "死亡率",
+        "formula": "iif(score<3, '<1%', score==3, '3-5%', score==4, '10-15%', '40-50%')"
+      }
+    }
+  },
+  "gold_copd": {
+    "name": "GOLD分類 (COPD重症度)",
+    "input": {
+      "fev1_predicted": {
+        "label": "FEV1予測値% [%]"
+      },
+      "symptoms": {
+        "label": "症状評価",
+        "options": [
+          {
+            "value": 0,
+            "label": "A - 症状少ない (mMRC 0-1 or CAT<10)"
+          },
+          {
+            "value": 1,
+            "label": "B - 症状多い (mMRC≥2 or CAT≥10)"
+          }
+        ]
+      },
+      "exacerbations": {
+        "label": "増悪歴",
+        "options": [
+          {
+            "value": 0,
+            "label": "0-1回/年 (入院なし)"
+          },
+          {
+            "value": 2,
+            "label": "≥2回/年 または ≥1回入院"
+          }
+        ]
+      }
+    },
+    "output": {
+      "grade": {
+        "label": "GOLDグレード",
+        "formula": "iif(fev1_predicted>=80, 'GOLD 1 (軽度)', fev1_predicted>=50, 'GOLD 2 (中等度)', fev1_predicted>=30, 'GOLD 3 (重度)', 'GOLD 4 (超重度)')"
+      },
+      "group": {
+        "label": "GOLDグループ",
+        "formula": "iif(symptoms==0 and exacerbations==0, 'グループA', symptoms==1 and exacerbations==0, 'グループB', 'グループE (増悪高リスク)')"
+      }
+    }
+  },
+  "grace": {
+    "name": "GRACEスコア (ACS予後予測)",
+    "input": {
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "heart_rate": {
+        "label": "心拍数 [/分]"
+      },
+      "systolic_bp": {
+        "label": "収縮期血圧 [mmHg]"
+      },
+      "creatinine": {
+        "label": "クレアチニン [mg/dL]"
+      },
+      "killip_class": {
+        "label": "Killip分類",
+        "options": [
+          {
+            "value": 0,
+            "label": "I - 心不全なし"
+          },
+          {
+            "value": 20,
+            "label": "II - 軽度心不全 (ラ音)"
+          },
+          {
+            "value": 39,
+            "label": "III - 肺水腫"
+          },
+          {
+            "value": 59,
+            "label": "IV - 心原性ショック"
+          }
+        ]
+      },
+      "cardiac_arrest": {
+        "label": "心停止"
+      },
+      "elevated_cardiac_markers": {
+        "label": "心筋マーカー上昇"
+      },
+      "st_deviation": {
+        "label": "ST偏位"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "GRACEスコア"
+      },
+      "hospital_mortality": {
+        "label": "院内死亡率 (%)"
+      },
+      "6month_mortality": {
+        "label": "6ヶ月死亡率 (%)"
+      },
+      "risk": {
+        "label": "リスク分類",
+        "formula": "iif(score<=108, '低リスク', score<=140, '中リスク', '高リスク')"
+      }
+    }
+  },
+  "harris_benedict": {
+    "name": "Harris-Benedict式 (基礎代謝量)",
+    "input": {
+      "weight": {
+        "label": "体重 [kg]"
+      },
+      "height": {
+        "label": "身長 [cm]"
+      },
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      },
+      "activity_factor": {
+        "label": "活動係数",
+        "options": [
+          {
+            "value": 1.2,
+            "label": "1.2 - 寝たきり"
+          },
+          {
+            "value": 1.3,
+            "label": "1.3 - ベッド上安静"
+          },
+          {
+            "value": 1.5,
+            "label": "1.5 - 軽度活動"
+          },
+          {
+            "value": 1.75,
+            "label": "1.75 - 中等度活動"
+          },
+          {
+            "value": 2.0,
+            "label": "2.0 - 重度活動"
+          }
+        ]
+      },
+      "stress_factor": {
+        "label": "ストレス係数",
+        "options": [
+          {
+            "value": 1.0,
+            "label": "1.0 - なし"
+          },
+          {
+            "value": 1.2,
+            "label": "1.2 - 小手術"
+          },
+          {
+            "value": 1.35,
+            "label": "1.35 - 外傷"
+          },
+          {
+            "value": 1.6,
+            "label": "1.6 - 敗血症"
+          },
+          {
+            "value": 2.0,
+            "label": "2.0 - 重度熱傷"
+          }
+        ]
+      }
+    },
+    "output": {
+      "bmr": {
+        "label": "基礎代謝量 (BMR) [kcal/day]"
+      },
+      "tee": {
+        "label": "総エネルギー消費量 (TEE) [kcal/day]"
+      }
+    }
+  },
+  "has_bled": {
+    "name": "HAS-BLEDスコア (出血リスク評価)",
+    "input": {
+      "hypertension": {
+        "label": "高血圧 (収縮期>160 mmHg)"
+      },
+      "renal_disease": {
+        "label": "腎機能障害 (透析、移植、Cr>2.26 mg/dL)"
+      },
+      "liver_disease": {
+        "label": "肝機能障害"
+      },
+      "stroke": {
+        "label": "脳卒中"
+      },
+      "bleeding": {
+        "label": "出血既往または出血傾向"
+      },
+      "labile_inr": {
+        "label": "不安定なINR (TTR<60%)"
+      },
+      "elderly": {
+        "label": "高齢 (>65歳)"
+      },
+      "drugs": {
+        "label": "薬剤 (抗血小板薬、NSAIDs)"
+      },
+      "alcohol": {
+        "label": "アルコール (≥8杯/週)"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "HAS-BLEDスコア"
+      },
+      "bleeding_risk": {
+        "label": "年間大出血リスク",
+        "formula": "iif(score<=1, '低リスク: 1.1%/年', score==2, '中リスク: 1.9%/年', '高リスク: 3.7-8.7%/年')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥3: 慎重な経過観察と修正可能なリスク因子の是正を要する"
+      }
+    }
+  },
+  "heart_score": {
+    "name": "HEARTスコア (胸痛評価)",
+    "input": {
+      "history": {
+        "label": "病歴",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 非特異的"
+          },
+          {
+            "value": 1,
+            "label": "1 - やや疑わしい"
+          },
+          {
+            "value": 2,
+            "label": "2 - 高度に疑わしい"
+          }
+        ]
+      },
+      "ecg": {
+        "label": "心電図",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 正常"
+          },
+          {
+            "value": 1,
+            "label": "1 - 非特異的再分極異常"
+          },
+          {
+            "value": 2,
+            "label": "2 - 有意なST偏位"
+          }
+        ]
+      },
+      "age": {
+        "label": "年齢",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <45歳"
+          },
+          {
+            "value": 1,
+            "label": "1 - 45-64歳"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥65歳"
+          }
+        ]
+      },
+      "risk_factors": {
+        "label": "リスク因子数 (高血圧、高脂血症、糖尿病、喫煙、肥満、家族歴)",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - なし"
+          },
+          {
+            "value": 1,
+            "label": "1 - 1-2個"
+          },
+          {
+            "value": 2,
+            "label": "2 - ≥3個 または 動脈硬化性疾患既往"
+          }
+        ]
+      },
+      "troponin": {
+        "label": "トロポニン",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 正常"
+          },
+          {
+            "value": 1,
+            "label": "1 - 正常上限の1-3倍"
+          },
+          {
+            "value": 2,
+            "label": "2 - >正常上限の3倍"
+          }
+        ]
+      }
+    },
+    "output": {
+      "score": {
+        "label": "HEARTスコア"
+      },
+      "risk": {
+        "label": "6週間MACE リスク",
+        "formula": "iif(score<=3, '低リスク: 1.7%', score<=6, '中リスク: 12-17%', '高リスク: 50-65%')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "0-3点: 早期退院を考慮, 4-6点: 入院観察, 7-10点: 早期侵襲的治療"
+      }
+    }
+  },
+  "homa": {
+    "name": "HOMA-IR (インスリン抵抗性指数)",
+    "input": {
+      "glucose": {
+        "label": "空腹時血糖 [mg/dL]"
+      },
+      "insulin": {
+        "label": "空腹時インスリン [μU/mL]"
+      }
+    },
+    "output": {
+      "homa_ir": {
+        "label": "HOMA-IR"
+      },
+      "homa_beta": {
+        "label": "HOMA-β (%)"
+      },
+      "interpretation_ir": {
+        "label": "インスリン抵抗性の判定"
+      },
+      "interpretation_beta": {
+        "label": "β細胞機能の判定"
+      }
+    }
+  },
+  "hunt_hess": {
+    "name": "Hunt-Hessグレード (くも膜下出血)",
+    "type": "html",
+    "html": "<h3>Hunt-Hess分類</h3><table><tr><th>グレード</th><th>臨床所見</th><th>死亡率</th></tr><tr><td>1</td><td>無症状または軽度の頭痛、項部硬直なし</td><td>0-5%</td></tr><tr><td>2</td><td>中等度～重度の頭痛、項部硬直、脳神経麻痺なし</td><td>5-10%</td></tr><tr><td>3</td><td>傾眠、錯乱、または軽度の巣症状</td><td>10-15%</td></tr><tr><td>4</td><td>昏迷、中等度～重度の片麻痺、早期除脳硬直</td><td>60-70%</td></tr><tr><td>5</td><td>深昏睡、除脳硬直、瀕死状態</td><td>70-100%</td></tr></table>"
+  },
+  "ich_score": {
+    "name": "ICHスコア (脳出血予後予測)",
+    "input": {
+      "gcs": {
+        "label": "Glasgow Coma Scale",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 13-15"
+          },
+          {
+            "value": 1,
+            "label": "1 - 5-12"
+          },
+          {
+            "value": 2,
+            "label": "2 - 3-4"
+          }
+        ]
+      },
+      "age": {
+        "label": "年齢≥80歳"
+      },
+      "volume": {
+        "label": "出血量",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - <30 cm³"
+          },
+          {
+            "value": 1,
+            "label": "1 - ≥30 cm³"
+          }
+        ]
+      },
+      "ivh": {
+        "label": "脳室内出血"
+      },
+      "infratentorial": {
+        "label": "テント下出血"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "ICHスコア"
+      },
+      "mortality_30day": {
+        "label": "30日死亡率",
+        "formula": "iif(score==0, '0%', score==1, '13%', score==2, '26%', score==3, '72%', score==4, '97%', '100%')"
+      },
+      "mortality_1year": {
+        "label": "1年死亡率",
+        "formula": "iif(score==0, '13%', score==1, '26%', score==2, '37%', score==3, '75%', score==4, '100%', '100%')"
+      }
+    }
+  },
+  "igf1_zscore": {
+    "name": "IGF-1 Zスコア計算",
+    "input": {
+      "igf1": {
+        "label": "IGF-1値 [ng/mL]"
+      },
+      "age": {
+        "label": "年齢 [歳]"
+      },
+      "sex": {
+        "label": "性別"
+      }
+    },
+    "output": {
+      "zscore": {
+        "label": "Zスコア"
+      },
+      "interpretation": {
+        "label": "判定",
+        "formula": "iif(zscore<-2, 'GH分泌不全を示唆', zscore>2, '先端巨大症を示唆', '正常範囲')"
+      }
+    }
+  },
+  "sirs": {
+    "name": "SIRS基準 (全身性炎症反応症候群)",
+    "input": {
+      "temperature": {
+        "label": "体温<36°C または >38°C"
+      },
+      "heart_rate": {
+        "label": "心拍数>90 /分"
+      },
+      "respiratory_rate": {
+        "label": "呼吸数>20 /分 または PaCO₂<32 mmHg"
+      },
+      "wbc": {
+        "label": "白血球<4,000 または >12,000 /μL または 幼若球>10%"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "SIRS基準陽性数"
+      },
+      "diagnosis": {
+        "label": "診断",
+        "formula": "iif(score>=2, 'SIRS陽性', 'SIRS陰性')"
+      },
+      "note": {
+        "label": "注意",
+        "text": "SIRS≥2 + 感染疑い = 敗血症 (旧定義); 現在はSepsis-3定義(SOFA≥2)を使用"
+      }
+    }
+  },
+  "jcs": {
+    "name": "Japan Coma Scale (JCS - 意識障害の深達度)",
+    "type": "html",
+    "html": "<h3>I. 覚醒している (刺激しないでも覚醒)</h3><ul><li>0 意識清明</li><li>I-1 見当識は保たれているが意識清明ではない</li><li>I-2 見当識障害あり</li><li>I-3 名前・生年月日が言えない</li></ul><h3>II. 刺激により開眼する (刺激により覚醒するが、刺激を止めると眠り込む)</h3><ul><li>II-10 普通の呼びかけで開眼</li><li>II-20 大声または体を揺さぶることで開眼</li><li>II-30 痛刺激を加えながら呼びかけを繰り返すと開眼</li></ul><h3>III. 刺激しても覚醒しない (刺激により開眼しない)</h3><ul><li>III-100 痛刺激に対して払いのける動作をする</li><li>III-200 痛刺激に対して少し手足を動かしたり顔をしかめる</li><li>III-300 痛刺激に反応しない</li></ul>"
+  },
+  "pediatric_jcs": {
+    "name": "小児意識レベル (小児用JCS)",
+    "type": "html",
+    "html": "<h3>I. 覚醒している (刺激しないでも覚醒)</h3><ul><li>0 意識清明</li><li>I-1 あやすと笑うが不十分</li><li>I-2 あやしても笑わないが視線は合う</li><li>I-3 母親と視線が合わない</li></ul><h3>II. 刺激により覚醒する (刺激を止めると眠り込む)</h3><ul><li>II-10 飲み物を見せると飲もうとする、または乳首を見せると吸おうとする</li><li>II-20 呼びかけると開眼し視線が合う</li><li>II-30 呼びかけを繰り返すとかろうじて開眼</li></ul><h3>III. 刺激しても覚醒しない</h3><ul><li>III-100 痛刺激に対して払いのける動作をする</li><li>III-200 痛刺激に対して手足を少し動かしたり顔をしかめる</li><li>III-300 痛刺激に反応しない</li></ul>"
+  },
+  "phq9": {
+    "name": "PHQ-9 (うつ病スクリーニング)",
+    "input": {
+      "interest": {
+        "label": "物事への興味・楽しみがない",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "depressed": {
+        "label": "気分が落ち込む、憂うつ、絶望的",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "sleep": {
+        "label": "寝つきが悪い、途中で目が覚める、または寝すぎる",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "tired": {
+        "label": "疲れやすい、気力がない",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "appetite": {
+        "label": "食欲不振または過食",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "failure": {
+        "label": "自分を責める、自分は失敗者だ、家族を失望させている",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "concentration": {
+        "label": "新聞を読む、テレビを見るなどの集中が困難",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "psychomotor": {
+        "label": "動作や話し方が遅い、またはイライラして落ち着かない",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      },
+      "suicide": {
+        "label": "死んだ方がましだ、自分を傷つけたい",
+        "options": [
+          {
+            "value": 0,
+            "label": "0 - 全くない"
+          },
+          {
+            "value": 1,
+            "label": "1 - 数日"
+          },
+          {
+            "value": 2,
+            "label": "2 - 半分以上"
+          },
+          {
+            "value": 3,
+            "label": "3 - ほとんど毎日"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "PHQ-9スコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(total>=20, '重度のうつ', total>=15, '中等度から重度のうつ', total>=10, '中等度のうつ', total>=5, '軽度のうつ', '最小限または なし')"
+      },
+      "recommendation": {
+        "label": "推奨",
+        "text": "スコア≥10: 専門家への紹介と治療を考慮; スコア≥20: 薬物療法・精神療法を強く推奨"
+      }
+    }
+  },
+  "anion_gap": {
+    "name": "アニオンギャップ",
+    "input": {
+      "sodium": {
+        "label": "ナトリウム [mmol/L]"
+      },
+      "chloride": {
+        "label": "クロール [mmol/L]"
+      },
+      "bicarbonate": {
+        "label": "重炭酸 [mmol/L]"
+      }
+    },
+    "output": {
+      "anion_gap": {
+        "label": "アニオンギャップ [mEq/L]"
+      },
+      "interpretation": {
+        "label": "判定"
+      }
+    }
+  },
+  "gcs": {
+    "name": "Glasgow Coma Scale (GCS)",
+    "input": {
+      "eye": {
+        "label": "開眼",
+        "options": [
+          {
+            "value": 4,
+            "label": "4 - 自発的に開眼"
+          },
+          {
+            "value": 3,
+            "label": "3 - 呼びかけで開眼"
+          },
+          {
+            "value": 2,
+            "label": "2 - 痛刺激で開眼"
+          },
+          {
+            "value": 1,
+            "label": "1 - 開眼なし"
+          }
+        ]
+      },
+      "verbal": {
+        "label": "言語",
+        "options": [
+          {
+            "value": 5,
+            "label": "5 - 見当識正常"
+          },
+          {
+            "value": 4,
+            "label": "4 - 会話混乱"
+          },
+          {
+            "value": 3,
+            "label": "3 - 不適切な言葉"
+          },
+          {
+            "value": 2,
+            "label": "2 - 音声のみ（理解不能）"
+          },
+          {
+            "value": 1,
+            "label": "1 - 発語なし"
+          }
+        ]
+      },
+      "motor": {
+        "label": "運動",
+        "options": [
+          {
+            "value": 6,
+            "label": "6 - 命令に従う"
+          },
+          {
+            "value": 5,
+            "label": "5 - 痛刺激で定位"
+          },
+          {
+            "value": 4,
+            "label": "4 - 痛刺激で退避（正常屈曲）"
+          },
+          {
+            "value": 3,
+            "label": "3 - 異常屈曲（除皮質強直）"
+          },
+          {
+            "value": 2,
+            "label": "2 - 伸展（除脳強直）"
+          },
+          {
+            "value": 1,
+            "label": "1 - なし"
+          }
+        ]
+      }
+    },
+    "output": {
+      "total": {
+        "label": "GCSスコア"
+      },
+      "severity": {
+        "label": "重症度",
+        "formula": "iif(total>=13, '軽症', total>=9, '中等症', '重症')"
+      },
+      "interpretation": {
+        "label": "解釈",
+        "text": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "eye": 4,
+          "verbal": 5,
+          "motor": 6
+        },
+        "output": {
+          "total": 15,
+          "severity": "軽症"
+        }
+      },
+      {
+        "input": {
+          "eye": 1,
+          "verbal": 1,
+          "motor": 2
+        },
+        "output": {
+          "total": 4,
+          "severity": "重症"
+        }
+      }
+    ]
   }
 }
