@@ -15,14 +15,16 @@ import {
 import { IconStar, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getFavorites, toggleFavorite } from "@/lib/favorites";
-import { getFormula, getLocalizedFormulaData } from "@/lib/formula";
+import { useLocalizedFormulaData } from "@/lib/formula-hooks";
+import type { Formula } from "@/types/formula";
 
 export default function FavoritesPage() {
   const locale = useLocale();
   const t = useTranslations("favorites");
   const [favorites, setFavorites] = useState<string[]>([]);
+  const formulaData = useLocalizedFormulaData();
 
   // Load favorites on mount
   useEffect(() => {
@@ -47,10 +49,9 @@ export default function FavoritesPage() {
 
   // Memoize category mapping to avoid repeated lookups
   const categoryMap = useMemo(() => {
-    const data = getLocalizedFormulaData(locale);
     const map = new Map<string, string>();
 
-    for (const [categoryName, categoryData] of Object.entries(data)) {
+    for (const [categoryName, categoryData] of Object.entries(formulaData)) {
       if (categoryName === "_meta") continue;
       const categoryRecord = categoryData as Record<string, unknown>;
       for (const formulaId of Object.keys(categoryRecord)) {
@@ -59,7 +60,19 @@ export default function FavoritesPage() {
     }
 
     return map;
-  }, [locale]);
+  }, [formulaData]);
+
+  // Helper function to get formula from formulaData by ID
+  const getFormulaById = (id: string): Formula | undefined => {
+    for (const [categoryName, categoryData] of Object.entries(formulaData)) {
+      if (categoryName === "_meta") continue;
+      const categoryRecord = categoryData as Record<string, Formula>;
+      if (categoryRecord[id]) {
+        return categoryRecord[id];
+      }
+    }
+    return undefined;
+  };
 
   return (
     <Container size="md" py="xl">
@@ -77,7 +90,7 @@ export default function FavoritesPage() {
         ) : (
           <Stack gap="md">
             {favorites.map((formulaId) => {
-              const formula = getFormula(formulaId, locale);
+              const formula = getFormulaById(formulaId);
               const category = categoryMap.get(formulaId);
 
               // Skip if formula no longer exists

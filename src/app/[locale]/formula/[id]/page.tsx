@@ -10,19 +10,18 @@ import {
 } from "@mantine/core";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { notFound, useParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { FormulaCalculator } from "@/components/FormulaCalculator";
 import { ReferenceLinks } from "@/components/ReferenceLinks";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
-import { getFormula } from "@/lib/formula";
+import { useFormula } from "@/lib/formula-hooks";
 
 export default function FormulaPage() {
   const params = useParams();
-  const locale = useLocale();
   const t = useTranslations("favorites");
   const formulaId = params.id as string;
-  const formula = getFormula(formulaId, locale);
+  const formula = useFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
 
   useEffect(() => {

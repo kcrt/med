@@ -338,9 +338,8 @@ export const formulaData: FormulaData = _validatedData;
  * @param locale - The locale code (e.g., "en", "ja"), defaults to "en"
  * @returns The formula definition, or undefined if not found
  */
-export function getFormula(id: string, locale?: string): Formula | undefined {
-  const effectiveLocale = locale || "en";
-  const data = getLocalizedFormulaData(effectiveLocale);
+export function getFormula(id: string, locale = "en"): Formula | undefined {
+  const data = getLocalizedFormulaData(locale);
 
   for (const category of Object.keys(data)) {
     if (category === "_meta") continue;
@@ -743,9 +742,8 @@ export interface CategoryMenuItem extends MenuItem {
  * // ]
  * ```
  */
-export function getMenuItems(locale?: string): CategoryMenuItem[] {
-  const effectiveLocale = locale || "en";
-  const data = getLocalizedFormulaData(effectiveLocale);
+export function getMenuItems(locale = "en"): CategoryMenuItem[] {
+  const data = getLocalizedFormulaData(locale);
   const items: CategoryMenuItem[] = [];
 
   for (const [category, categoryData] of Object.entries(data)) {
