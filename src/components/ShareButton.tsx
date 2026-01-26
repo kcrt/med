@@ -48,6 +48,10 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
         params.append(key, String(value));
       }
     }
+    // Check if window is available (client-side only)
+    if (typeof window === "undefined") {
+      return "";
+    }
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
     return `${baseUrl}?${params.toString()}`;
   };
