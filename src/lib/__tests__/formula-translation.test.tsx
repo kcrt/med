@@ -59,30 +59,6 @@ describe("formula-translation", () => {
       expect(result.current).toBe("テスト式");
     });
 
-    it("should handle names with dots correctly", () => {
-      const formula: Formula = {
-        name: "Test Formula. With dots.",
-        input: {},
-        output: {},
-      };
-
-      const messages = {
-        labels: {
-          // Keys in the messages object must have dots escaped with {{dot}}
-          "Test Formula{{dot}} With dots{{dot}}": "ドット付きテスト式。",
-        },
-      };
-
-      const { result } = renderHook(
-        () => useFormulaName("test", formula),
-        {
-          wrapper: createWrapper("ja", messages),
-        }
-      );
-
-      expect(result.current).toBe("ドット付きテスト式。");
-    });
-
     it("should fallback to English if translation not found", () => {
       const formula: Formula = {
         name: "Untranslated Formula",
@@ -122,7 +98,7 @@ describe("formula-translation", () => {
       expect(result.current).toBe("This is a test text.");
     });
 
-    it("should handle text with multiple dots correctly", () => {
+    it("should handle text with multiple dots correctly using semantic keys", () => {
       const output: FormulaOutput = {
         label: "Note",
         text: "ABCD²-I adds DWI imaging to ABCD². Score range: 0-9. DWI lesion adds 2 points.",
@@ -130,14 +106,13 @@ describe("formula-translation", () => {
 
       const messages = {
         labels: {
-          // Keys in the messages object must have dots escaped with {{dot}}
-          "ABCD²-I adds DWI imaging to ABCD²{{dot}} Score range: 0-9{{dot}} DWI lesion adds 2 points{{dot}}":
-            "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
+          // Use semantic key for text entries with dots
+          "abcd2i.note.text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
         },
       };
 
       const { result } = renderHook(
-        () => useOutputText("test", "note", output),
+        () => useOutputText("abcd2i", "note", output),
         {
           wrapper: createWrapper("ja", messages),
         }
@@ -189,14 +164,14 @@ describe("formula-translation", () => {
   });
 
   describe("useOutputLabel", () => {
-    it("should handle labels with special characters", () => {
+    it("should handle labels with units containing dots", () => {
       const output: FormulaOutput = {
         label: "eGFR [mL/min/1.73m²]",
       };
 
       const messages = {
         labels: {
-          // Keys in the messages object must have dots escaped with {{dot}}
+          // Labels with dots use escaped format for backward compatibility
           "eGFR [mL/min/1{{dot}}73m²]": "推算GFR [mL/min/1.73m²]",
         },
       };

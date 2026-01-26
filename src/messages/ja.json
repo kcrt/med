@@ -73,7 +73,6 @@
     "Score": "スコア",
     "Risk": "リスク",
     "Note": "注意",
-    "ABCD²-I adds DWI imaging to ABCD²{{dot}} Score range: 0-9{{dot}} DWI lesion adds 2 points{{dot}}": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
     "SOFA Score (Sepsis-related Organ Failure Assessment)": "SOFAスコア (敗血症関連臓器障害評価)",
     "PaO₂ [mmHg]": "PaO₂ (動脈血酸素分圧) [mmHg]",
     "FiO₂ (0-1)": "FiO₂ (0-1)",
@@ -442,6 +441,7 @@
     "Verbal Response": "言語",
     "Motor Response": "運動",
     "GCS Score": "GCSスコア",
-    "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
+    "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死",
+    "abcd2i.note.text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
   }
 }

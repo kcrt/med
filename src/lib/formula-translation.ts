@@ -12,16 +12,14 @@ const DOT_PLACEHOLDER = "{{dot}}";
 
 /**
  * Escape dots in translation keys to avoid next-intl's dot-splitting behavior.
- * next-intl treats dots as path separators, so we replace them with a placeholder.
  */
 function escapeTranslationKey(key: string): string {
   return key.replace(/\./g, DOT_PLACEHOLDER);
 }
 
 /**
- * Helper function to safely get translation for keys that may contain dots.
- * next-intl interprets dots as path separators, but we're using English text as keys.
- * This function escapes dots before lookup to avoid path parsing errors.
+ * Helper function to safely get translation from the labels namespace.
+ * Tries the given key directly without any path interpretation.
  */
 function getTranslationDirect(
   labels: Record<string, unknown> | undefined,
@@ -31,11 +29,7 @@ function getTranslationDirect(
     return undefined;
   }
   
-  // Escape dots in the key before lookup
-  const escapedKey = escapeTranslationKey(key);
-  
-  // Direct property access with escaped key
-  const value = labels[escapedKey];
+  const value = labels[key];
   return typeof value === "string" ? value : undefined;
 }
 
@@ -56,8 +50,9 @@ export function useFormulaName(formulaId: string, formula: Formula): string {
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Get translation directly to handle keys with dots
-  const translated = getTranslationDirect(labels, englishName);
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishName);
+  const translated = getTranslationDirect(labels, escapedKey);
   if (translated) {
     return translated;
   }
@@ -86,8 +81,9 @@ export function useInputLabel(
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Get translation directly to handle keys with dots
-  const translated = getTranslationDirect(labels, englishLabel);
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
   if (translated) {
     return translated;
   }
@@ -116,8 +112,9 @@ export function useOutputLabel(
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Get translation directly to handle keys with dots
-  const translated = getTranslationDirect(labels, englishLabel);
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
   if (translated) {
     return translated;
   }
@@ -127,8 +124,8 @@ export function useOutputLabel(
 
 /**
  * Get translated text for a formula output field.
- * Uses the English text as the translation key under "labels" namespace.
- * Falls back to English text if translation doesn't exist.
+ * For text entries, tries semantic key first (formulaId.outputKey.text) 
+ * then falls back to escaped English text as key, finally to English text itself.
  */
 export function useOutputText(
   formulaId: string,
@@ -148,8 +145,17 @@ export function useOutputText(
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Get translation directly to handle keys with dots
-  const translated = getTranslationDirect(labels, englishText);
+  // Try semantic key first for text entries (e.g., "abcd2i.note.text")
+  // This is the recommended approach for long text with multiple sentences
+  const semanticKey = `${formulaId}.${outputKey}.text`;
+  const semanticTranslation = getTranslationDirect(labels, semanticKey);
+  if (semanticTranslation) {
+    return semanticTranslation;
+  }
+  
+  // Fall back to escaped English text as key (for backward compatibility)
+  const escapedKey = escapeTranslationKey(englishText);
+  const translated = getTranslationDirect(labels, escapedKey);
   if (translated) {
     return translated;
   }
