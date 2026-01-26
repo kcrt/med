@@ -14,5 +14,14 @@
   "config": {
     "title": "Settings",
     "description": "Configure your preferences"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "noFavorites": "No favorites yet",
+    "noFavoritesDescription": "Star formulas to add them here!",
+    "category": "Category",
+    "remove": "Remove"
   }
 }

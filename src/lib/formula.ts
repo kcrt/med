@@ -37,27 +37,27 @@ import pediatricScoring from "@/formulas/pediatric-scoring.json";
 // Map category names to imported data
 const categoryModules: Record<string, Record<string, Formula>> = {
   "Body Structure Index": bodyStructureIndex,
-  "Gastroenterology": gastroenterology,
-  "Hepatology": hepatology,
-  "Cardiology": cardiology,
+  Gastroenterology: gastroenterology,
+  Hepatology: hepatology,
+  Cardiology: cardiology,
   "Endocrinology and Metabolism": endocrinologyAndMetabolism,
   "Renal Function": renalFunction,
   "Electrolytes and Fluid Balance": electrolytes,
   /* Immunology and Allergy here */
-  "Hematology": hematology,
+  Hematology: hematology,
   "Infectious Diseases": infectiousDiseases,
-  "Pulmonology": pulmonology,
-  "Neurology": neurology,
+  Pulmonology: pulmonology,
+  Neurology: neurology,
   /* Toxin here */
   "Emergency Medicine": emergencyMedicine,
   /* Anethesiology here */
-  "Obstetrics": obstetrics,
-  "Pediatrics": pediatrics,
-  "Neonatology": neonatology,
+  Obstetrics: obstetrics,
+  Pediatrics: pediatrics,
+  Neonatology: neonatology,
   "Pediatric Scoring Systems": pediatricScoring,
-  "Nutrition": nutrition,
-  "Psychiatry": psychiatry,
-  "Others": others,
+  Nutrition: nutrition,
+  Psychiatry: psychiatry,
+  Others: others,
 };
 
 // Reconstruct the original formulaJson structure from modular files
@@ -510,7 +510,7 @@ export function dateparse(dateString: string): number {
  * concat(40, ' weeks ', 5, ' days') // Returns "40 weeks 5 days"
  */
 export function concat(...args: unknown[]): string {
-  return args.join('');
+  return args.join("");
 }
 
 // Register custom functions
