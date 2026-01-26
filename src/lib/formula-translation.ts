@@ -10,12 +10,12 @@ import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
  */
 export function useFormulaName(formulaId: string, formula: Formula): string {
   const t = useTranslations(`formulas.${formulaId}`);
-  // Try to get translation, fall back to English name
-  try {
-    return t("name");
-  } catch {
-    return formula.name ?? formulaId;
+  const translated = t("name");
+  // Check if translation exists (next-intl returns the key if translation doesn't exist)
+  if (translated && translated !== "name" && !translated.startsWith("formulas.")) {
+    return translated;
   }
+  return formula.name ?? formulaId;
 }
 
 /**
@@ -28,11 +28,12 @@ export function useInputLabel(
   input: FormulaInput,
 ): string {
   const t = useTranslations(`formulas.${formulaId}.input.${inputKey}`);
-  try {
-    return t("label");
-  } catch {
-    return input.label ?? inputKey;
+  const translated = t("label");
+  // Check if translation exists
+  if (translated && translated !== "label" && !translated.startsWith("formulas.")) {
+    return translated;
   }
+  return input.label ?? inputKey;
 }
 
 /**
@@ -45,11 +46,12 @@ export function useOutputLabel(
   output: FormulaOutput,
 ): string {
   const t = useTranslations(`formulas.${formulaId}.output.${outputKey}`);
-  try {
-    return t("label");
-  } catch {
-    return output.label ?? outputKey;
+  const translated = t("label");
+  // Check if translation exists
+  if (translated && translated !== "label" && !translated.startsWith("formulas.")) {
+    return translated;
   }
+  return output.label ?? outputKey;
 }
 
 /**
@@ -64,11 +66,12 @@ export function useOutputText(
   if (!("text" in output) || !output.text) return undefined;
   
   const t = useTranslations(`formulas.${formulaId}.output.${outputKey}`);
-  try {
-    return t("text");
-  } catch {
-    return output.text;
+  const translated = t("text");
+  // Check if translation exists
+  if (translated && translated !== "text" && !translated.startsWith("formulas.")) {
+    return translated;
   }
+  return output.text;
 }
 
 /**
@@ -97,15 +100,15 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     items: category.items.map((item) => {
       // Extract formula ID from path
       const formulaId = item.path.replace("/formula/", "");
-      try {
-        const translatedName = t(`${formulaId}.name`);
+      const translatedName = t(`${formulaId}.name`);
+      // Check if translation exists (not just the key being returned)
+      if (translatedName && !translatedName.includes(".name") && !translatedName.startsWith("formulas.")) {
         return {
           ...item,
           label: translatedName,
         };
-      } catch {
-        return item;
       }
+      return item;
     }),
   }));
 }
