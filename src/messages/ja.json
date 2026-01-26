@@ -15,6 +15,11 @@
     "title": "設定",
     "description": "設定を変更します"
   },
+  "qrcode": {
+    "title": "計算結果のエクスポート",
+    "description": "このQRコードをスキャンして、計算データを電子カルテなどに転送できます。",
+    "buttonLabel": "QRコードを表示"
+  },
   "favorites": {
     "title": "お気に入り",
     "addToFavorites": "お気に入りに追加",
