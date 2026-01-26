@@ -7,6 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useTranslations } from "next-intl";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import type { FormulaInputValues, FormulaOutputValues } from "@/lib/formula";
+import { isCalculationFormula, hasFormulaProperty } from "@/lib/formula";
 
 interface QRCodeExportProps {
   formula: Formula;
@@ -21,27 +22,12 @@ interface QRCodeData {
   timestamp: string;
   inputs: Record<
     string,
-    { label: string; value: number | string; unit?: string }
+    { label: string; value: number | string }
   >;
   outputs: Record<
     string,
     { label: string; value: number | string; unit?: string }
   >;
-}
-
-// Type guard to check if formula is a calculation formula
-function isCalculationFormula(formula: Formula): formula is Formula & {
-  input: Record<string, FormulaInput>;
-  output: Record<string, FormulaOutput>;
-} {
-  return "input" in formula && "output" in formula;
-}
-
-// Type guard to check if output has formula (not just text)
-function hasFormulaProperty(
-  output: FormulaOutput,
-): output is FormulaOutput & { formula: string } {
-  return "formula" in output && typeof output.formula === "string";
 }
 
 export function QRCodeExport({
