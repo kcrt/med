@@ -33,12 +33,16 @@
       "jasso": {
         "label": "Japan Society for the Study of Obesity",
         "text": "Japan-specific BMI categories",
-        "locales_in": ["ja"]
+        "locales_in": [
+          "ja"
+        ]
       },
       "jasso_diag": {
         "label": "JASSO Diagnosis",
         "formula": "iif(BMI<18.5, 'Underweight', BMI<25, 'Normal', 'Obese')",
-        "locales_in": ["ja"]
+        "locales_in": [
+          "ja"
+        ]
       }
     },
     "test": [

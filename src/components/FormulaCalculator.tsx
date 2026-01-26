@@ -276,7 +276,8 @@ export function FormulaCalculator({
             <Stack gap="xs">
               {allOutputs.map(([key, outputDef]) => {
                 // Skip hidden outputs (intermediate calculation values)
-                if (outputDef.label === "hidden") return null;
+                if ("label" in outputDef && outputDef.label === "hidden")
+                  return null;
 
                 // Check locale filtering
                 if (!shouldDisplayForLocale(outputDef, locale)) return null;
