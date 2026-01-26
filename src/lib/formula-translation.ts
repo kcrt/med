@@ -1,8 +1,37 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations, useLocale, useMessages } from "next-intl";
 import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+
+/**
+ * Placeholder used to escape dots in translation keys.
+ * next-intl treats dots as path separators, so we replace them with this safe placeholder.
+ */
+const DOT_PLACEHOLDER = "{{dot}}";
+
+/**
+ * Escape dots in translation keys to avoid next-intl's dot-splitting behavior.
+ */
+function escapeTranslationKey(key: string): string {
+  return key.replace(/\./g, DOT_PLACEHOLDER);
+}
+
+/**
+ * Helper function to safely get translation from the labels namespace.
+ * Tries the given key directly without any path interpretation.
+ */
+function getTranslationDirect(
+  labels: Record<string, unknown> | undefined,
+  key: string,
+): string | undefined {
+  if (!labels) {
+    return undefined;
+  }
+  
+  const value = labels[key];
+  return typeof value === "string" ? value : undefined;
+}
 
 /**
  * Get translated label for a formula name.
@@ -18,17 +47,14 @@ export function useFormulaName(formulaId: string, formula: Formula): string {
     return englishName;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English name as key
-  try {
-    const translated = t(englishName);
-    // Check if translation exists (next-intl returns the key if translation doesn't exist)
-    if (translated && translated !== englishName) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishName);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
   }
   
   return englishName;
@@ -52,16 +78,14 @@ export function useInputLabel(
     return englishLabel;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English label as key
-  try {
-    const translated = t(englishLabel);
-    if (translated && translated !== englishLabel) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
   }
   
   return englishLabel;
@@ -85,16 +109,14 @@ export function useOutputLabel(
     return englishLabel;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English label as key
-  try {
-    const translated = t(englishLabel);
-    if (translated && translated !== englishLabel) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(englishLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
   }
   
   return englishLabel;
@@ -102,8 +124,8 @@ export function useOutputLabel(
 
 /**
  * Get translated text for a formula output field.
- * Uses the English text as the translation key under "labels" namespace.
- * Falls back to English text if translation doesn't exist.
+ * For text entries, tries semantic key first (formulaId.outputKey.text) 
+ * then falls back to escaped English text as key, finally to English text itself.
  */
 export function useOutputText(
   formulaId: string,
@@ -120,16 +142,22 @@ export function useOutputText(
     return englishText;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English text as key
-  try {
-    const translated = t(englishText);
-    if (translated && translated !== englishText) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Try semantic key first for text entries (e.g., "abcd2i.note.text")
+  // This is the recommended approach for long text with multiple sentences
+  const semanticKey = `${formulaId}.${outputKey}.text`;
+  const semanticTranslation = getTranslationDirect(labels, semanticKey);
+  if (semanticTranslation) {
+    return semanticTranslation;
+  }
+  
+  // Fall back to escaped English text as key (for backward compatibility)
+  const escapedKey = escapeTranslationKey(englishText);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
   }
   
   return englishText;
@@ -160,7 +188,8 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     return menuItems;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
   // Map through menu items and translate labels
   return menuItems.map((category) => ({
@@ -168,18 +197,16 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     items: category.items.map((item) => {
       // Use the English label as the translation key
       const englishLabel = item.label;
-      try {
-        const translated = t(englishLabel);
-        // Check if translation exists
-        if (translated && translated !== englishLabel) {
-          return {
-            ...item,
-            label: translated,
-          };
-        }
-      } catch {
-        // Translation not found, use English
+      
+      // Get translation directly to handle keys with dots
+      const translated = getTranslationDirect(labels, englishLabel);
+      if (translated) {
+        return {
+          ...item,
+          label: translated,
+        };
       }
+      
       return item;
     }),
   }));
