@@ -5,9 +5,18 @@ import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 
 /**
+ * Escape dots in translation keys to avoid next-intl's dot-splitting behavior.
+ * next-intl treats dots as path separators, so we replace them with a placeholder.
+ */
+function escapeTranslationKey(key: string): string {
+  // Replace dots with a safe placeholder that won't appear in normal text
+  return key.replace(/\./g, "{{dot}}");
+}
+
+/**
  * Helper function to safely get translation for keys that may contain dots.
  * next-intl interprets dots as path separators, but we're using English text as keys.
- * This function directly accesses the labels object to avoid path parsing.
+ * This function escapes dots before lookup to avoid path parsing errors.
  */
 function getTranslationDirect(
   labels: Record<string, unknown> | undefined,
@@ -17,8 +26,11 @@ function getTranslationDirect(
     return undefined;
   }
   
-  // Direct property access to avoid dot-splitting
-  const value = labels[key];
+  // Escape dots in the key before lookup
+  const escapedKey = escapeTranslationKey(key);
+  
+  // Direct property access with escaped key
+  const value = labels[escapedKey];
   return typeof value === "string" ? value : undefined;
 }
 
