@@ -1,25 +1,42 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 
 /**
  * Get translated label for a formula name.
+ * Uses the English name as the translation key under "labels" namespace.
  * Falls back to English name if translation doesn't exist.
  */
 export function useFormulaName(formulaId: string, formula: Formula): string {
-  const t = useTranslations(`formulas.${formulaId}`);
-  const translated = t("name");
-  // Check if translation exists (next-intl returns the key if translation doesn't exist)
-  if (translated && translated !== "name" && !translated.startsWith("formulas.")) {
-    return translated;
+  const locale = useLocale();
+  const englishName = formula.name ?? formulaId;
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return englishName;
   }
-  return formula.name ?? formulaId;
+  
+  const t = useTranslations("labels");
+  
+  // Try to get translation using English name as key
+  try {
+    const translated = t(englishName);
+    // Check if translation exists (next-intl returns the key if translation doesn't exist)
+    if (translated && translated !== englishName) {
+      return translated;
+    }
+  } catch {
+    // Translation not found, use English
+  }
+  
+  return englishName;
 }
 
 /**
  * Get translated label for a formula input field.
+ * Uses the English label as the translation key under "labels" namespace.
  * Falls back to English label if translation doesn't exist.
  */
 export function useInputLabel(
@@ -27,17 +44,32 @@ export function useInputLabel(
   inputKey: string,
   input: FormulaInput,
 ): string {
-  const t = useTranslations(`formulas.${formulaId}.input.${inputKey}`);
-  const translated = t("label");
-  // Check if translation exists
-  if (translated && translated !== "label" && !translated.startsWith("formulas.")) {
-    return translated;
+  const locale = useLocale();
+  const englishLabel = input.label ?? inputKey;
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return englishLabel;
   }
-  return input.label ?? inputKey;
+  
+  const t = useTranslations("labels");
+  
+  // Try to get translation using English label as key
+  try {
+    const translated = t(englishLabel);
+    if (translated && translated !== englishLabel) {
+      return translated;
+    }
+  } catch {
+    // Translation not found, use English
+  }
+  
+  return englishLabel;
 }
 
 /**
  * Get translated label for a formula output field.
+ * Uses the English label as the translation key under "labels" namespace.
  * Falls back to English label if translation doesn't exist.
  */
 export function useOutputLabel(
@@ -45,17 +77,32 @@ export function useOutputLabel(
   outputKey: string,
   output: FormulaOutput,
 ): string {
-  const t = useTranslations(`formulas.${formulaId}.output.${outputKey}`);
-  const translated = t("label");
-  // Check if translation exists
-  if (translated && translated !== "label" && !translated.startsWith("formulas.")) {
-    return translated;
+  const locale = useLocale();
+  const englishLabel = output.label ?? outputKey;
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return englishLabel;
   }
-  return output.label ?? outputKey;
+  
+  const t = useTranslations("labels");
+  
+  // Try to get translation using English label as key
+  try {
+    const translated = t(englishLabel);
+    if (translated && translated !== englishLabel) {
+      return translated;
+    }
+  } catch {
+    // Translation not found, use English
+  }
+  
+  return englishLabel;
 }
 
 /**
  * Get translated text for a formula output field.
+ * Uses the English text as the translation key under "labels" namespace.
  * Falls back to English text if translation doesn't exist.
  */
 export function useOutputText(
@@ -65,13 +112,27 @@ export function useOutputText(
 ): string | undefined {
   if (!("text" in output) || !output.text) return undefined;
   
-  const t = useTranslations(`formulas.${formulaId}.output.${outputKey}`);
-  const translated = t("text");
-  // Check if translation exists
-  if (translated && translated !== "text" && !translated.startsWith("formulas.")) {
-    return translated;
+  const locale = useLocale();
+  const englishText = output.text;
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return englishText;
   }
-  return output.text;
+  
+  const t = useTranslations("labels");
+  
+  // Try to get translation using English text as key
+  try {
+    const translated = t(englishText);
+    if (translated && translated !== englishText) {
+      return translated;
+    }
+  } catch {
+    // Translation not found, use English
+  }
+  
+  return englishText;
 }
 
 /**
@@ -92,21 +153,32 @@ export function useTranslatedFormula(formulaId: string): Formula | undefined {
  */
 export function useTranslatedMenuItems(): CategoryMenuItem[] {
   const menuItems = getMenuItems();
-  const t = useTranslations("formulas");
+  const locale = useLocale();
+  
+  // For English, no translation needed
+  if (locale === "en") {
+    return menuItems;
+  }
+  
+  const t = useTranslations("labels");
   
   // Map through menu items and translate labels
   return menuItems.map((category) => ({
     ...category,
     items: category.items.map((item) => {
-      // Extract formula ID from path
-      const formulaId = item.path.replace("/formula/", "");
-      const translatedName = t(`${formulaId}.name`);
-      // Check if translation exists (not just the key being returned)
-      if (translatedName && !translatedName.includes(".name") && !translatedName.startsWith("formulas.")) {
-        return {
-          ...item,
-          label: translatedName,
-        };
+      // Use the English label as the translation key
+      const englishLabel = item.label;
+      try {
+        const translated = t(englishLabel);
+        // Check if translation exists
+        if (translated && translated !== englishLabel) {
+          return {
+            ...item,
+            label: translated,
+          };
+        }
+      } catch {
+        // Translation not found, use English
       }
       return item;
     }),
