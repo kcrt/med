@@ -281,5 +281,104 @@
       "成長ホルモン及びIGF-Ⅰ測定の標準化に関する研究": "http://www.fgs.or.jp/public/05/2008_03.html",
       "Isojima T et al. Standardized centile curves and reference intervals of serum insulin-like growth factor-I ( IGF-I ) levels in a normal Japanese population using the LMS method 2012;59(9):771–80.": "pubmed:22673406"
     }
+  },
+  "free_t4_index": {
+    "name": "Free T4 Index (FT4I)",
+    "input": {
+      "total_t4": {
+        "label": "Total T4 [µg/dL]",
+        "type": "float",
+        "min": 0,
+        "max": 30
+      },
+      "t3_uptake": {
+        "label": "T3 Uptake Rate (T3RU) [%]",
+        "type": "float",
+        "min": 10,
+        "max": 50
+      }
+    },
+    "output": {
+      "ft4_index": {
+        "label": "Free T4 Index",
+        "formula": "total_t4 * t3_uptake / 100",
+        "precision": 2
+      },
+      "note": {
+        "label": "Note",
+        "text": "FT4I provides an estimate of free T4 when direct measurement is unavailable. Normal range varies by laboratory."
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "total_t4": 8.0,
+          "t3_uptake": 30
+        },
+        "output": {
+          "ft4_index": 2.4
+        }
+      }
+    ],
+    "ref": {
+      "Larsen PR et al. Williams Textbook of Endocrinology, 10th ed.": ""
+    }
+  },
+  "t3_t4_ratio": {
+    "name": "T3/T4 Ratio",
+    "input": {
+      "t3": {
+        "label": "T3 [ng/dL]",
+        "type": "float",
+        "min": 10,
+        "max": 500
+      },
+      "t4": {
+        "label": "T4 [µg/dL]",
+        "type": "float",
+        "min": 1,
+        "max": 30
+      }
+    },
+    "output": {
+      "t3_t4_ratio": {
+        "label": "T3/T4 Ratio",
+        "formula": "t3 / t4",
+        "precision": 1
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "formula": "iif(t3_t4_ratio > 20, 'Elevated (>20): Suggests Graves disease or toxic adenoma', t3_t4_ratio >= 14, 'Normal (14-20)', 'Low (<14)')"
+      },
+      "clinical_note": {
+        "label": "Clinical Note",
+        "text": "Elevated T3/T4 ratio (>20) suggests Graves' disease or toxic adenoma with preferential T3 secretion"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "t3": 150,
+          "t4": 10
+        },
+        "output": {
+          "t3_t4_ratio": 15.0,
+          "interpretation": "Normal (14-20)"
+        }
+      },
+      {
+        "input": {
+          "t3": 250,
+          "t4": 10
+        },
+        "output": {
+          "t3_t4_ratio": 25.0,
+          "interpretation": "Elevated (>20): Suggests Graves disease or toxic adenoma"
+        }
+      }
+    ],
+    "ref": {
+      "Baskin HJ, Cobin RH, Duick DS, et al. AACE Medical Guidelines. Endocr Pract. 2002;8(6):457-69": ""
+    }
   }
 }
