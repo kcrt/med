@@ -1,8 +1,26 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations, useLocale, useMessages } from "next-intl";
 import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+
+/**
+ * Helper function to safely get translation for keys that may contain dots.
+ * next-intl interprets dots as path separators, but we're using English text as keys.
+ * This function directly accesses the labels object to avoid path parsing.
+ */
+function getTranslationDirect(
+  labels: Record<string, unknown> | undefined,
+  key: string,
+): string | undefined {
+  if (!labels || typeof labels !== "object") {
+    return undefined;
+  }
+  
+  // Direct property access to avoid dot-splitting
+  const value = labels[key];
+  return typeof value === "string" ? value : undefined;
+}
 
 /**
  * Get translated label for a formula name.
@@ -18,17 +36,13 @@ export function useFormulaName(formulaId: string, formula: Formula): string {
     return englishName;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English name as key
-  try {
-    const translated = t(englishName);
-    // Check if translation exists (next-intl returns the key if translation doesn't exist)
-    if (translated && translated !== englishName) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Get translation directly to handle keys with dots
+  const translated = getTranslationDirect(labels, englishName);
+  if (translated) {
+    return translated;
   }
   
   return englishName;
@@ -52,16 +66,13 @@ export function useInputLabel(
     return englishLabel;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English label as key
-  try {
-    const translated = t(englishLabel);
-    if (translated && translated !== englishLabel) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Get translation directly to handle keys with dots
+  const translated = getTranslationDirect(labels, englishLabel);
+  if (translated) {
+    return translated;
   }
   
   return englishLabel;
@@ -85,16 +96,13 @@ export function useOutputLabel(
     return englishLabel;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English label as key
-  try {
-    const translated = t(englishLabel);
-    if (translated && translated !== englishLabel) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Get translation directly to handle keys with dots
+  const translated = getTranslationDirect(labels, englishLabel);
+  if (translated) {
+    return translated;
   }
   
   return englishLabel;
@@ -120,16 +128,13 @@ export function useOutputText(
     return englishText;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
-  // Try to get translation using English text as key
-  try {
-    const translated = t(englishText);
-    if (translated && translated !== englishText) {
-      return translated;
-    }
-  } catch {
-    // Translation not found, use English
+  // Get translation directly to handle keys with dots
+  const translated = getTranslationDirect(labels, englishText);
+  if (translated) {
+    return translated;
   }
   
   return englishText;
@@ -160,7 +165,8 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     return menuItems;
   }
   
-  const t = useTranslations("labels");
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
   
   // Map through menu items and translate labels
   return menuItems.map((category) => ({
@@ -168,18 +174,16 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     items: category.items.map((item) => {
       // Use the English label as the translation key
       const englishLabel = item.label;
-      try {
-        const translated = t(englishLabel);
-        // Check if translation exists
-        if (translated && translated !== englishLabel) {
-          return {
-            ...item,
-            label: translated,
-          };
-        }
-      } catch {
-        // Translation not found, use English
+      
+      // Get translation directly to handle keys with dots
+      const translated = getTranslationDirect(labels, englishLabel);
+      if (translated) {
+        return {
+          ...item,
+          label: translated,
+        };
       }
+      
       return item;
     }),
   }));
