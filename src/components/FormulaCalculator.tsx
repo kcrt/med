@@ -28,8 +28,10 @@ import {
   validateAssertions,
   type FormulaInputValues,
 } from "@/lib/formula";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { QRCodeExport } from "./QRCodeExport";
+import { ShareButton } from "./ShareButton";
 
 interface FormulaCalculatorProps {
   formula: Formula;
@@ -73,6 +75,7 @@ export function FormulaCalculator({
   }
 
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input);
   const allOutputs = Object.entries(formula.output);
 
@@ -160,6 +163,53 @@ export function FormulaCalculator({
       setAssertionErrors(errors);
     },
   });
+
+  // Handle query parameters on mount
+  useEffect(() => {
+    const initialValues: FormValues = {};
+    let hasQueryParams = false;
+
+    inputKeys.forEach((key) => {
+      const paramValue = searchParams.get(key);
+      if (paramValue !== null) {
+        hasQueryParams = true;
+        const inputDef = formula.input[key];
+        
+        // Convert to appropriate type based on input definition
+        switch (inputDef?.type) {
+          case "int":
+          case "float":
+            const numValue = parseFloat(paramValue);
+            if (!isNaN(numValue)) {
+              initialValues[key] = numValue;
+            }
+            break;
+          case "onoff":
+          case "sex":
+            initialValues[key] = paramValue === "true";
+            break;
+          case "select":
+            // Find the option index by value or label
+            const optionIndex = inputDef.options?.findIndex(
+              (opt) => String(opt.value) === paramValue || opt.label === paramValue
+            ) ?? 0;
+            initialValues[key] = optionIndex >= 0 ? optionIndex : 0;
+            break;
+          case "date":
+            initialValues[key] = paramValue;
+            break;
+          default:
+            initialValues[key] = paramValue;
+        }
+      }
+    });
+
+    // Only update form values if there are query parameters
+    if (hasQueryParams) {
+      form.setValues(initialValues);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const currentInputValues = form.values
     ? getInputValues(form.values as FormValues)
@@ -340,6 +390,12 @@ export function FormulaCalculator({
         formulaId={formulaId}
         inputValues={currentInputValues}
         outputResults={results}
+      />
+
+      {/* Share Button Component */}
+      <ShareButton
+        formula={formula}
+        inputValues={form.values}
       />
     </Card>
   );

@@ -28,5 +28,12 @@
     "noFavoritesDescription": "Star formulas to add them here!",
     "category": "Category",
     "remove": "Remove"
+  },
+  "share": {
+    "title": "Share Calculation",
+    "description": "Copy this URL to share the calculation with input values.",
+    "buttonLabel": "Share with URL",
+    "copyButton": "Copy URL",
+    "copied": "URL copied to clipboard!"
   }
 }
