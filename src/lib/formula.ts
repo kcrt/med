@@ -29,6 +29,10 @@ import pediatrics from "@/formulas/pediatrics.json";
 import psychiatry from "@/formulas/psychiatry.json";
 import pulmonology from "@/formulas/pulmonology.json";
 import renalFunction from "@/formulas/renal-function.json";
+import electrolytes from "@/formulas/electrolytes.json";
+import hematology from "@/formulas/hematology.json";
+import neonatology from "@/formulas/neonatology.json";
+import pediatricScoring from "@/formulas/pediatric-scoring.json";
 
 // Map category names to imported data
 const categoryModules: Record<string, Record<string, Formula>> = {
@@ -38,8 +42,9 @@ const categoryModules: Record<string, Record<string, Formula>> = {
   "Cardiology": cardiology,
   "Endocrinology and Metabolism": endocrinologyAndMetabolism,
   "Renal Function": renalFunction,
+  "Electrolytes and Fluid Balance": electrolytes,
   /* Immunology and Allergy here */
-  /* Hematology here */
+  "Hematology": hematology,
   "Infectious Diseases": infectiousDiseases,
   "Pulmonology": pulmonology,
   "Neurology": neurology,
@@ -48,6 +53,8 @@ const categoryModules: Record<string, Record<string, Formula>> = {
   /* Anethesiology here */
   "Obstetrics": obstetrics,
   "Pediatrics": pediatrics,
+  "Neonatology": neonatology,
+  "Pediatric Scoring Systems": pediatricScoring,
   "Nutrition": nutrition,
   "Psychiatry": psychiatry,
   "Others": others,

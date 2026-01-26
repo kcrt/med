@@ -1,7 +1,7 @@
 {
   "_meta": {
     "version": "2.0.0",
-    "lastModified": "2026-01-25",
+    "lastModified": "2026-01-26",
     "description": "Medical calculation formulas - modular structure"
   },
   "categories": {
@@ -24,6 +24,16 @@
       "file": "renal-function.json",
       "name": "Renal Function",
       "description": "Medical formulas for Renal Function"
+    },
+    "Electrolytes and Fluid Balance": {
+      "file": "electrolytes.json",
+      "name": "Electrolytes and Fluid Balance",
+      "description": "Medical formulas for Electrolytes and Fluid Balance"
+    },
+    "Hematology": {
+      "file": "hematology.json",
+      "name": "Hematology",
+      "description": "Medical formulas for Hematology"
     },
     "Pulmonology": {
       "file": "pulmonology.json",
@@ -74,6 +84,16 @@
       "file": "emergency-medicine.json",
       "name": "Emergency Medicine",
       "description": "Medical formulas for Emergency Medicine"
+    },
+    "Neonatology": {
+      "file": "neonatology.json",
+      "name": "Neonatology",
+      "description": "Medical formulas for Neonatology"
+    },
+    "Pediatric Scoring Systems": {
+      "file": "pediatric-scoring.json",
+      "name": "Pediatric Scoring Systems",
+      "description": "Pediatric early warning and organ failure assessment scores"
     }
   }
 }
