@@ -1,0 +1,161 @@
+import { NextRequest } from "next/server";
+import { describe, expect, it } from "vitest";
+import { POST } from "../route";
+
+/**
+ * Helper function to create a mock NextRequest object
+ */
+function createMockRequest(body: unknown): NextRequest {
+  return new NextRequest("http://localhost:3000/api/calculate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+describe("POST /api/calculate", () => {
+  describe("BMI Calculation", () => {
+    it("should calculate BMI for valid inputs", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 70 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(24.2, 1);
+      expect(data.who_diag).toBe("normal");
+    });
+
+    it("should calculate BMI for overweight person", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 80 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(27.7, 1);
+      expect(data.who_diag).toBe("overweight");
+    });
+
+    it("should calculate BMI for obese person", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 90 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(31.1, 1);
+      expect(data.who_diag).toBe("obese");
+    });
+  });
+
+  describe("Error Handling", () => {
+    it("should return error for unsupported formula", async () => {
+      const request = createMockRequest({
+        formula: "nonexistent_formula",
+        parameters: { a: 5, b: 3 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Formula not supported" });
+    });
+
+    it("should return error for missing parameters", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Invalid input" });
+    });
+
+    it("should return error for invalid parameter types", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: "170", weight: 70 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Invalid input" });
+    });
+
+    it("should return error for missing formula", async () => {
+      const request = createMockRequest({
+        parameters: { height: 170, weight: 70 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Invalid input" });
+    });
+
+    it("should return error for empty request body", async () => {
+      const request = createMockRequest({});
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Invalid input" });
+    });
+
+    it("should return error for malformed JSON", async () => {
+      const request = new NextRequest("http://localhost:3000/api/calculate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "{ invalid json",
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(data).toEqual({ error: "Invalid input" });
+    });
+  });
+
+  describe("Other Formulas", () => {
+    it("should work with LMS Z-Score formula", async () => {
+      const request = createMockRequest({
+        formula: "lms_zscore",
+        parameters: {
+          value: 50,
+          l: 1,
+          m: 50,
+          s: 0.1,
+        },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.zscore).toBe(0);
+    });
+  });
+});
