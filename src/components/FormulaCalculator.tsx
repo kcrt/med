@@ -17,7 +17,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   evaluateFormulaOutputs,
@@ -108,6 +108,7 @@ export function FormulaCalculator({
   }
 
   const locale = useLocale();
+  const t = useTranslations("calculator");
   const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input);
   const allOutputs = Object.entries(formula.output);
@@ -297,7 +298,7 @@ export function FormulaCalculator({
       <Stack gap="md">
         <Group>
           <IconCalculator size={20} />
-          <Title order={3}>計算</Title>
+          <Title order={3}>{t("calculate")}</Title>
         </Group>
 
         <form>
@@ -315,8 +316,8 @@ export function FormulaCalculator({
                   return (
                     <Radio.Group key={key} label={label} {...inputProps}>
                       <Group>
-                        <Radio value="true" label="Male" />
-                        <Radio value="false" label="Female" />
+                        <Radio value="true" label={t("male")} />
+                        <Radio value="false" label={t("female")} />
                       </Group>
                     </Radio.Group>
                   );
@@ -364,7 +365,7 @@ export function FormulaCalculator({
 
         {/* Display assertion errors if any */}
         {assertionErrors.length > 0 && (
-          <Alert variant="light" color="red" title="入力エラー">
+          <Alert variant="light" color="red" title={t("inputError")}>
             {assertionErrors.map((error: string, i: number) => (
               <Text key={i} size="sm">
                 {error}
@@ -377,7 +378,7 @@ export function FormulaCalculator({
         {(hasValidInputs || allOutputs.some(([, def]) => hasText(def))) && (
           <>
             <Box mt="md">
-              <Title order={4}>結果</Title>
+              <Title order={4}>{t("result")}</Title>
             </Box>
             <Stack gap="xs">
               {allOutputs.map(([key, outputDef]) => {
@@ -438,10 +439,10 @@ export function FormulaCalculator({
           <Alert
             variant="light"
             color="yellow"
-            title="計算できません"
+            title={t("calculationError")}
             icon={<IconCalculator size={16} />}
           >
-            入力値を確認してください
+            {t("inputError")}
           </Alert>
         )}
       </Stack>

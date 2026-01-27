@@ -40,5 +40,13 @@
     "copyButton": "Copy URL",
     "copied": "URL copied to clipboard!"
   },
+  "calculator": {
+    "calculate": "Calculate",
+    "result": "Result",
+    "inputError": "Input Error",
+    "calculationError": "Cannot Calculate",
+    "male": "Male",
+    "female": "Female"
+  },
   "labels": {}
 }

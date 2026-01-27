@@ -61,6 +61,14 @@
     "copyButton": "URLをコピー",
     "copied": "URLをクリップボードにコピーしました！"
   },
+  "calculator": {
+    "calculate": "計算",
+    "result": "結果",
+    "inputError": "入力エラー",
+    "calculationError": "計算できません",
+    "male": "男性",
+    "female": "女性"
+  },
   "labels": {
     "BMI (Adult)": "BMI (成人)",
     "Height [cm]": "身長 [cm]",
