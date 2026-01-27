@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useDebug } from "@/lib/use-debug";
 import { DevModeBar } from "./DevModeBar";
-import "tailwindcss"
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle, close }] = useDisclosure();
@@ -37,18 +36,16 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
         <Group h="100%" px="md" pos="relative">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Link href={`/${locale}`}>
-            <Text
-              fw={700}
-              size="xl"
-              style={{ cursor: "pointer" }}
-            >
+            <Text fw={700} size="xl" style={{ cursor: "pointer" }}>
               {t("title")}
             </Text>
           </Link>
           {isDebug && (
             <div className="dev-mode-toolbar">
               <DevModeBar />
-              <Badge className="mr-4" color="red" size="lg" radius="sm">DEV MODE</Badge>
+              <Badge className="mr-4" color="red" size="lg" radius="sm">
+                DEV MODE
+              </Badge>
             </div>
           )}
         </Group>
