@@ -15,8 +15,8 @@ const jaContent = readFileSync(
 
 // Pre-render HTML at build time
 const renderedHtmlContent: Record<string, string> = {
-  en: marked.parse(enContent, { async: false }) as string,
-  ja: marked.parse(jaContent, { async: false }) as string,
+  en: marked.parse(enContent, { async: false }),
+  ja: marked.parse(jaContent, { async: false }),
 };
 
 /**
