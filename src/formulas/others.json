@@ -1,4 +1,182 @@
 {
+  "add": {
+    "name": "Addition",
+    "input": {
+      "a": {
+        "label": "First number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "b": {
+        "label": "Second number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      }
+    },
+    "output": {
+      "result": {
+        "label": "Sum",
+        "formula": "a + b"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "a": 5,
+          "b": 3
+        },
+        "output": {
+          "result": 8
+        }
+      },
+      {
+        "input": {
+          "a": 10,
+          "b": -3
+        },
+        "output": {
+          "result": 7
+        }
+      }
+    ]
+  },
+  "subtract": {
+    "name": "Subtraction",
+    "input": {
+      "a": {
+        "label": "First number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "b": {
+        "label": "Second number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      }
+    },
+    "output": {
+      "result": {
+        "label": "Difference",
+        "formula": "a - b"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "a": 10,
+          "b": 3
+        },
+        "output": {
+          "result": 7
+        }
+      },
+      {
+        "input": {
+          "a": 3,
+          "b": 10
+        },
+        "output": {
+          "result": -7
+        }
+      }
+    ]
+  },
+  "multiply": {
+    "name": "Multiplication",
+    "input": {
+      "a": {
+        "label": "First number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "b": {
+        "label": "Second number",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      }
+    },
+    "output": {
+      "result": {
+        "label": "Product",
+        "formula": "a * b"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "a": 4,
+          "b": 5
+        },
+        "output": {
+          "result": 20
+        }
+      },
+      {
+        "input": {
+          "a": -3,
+          "b": 4
+        },
+        "output": {
+          "result": -12
+        }
+      }
+    ]
+  },
+  "divide": {
+    "name": "Division",
+    "input": {
+      "a": {
+        "label": "Numerator",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      },
+      "b": {
+        "label": "Denominator",
+        "type": "float",
+        "min": -99999999,
+        "max": 99999999
+      }
+    },
+    "output": {
+      "result": {
+        "label": "Quotient",
+        "formula": "a / b"
+      }
+    },
+    "assert": [
+      {
+        "condition": "b != 0",
+        "message": "Division by zero"
+      }
+    ],
+    "test": [
+      {
+        "input": {
+          "a": 20,
+          "b": 4
+        },
+        "output": {
+          "result": 5
+        }
+      },
+      {
+        "input": {
+          "a": 10,
+          "b": 3
+        },
+        "output": {
+          "result": 3.3333333333333335
+        }
+      }
+    ]
+  },
   "lms_zscore": {
     "name": "LMS Z-Score Calculation",
     "input": {

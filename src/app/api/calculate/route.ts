@@ -1,51 +1,26 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import {
+  evaluateFormulaOutputs,
+  getFormula,
+  isCalculationFormula,
+  validateAssertions,
+} from "@/lib/formula";
 
 /**
  * Schema for validating the incoming request body.
- * Validates that the request contains a formula string and parameters object
- * with numeric 'a' and 'b' values.
+ * Validates that the request contains a formula string and parameters object.
  */
 const CalculateRequestSchema = z.object({
   formula: z.string(),
-  parameters: z.object({
-    a: z.number(),
-    b: z.number(),
-  }),
+  parameters: z.record(z.string(), z.union([z.number(), z.string()])),
 });
-
-/**
- * Performs the calculation based on the specified formula.
- *
- * @param formula - The formula name (add, subtract, multiply, divide)
- * @param a - First operand
- * @param b - Second operand
- * @returns The calculation result
- * @throws {Error} If the formula is not supported
- */
-function calculate(formula: string, a: number, b: number): number {
-  switch (formula) {
-    case "add":
-      return a + b;
-    case "subtract":
-      return a - b;
-    case "multiply":
-      return a * b;
-    case "divide":
-      if (b === 0) {
-        throw new Error("Division by zero");
-      }
-      return a / b;
-    default:
-      throw new Error("Formula not supported");
-  }
-}
 
 /**
  * POST /api/calculate
  *
- * Endpoint for performing formula-based calculations.
+ * Endpoint for performing formula-based calculations using the formula system.
  *
  * Request body format:
  * ```json
@@ -67,8 +42,8 @@ function calculate(formula: string, a: number, b: number): number {
  *
  * Error responses:
  * - Invalid input: `{ "error": "Invalid input" }`
- * - Unsupported formula: `{ "error": "Formula not supported" }`
- * - Division by zero: `{ "error": "Division by zero" }`
+ * - Formula not found: `{ "error": "Formula not supported" }`
+ * - Assertion errors: `{ "error": "Division by zero" }` (or other assertion message)
  *
  * @param request - The incoming request object
  * @returns JSON response with either result or error
@@ -85,17 +60,85 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { formula, parameters } = validation.data;
+    const { formula: formulaId, parameters } = validation.data;
 
-    // Perform calculation
+    // Get formula definition from the formula system
+    const formula = getFormula(formulaId);
+
+    if (!formula) {
+      return NextResponse.json(
+        { error: "Formula not supported" },
+        { status: 400 },
+      );
+    }
+
+    // Check if it's a calculation formula
+    if (!isCalculationFormula(formula)) {
+      return NextResponse.json(
+        { error: "Formula not supported" },
+        { status: 400 },
+      );
+    }
+
+    // Validate that all required input parameters are provided and have correct types
+    const requiredInputs = Object.keys(formula.input);
+    const _providedInputs = Object.keys(parameters);
+    const missingInputs = requiredInputs.filter(
+      (input) => !(input in parameters),
+    );
+
+    if (missingInputs.length > 0) {
+      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    // Validate input types
+    for (const [key, inputDef] of Object.entries(formula.input)) {
+      const value = parameters[key];
+      const expectedType = inputDef.type;
+
+      // Check if the type matches
+      if (expectedType === "float" || expectedType === "int") {
+        if (typeof value !== "number") {
+          return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+        }
+      } else if (expectedType === "string") {
+        if (typeof value !== "string") {
+          return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+        }
+      }
+    }
+
+    // Validate assertions if they exist
+    if (formula.assert) {
+      const assertionErrors = validateAssertions(formula.assert, parameters);
+      if (assertionErrors.length > 0) {
+        return NextResponse.json(
+          { error: assertionErrors[0] },
+          { status: 400 },
+        );
+      }
+    }
+
+    // Evaluate the formula
     try {
-      const result = calculate(formula, parameters.a, parameters.b);
+      const outputs = evaluateFormulaOutputs(formula, parameters);
+
+      // Return the first output value (typically "result")
+      const outputKeys = Object.keys(outputs);
+      if (outputKeys.length === 0) {
+        return NextResponse.json(
+          { error: "No output calculated" },
+          { status: 400 },
+        );
+      }
+
+      const resultKey = outputKeys[0];
+      const result = outputs[resultKey];
+
       return NextResponse.json({ result });
-    } catch (error) {
-      // Handle calculation errors (division by zero, unsupported formula)
-      const message =
-        error instanceof Error ? error.message : "Calculation error";
-      return NextResponse.json({ error: message }, { status: 400 });
+    } catch (_error) {
+      // Handle evaluation errors
+      return NextResponse.json({ error: "Calculation error" }, { status: 400 });
     }
   } catch {
     // Handle JSON parsing errors
