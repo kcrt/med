@@ -32,6 +32,19 @@ body {
   bottom: 0;
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding-right: 16px;
+  pointer-events: none;
+}
+
+.dev-mode-toolbar::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding-left: 64px;
+  width: 200px;
   background: repeating-linear-gradient(
     45deg,
     #fbbf24,
@@ -41,13 +54,12 @@ body {
   );
   mask-image: linear-gradient(to left, black 60%, transparent 100%);
   -webkit-mask-image: linear-gradient(to left, black 60%, transparent 100%);
-  opacity: 1;
-  pointer-events: none;
-  color: white;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 1.5px black;
+  z-index: -1;
+}
+
+/* Enable pointer events for interactive elements in the toolbar */
+.dev-mode-toolbar > * {
+  pointer-events: auto;
 }
 
 /* Tailwind CSS import - must come after custom rules for Safari compatibility */

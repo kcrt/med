@@ -26,10 +26,10 @@ export function DevModeBar() {
     <Group gap="xs">
       <Button
         size="xs"
-        variant="light"
+        variant="filled"
         onClick={() => switchLocale(nextLocale)}
       >
-        {LOCALE_LABELS[nextLocale]}
+        {LOCALE_LABELS[locale]}
       </Button>
     </Group>
   );
