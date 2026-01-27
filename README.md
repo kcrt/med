@@ -24,6 +24,7 @@ Tech Stack
 - **Vitest** for testing
 - **Zod** for runtime type validation
 - **qrcode.react** for QR code generation
+- **marked** for markdown rendering
 
 Locale Configuration
 --------------------

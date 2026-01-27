@@ -4,12 +4,14 @@
     "description": "Medical calculator app"
   },
   "home": {
-    "title": "Mantine is working!",
-    "description": "This page uses Mantine v8 components with your Geist fonts.",
-    "card": {
-      "title": "Example Card",
-      "description": "Try the buttons below:"
-    }
+    "title": "Welcome to Medicalculator",
+    "description": "A comprehensive medical calculator for healthcare professionals. Select a category from the sidebar to explore available formulas.",
+    "featuresTitle": "Features",
+    "feature1": "Evidence-based medical formulas and scoring systems",
+    "feature2": "Support for multiple categories including cardiology, nephrology, and pediatrics",
+    "feature3": "Easy-to-use interface with instant results",
+    "selectFromSidebar": "Select a Formula from the Sidebar",
+    "sidebarHint": "Use the navigation menu on the left to browse formulas by category"
   },
   "config": {
     "title": "Settings",

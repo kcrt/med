@@ -17,6 +17,7 @@
     "@tabler/icons-react": "^3.36.1",
     "expr-eval": "^2.0.2",
     "isomorphic-dompurify": "^2.35.0",
+    "marked": "^17.0.1",
     "next": "16.1.4",
     "next-intl": "^4.7.0",
     "qrcode.react": "^4.1.0",

@@ -6,3 +6,8 @@ declare module "*.css" {
 declare module "@mantine/core/styles.css" {
   export const styles: Record<string, string>;
 }
+
+declare module "*.md" {
+  const content: string;
+  export default content;
+}
