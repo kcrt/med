@@ -4,35 +4,11 @@ import { useTranslations, useLocale, useMessages } from "next-intl";
 import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { DEFAULT_LOCALE } from "./locale";
-
-/**
- * Placeholder used to escape dots in translation keys.
- * next-intl treats dots as path separators, so we replace them with this safe placeholder.
- */
-const DOT_PLACEHOLDER = "{{dot}}";
-
-/**
- * Escape dots in translation keys to avoid next-intl's dot-splitting behavior.
- */
-function escapeTranslationKey(key: string): string {
-  return key.replace(/\./g, DOT_PLACEHOLDER);
-}
-
-/**
- * Helper function to safely get translation from the labels namespace.
- * Tries the given key directly without any path interpretation.
- */
-function getTranslationDirect(
-  labels: Record<string, unknown> | undefined,
-  key: string,
-): string | undefined {
-  if (!labels) {
-    return undefined;
-  }
-
-  const value = labels[key];
-  return typeof value === "string" ? value : undefined;
-}
+import {
+  DOT_PLACEHOLDER,
+  escapeTranslationKey,
+  getTranslationDirect,
+} from "./translation-utils";
 
 /**
  * Get translated label for a formula name.
