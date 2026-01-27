@@ -1,30 +1,28 @@
-import { readFileSync } from "fs";
-import { join } from "path";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { marked } from "marked";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./locale";
 
-// Read markdown files at module initialization (build time)
+// Read and pre-render markdown files at build time
 // This ensures the content is embedded in the build bundle
-const enContent = readFileSync(
-  join(process.cwd(), "src", "toppage", "en.md"),
-  "utf-8"
-);
-const jaContent = readFileSync(
-  join(process.cwd(), "src", "toppage", "ja.md"),
-  "utf-8"
-);
+const renderedHtmlContent: Record<string, string> = {};
 
-const markdownContent: Record<string, string> = {
-  en: enContent,
-  ja: jaContent,
-};
+for (const locale of SUPPORTED_LOCALES) {
+  const filePath = join(process.cwd(), "src", "toppage", `${locale}.md`);
+
+  if (existsSync(filePath)) {
+    const content = readFileSync(filePath, "utf-8");
+    renderedHtmlContent[locale] = marked.parse(content, { async: false });
+  }
+}
 
 /**
- * Get rendered markdown content for a locale.
- * Content is embedded at build time via static file reads.
+ * Get pre-rendered HTML content for a locale.
+ * Content is rendered at build time for optimal performance.
+ * Falls back to default locale if the requested locale is not available.
  * @param locale - The locale string (e.g., 'en', 'ja')
- * @returns The rendered HTML string
+ * @returns The pre-rendered HTML string
  */
 export function getToppageMarkdown(locale: string): string {
-  const content = markdownContent[locale] || markdownContent["en"];
-  return marked.parse(content, { async: false });
+  return renderedHtmlContent[locale] || renderedHtmlContent[DEFAULT_LOCALE];
 }
