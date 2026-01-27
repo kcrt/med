@@ -4,9 +4,9 @@ import { Card, Container, Select, Stack, Text, Title } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import type { Locale } from "@/lib/locale";
 
-const LOCALES = ["en", "ja"] as const;
-type LocaleValue = (typeof LOCALES)[number] | "auto";
+type LocaleValue = Locale | "auto";
 
 export default function ConfigPage() {
   const t = useTranslations("config");

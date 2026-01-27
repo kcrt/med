@@ -1,11 +1,12 @@
 import createMiddleware from "next-intl/middleware";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./lib/locale";
 
 export default createMiddleware({
   // A list of all locales that are supported
-  locales: ["en", "ja"],
+  locales: SUPPORTED_LOCALES,
 
   // Used when no locale matches
-  defaultLocale: "en",
+  defaultLocale: DEFAULT_LOCALE,
 
   // Never show locale prefix in URL
   localePrefix: "never",

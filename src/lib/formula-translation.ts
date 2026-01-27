@@ -3,6 +3,7 @@
 import { useTranslations, useLocale, useMessages } from "next-intl";
 import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+import { DEFAULT_LOCALE } from "./locale";
 
 /**
  * Placeholder used to escape dots in translation keys.
@@ -43,7 +44,7 @@ export function useFormulaName(formulaId: string, formula: Formula): string {
   const englishName = formula.name ?? formulaId;
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return englishName;
   }
   
@@ -74,7 +75,7 @@ export function useInputLabel(
   const englishLabel = input.label ?? inputKey;
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return englishLabel;
   }
   
@@ -100,7 +101,7 @@ export function useOptionLabel(optionLabel: string): string {
   const locale = useLocale();
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return optionLabel;
   }
   
@@ -131,7 +132,7 @@ export function useOutputLabel(
   const englishLabel = output.label ?? outputKey;
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return englishLabel;
   }
   
@@ -164,7 +165,7 @@ export function useOutputText(
   const englishText = output.text;
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return englishText;
   }
   
@@ -210,7 +211,7 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
   const locale = useLocale();
   
   // For English, no translation needed
-  if (locale === "en") {
+  if (locale === DEFAULT_LOCALE) {
     return menuItems;
   }
   

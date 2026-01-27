@@ -1,6 +1,6 @@
 "use client";
 
-import { AppShell, Burger, Group, Text } from "@mantine/core";
+import { AppShell, Badge, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./Navbar";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useDebug } from "@/lib/use-debug";
+import { DevModeBar } from "./DevModeBar";
+import "tailwindcss"
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle, close }] = useDisclosure();
@@ -43,7 +45,12 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
               {t("title")}
             </Text>
           </Link>
-          {isDebug && <div className="debug-indicator">DEV MODE</div>}
+          {isDebug && (
+            <div className="dev-mode-toolbar">
+              <DevModeBar />
+              <Badge className="mr-4" color="red" size="lg" radius="sm">DEV MODE</Badge>
+            </div>
+          )}
         </Group>
       </AppShell.Header>
 
