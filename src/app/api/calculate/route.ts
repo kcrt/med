@@ -5,16 +5,19 @@ import {
   evaluateFormulaOutputs,
   getFormula,
   isCalculationFormula,
+  shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
 
 /**
  * Schema for validating the incoming request body.
  * Validates that the request contains a formula string and parameters object.
+ * Optionally accepts a locale parameter for locale-specific outputs.
  */
 const CalculateRequestSchema = z.object({
   formula: z.string(),
   parameters: z.record(z.string(), z.union([z.number(), z.string()])),
+  locale: z.string().optional(),
 });
 
 /**
@@ -29,7 +32,8 @@ const CalculateRequestSchema = z.object({
  *   "parameters": {
  *     "height": 170,
  *     "weight": 70
- *   }
+ *   },
+ *   "locale": "en"  // Optional: filters locale-specific outputs (e.g., "en", "ja")
  * }
  * ```
  *
@@ -61,7 +65,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { formula: formulaId, parameters } = validation.data;
+    const { formula: formulaId, parameters, locale } = validation.data;
 
     // Get formula definition from the formula system
     const formula = getFormula(formulaId);
@@ -123,15 +127,27 @@ export async function POST(request: NextRequest) {
     try {
       const outputs = evaluateFormulaOutputs(formula, parameters);
 
+      // Filter outputs based on locale if provided
+      let filteredOutputs = outputs;
+      if (locale && isCalculationFormula(formula)) {
+        filteredOutputs = {};
+        for (const [key, value] of Object.entries(outputs)) {
+          const outputDef = formula.output[key];
+          if (outputDef && shouldDisplayForLocale(outputDef, locale)) {
+            filteredOutputs[key] = value;
+          }
+        }
+      }
+
       // Return all output values
-      if (Object.keys(outputs).length === 0) {
+      if (Object.keys(filteredOutputs).length === 0) {
         return NextResponse.json(
           { error: "No output calculated" },
           { status: 400 },
         );
       }
 
-      return NextResponse.json(outputs);
+      return NextResponse.json(filteredOutputs);
     } catch (_error) {
       // Handle evaluation errors
       return NextResponse.json({ error: "Calculation error" }, { status: 400 });

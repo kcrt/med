@@ -158,4 +158,53 @@ describe("POST /api/calculate", () => {
       expect(data.zscore).toBe(0);
     });
   });
+
+  describe("Locale Support", () => {
+    it("should filter outputs based on locale (ja)", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 70 },
+        locale: "ja",
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(24.2, 1);
+      expect(data.who_diag).toBe("normal");
+      expect(data.jasso_diag).toBe("Normal"); // Japan-specific output
+    });
+
+    it("should filter outputs based on locale (en)", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 70 },
+        locale: "en",
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(24.2, 1);
+      expect(data.who_diag).toBe("normal");
+      expect(data.jasso_diag).toBeUndefined(); // Japan-specific output filtered out
+    });
+
+    it("should return all outputs when locale is not specified", async () => {
+      const request = createMockRequest({
+        formula: "bmi_adult",
+        parameters: { height: 170, weight: 70 },
+      });
+
+      const response = await POST(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.BMI).toBeCloseTo(24.2, 1);
+      expect(data.who_diag).toBe("normal");
+      expect(data.jasso_diag).toBe("Normal"); // Included when no locale specified
+    });
+  });
 });

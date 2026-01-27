@@ -22,9 +22,16 @@ The endpoint leverages the existing formula evaluation system:
   "parameters": {
     "height": 170,        // Parameters as defined by the formula's input specification
     "weight": 70
-  }
+  },
+  "locale": "en"          // Optional: filters outputs by locale (e.g., "en", "ja")
 }
 ```
+
+### Locale Parameter (Optional)
+The `locale` parameter filters outputs based on locale-specific restrictions defined in formulas:
+- Outputs with `locales_in`: Only included if locale matches
+- Outputs with `locales_not_in`: Excluded if locale matches
+- When `locale` is omitted: All outputs are returned regardless of locale restrictions
 
 ## Available Formulas
 The API supports all formulas defined in the formula system. Some examples:
@@ -92,13 +99,38 @@ curl -X POST http://localhost:3000/api/calculate \
   }'
 ```
 
-**Response:**
+**Response (all outputs):**
+```json
+{
+  "BMI": 24.2,
+  "who_diag": "normal",
+  "jasso_diag": "Normal"
+}
+```
+
+### BMI Calculation with Locale Filter
+```bash
+# English locale - filters out Japan-specific outputs
+curl -X POST http://localhost:3000/api/calculate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "formula": "bmi_adult",
+    "parameters": {
+      "height": 170,
+      "weight": 70
+    },
+    "locale": "en"
+  }'
+```
+
+**Response (locale-filtered):**
 ```json
 {
   "BMI": 24.2,
   "who_diag": "normal"
 }
 ```
+Note: `jasso_diag` is excluded because it has `"locales_in": ["ja"]`
 
 ### LMS Z-Score Calculation
 ```bash
@@ -138,7 +170,8 @@ This endpoint provides API access to the entire formula system. Key features:
 1. **Type Safety**: Validates input types match formula definitions
 2. **Assertions**: Enforces formula-defined constraints
 3. **All Outputs**: Returns all calculated outputs from the formula
-4. **Extensible**: Automatically supports new formulas added to the system
+4. **Locale Filtering**: Optionally filters outputs based on locale restrictions
+5. **Extensible**: Automatically supports new formulas added to the system
 
 ## Adding New Formulas
 To add a new formula that's accessible via this API:
