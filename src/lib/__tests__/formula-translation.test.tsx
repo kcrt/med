@@ -29,12 +29,9 @@ describe("formula-translation", () => {
         output: {},
       };
 
-      const { result } = renderHook(
-        () => useFormulaName("test", formula),
-        {
-          wrapper: createWrapper("en", {}),
-        }
-      );
+      const { result } = renderHook(() => useFormulaName("test", formula), {
+        wrapper: createWrapper("en", {}),
+      });
 
       expect(result.current).toBe("Test Formula");
     });
@@ -52,12 +49,9 @@ describe("formula-translation", () => {
         },
       };
 
-      const { result } = renderHook(
-        () => useFormulaName("test", formula),
-        {
-          wrapper: createWrapper("ja", messages),
-        }
-      );
+      const { result } = renderHook(() => useFormulaName("test", formula), {
+        wrapper: createWrapper("ja", messages),
+      });
 
       expect(result.current).toBe("テスト式");
     });
@@ -73,12 +67,9 @@ describe("formula-translation", () => {
         labels: {},
       };
 
-      const { result } = renderHook(
-        () => useFormulaName("test", formula),
-        {
-          wrapper: createWrapper("ja", messages),
-        }
-      );
+      const { result } = renderHook(() => useFormulaName("test", formula), {
+        wrapper: createWrapper("ja", messages),
+      });
 
       expect(result.current).toBe("Untranslated Formula");
     });
@@ -95,7 +86,7 @@ describe("formula-translation", () => {
         () => useOutputText("test", "output", output),
         {
           wrapper: createWrapper("en", {}),
-        }
+        },
       );
 
       expect(result.current).toBe("This is a test text.");
@@ -110,7 +101,8 @@ describe("formula-translation", () => {
       const messages = {
         labels: {
           // Use semantic key for text entries (with underscores)
-          "abcd2i_note_text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
+          abcd2i_note_text:
+            "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
         },
       };
 
@@ -118,11 +110,11 @@ describe("formula-translation", () => {
         () => useOutputText("abcd2i", "note", output),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result.current).toBe(
-        "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
+        "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。",
       );
     });
 
@@ -135,7 +127,7 @@ describe("formula-translation", () => {
         () => useOutputText("test", "output", output),
         {
           wrapper: createWrapper("en", {}),
-        }
+        },
       );
 
       expect(result.current).toBeUndefined();
@@ -159,7 +151,7 @@ describe("formula-translation", () => {
         () => useInputLabel("test", "height", input),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result.current).toBe("身長 [cm]");
@@ -179,7 +171,7 @@ describe("formula-translation", () => {
         () => useOptionLabel("3-14 years"),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result1.current).toBe("3-14歳");
@@ -188,7 +180,7 @@ describe("formula-translation", () => {
         () => useOptionLabel("15-44 years"),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result2.current).toBe("15-44歳");
@@ -201,12 +193,9 @@ describe("formula-translation", () => {
         },
       };
 
-      const { result } = renderHook(
-        () => useOptionLabel("CRP ≥3.0 mg/dL"),
-        {
-          wrapper: createWrapper("ja", messages),
-        }
-      );
+      const { result } = renderHook(() => useOptionLabel("CRP ≥3.0 mg/dL"), {
+        wrapper: createWrapper("ja", messages),
+      });
 
       expect(result.current).toBe("CRP ≥3.0 mg/dL");
     });
@@ -220,7 +209,7 @@ describe("formula-translation", () => {
         () => useOptionLabel("Untranslated Option"),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result.current).toBe("Untranslated Option");
@@ -244,7 +233,7 @@ describe("formula-translation", () => {
         () => useOutputLabel("test", "egfr", output),
         {
           wrapper: createWrapper("ja", messages),
-        }
+        },
       );
 
       expect(result.current).toBe("推算GFR [mL/min/1.73m²]");
@@ -258,7 +247,7 @@ describe("formula-translation", () => {
       });
 
       const pediatricsCategory = result.current.find(
-        (category) => category.label === "小児科"
+        (category) => category.label === "小児科",
       );
       expect(pediatricsCategory).toBeDefined();
     });
@@ -269,12 +258,12 @@ describe("formula-translation", () => {
       });
 
       const bodyStructureCategory = result.current.find(
-        (category) => category.label === "体格指数"
+        (category) => category.label === "体格指数",
       );
       expect(bodyStructureCategory).toBeDefined();
 
       const bmiItem = bodyStructureCategory?.items.find(
-        (item) => item.label === "BMI (小児)"
+        (item) => item.label === "BMI (小児)",
       );
       expect(bmiItem).toBeDefined();
     });

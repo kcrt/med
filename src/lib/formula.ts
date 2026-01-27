@@ -32,27 +32,30 @@ import pediatricScoring from "@/formulas/pediatric-scoring.json";
 // Map category names to imported data
 const categoryModules: Record<string, Record<string, Formula>> = {
   "Body Structure Index": bodyStructureIndex as Record<string, Formula>,
-  "Gastroenterology": gastroenterology as Record<string, Formula>,
-  "Hepatology": hepatology as Record<string, Formula>,
-  "Cardiology": cardiology as Record<string, Formula>,
-  "Endocrinology and Metabolism": endocrinologyAndMetabolism as Record<string, Formula>,
+  Gastroenterology: gastroenterology as Record<string, Formula>,
+  Hepatology: hepatology as Record<string, Formula>,
+  Cardiology: cardiology as Record<string, Formula>,
+  "Endocrinology and Metabolism": endocrinologyAndMetabolism as Record<
+    string,
+    Formula
+  >,
   "Renal Function": renalFunction as Record<string, Formula>,
   "Electrolytes and Fluid Balance": electrolytes as Record<string, Formula>,
   /* Immunology and Allergy here */
-  "Hematology": hematology as Record<string, Formula>,
+  Hematology: hematology as Record<string, Formula>,
   "Infectious Diseases": infectiousDiseases as Record<string, Formula>,
-  "Pulmonology": pulmonology as Record<string, Formula>,
-  "Neurology": neurology as Record<string, Formula>,
+  Pulmonology: pulmonology as Record<string, Formula>,
+  Neurology: neurology as Record<string, Formula>,
   /* Toxin here */
   "Emergency Medicine": emergencyMedicine as Record<string, Formula>,
   /* Anethesiology here */
-  "Obstetrics": obstetrics as Record<string, Formula>,
-  "Pediatrics": pediatrics as Record<string, Formula>,
-  "Neonatology": neonatology as Record<string, Formula>,
+  Obstetrics: obstetrics as Record<string, Formula>,
+  Pediatrics: pediatrics as Record<string, Formula>,
+  Neonatology: neonatology as Record<string, Formula>,
   "Pediatric Scoring Systems": pediatricScoring as Record<string, Formula>,
-  "Nutrition": nutrition as Record<string, Formula>,
-  "Psychiatry": psychiatry as Record<string, Formula>,
-  "Others": others as Record<string, Formula>,
+  Nutrition: nutrition as Record<string, Formula>,
+  Psychiatry: psychiatry as Record<string, Formula>,
+  Others: others as Record<string, Formula>,
 };
 
 // Reconstruct the original formulaJson structure from modular files
@@ -139,8 +142,6 @@ export function shouldDisplayForLocale(
   // No locale restrictions: show for all
   return true;
 }
-
-
 
 /**
  * Singleton instance of the validated formula data.
@@ -276,7 +277,22 @@ export function erf(x: number): number {
   return (2 * sum) / Math.sqrt(Math.PI);
 }
 
+/**
+ * Helper function to calculate factorial.
+ *
+ * @param n - The number to calculate factorial for (must be non-negative integer)
+ * @returns The factorial of n
+ * @throws {Error} If n is negative or not an integer
+ */
 function factorialHelper(n: number): number {
+  // Validate input
+  if (n < 0) {
+    throw new Error("Factorial is not defined for negative numbers");
+  }
+  if (!Number.isInteger(n)) {
+    throw new Error("Factorial is only defined for integers");
+  }
+
   let result = 1;
   for (let i = 2; i <= n; i++) {
     result *= i;
@@ -344,7 +360,7 @@ export function dateparse(dateString: string): number {
  * concat(40, ' weeks ', 5, ' days') // Returns "40 weeks 5 days"
  */
 export function concat(...args: unknown[]): string {
-  return args.join('');
+  return args.join("");
 }
 
 // Register custom functions
@@ -390,6 +406,12 @@ export type FormulaOutputValues = Record<string, number | string>;
  * evaluateFormula("weight/(height/100)/(height/100)", { height: 170, weight: 70 })
  * // Returns 24.224...
  * ```
+ *
+ * @security
+ * CRITICAL: The formula expression MUST come from trusted `formula.json` files only.
+ * NEVER pass unsanitized user-provided strings to this function, as expr-eval
+ * could evaluate potentially dangerous expressions. All formulas are defined
+ * by developers in the formulas/ directory and validated at build time.
  */
 export function evaluateFormula(
   formula: string,
@@ -478,13 +500,19 @@ export function evaluateFormulaOutputs(
   inputValues: FormulaInputValues,
 ): FormulaOutputValues {
   const results: FormulaOutputValues = {};
-  const maxIterations = 10; // Prevent infinite loops
+  // Maximum iterations to prevent infinite loops in case of circular dependencies
+  // or other evaluation issues. 10 iterations should be more than enough for
+  // typical multi-step calculations where outputs depend on other outputs.
+  const maxIterations = 10;
 
   // Only calculation formulas have output
   if (!isCalculationFormula(formula)) {
     return results;
   }
 
+  // Iterative evaluation: Some outputs may depend on other outputs,
+  // so we iterate multiple times until all outputs are calculated or no progress is made.
+  // For example: output1 = input1 + input2, output2 = output1 * 2
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     let progress = false;
 

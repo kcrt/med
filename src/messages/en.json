@@ -40,5 +40,18 @@
     "copyButton": "Copy URL",
     "copied": "URL copied to clipboard!"
   },
+  "calculator": {
+    "calculate": "Calculate",
+    "result": "Result",
+    "inputError": "Input Error",
+    "calculationError": "Cannot Calculate",
+    "male": "Male",
+    "female": "Female"
+  },
+  "error": {
+    "title": "An Error Occurred",
+    "message": "We apologize for the inconvenience. An unexpected error has occurred. Please reload the page or try again.",
+    "retry": "Retry"
+  },
   "labels": {}
 }

@@ -37,7 +37,7 @@ describe("ShareButton", () => {
   it("renders share button when there are valid inputs", () => {
     const inputValues = { age: 25 };
     renderWithProviders(
-      <ShareButton formula={mockFormula} inputValues={inputValues} />
+      <ShareButton formula={mockFormula} inputValues={inputValues} />,
     );
 
     expect(screen.getByLabelText("Share")).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe("ShareButton", () => {
   it("does not render share button when there are no inputs", () => {
     const inputValues = {};
     renderWithProviders(
-      <ShareButton formula={mockFormula} inputValues={inputValues} />
+      <ShareButton formula={mockFormula} inputValues={inputValues} />,
     );
 
     expect(screen.queryByLabelText("Share")).not.toBeInTheDocument();
@@ -59,7 +59,7 @@ describe("ShareButton", () => {
     };
     const inputValues = { age: 25 };
     renderWithProviders(
-      <ShareButton formula={infoFormula} inputValues={inputValues} />
+      <ShareButton formula={infoFormula} inputValues={inputValues} />,
     );
 
     expect(screen.queryByLabelText("Share")).not.toBeInTheDocument();
@@ -68,7 +68,7 @@ describe("ShareButton", () => {
   it("handles null and undefined input values correctly", () => {
     const inputValues = { age: null, weight: undefined };
     renderWithProviders(
-      <ShareButton formula={mockFormula} inputValues={inputValues} />
+      <ShareButton formula={mockFormula} inputValues={inputValues} />,
     );
 
     // Should not render because all values are null or undefined
@@ -78,7 +78,7 @@ describe("ShareButton", () => {
   it("renders with zero as a valid input value", () => {
     const inputValues = { age: 0 };
     renderWithProviders(
-      <ShareButton formula={mockFormula} inputValues={inputValues} />
+      <ShareButton formula={mockFormula} inputValues={inputValues} />,
     );
 
     expect(screen.getByLabelText("Share")).toBeInTheDocument();

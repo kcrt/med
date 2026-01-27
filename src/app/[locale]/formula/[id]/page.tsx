@@ -9,9 +9,11 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import DOMPurify from "isomorphic-dompurify";
 import { notFound, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FormulaCalculator } from "@/components/FormulaCalculator";
 import { ReferenceLinks } from "@/components/ReferenceLinks";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
@@ -24,7 +26,7 @@ export default function FormulaPage() {
   const formulaId = params.id as string;
   const formula = useFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
-  
+
   // Get translated formula name
   const formulaName = formula ? useFormulaName(formulaId, formula) : formulaId;
 
@@ -62,39 +64,48 @@ export default function FormulaPage() {
   }
 
   return (
-    <Container size="sm" py="xl">
-      <Stack gap="md">
-        <Group justify="space-between" wrap="nowrap">
-          <Title order={1}>{formulaName}</Title>
-          <Tooltip
-            label={favorited ? t("removeFromFavorites") : t("addToFavorites")}
-          >
-            <ActionIcon
-              variant="subtle"
-              size="lg"
-              onClick={handleToggleFavorite}
-              aria-label={
-                favorited ? t("removeFromFavorites") : t("addToFavorites")
-              }
+    <ErrorBoundary>
+      <Container size="sm" py="xl">
+        <Stack gap="md">
+          <Group justify="space-between" wrap="nowrap">
+            <Title order={1}>{formulaName}</Title>
+            <Tooltip
+              label={favorited ? t("removeFromFavorites") : t("addToFavorites")}
             >
-              {favorited ? (
-                <IconStarFilled size={24} style={{ color: "gold" }} />
-              ) : (
-                <IconStar size={24} />
-              )}
-            </ActionIcon>
-          </Tooltip>
-        </Group>
+              <ActionIcon
+                variant="subtle"
+                size="lg"
+                onClick={handleToggleFavorite}
+                aria-label={
+                  favorited ? t("removeFromFavorites") : t("addToFavorites")
+                }
+              >
+                {favorited ? (
+                  <IconStarFilled size={24} style={{ color: "gold" }} />
+                ) : (
+                  <IconStar size={24} />
+                )}
+              </ActionIcon>
+            </Tooltip>
+          </Group>
 
-        {"type" in formula && formula.type === "html" ? (
-          <div dangerouslySetInnerHTML={{ __html: formula.html }} />
-        ) : (
-          <>
-            <FormulaCalculator formula={formula} formulaId={formulaId} />
-            <ReferenceLinks ref={formula.ref} />
-          </>
-        )}
-      </Stack>
-    </Container>
+          {"type" in formula && formula.type === "html" ? (
+            // SECURITY: HTML content from formula.json is sanitized with DOMPurify
+            // to prevent XSS attacks. The HTML comes from trusted formula definitions,
+            // but sanitization provides defense-in-depth protection.
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(formula.html),
+              }}
+            />
+          ) : (
+            <>
+              <FormulaCalculator formula={formula} formulaId={formulaId} />
+              <ReferenceLinks ref={formula.ref} />
+            </>
+          )}
+        </Stack>
+      </Container>
+    </ErrorBoundary>
   );
 }

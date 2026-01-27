@@ -66,8 +66,12 @@ describe("postconceptional_days formula", () => {
     };
 
     // Base data is in English
-    expect(getFormulaOutput("postconceptional_days").label).toBe("Postconceptional Days");
-    expect(getFormulaOutput("postconceptional_age").label).toBe("Postconceptional Age");
+    expect(getFormulaOutput("postconceptional_days").label).toBe(
+      "Postconceptional Days",
+    );
+    expect(getFormulaOutput("postconceptional_age").label).toBe(
+      "Postconceptional Age",
+    );
     expect(getFormulaOutput("corrected_age").label).toBe("Corrected Age");
 
     // Test evaluation with same EDC and target date (term birth)

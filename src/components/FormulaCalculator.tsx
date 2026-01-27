@@ -17,11 +17,12 @@ import {
 import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   evaluateFormulaOutputs,
   type FormulaInputValues,
+  isCalculationFormula,
   shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
@@ -36,22 +37,21 @@ import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
 import { CopyResultButton } from "./CopyResultButton";
 
+// Constants
+const HIDDEN_OUTPUT_LABEL = "hidden";
+
+/**
+ * Props for the FormulaCalculator component.
+ */
 interface FormulaCalculatorProps {
+  /** The formula definition to render */
   formula: Formula;
+  /** Unique identifier for the formula */
   formulaId: string;
 }
 
 interface FormValues {
   [key: string]: number | string | boolean | Date | null;
-}
-
-// Type guard to check if formula is a calculation formula (has input/output)
-function isCalculationFormula(formula: Formula): formula is Formula & {
-  input: Record<string, FormulaInput>;
-  output: Record<string, FormulaOutput>;
-  assert?: { condition: string; message: string }[];
-} {
-  return "input" in formula && "output" in formula;
 }
 
 // Type guard to check if output has formula
@@ -76,11 +76,17 @@ interface SelectInputFieldProps {
   inputProps: ReturnType<ReturnType<typeof useForm>["getInputProps"]>;
 }
 
-function SelectInputField({ inputKey, label, options, inputProps }: SelectInputFieldProps) {
-  const translatedOptions = options?.map((opt, idx) => ({
-    value: String(idx),
-    label: useOptionLabel(opt.label),
-  })) ?? [];
+function SelectInputField({
+  inputKey,
+  label,
+  options,
+  inputProps,
+}: SelectInputFieldProps) {
+  const translatedOptions =
+    options?.map((opt, idx) => ({
+      value: String(idx),
+      label: useOptionLabel(opt.label),
+    })) ?? [];
 
   return (
     <Select
@@ -102,6 +108,7 @@ export function FormulaCalculator({
   }
 
   const locale = useLocale();
+  const t = useTranslations("calculator");
   const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input);
   const allOutputs = Object.entries(formula.output);
@@ -167,7 +174,11 @@ export function FormulaCalculator({
           if (value instanceof Date) {
             inputValues[key] = Math.floor(value.getTime() / 1000);
           } else if (typeof value === "string" && value) {
-            inputValues[key] = Math.floor(Date.parse(value) / 1000);
+            const parsed = Date.parse(value);
+            // Validate date parsing - Date.parse() returns NaN for invalid dates
+            if (!Number.isNaN(parsed)) {
+              inputValues[key] = Math.floor(parsed / 1000);
+            }
           }
           break;
         default:
@@ -268,7 +279,14 @@ export function FormulaCalculator({
     <Card shadow="sm" padding="lg" radius="md" withBorder pos="relative">
       {/* Copy Result Button - Top Right Corner */}
       {hasValidInputs && Object.keys(results).length > 0 && (
-        <Box style={{ position: "absolute", top: "16px", right: "16px", zIndex: 1 }}>
+        <Box
+          style={{
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+            zIndex: 1,
+          }}
+        >
           <CopyResultButton
             formula={formula}
             formulaId={formulaId}
@@ -280,7 +298,7 @@ export function FormulaCalculator({
       <Stack gap="md">
         <Group>
           <IconCalculator size={20} />
-          <Title order={3}>計算</Title>
+          <Title order={3}>{t("calculate")}</Title>
         </Group>
 
         <form>
@@ -292,20 +310,14 @@ export function FormulaCalculator({
 
               switch (inputDef.type) {
                 case "onoff":
-                  return (
-                    <Switch key={key} label={label} {...inputProps} />
-                  );
+                  return <Switch key={key} label={label} {...inputProps} />;
 
                 case "sex":
                   return (
-                    <Radio.Group
-                      key={key}
-                      label={label}
-                      {...inputProps}
-                    >
+                    <Radio.Group key={key} label={label} {...inputProps}>
                       <Group>
-                        <Radio value="true" label="Male" />
-                        <Radio value="false" label="Female" />
+                        <Radio value="true" label={t("male")} />
+                        <Radio value="false" label={t("female")} />
                       </Group>
                     </Radio.Group>
                   );
@@ -353,7 +365,7 @@ export function FormulaCalculator({
 
         {/* Display assertion errors if any */}
         {assertionErrors.length > 0 && (
-          <Alert variant="light" color="red" title="入力エラー">
+          <Alert variant="light" color="red" title={t("inputError")}>
             {assertionErrors.map((error: string, i: number) => (
               <Text key={i} size="sm">
                 {error}
@@ -366,12 +378,15 @@ export function FormulaCalculator({
         {(hasValidInputs || allOutputs.some(([, def]) => hasText(def))) && (
           <>
             <Box mt="md">
-              <Title order={4}>結果</Title>
+              <Title order={4}>{t("result")}</Title>
             </Box>
             <Stack gap="xs">
               {allOutputs.map(([key, outputDef]) => {
                 // Skip hidden outputs (intermediate calculation values)
-                if ("label" in outputDef && outputDef.label === "hidden")
+                if (
+                  "label" in outputDef &&
+                  outputDef.label === HIDDEN_OUTPUT_LABEL
+                )
                   return null;
 
                 // Check locale filtering
@@ -424,10 +439,10 @@ export function FormulaCalculator({
           <Alert
             variant="light"
             color="yellow"
-            title="計算できません"
+            title={t("calculationError")}
             icon={<IconCalculator size={16} />}
           >
-            入力値を確認してください
+            {t("inputError")}
           </Alert>
         )}
       </Stack>
