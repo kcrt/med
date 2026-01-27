@@ -171,9 +171,10 @@ describe("POST /api/calculate", () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data.BMI).toBeCloseTo(24.2, 1);
-      expect(data.who_diag).toBe("normal");
-      expect(data.jasso_diag).toBe("Normal"); // Japan-specific output
+      // When locale=ja, output keys are translated to Japanese labels
+      expect(data["BMI [kg/m²]"]).toBeCloseTo(24.2, 1);
+      expect(data["WHO(世界保健機関)"]).toBe("normal");
+      expect(data["日本肥満学会"]).toBe("Normal"); // Japan-specific output
     });
 
     it("should filter outputs based on locale (en)", async () => {

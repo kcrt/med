@@ -8,6 +8,88 @@ import {
   shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
+import { DEFAULT_LOCALE, isValidLocale } from "@/lib/locale";
+import { sharedMessages } from "@/messages/shared";
+
+/**
+ * Placeholder used to escape dots in translation keys.
+ */
+const DOT_PLACEHOLDER = "{{dot}}";
+
+/**
+ * Escape dots in translation keys to avoid path interpretation.
+ */
+function escapeTranslationKey(key: string): string {
+  return key.replace(/\./g, DOT_PLACEHOLDER);
+}
+
+/**
+ * Load messages for a given locale.
+ */
+async function loadMessages(locale: string): Promise<Record<string, unknown>> {
+  if (!isValidLocale(locale)) {
+    locale = DEFAULT_LOCALE;
+  }
+
+  try {
+    const localeMessages = (await import(`@/messages/${locale}.json`)).default;
+    return deepMerge(sharedMessages, localeMessages);
+  } catch {
+    return sharedMessages;
+  }
+}
+
+/**
+ * Deep merge two objects.
+ */
+function deepMerge<T extends Record<string, unknown>>(
+  base: T,
+  overrides: Partial<Record<keyof T, unknown>>,
+): T {
+  const result = { ...base };
+
+  for (const key in overrides) {
+    if (Object.hasOwn(overrides, key)) {
+      const baseValue = result[key];
+      const overrideValue = overrides[key];
+
+      if (
+        typeof baseValue === "object" &&
+        baseValue !== null &&
+        !Array.isArray(baseValue) &&
+        typeof overrideValue === "object" &&
+        overrideValue !== null &&
+        !Array.isArray(overrideValue)
+      ) {
+        result[key] = deepMerge(
+          baseValue as Record<string, unknown>,
+          overrideValue as Record<string, unknown>,
+        ) as T[typeof key];
+      } else {
+        result[key] = overrideValue as T[typeof key];
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Get translated label from messages.
+ */
+function getTranslatedLabel(
+  messages: Record<string, unknown>,
+  englishLabel: string,
+): string {
+  const labels = messages.labels as Record<string, unknown> | undefined;
+  if (!labels) {
+    return englishLabel;
+  }
+
+  const escapedKey = escapeTranslationKey(englishLabel);
+  const translated = labels[escapedKey];
+  return typeof translated === "string" ? translated : englishLabel;
+}
 
 /**
  * Schema for validating the incoming request body.
@@ -127,13 +209,18 @@ export async function POST(request: NextRequest) {
     try {
       const outputs = evaluateFormulaOutputs(formula, parameters);
 
+      // Load messages for translation if locale is provided and not English
+      const useLocale = locale || DEFAULT_LOCALE;
+      const shouldTranslate = useLocale !== DEFAULT_LOCALE;
+      const messages = shouldTranslate ? await loadMessages(useLocale) : {};
+
       // Filter outputs based on locale if provided
       let filteredOutputs = outputs;
       if (locale && isCalculationFormula(formula)) {
         filteredOutputs = {};
         for (const [key, value] of Object.entries(outputs)) {
           const outputDef = formula.output[key];
-          if (outputDef && shouldDisplayForLocale(outputDef, locale)) {
+          if (outputDef && shouldDisplayForLocale(outputDef, useLocale)) {
             filteredOutputs[key] = value;
           }
         }
@@ -145,6 +232,22 @@ export async function POST(request: NextRequest) {
           { error: "No output calculated" },
           { status: 400 },
         );
+      }
+
+      // Translate output keys to labels if locale is provided
+      if (locale && shouldTranslate && isCalculationFormula(formula)) {
+        const translatedOutputs: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(filteredOutputs)) {
+          const outputDef = formula.output[key];
+          if (outputDef) {
+            const englishLabel = outputDef.label ?? key;
+            const translatedLabel = getTranslatedLabel(messages, englishLabel);
+            translatedOutputs[translatedLabel] = value;
+          } else {
+            translatedOutputs[key] = value;
+          }
+        }
+        return NextResponse.json(translatedOutputs);
       }
 
       return NextResponse.json(filteredOutputs);

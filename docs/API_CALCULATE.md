@@ -23,15 +23,21 @@ The endpoint leverages the existing formula evaluation system:
     "height": 170,        // Parameters as defined by the formula's input specification
     "weight": 70
   },
-  "locale": "en"          // Optional: filters outputs by locale (e.g., "en", "ja")
+  "locale": "en"          // Optional: filters outputs by locale and translates labels (e.g., "en", "ja")
 }
 ```
 
 ### Locale Parameter (Optional)
-The `locale` parameter filters outputs based on locale-specific restrictions defined in formulas:
-- Outputs with `locales_in`: Only included if locale matches
-- Outputs with `locales_not_in`: Excluded if locale matches
-- When `locale` is omitted: All outputs are returned regardless of locale restrictions
+The `locale` parameter provides two key features:
+
+1. **Output Filtering**: Filters outputs based on locale-specific restrictions defined in formulas
+   - Outputs with `locales_in`: Only included if locale matches
+   - Outputs with `locales_not_in`: Excluded if locale matches
+   - When `locale` is omitted: All outputs are returned regardless of locale restrictions
+
+2. **Label Translation**: Translates output keys to localized labels using next-intl messages
+   - For `locale=en` or omitted: Returns English output keys (e.g., `BMI`, `who_diag`)
+   - For `locale=ja`: Returns Japanese translated labels (e.g., `BMI [kg/m²]`, `WHO(世界保健機関)`)
 
 ## Available Formulas
 The API supports all formulas defined in the formula system. Some examples:
@@ -99,7 +105,7 @@ curl -X POST http://localhost:3000/api/calculate \
   }'
 ```
 
-**Response (all outputs):**
+**Response (all outputs, English keys):**
 ```json
 {
   "BMI": 24.2,
@@ -108,7 +114,7 @@ curl -X POST http://localhost:3000/api/calculate \
 }
 ```
 
-### BMI Calculation with Locale Filter
+### BMI Calculation with Locale Filter (English)
 ```bash
 # English locale - filters out Japan-specific outputs
 curl -X POST http://localhost:3000/api/calculate \
@@ -123,7 +129,7 @@ curl -X POST http://localhost:3000/api/calculate \
   }'
 ```
 
-**Response (locale-filtered):**
+**Response (locale-filtered, English keys):**
 ```json
 {
   "BMI": 24.2,
@@ -131,6 +137,31 @@ curl -X POST http://localhost:3000/api/calculate \
 }
 ```
 Note: `jasso_diag` is excluded because it has `"locales_in": ["ja"]`
+
+### BMI Calculation with Japanese Locale
+```bash
+# Japanese locale - includes Japan-specific outputs with translated labels
+curl -X POST http://localhost:3000/api/calculate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "formula": "bmi_adult",
+    "parameters": {
+      "height": 170,
+      "weight": 70
+    },
+    "locale": "ja"
+  }'
+```
+
+**Response (locale-filtered, Japanese labels):**
+```json
+{
+  "BMI [kg/m²]": 24.2,
+  "WHO(世界保健機関)": "normal",
+  "日本肥満学会": "Normal"
+}
+```
+Note: Output keys are translated to Japanese labels using next-intl messages
 
 ### LMS Z-Score Calculation
 ```bash
@@ -171,7 +202,8 @@ This endpoint provides API access to the entire formula system. Key features:
 2. **Assertions**: Enforces formula-defined constraints
 3. **All Outputs**: Returns all calculated outputs from the formula
 4. **Locale Filtering**: Optionally filters outputs based on locale restrictions
-5. **Extensible**: Automatically supports new formulas added to the system
+5. **Label Translation**: Uses next-intl to translate output keys to localized labels
+6. **Extensible**: Automatically supports new formulas added to the system
 
 ## Adding New Formulas
 To add a new formula that's accessible via this API:
