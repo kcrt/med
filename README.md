@@ -21,6 +21,14 @@ Tech Stack
 - **Mantine 8** for UI components
 - **Tailwind CSS v4** for styling
 - **next-intl** for internationalization (English/Japanese)
+- **Vitest** for testing
+- **Zod** for runtime type validation
+- **qrcode.react** for QR code generation
+
+Locale Configuration
+--------------------
+
+The application supports English and Japanese with automatic browser detection. See [docs/LOCALE.md](docs/LOCALE.md) for detailed configuration, translation system, and adding new languages.
 
 Usage
 ----------------------
@@ -38,17 +46,8 @@ Local Development
 # Install dependencies
 npm install
 
-# Run development server
+# Run development server (includes hot reload)
 npm run dev
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
 
 Bug Reports & Feature Requests
@@ -68,6 +67,24 @@ This project includes open-source software redistributed under their respective 
 - Mantine UI - [MIT License](https://opensource.org/licenses/MIT)
 - Tabler Icons - [MIT License](https://opensource.org/licenses/MIT)
 - expr-eval - [MIT License](https://opensource.org/licenses/MIT)
+
+npm Scripts
+----------------------
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm start        # Start production server
+npm test         # Run tests with Vitest
+npm run lint     # Run Biome linter
+npm run format   # Format code with Biome
+```
+
+Documentation
+-------------
+
+- **[API Reference](docs/API.md)** - Hooks, components, utilities, and type definitions
+- **[Locale Configuration](docs/LOCALE.md)** - Internationalization setup and translation system
 
 formula.json Syntax
 ----------------------
