@@ -1,11 +1,17 @@
 "use client";
 
 import { Alert, Button, Container, Stack, Text } from "@mantine/core";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
   fallback?: React.ReactNode;
+  translations?: {
+    title: string;
+    message: string;
+    retry: string;
+  };
 }
 
 interface ErrorBoundaryState {
@@ -20,7 +26,7 @@ interface ErrorBoundaryState {
  * the entire application. Instead, displays a user-friendly error message
  * with the option to retry.
  */
-export class ErrorBoundary extends React.Component<
+class ErrorBoundaryClass extends React.Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
@@ -51,14 +57,14 @@ export class ErrorBoundary extends React.Component<
         return this.props.fallback;
       }
 
+      const { translations } = this.props;
+
       return (
         <Container size="sm" py="xl">
           <Stack gap="md">
-            <Alert variant="light" color="red" title="エラーが発生しました">
+            <Alert variant="light" color="red" title={translations?.title}>
               <Stack gap="sm">
-                <Text>
-                  申し訳ございません。予期しないエラーが発生しました。ページを再読み込みするか、もう一度お試しください。
-                </Text>
+                <Text>{translations?.message}</Text>
                 {process.env.NODE_ENV === "development" && this.state.error && (
                   <Text
                     size="sm"
@@ -69,7 +75,7 @@ export class ErrorBoundary extends React.Component<
                   </Text>
                 )}
                 <Button onClick={this.handleReset} variant="light">
-                  再試行
+                  {translations?.retry}
                 </Button>
               </Stack>
             </Alert>
@@ -80,4 +86,30 @@ export class ErrorBoundary extends React.Component<
 
     return this.props.children;
   }
+}
+
+/**
+ * Wrapper component that provides translations to the ErrorBoundary class component.
+ * This is necessary because hooks cannot be used directly in class components.
+ */
+export function ErrorBoundary({
+  children,
+  fallback,
+}: {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}) {
+  const t = useTranslations("error");
+
+  const translations = {
+    title: t("title"),
+    message: t("message"),
+    retry: t("retry"),
+  };
+
+  return (
+    <ErrorBoundaryClass fallback={fallback} translations={translations}>
+      {children}
+    </ErrorBoundaryClass>
+  );
 }
