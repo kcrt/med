@@ -197,33 +197,35 @@
     "name": "Left Ventricular Ejection Fraction",
     "input": {
       "lvdd": {
-        "label": "LVDd [mm]",
+        "label": "LVDd",
         "type": "float",
+        "unit": "mm",
         "min": 1,
         "max": 100
       },
       "lvds": {
-        "label": "LVDs [mm]",
+        "label": "LVDs",
         "type": "float",
+        "unit": "mm",
         "min": 2,
         "max": 100
       }
     },
     "output": {
       "pombo": {
-        "label": "Pombo (Cubed) [%]",
+        "label": "Pombo (Cubed)",
         "formula": "(lvdd ^ 3 - lvds ^ 3)/lvdd ^ 3 * 100",
         "unit": "%",
         "precision": 1
       },
       "gibson": {
-        "label": "Gibson [%]",
+        "label": "Gibson",
         "formula": "CalculateGibsonEF(lvdd, lvds)",
         "unit": "%",
         "precision": 1
       },
       "teichholz": {
-        "label": "Teichholz [%]",
+        "label": "Teichholz",
         "formula": "CalculateTeichholzEF(lvdd, lvds)",
         "unit": "%",
         "precision": 1
@@ -249,14 +251,16 @@
     "name": "Pediatric LVDd Standard Values",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 10,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0,
         "max": 300
       }
@@ -298,26 +302,30 @@
     "name": "Kawasaki Disease Coronary Artery",
     "input": {
       "bsa": {
-        "label": "Body Surface Area [m²]",
+        "label": "Body Surface Area",
         "type": "float",
+        "unit": "m²",
         "min": 0,
         "max": 4
       },
       "lmca": {
-        "label": "LMCA [cm]",
+        "label": "LMCA",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       },
       "plad": {
-        "label": "pLAD [cm]",
+        "label": "pLAD",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       },
       "prca": {
-        "label": "pRCA [cm]",
+        "label": "pRCA",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       }
@@ -344,8 +352,9 @@
     "name": "HAS-BLED Score",
     "input": {
       "hypertension": {
-        "label": "Hypertension (SBP >160 mmHg)",
-        "type": "onoff"
+        "label": "Hypertension (SBP >160)",
+        "type": "onoff",
+        "unit": "mmHg"
       },
       "renal_disease": {
         "label": "Abnormal renal function",
@@ -433,20 +442,23 @@
         "type": "onoff"
       },
       "sbp_lt_100": {
-        "label": "Systolic BP <100 mmHg",
-        "type": "onoff"
+        "label": "Systolic BP <100",
+        "type": "onoff",
+        "unit": "mmHg"
       },
       "hr_gt_100": {
-        "label": "Heart rate >100 bpm",
-        "type": "onoff"
+        "label": "Heart rate >100",
+        "type": "onoff",
+        "unit": "bpm"
       },
       "killip_2to4": {
         "label": "Killip class II-IV",
         "type": "onoff"
       },
       "weight_lt_67": {
-        "label": "Weight <67 kg",
-        "type": "onoff"
+        "label": "Weight <67",
+        "type": "onoff",
+        "unit": "kg"
       },
       "anterior_stemi_lbbb": {
         "label": "Anterior STEMI or LBBB",
@@ -560,26 +572,30 @@
     "name": "GRACE Score (ACS)",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 20,
         "max": 120
       },
       "heart_rate": {
-        "label": "Heart Rate [bpm]",
+        "label": "Heart Rate",
         "type": "int",
+        "unit": "bpm",
         "min": 30,
         "max": 250
       },
       "sbp": {
-        "label": "Systolic BP [mmHg]",
+        "label": "Systolic BP",
         "type": "int",
+        "unit": "mmHg",
         "min": 50,
         "max": 250
       },
       "creatinine": {
-        "label": "Creatinine [mg/dL]",
+        "label": "Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 20
       },
@@ -806,8 +822,9 @@
         "type": "onoff"
       },
       "hr_gt_100": {
-        "label": "Heart Rate >100 bpm",
-        "type": "onoff"
+        "label": "Heart Rate >100",
+        "type": "onoff",
+        "unit": "bpm"
       },
       "surgery_immobilization": {
         "label": "Surgery or immobilization within 4 weeks",
@@ -970,12 +987,14 @@
         "type": "onoff"
       },
       "hr_75_94": {
-        "label": "Heart rate 75-94 bpm",
-        "type": "onoff"
+        "label": "Heart rate 75-94",
+        "type": "onoff",
+        "unit": "bpm"
       },
       "hr_gt_94": {
-        "label": "Heart rate ≥95 bpm",
-        "type": "onoff"
+        "label": "Heart rate ≥95",
+        "type": "onoff",
+        "unit": "bpm"
       },
       "pain_edema": {
         "label": "Pain on palpation and unilateral edema",
@@ -1019,8 +1038,9 @@
     "name": "ASCVD Risk Calculator (10-year)",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 40,
         "max": 79
       },
@@ -1047,20 +1067,23 @@
         ]
       },
       "total_chol": {
-        "label": "Total Cholesterol [mg/dL]",
+        "label": "Total Cholesterol",
         "type": "int",
+        "unit": "mg/dL",
         "min": 130,
         "max": 320
       },
       "hdl": {
-        "label": "HDL Cholesterol [mg/dL]",
+        "label": "HDL Cholesterol",
         "type": "int",
+        "unit": "mg/dL",
         "min": 20,
         "max": 100
       },
       "sbp": {
-        "label": "Systolic BP [mmHg]",
+        "label": "Systolic BP",
         "type": "int",
+        "unit": "mmHg",
         "min": 90,
         "max": 200
       },
@@ -1079,7 +1102,8 @@
     },
     "output": {
       "risk_simple": {
-        "label": "Estimated 10-year ASCVD Risk (%)",
+        "label": "Estimated 10-year ASCVD Risk",
+        "unit": "%",
         "formula": "iif(age<50 and diabetes==0 and smoker==0 and sbp<140 and total_chol<200, '<5% (Low)', age<60 and diabetes==0 and sbp<140, '5-7.5% (Borderline)', '7.5-20% or >20% (Intermediate to High) - Use full calculator')",
         "text": "Simplified estimate. For accurate calculation, use online calculator with race-specific coefficients."
       },
