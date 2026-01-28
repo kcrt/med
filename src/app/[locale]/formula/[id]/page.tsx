@@ -23,13 +23,11 @@ import { useFormulaName } from "@/lib/formula-translation";
 export default function FormulaPage() {
   const params = useParams<{ locale: string; id: string }>();
   const t = useTranslations("favorites");
-  const formulaId =
-    typeof params.id === "string" ? params.id : String(params.id || "");
+  // Handle params.id safely - it could be a string, array, or undefined
+  const formulaId = Array.isArray(params.id)
+    ? params.id[0] || ""
+    : params.id || "";
 
-  // Add validation - if id is missing, show 404
-  if (!formulaId) {
-    notFound();
-  }
   const formula = useFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
 
