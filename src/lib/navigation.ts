@@ -8,4 +8,5 @@ import { SUPPORTED_LOCALES } from "./locale";
 
 export const { Link, redirect, usePathname, useRouter } = createNavigation({
   locales: SUPPORTED_LOCALES,
+  localePrefix: "always",
 });
