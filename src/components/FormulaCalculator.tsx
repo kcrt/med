@@ -17,7 +17,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale, useMessages, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   evaluateFormulaOutputs,
@@ -28,10 +28,14 @@ import {
 } from "@/lib/formula";
 import {
   useInputLabel,
-  useOptionLabel,
   useOutputLabel,
   useOutputText,
 } from "@/lib/formula-translation";
+import {
+  escapeTranslationKey,
+  getTranslationDirect,
+} from "@/lib/translation-utils";
+import { DEFAULT_LOCALE } from "@/lib/locale";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
@@ -68,6 +72,27 @@ function hasText(
   return "text" in output && typeof output.text === "string";
 }
 
+// Helper function to translate option label (non-hook version)
+function translateOptionLabel(
+  optionLabel: string,
+  locale: string,
+  labels: Record<string, unknown> | undefined,
+): string {
+  // For English, no translation needed
+  if (locale === DEFAULT_LOCALE) {
+    return optionLabel;
+  }
+
+  // Try with escaped dots for backward compatibility
+  const escapedKey = escapeTranslationKey(optionLabel);
+  const translated = getTranslationDirect(labels, escapedKey);
+  if (translated) {
+    return translated;
+  }
+
+  return optionLabel;
+}
+
 // Helper component for translated select options
 interface SelectInputFieldProps {
   inputKey: string;
@@ -82,10 +107,14 @@ function SelectInputField({
   options,
   inputProps,
 }: SelectInputFieldProps) {
+  const locale = useLocale();
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
+
   const translatedOptions =
     options?.map((opt, idx) => ({
       value: String(idx),
-      label: useOptionLabel(opt.label),
+      label: translateOptionLabel(opt.label, locale, labels),
     })) ?? [];
 
   return (
@@ -96,6 +125,143 @@ function SelectInputField({
       {...inputProps}
     />
   );
+}
+
+// Component for rendering a single input field
+interface InputFieldProps {
+  formulaId: string;
+  inputKey: string;
+  inputDef: FormulaInput;
+  inputProps: ReturnType<ReturnType<typeof useForm>["getInputProps"]>;
+}
+
+function InputField({
+  formulaId,
+  inputKey,
+  inputDef,
+  inputProps,
+}: InputFieldProps) {
+  const t = useTranslations("calculator");
+  const label = useInputLabel(formulaId, inputKey, inputDef);
+
+  switch (inputDef.type) {
+    case "onoff":
+      return <Switch key={inputKey} label={label} {...inputProps} />;
+
+    case "sex":
+      return (
+        <Radio.Group key={inputKey} label={label} {...inputProps}>
+          <Group>
+            <Radio value="true" label={t("male")} />
+            <Radio value="false" label={t("female")} />
+          </Group>
+        </Radio.Group>
+      );
+
+    case "select":
+      return (
+        <SelectInputField
+          key={inputKey}
+          inputKey={inputKey}
+          label={label}
+          options={inputDef.options}
+          inputProps={inputProps}
+        />
+      );
+
+    case "date":
+      return (
+        <TextInput
+          key={inputKey}
+          type="date"
+          label={label}
+          {...inputProps}
+        />
+      );
+
+    case "int":
+    case "float":
+    default:
+      return (
+        <NumberInput
+          key={inputKey}
+          label={label}
+          placeholder={`Enter ${label}`}
+          min={inputDef.min}
+          max={inputDef.max}
+          step={inputDef.type === "int" ? 1 : 0.1}
+          allowDecimal={inputDef.type !== "int"}
+          {...inputProps}
+        />
+      );
+  }
+}
+
+// Component for rendering a single output item
+interface OutputItemProps {
+  formulaId: string;
+  outputKey: string;
+  outputDef: FormulaOutput;
+  hasValidInputs: boolean;
+  result: number | undefined;
+  locale: string;
+}
+
+function OutputItem({
+  formulaId,
+  outputKey,
+  outputDef,
+  hasValidInputs,
+  result,
+  locale,
+}: OutputItemProps) {
+  // Call hooks unconditionally at the top of the component
+  const label = useOutputLabel(formulaId, outputKey, outputDef);
+  const text = useOutputText(formulaId, outputKey, outputDef);
+
+  // Skip hidden outputs (intermediate calculation values)
+  if ("label" in outputDef && outputDef.label === HIDDEN_OUTPUT_LABEL) {
+    return null;
+  }
+
+  // Check locale filtering
+  if (!shouldDisplayForLocale(outputDef, locale)) {
+    return null;
+  }
+
+  // Text item - always show
+  if (hasText(outputDef)) {
+    return (
+      <Box key={outputKey}>
+        {label && label !== outputKey && (
+          <Text size="sm" fw={500} mb={2}>
+            {label}
+          </Text>
+        )}
+        <Text size="sm" c="dimmed">
+          {text || outputDef.text}
+        </Text>
+      </Box>
+    );
+  }
+
+  // Formula item - only show when valid inputs
+  if (hasValidInputs && hasFormula(outputDef)) {
+    const value = result !== undefined ? String(result) : "-";
+    const unit = outputDef.unit ?? "";
+
+    return (
+      <Group key={outputKey} justify="space-between">
+        <Text fw={500}>{label}</Text>
+        <Group gap={4}>
+          <Text>{value}</Text>
+          {unit && <Text c="dimmed">{unit}</Text>}
+        </Group>
+      </Group>
+    );
+  }
+
+  return null;
 }
 
 export function FormulaCalculator({
@@ -304,59 +470,16 @@ export function FormulaCalculator({
             {inputKeys.map((key) => {
               const inputDef = formula.input[key]!;
               const inputProps = form.getInputProps(key);
-              const label = useInputLabel(formulaId, key, inputDef);
 
-              switch (inputDef.type) {
-                case "onoff":
-                  return <Switch key={key} label={label} {...inputProps} />;
-
-                case "sex":
-                  return (
-                    <Radio.Group key={key} label={label} {...inputProps}>
-                      <Group>
-                        <Radio value="true" label={t("male")} />
-                        <Radio value="false" label={t("female")} />
-                      </Group>
-                    </Radio.Group>
-                  );
-
-                case "select":
-                  return (
-                    <SelectInputField
-                      key={key}
-                      inputKey={key}
-                      label={label}
-                      options={inputDef.options}
-                      inputProps={inputProps}
-                    />
-                  );
-
-                case "date":
-                  return (
-                    <TextInput
-                      key={key}
-                      type="date"
-                      label={label}
-                      {...inputProps}
-                    />
-                  );
-
-                case "int":
-                case "float":
-                default:
-                  return (
-                    <NumberInput
-                      key={key}
-                      label={label}
-                      placeholder={`Enter ${label}`}
-                      min={inputDef.min}
-                      max={inputDef.max}
-                      step={inputDef.type === "int" ? 1 : 0.1}
-                      allowDecimal={inputDef.type !== "int"}
-                      {...form.getInputProps(key)}
-                    />
-                  );
-              }
+              return (
+                <InputField
+                  key={key}
+                  formulaId={formulaId}
+                  inputKey={key}
+                  inputDef={inputDef}
+                  inputProps={inputProps}
+                />
+              );
             })}
           </Stack>
         </form>
@@ -379,56 +502,17 @@ export function FormulaCalculator({
               <Title order={4}>{t("result")}</Title>
             </Box>
             <Stack gap="xs">
-              {allOutputs.map(([key, outputDef]) => {
-                // Skip hidden outputs (intermediate calculation values)
-                if (
-                  "label" in outputDef &&
-                  outputDef.label === HIDDEN_OUTPUT_LABEL
-                )
-                  return null;
-
-                // Check locale filtering
-                if (!shouldDisplayForLocale(outputDef, locale)) return null;
-
-                // Get translated labels
-                const label = useOutputLabel(formulaId, key, outputDef);
-                const text = useOutputText(formulaId, key, outputDef);
-
-                // Text item - always show
-                if (hasText(outputDef)) {
-                  return (
-                    <Box key={key}>
-                      {label && label !== key && (
-                        <Text size="sm" fw={500} mb={2}>
-                          {label}
-                        </Text>
-                      )}
-                      <Text size="sm" c="dimmed">
-                        {text || outputDef.text}
-                      </Text>
-                    </Box>
-                  );
-                }
-
-                // Formula item - only show when valid inputs
-                if (hasValidInputs && hasFormula(outputDef)) {
-                  const result = results[key];
-                  const value = result !== undefined ? String(result) : "-";
-                  const unit = outputDef.unit ?? "";
-
-                  return (
-                    <Group key={key} justify="space-between">
-                      <Text fw={500}>{label}</Text>
-                      <Group gap={4}>
-                        <Text>{value}</Text>
-                        {unit && <Text c="dimmed">{unit}</Text>}
-                      </Group>
-                    </Group>
-                  );
-                }
-
-                return null;
-              })}
+              {allOutputs.map(([key, outputDef]) => (
+                <OutputItem
+                  key={key}
+                  formulaId={formulaId}
+                  outputKey={key}
+                  outputDef={outputDef}
+                  hasValidInputs={hasValidInputs}
+                  result={results[key]}
+                  locale={locale}
+                />
+              ))}
             </Stack>
           </>
         )}
