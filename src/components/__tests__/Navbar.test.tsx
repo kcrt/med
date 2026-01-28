@@ -3,9 +3,10 @@ import { render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import { Navbar } from "../Navbar";
 
-// Mock next/navigation
-vi.mock("next/navigation", () => ({
+// Mock @/lib/navigation
+vi.mock("@/lib/navigation", () => ({
   usePathname: vi.fn(),
+  Link: "a",
 }));
 
 // Mock next-intl
@@ -24,7 +25,7 @@ vi.mock("next-intl", () => ({
   useLocale: () => "en",
 }));
 
-const { usePathname } = await import("next/navigation");
+const { usePathname } = await import("@/lib/navigation");
 
 describe("Navbar", () => {
   beforeEach(() => {

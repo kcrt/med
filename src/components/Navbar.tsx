@@ -2,14 +2,12 @@
 
 import { Accordion, NavLink, Stack } from "@mantine/core";
 import { IconSettings, IconStar } from "@tabler/icons-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useMenuItems } from "@/lib/formula-hooks";
+import { Link, usePathname } from "@/lib/navigation";
 
 export function Navbar() {
   const pathname = usePathname();
-  const locale = useLocale();
   const t = useTranslations("config");
   const tFavorites = useTranslations("favorites");
   const menuItems = useMenuItems();
@@ -18,10 +16,10 @@ export function Navbar() {
     <Stack h="100%" style={{ overflowY: "auto" }}>
       <NavLink
         component={Link}
-        href={`/${locale}/favorites`}
+        href="/favorites"
         label={tFavorites("title")}
         leftSection={<IconStar size={18} />}
-        active={pathname === `/${locale}/favorites`}
+        active={pathname === "/favorites"}
       />
 
       <Accordion variant="filled" defaultValue={menuItems[0]?.label}>
@@ -45,10 +43,10 @@ export function Navbar() {
 
       <NavLink
         component={Link}
-        href={`/${locale}/config`}
+        href="/config"
         label={t("title")}
         leftSection={<IconSettings size={18} />}
-        active={pathname === `/${locale}/config`}
+        active={pathname === "/config"}
       />
     </Stack>
   );

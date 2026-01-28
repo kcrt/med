@@ -3,17 +3,15 @@
 import { AppShell, Badge, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./Navbar";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { useEffect } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useDebug } from "@/lib/use-debug";
 import { DevModeBar } from "./DevModeBar";
+import { Link, usePathname } from "@/lib/navigation";
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle, close }] = useDisclosure();
   const pathname = usePathname();
-  const locale = useLocale();
   const t = useTranslations("app");
   const isDebug = useDebug();
 
@@ -35,7 +33,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
       <AppShell.Header>
         <Group h="100%" px="md" pos="relative">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Link href={`/${locale}`}>
+          <Link href="/">
             <Text fw={700} size="xl" style={{ cursor: "pointer" }}>
               {t("title")}
             </Text>

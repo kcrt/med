@@ -1,10 +1,10 @@
 "use client";
 
 import { Card, Container, Select, Stack, Text, Title } from "@mantine/core";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Locale } from "@/lib/locale";
+import { useRouter } from "@/lib/navigation";
 
 type LocaleValue = Locale | "auto";
 

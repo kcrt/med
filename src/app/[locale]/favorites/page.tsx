@@ -13,16 +13,15 @@ import {
   Title,
 } from "@mantine/core";
 import { IconStar, IconTrash } from "@tabler/icons-react";
-import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { getFavorites, toggleFavorite } from "@/lib/favorites";
 import { useFormulaData } from "@/lib/formula-hooks";
 import { useFormulaName } from "@/lib/formula-translation";
 import type { Formula } from "@/types/formula";
+import { Link } from "@/lib/navigation";
 
 export default function FavoritesPage() {
-  const locale = useLocale();
   const t = useTranslations("favorites");
   const [favorites, setFavorites] = useState<string[]>([]);
   const formulaData = useFormulaData();
@@ -94,7 +93,7 @@ export default function FavoritesPage() {
           <Stack gap="xs" style={{ flex: 1 }}>
             <Anchor
               component={Link}
-              href={`/${locale}/formula/${formulaId}`}
+              href={`/formula/${formulaId}`}
               size="lg"
               fw={600}
             >
