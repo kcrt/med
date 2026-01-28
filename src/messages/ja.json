@@ -32,6 +32,7 @@
     "title": "お気に入り",
     "addToFavorites": "お気に入りに追加",
     "removeFromFavorites": "お気に入りから削除",
+    "firstFavoriteMessage": "もっとお気に入りを追加しよう！",
     "noFavorites": "お気に入りはまだありません",
     "noFavoritesDescription": "計算式にスターを付けて、ここに追加しましょう！",
     "category": "カテゴリ",

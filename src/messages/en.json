@@ -32,6 +32,7 @@
     "title": "Favorites",
     "addToFavorites": "Add to favorites",
     "removeFromFavorites": "Remove from favorites",
+    "firstFavoriteMessage": "Let's add more of your favorite formulas!",
     "noFavorites": "No favorites yet",
     "noFavoritesDescription": "Star formulas to add them here!",
     "category": "Category",

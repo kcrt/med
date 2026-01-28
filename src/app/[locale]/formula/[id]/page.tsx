@@ -2,6 +2,7 @@
 
 import {
   ActionIcon,
+  Box,
   Container,
   Group,
   Stack,
@@ -16,7 +17,8 @@ import { useEffect, useState } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FormulaCalculator } from "@/components/FormulaCalculator";
 import { ReferenceLinks } from "@/components/ReferenceLinks";
-import { isFavorite, toggleFavorite } from "@/lib/favorites";
+import { SparkleEffect } from "@/components/SparkleEffect";
+import { getFavorites, isFavorite, toggleFavorite } from "@/lib/favorites";
 import { useFormula } from "@/lib/formula-hooks";
 import { useFormulaName } from "@/lib/formula-translation";
 
@@ -30,6 +32,9 @@ export default function FormulaPage() {
 
   const formula = useFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
+  const [showSparkle, setShowSparkle] = useState(false);
+  const [showFirstFavoriteTooltip, setShowFirstFavoriteTooltip] =
+    useState(false);
 
   // Get translated formula name
   const formulaName = formula ? useFormulaName(formulaId, formula) : formulaId;
@@ -58,9 +63,28 @@ export default function FormulaPage() {
   }, [formulaId]);
 
   const handleToggleFavorite = () => {
+    // Check if this will be the first favorite before toggling
+    const isFirstFavorite = getFavorites().length === 0 && !favorited;
+
     toggleFavorite(formulaId);
     // Update local state based on actual storage state after toggle
-    setFavorited(isFavorite(formulaId));
+    const newFavorited = isFavorite(formulaId);
+    setFavorited(newFavorited);
+
+    // Show sparkle effect whenever adding to favorites
+    if (newFavorited) {
+      setShowSparkle(true);
+
+      // Show special message only for the first favorite
+      if (isFirstFavorite) {
+        setShowFirstFavoriteTooltip(true);
+
+        // Auto-hide the special tooltip after 3 seconds
+        setTimeout(() => {
+          setShowFirstFavoriteTooltip(false);
+        }, 3000);
+      }
+    }
   };
 
   if (!formula) {
@@ -73,24 +97,37 @@ export default function FormulaPage() {
         <Stack gap="md">
           <Group justify="space-between" wrap="nowrap">
             <Title order={1}>{formulaName}</Title>
-            <Tooltip
-              label={favorited ? t("removeFromFavorites") : t("addToFavorites")}
-            >
-              <ActionIcon
-                variant="subtle"
-                size="lg"
-                onClick={handleToggleFavorite}
-                aria-label={
-                  favorited ? t("removeFromFavorites") : t("addToFavorites")
+            <Box style={{ position: "relative" }}>
+              <Tooltip
+                label={
+                  showFirstFavoriteTooltip
+                    ? t("firstFavoriteMessage")
+                    : favorited
+                      ? t("removeFromFavorites")
+                      : t("addToFavorites")
                 }
+                opened={showFirstFavoriteTooltip ? true : undefined}
               >
-                {favorited ? (
-                  <IconStarFilled size={24} style={{ color: "gold" }} />
-                ) : (
-                  <IconStar size={24} />
-                )}
-              </ActionIcon>
-            </Tooltip>
+                <ActionIcon
+                  variant="subtle"
+                  size="lg"
+                  onClick={handleToggleFavorite}
+                  aria-label={
+                    favorited ? t("removeFromFavorites") : t("addToFavorites")
+                  }
+                >
+                  {favorited ? (
+                    <IconStarFilled size={24} style={{ color: "gold" }} />
+                  ) : (
+                    <IconStar size={24} />
+                  )}
+                </ActionIcon>
+              </Tooltip>
+              <SparkleEffect
+                show={showSparkle}
+                onComplete={() => setShowSparkle(false)}
+              />
+            </Box>
           </Group>
 
           {"type" in formula && formula.type === "html" ? (
