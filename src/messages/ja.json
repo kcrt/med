@@ -72,7 +72,8 @@
     "inputError": "入力エラー",
     "calculationError": "計算できません",
     "male": "男性",
-    "female": "女性"
+    "female": "女性",
+    "placeholder": "{label} を入力"
   },
   "error": {
     "title": "エラーが発生しました",
@@ -81,9 +82,9 @@
   },
   "labels": {
     "BMI (Adult)": "BMI (成人)",
-    "Height [cm]": "身長 [cm]",
-    "Weight [kg]": "体重 [kg]",
-    "WHO (World Health Organization)": "WHO(世界保健機関)",
+    "Height": "身長",
+    "Weight": "体重",
+    "WHO (World Health Organization)": "WHO (世界保健機関)",
     "Japan Society for the Study of Obesity": "日本肥満学会",
     "BMI (Child)": "BMI (小児)",
     "Kaup Index": "Kaup指数",

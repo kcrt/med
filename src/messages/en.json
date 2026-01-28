@@ -51,7 +51,8 @@
     "inputError": "Input Error",
     "calculationError": "Cannot Calculate",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+    "placeholder": "Enter {label}"
   },
   "error": {
     "title": "An Error Occurred",

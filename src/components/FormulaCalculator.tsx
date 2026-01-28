@@ -186,9 +186,16 @@ function InputField({
         <NumberInput
           key={inputKey}
           label={label}
-          placeholder={`Enter ${label}`}
+          placeholder={t("placeholder", { label })}
           min={inputDef.min}
           max={inputDef.max}
+          rightSection={
+            inputDef.unit ? (
+              <Text fw={700} size="sm" px={4} c="dimmed">
+                {inputDef.unit}
+              </Text>
+            ) : null
+          }
           step={inputDef.type === "int" ? 1 : 0.1}
           allowDecimal={inputDef.type !== "int"}
           {...inputProps}

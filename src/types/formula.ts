@@ -16,6 +16,7 @@ export const FormulaInputSchema = z.object({
   type: z.enum(["float", "int", "string", "onoff", "sex", "date", "select"]),
   min: z.number().optional(),
   max: z.number().optional(),
+  unit: z.string().optional(),
   default: z.union([z.number(), z.string()]).optional(),
   options: z.array(FormulaSelectOptionSchema).optional(),
 });
