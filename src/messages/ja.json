@@ -32,6 +32,11 @@
     "copied": "コピーしました！",
     "disabledTooltip": "入力値を入れてください"
   },
+  "search": {
+    "placeholder": "計算式を検索...",
+    "noResults": "計算式が見つかりません",
+    "noResultsDescription": "別のキーワードで試してください"
+  },
   "favorites": {
     "title": "お気に入り",
     "addToFavorites": "お気に入りに追加",

@@ -32,6 +32,11 @@
     "copied": "Copied!",
     "disabledTooltip": "Enter inputs to enable"
   },
+  "search": {
+    "placeholder": "Search formulas...",
+    "noResults": "No formulas found",
+    "noResultsDescription": "Try different keywords"
+  },
   "favorites": {
     "title": "Favorites",
     "addToFavorites": "Add to favorites",

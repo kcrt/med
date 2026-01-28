@@ -13,6 +13,12 @@ vi.mock("@/lib/navigation", () => ({
 vi.mock("next-intl", () => ({
   useTranslations: (namespace: string) => (key: string) => {
     if (namespace === "config" && key === "title") return "Config";
+    if (namespace === "favorites" && key === "title") return "Favorites";
+    if (namespace === "search") {
+      if (key === "placeholder") return "Search formulas...";
+      if (key === "noResults") return "No formulas found";
+      if (key === "noResultsDescription") return "Try different keywords";
+    }
     if (namespace === "formulas") {
       // Mock formula translations
       if (key === "bmi_adult.name") return "BMI (Adult)";
@@ -23,6 +29,10 @@ vi.mock("next-intl", () => ({
     return key;
   },
   useLocale: () => "en",
+  useMessages: () => ({
+    labels: {},
+    category: {},
+  }),
 }));
 
 const { usePathname } = await import("@/lib/navigation");
@@ -35,6 +45,18 @@ describe("Navbar", () => {
   function renderWithProviders(ui: React.ReactElement) {
     return render(<MantineProvider>{ui}</MantineProvider>);
   }
+
+  it("renders search input", () => {
+    renderWithProviders(<Navbar />);
+
+    expect(screen.getByPlaceholderText("Search formulas...")).toBeInTheDocument();
+  });
+
+  it("renders favorites link", () => {
+    renderWithProviders(<Navbar />);
+
+    expect(screen.getByText("Favorites")).toBeInTheDocument();
+  });
 
   it("renders formula categories", () => {
     renderWithProviders(<Navbar />);
