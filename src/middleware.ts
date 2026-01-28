@@ -17,5 +17,6 @@ export default createMiddleware({
 
 export const config = {
   // Match all pathnames except API routes and static files
-  matcher: ["/", "/(ja|en)/:path*", "/((?!api|_next|_vercel|.*\\..*).)"],
+  // When localePrefix is "never", we match paths without locale prefixes
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };
