@@ -179,6 +179,30 @@ export function useTranslatedFormula(formulaId: string): Formula | undefined {
 }
 
 /**
+ * Get translated category name.
+ * Uses the English category name as the translation key under "category" namespace.
+ * Falls back to English name if translation doesn't exist.
+ */
+export function useCategoryName(categoryName: string): string {
+  const locale = useLocale();
+
+  // For English, no translation needed
+  if (locale === DEFAULT_LOCALE) {
+    return categoryName;
+  }
+
+  const messages = useMessages();
+  const categories = messages.category as Record<string, unknown> | undefined;
+
+  const translated = getTranslationDirect(categories, categoryName);
+  if (translated) {
+    return translated;
+  }
+
+  return categoryName;
+}
+
+/**
  * Get menu items with translated labels.
  * Returns menu structure where labels are translated using next-intl.
  */

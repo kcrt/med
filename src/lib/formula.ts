@@ -188,6 +188,36 @@ export function getFormula(id: string): Formula | undefined {
 }
 
 /**
+ * Build a map of formula ID to category name.
+ * Returns English category names. Use translation helpers for localized labels.
+ * Useful for quick category lookups without repeated iteration.
+ *
+ * @returns A Map of formula ID to category name
+ *
+ * @example
+ * ```ts
+ * import { getCategoryMap } from '@/lib/formula';
+ *
+ * const categoryMap = getCategoryMap();
+ * const category = categoryMap.get('bmi_adult'); // Returns "Body Structure Index"
+ * ```
+ */
+export function getCategoryMap(): Map<string, string> {
+  const map = new Map<string, string>();
+  const data = formulaData;
+
+  for (const [categoryName, categoryData] of Object.entries(data)) {
+    if (categoryName === "_meta") continue;
+    const categoryRecord = categoryData as Record<string, Formula>;
+    for (const formulaId of Object.keys(categoryRecord)) {
+      map.set(formulaId, categoryName);
+    }
+  }
+
+  return map;
+}
+
+/**
  * Custom iif function for conditional expressions (like Excel's IF function).
  * Supports multiple conditions in order: iif(cond1, val1, cond2, val2, ..., defaultVal)
  *
