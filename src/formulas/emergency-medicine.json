@@ -226,9 +226,8 @@
     "name": "NEWS 2 (National Early Warning Score 2)",
     "input": {
       "respiratory_rate": {
-        "label": "Respiratory Rate",
+        "label": "Respiratory Rate [/min]",
         "type": "select",
-        "unit": "/min",
         "options": [
           {
             "value": 3,
@@ -267,9 +266,8 @@
         ]
       },
       "spo2": {
-        "label": "SpO₂",
+        "label": "SpO₂ [%]",
         "type": "select",
-        "unit": "%",
         "options": [
           {
             "value": 3,
@@ -342,9 +340,8 @@
         ]
       },
       "pulse": {
-        "label": "Pulse",
+        "label": "Pulse [bpm]",
         "type": "select",
-        "unit": "bpm",
         "options": [
           {
             "value": 3,
@@ -504,9 +501,8 @@
     "name": "Modified Early Warning Score (MEWS)",
     "input": {
       "systolic_bp": {
-        "label": "Systolic BP",
+        "label": "Systolic BP [mmHg]",
         "type": "select",
-        "unit": "mmHg",
         "options": [
           {
             "value": 3,
@@ -531,9 +527,8 @@
         ]
       },
       "heart_rate": {
-        "label": "Heart Rate",
+        "label": "Heart Rate [bpm]",
         "type": "select",
-        "unit": "bpm",
         "options": [
           {
             "value": 2,
@@ -562,9 +557,8 @@
         ]
       },
       "respiratory_rate": {
-        "label": "Respiratory Rate",
+        "label": "Respiratory Rate [/min]",
         "type": "select",
-        "unit": "/min",
         "options": [
           {
             "value": 2,
@@ -589,9 +583,8 @@
         ]
       },
       "temperature": {
-        "label": "Temperature",
+        "label": "Temperature [°C]",
         "type": "select",
-        "unit": "°C",
         "options": [
           {
             "value": 2,
@@ -667,9 +660,8 @@
     "name": "APACHE II Score",
     "input": {
       "age": {
-        "label": "Age",
+        "label": "Age [years]",
         "type": "select",
-        "unit": "years",
         "options": [
           {
             "value": 0,

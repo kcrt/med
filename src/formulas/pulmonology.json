@@ -122,14 +122,12 @@
         "type": "onoff"
       },
       "hematocrit_lt_30": {
-        "label": "Ht <30%",
-        "type": "onoff",
-        "unit": "%"
+        "label": "Ht <30% [%]",
+        "type": "onoff"
       },
       "pao2_lt_60": {
-        "label": "PaO₂ <60 mmHg",
-        "type": "onoff",
-        "unit": "mmHg"
+        "label": "PaO₂ <60 mmHg [mmHg]",
+        "type": "onoff"
       },
       "pleural_effusion": {
         "label": "Pleural Effusion",
@@ -332,9 +330,8 @@
     "name": "BODE Index (COPD)",
     "input": {
       "fev1_percent": {
-        "label": "FEV1 (% predicted)",
+        "label": "FEV1 (% predicted) [%]",
         "type": "select",
-        "unit": "%",
         "options": [
           {
             "value": 0,

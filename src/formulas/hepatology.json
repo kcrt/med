@@ -3,9 +3,8 @@
     "name": "Child-Pugh Score",
     "input": {
       "bilirubin": {
-        "label": "Bilirubin",
+        "label": "Bilirubin [mg/dL]",
         "type": "select",
-        "unit": "mg/dL",
         "options": [
           {
             "value": 1,
@@ -22,9 +21,8 @@
         ]
       },
       "albumin": {
-        "label": "Albumin",
+        "label": "Albumin [g/dL]",
         "type": "select",
-        "unit": "g/dL",
         "options": [
           {
             "value": 1,

@@ -3,9 +3,8 @@
     "name": "Bishop Score",
     "input": {
       "dilation": {
-        "label": "Cervical Dilation",
+        "label": "Cervical Dilation [cm]",
         "type": "select",
-        "unit": "cm",
         "options": [
           {
             "value": 0,
@@ -26,9 +25,8 @@
         ]
       },
       "effacement": {
-        "label": "Cervical Effacement",
+        "label": "Cervical Effacement [%]",
         "type": "select",
-        "unit": "%",
         "options": [
           {
             "value": 0,
