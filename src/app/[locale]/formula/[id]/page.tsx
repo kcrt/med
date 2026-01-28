@@ -21,9 +21,13 @@ import { useFormula } from "@/lib/formula-hooks";
 import { useFormulaName } from "@/lib/formula-translation";
 
 export default function FormulaPage() {
-  const params = useParams();
+  const params = useParams<{ locale: string; id: string }>();
   const t = useTranslations("favorites");
-  const formulaId = params.id as string;
+  // Handle params.id safely - it could be a string, array, or undefined
+  const formulaId = Array.isArray(params.id)
+    ? params.id[0] || ""
+    : params.id || "";
+
   const formula = useFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
 
