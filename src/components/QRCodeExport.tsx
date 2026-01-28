@@ -48,7 +48,7 @@ export function QRCodeExport({
           position: "fixed",
           bottom: "20px",
           right: "20px",
-          zIndex: 1000,
+          zIndex: 100,
         }}
       >
         <Tooltip
@@ -58,7 +58,7 @@ export function QRCodeExport({
               : t("buttonLabel")
           }
           position="top"
-          zIndex={1001}
+          zIndex={101}
         >
           <ActionIcon
             size={56}

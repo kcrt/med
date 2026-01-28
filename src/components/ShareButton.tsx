@@ -76,7 +76,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
           position: "fixed",
           bottom: "20px",
           right: "90px",
-          zIndex: 1000,
+          zIndex: 100,
         }}
       >
         <ActionIcon

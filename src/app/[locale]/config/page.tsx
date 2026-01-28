@@ -3,13 +3,18 @@
 import { Card, Container, Select, Stack, Text, Title } from "@mantine/core";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import type { Locale } from "@/lib/locale";
-import { useRouter } from "@/lib/navigation";
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  type Locale,
+} from "@/lib/locale";
+import { usePathname, useRouter } from "@/lib/navigation";
 
 type LocaleValue = Locale | "auto";
 
 export default function ConfigPage() {
   const t = useTranslations("config");
+  const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
 
@@ -21,21 +26,30 @@ export default function ConfigPage() {
     return cookie ? (locale as LocaleValue) : "auto";
   });
 
-  const handleLanguageChange = (value: string | null) => {
+  const handleLanguageChange = async (value: string | null) => {
     if (!value) return;
 
     const selectedLocale = value as LocaleValue;
 
     if (selectedLocale === "auto") {
       // Remove cookie to let next-intl handle browser detection
-      document.cookie = "NEXT_LOCALE=;path=/;max-age=0";
+      document.cookie = "NEXT_LOCALE=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+      // Detect browser's preferred language
+      const browserLang = navigator.language.split("-")[0];
+      const detectedLocale = SUPPORTED_LOCALES.includes(browserLang as Locale)
+        ? (browserLang as Locale)
+        : DEFAULT_LOCALE;
+
+      // Use router.replace for smooth transition
+      router.replace(pathname, { locale: detectedLocale });
     } else {
       // Set cookie for locale persistence
       document.cookie = `NEXT_LOCALE=${selectedLocale};path=/;max-age=31536000`;
+      // Use router.replace for smooth transition
+      router.replace(pathname, { locale: selectedLocale });
     }
 
-    // Reload to apply new locale
-    router.refresh();
     setCurrentValue(selectedLocale);
   };
 
