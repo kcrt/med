@@ -24,20 +24,15 @@
       },
       "who": {
         "label": "WHO (World Health Organization)",
-        "text": "≥25: overweight, ≥30: obese"
+        "text": "<16.0: severe thinness, <17.0: moderate thinness, <18.5: mild thinness, [18.5–25.0): normal weight, ≥25: overweight (<30.0: preobese, <35.0: obese class I, <40.0: obese class II, ≥40.0: obese class III)"
       },
       "who_diag": {
         "label": "WHO (World Health Organization)",
-        "formula": "iif(BMI>=30, 'obese', BMI>=25, 'overweight', 'normal')"
-      },
-      "jasso": {
-        "label": "Japan Society for the Study of Obesity",
-        "text": "Japan-specific BMI categories",
-        "locales_in": ["ja"]
+        "formula": "iif(BMI < 16.0, 'severe thinness', BMI < 17.0, 'moderate thinness', BMI < 18.5, 'mild thinness', BMI < 25, 'normal', BMI < 30, 'preobese', BMI < 35, 'obesity class I', BMI < 40, 'obesity class II', 'obesity class III')"
       },
       "jasso_diag": {
-        "label": "JASSO Diagnosis",
-        "formula": "iif(BMI<18.5, 'Underweight', BMI<25, 'Normal', 'Obese')",
+        "label": "日本肥満学会による肥満度分類",
+        "formula": "iif(BMI<18.5, '低体重', BMI<25, '普通体重', BMI<30, '肥満(1度)', BMI<35, '肥満(2度)', BMI<40, '肥満(3度)', '肥満(4度)')",
         "locales_in": ["ja"]
       }
     },
@@ -49,13 +44,14 @@
         },
         "output": {
           "BMI": 24.2,
-          "who_diag": "normal",
-          "jasso_diag": "Normal"
+          "who_diag": "normal"
         }
       }
     ],
     "ref": {
-      "Wikipedia": "http://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0"
+      "Garabed Eknoyan (2008)": "doi:10.1093/ndt/gfm517",
+      "WHO 2000": "pmid:11234459",
+      "Nutrition Landscape Information System (WHO)": "https://apps.who.int/nutrition/landscape/help.aspx"
     }
   },
   "bmi_child": {

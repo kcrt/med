@@ -2,7 +2,7 @@
 
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import { buildHumanReadableData } from "@/lib/calculation-export";
@@ -24,6 +24,7 @@ export function CopyResultButton({
 }: CopyResultButtonProps) {
   const [copied, setCopied] = useState(false);
   const t = useTranslations("copyResult");
+  const locale = useLocale();
 
   const isCalculation = isCalculationFormula(formula);
   const hasInputs = Object.keys(inputValues).length > 0;
@@ -38,6 +39,7 @@ export function CopyResultButton({
         formulaId,
         inputValues,
         outputResults,
+        locale,
       );
       await navigator.clipboard.writeText(dataString);
       setCopied(true);

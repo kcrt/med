@@ -3,7 +3,7 @@ import type {
   FormulaInputValues,
   FormulaOutputValues,
 } from "@/lib/formula";
-import { hasFormulaProperty } from "@/lib/formula";
+import { hasFormulaProperty, shouldDisplayForLocale } from "@/lib/formula";
 
 /**
  * Build human-readable calculation result string
@@ -14,6 +14,7 @@ export function buildHumanReadableData(
   formulaId: string,
   inputValues: FormulaInputValues,
   outputResults: FormulaOutputValues,
+  locale?: string,
 ): string {
   const lines: string[] = [];
 
@@ -31,10 +32,14 @@ export function buildHumanReadableData(
 
   lines.push("");
 
-  // Add outputs
+  // Add outputs (filtered by locale if specified)
   for (const [key, value] of Object.entries(outputResults)) {
     const outputDef = formula.output[key];
     if (outputDef && hasFormulaProperty(outputDef)) {
+      // Skip if locale is specified and output should not be displayed for this locale
+      if (locale && !shouldDisplayForLocale(outputDef, locale)) {
+        continue;
+      }
       const unit = outputDef.unit ? ` ${outputDef.unit}` : "";
       lines.push(`${outputDef.label}: ${value}${unit}`);
     }

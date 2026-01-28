@@ -1,27 +1,11 @@
-{
+{!!!!! NOT USED
   "_meta": {
     "language": "ja",
     "version": "1.0.0",
     "lastModified": "2025-01-25"
   },
   "bmi_adult": {
-    "name": "BMI (成人)",
-    "input": {
-      "height": {
-        "label": "身長[cm]"
-      },
-      "weight": {
-        "label": "体重[kg]"
-      }
-    },
     "output": {
-      "who": {
-        "label": "WHO(世界保健機関)",
-        "text": "≧25: overweight, ≧30: obese"
-      },
-      "who_diag": {
-        "label": "WHO(世界保健機関)"
-      },
       "jasso": {
         "label": "日本肥満学会",
         "text": "＜18.5: 低体重, 22: 標準体重,≧25: 肥満"

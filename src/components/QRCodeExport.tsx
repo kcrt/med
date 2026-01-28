@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Modal, ActionIcon, Stack, Text, Box, Tooltip } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { Formula } from "@/types/formula";
 import type { FormulaInputValues, FormulaOutputValues } from "@/lib/formula";
 import { isCalculationFormula } from "@/lib/formula";
@@ -25,6 +25,7 @@ export function QRCodeExport({
 }: QRCodeExportProps) {
   const [opened, setOpened] = useState(false);
   const t = useTranslations("qrcode");
+  const locale = useLocale();
 
   const isCalculation = isCalculationFormula(formula);
   const hasInputs = Object.keys(inputValues).length > 0;
@@ -38,6 +39,7 @@ export function QRCodeExport({
     formulaId,
     inputValues,
     outputResults,
+    locale,
   );
 
   return (
