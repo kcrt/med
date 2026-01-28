@@ -19,7 +19,7 @@ import { FormulaCalculator } from "@/components/FormulaCalculator";
 import { ReferenceLinks } from "@/components/ReferenceLinks";
 import { SparkleEffect } from "@/components/SparkleEffect";
 import { getFavorites, isFavorite, toggleFavorite } from "@/lib/favorites";
-import { useFormula } from "@/lib/formula-hooks";
+import { getFormula } from "@/lib/formula";
 import { useFormulaName } from "@/lib/formula-translation";
 
 export default function FormulaPage() {
@@ -30,7 +30,7 @@ export default function FormulaPage() {
     ? params.id[0] || ""
     : params.id || "";
 
-  const formula = useFormula(formulaId);
+  const formula = getFormula(formulaId);
   const [favorited, setFavorited] = useState(false);
   const [showSparkle, setShowSparkle] = useState(false);
   const [showFirstFavoriteTooltip, setShowFirstFavoriteTooltip] =

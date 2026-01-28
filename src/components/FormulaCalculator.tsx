@@ -203,7 +203,7 @@ interface OutputItemProps {
   outputKey: string;
   outputDef: FormulaOutput;
   hasValidInputs: boolean;
-  result: number | undefined;
+  result: number | string | undefined;
   locale: string;
 }
 
