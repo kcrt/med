@@ -291,9 +291,12 @@ export function useSearchableMenuItems(): SearchableCategoryMenuItem[] {
       englishLabel: categoryLabel,
       items: category.items.map((item) => {
         const englishLabel = item.label;
+        
+        // Use escapeTranslationKey for consistency with useTranslatedMenuItems
+        const escapedKey = escapeTranslationKey(englishLabel);
         const translated =
           locale !== DEFAULT_LOCALE
-            ? getTranslationDirect(labels, englishLabel)
+            ? getTranslationDirect(labels, escapedKey)
             : null;
 
         return {
