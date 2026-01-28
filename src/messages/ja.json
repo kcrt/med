@@ -20,11 +20,13 @@
   "qrcode": {
     "title": "計算結果のエクスポート",
     "description": "このQRコードをスキャンして、計算データを電子カルテなどに転送できます。",
-    "buttonLabel": "QRコードを表示"
+    "buttonLabel": "QRコードを表示",
+    "disabledTooltip": "入力値を入れてください"
   },
   "copyResult": {
     "buttonLabel": "結果をコピー",
-    "copied": "コピーしました！"
+    "copied": "コピーしました！",
+    "disabledTooltip": "入力値を入れてください"
   },
   "favorites": {
     "title": "お気に入り",

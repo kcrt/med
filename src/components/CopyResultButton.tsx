@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionIcon, Group, Stack, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -25,19 +25,13 @@ export function CopyResultButton({
   const [copied, setCopied] = useState(false);
   const t = useTranslations("copyResult");
 
-  // Only show copy button for calculation formulas with valid inputs and results
-  if (!isCalculationFormula(formula)) {
-    return null;
-  }
-
+  const isCalculation = isCalculationFormula(formula);
   const hasInputs = Object.keys(inputValues).length > 0;
   const hasResults = Object.keys(outputResults).length > 0;
-
-  if (!hasInputs || !hasResults) {
-    return null;
-  }
+  const isDisabled = !isCalculation || !hasInputs || !hasResults;
 
   const handleCopy = async () => {
+    if (isDisabled) return;
     try {
       const dataString = buildHumanReadableData(
         formula,
@@ -53,11 +47,19 @@ export function CopyResultButton({
     }
   };
 
+  const getTooltipLabel = () => {
+    if (isDisabled) {
+      return t("disabledTooltip", { defaultValue: "Enter inputs to enable" });
+    }
+    return copied ? t("copied") : t("buttonLabel");
+  };
+
   return (
-    <Tooltip label={copied ? t("copied") : t("buttonLabel")} position="left">
+    <Tooltip label={getTooltipLabel()} position="left">
       <ActionIcon
         variant="light"
         color={copied ? "teal" : "blue"}
+        disabled={isDisabled}
         onClick={handleCopy}
         aria-label={t("buttonLabel")}
       >

@@ -20,11 +20,13 @@
   "qrcode": {
     "title": "Export Calculation",
     "description": "Scan this QR code to transfer the calculation data to your medical records system.",
-    "buttonLabel": "Export as QR Code"
+    "buttonLabel": "Export as QR Code",
+    "disabledTooltip": "Enter inputs to enable"
   },
   "copyResult": {
     "buttonLabel": "Copy result",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "disabledTooltip": "Enter inputs to enable"
   },
   "favorites": {
     "title": "Favorites",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Modal, ActionIcon, Stack, Text, Box } from "@mantine/core";
+import { Modal, ActionIcon, Stack, Text, Box, Tooltip } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useTranslations } from "next-intl";
@@ -26,19 +26,14 @@ export function QRCodeExport({
   const [opened, setOpened] = useState(false);
   const t = useTranslations("qrcode");
 
-  // Only show QR code button for calculation formulas with valid inputs and results
-  if (!isCalculationFormula(formula)) {
-    return null;
-  }
-
+  const isCalculation = isCalculationFormula(formula);
   const hasInputs = Object.keys(inputValues).length > 0;
   const hasResults = Object.keys(outputResults).length > 0;
+  const isDisabled = !isCalculation || !hasInputs || !hasResults;
 
-  if (!hasInputs || !hasResults) {
-    return null;
-  }
-
-  const qrDataString = buildHumanReadableData(
+  const qrDataString = isDisabled
+    ? ""
+    : buildHumanReadableData(
     formula,
     formulaId,
     inputValues,
@@ -56,28 +51,41 @@ export function QRCodeExport({
           zIndex: 1000,
         }}
       >
-        <ActionIcon
-          size={56}
-          radius="xl"
-          variant="filled"
-          color="blue"
-          onClick={() => setOpened(true)}
-          style={{
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            transition: "transform 0.2s, box-shadow 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-            e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
-          }}
-          aria-label={t("buttonLabel")}
+        <Tooltip
+          label={
+            isDisabled
+              ? t("disabledTooltip", { defaultValue: "Enter inputs to enable" })
+              : t("buttonLabel")
+          }
+          position="top"
+          zIndex={1001}
         >
-          <IconQrcode size={28} />
-        </ActionIcon>
+          <ActionIcon
+            size={56}
+            radius="xl"
+            variant="filled"
+            color="blue"
+            disabled={isDisabled}
+            onClick={() => !isDisabled && setOpened(true)}
+            style={{
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+            }}
+            aria-label={t("buttonLabel")}
+          >
+            <IconQrcode size={28} />
+          </ActionIcon>
+        </Tooltip>
       </Box>
 
       {/* QR Code Modal */}
