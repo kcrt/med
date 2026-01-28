@@ -8,8 +8,8 @@ export default createMiddleware({
   // Used when no locale matches
   defaultLocale: DEFAULT_LOCALE,
 
-  // Never show locale prefix in URL
-  localePrefix: "never",
+  // Always show locale prefix in URL for SEO
+  localePrefix: "always",
 
   // Detect locale from browser
   localeDetection: true,
@@ -17,6 +17,6 @@ export default createMiddleware({
 
 export const config = {
   // Match all pathnames except API routes and static files
-  // When localePrefix is "never", we match paths without locale prefixes
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // Skip locale prefixes (e.g., /en, /ja) in the matcher
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)", "/"],
 };

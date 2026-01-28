@@ -11,6 +11,10 @@ Supported Languages
 
 Locale detection is automatic based on browser settings, with manual selection available via the `/config` page.
 
+**URL Structure**: Language-specific URLs are used for SEO purposes:
+- English: `/en/` (e.g., `/en/formula/bmi_adult`)
+- Japanese: `/ja/` (e.g., `/ja/formula/bmi_adult`)
+
 Configuration Files
 -------------------
 
@@ -66,9 +70,21 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./lib/locale";
 export default createMiddleware({
   locales: SUPPORTED_LOCALES,
   defaultLocale: DEFAULT_LOCALE,
-  localePrefix: "never",           // No locale prefix in URLs
+  localePrefix: "always",           // Show locale prefix in URLs for SEO
   localeDetection: true,            // Auto-detect from browser
 });
+```
+
+### `src/lib/navigation.ts`
+
+Locale-aware navigation utilities that automatically handle locale prefixes:
+
+```typescript
+import { createSharedPathnamesNavigation } from "next-intl/navigation";
+import { SUPPORTED_LOCALES } from "./locale";
+
+export const { Link, redirect, usePathname, useRouter } =
+  createSharedPathnamesNavigation({ locales: SUPPORTED_LOCALES });
 ```
 
 Usage
@@ -101,6 +117,32 @@ function Component() {
   const locale = useLocale(); // "en" | "ja"
 }
 ```
+
+### Navigation
+
+**Always use the locale-aware navigation utilities** from `@/lib/navigation`:
+
+```typescript
+import { Link, useRouter, usePathname } from "@/lib/navigation";
+
+function Component() {
+  const router = useRouter();
+  const pathname = usePathname();
+  
+  // Links automatically include locale prefix
+  return (
+    <Link href="/formula/bmi_adult">BMI Calculator</Link>
+  );
+  
+  // Programmatic navigation
+  router.push("/config");
+  
+  // Switch locale while staying on same page
+  router.replace(pathname, { locale: "ja" });
+}
+```
+
+**Do not use** `next/link` or `next/navigation` directly for locale-aware routing.
 
 ### Config Page (`/config`)
 
