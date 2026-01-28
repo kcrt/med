@@ -3,39 +3,45 @@
     "name": "Osmotic Pressure",
     "input": {
       "na": {
-        "label": "Na [mEq/L]",
+        "label": "Na",
         "type": "float",
+        "unit": "mEq/L",
         "min": 0,
         "max": 1000
       },
       "k": {
-        "label": "K [mEq/L]",
+        "label": "K",
         "type": "float",
+        "unit": "mEq/L",
         "min": 0,
         "max": 1000
       },
       "bun": {
-        "label": "BUN [mg/dL]",
+        "label": "BUN",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       },
       "glucose": {
-        "label": "Glucose [mg/dL]",
+        "label": "Glucose",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 3000
       }
     },
     "output": {
       "osm": {
-        "label": "Plasma Osmolarity [mOsm/kg]",
+        "label": "Plasma Osmolarity",
         "formula": "2*(na+k)+glucose/18+bun/2.8",
+        "unit": "mOsm/kg",
         "precision": 1
       },
       "reference": {
-        "label": "Reference [mOsm/kg]",
-        "text": "285-295"
+        "label": "Reference",
+        "text": "285-295",
+        "unit": "mOsm/kg"
       }
     },
     "test": [
@@ -56,14 +62,16 @@
     "name": "HOMA-IR, HOMA-β",
     "input": {
       "fpg": {
-        "label": "Fasting Plasma Glucose [mg/dL]",
+        "label": "Fasting Plasma Glucose",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 800
       },
       "iri": {
-        "label": "Fasting Immunoreactive Insulin [μU/mL]",
+        "label": "Fasting Immunoreactive Insulin",
         "type": "float",
+        "unit": "μU/mL",
         "min": 0,
         "max": 100
       }
@@ -84,8 +92,9 @@
         "precision": 1
       },
       "homa_beta_ref": {
-        "label": "HOMA-β Reference [%]",
-        "text": "40-60%, ≤30% indicates decreased secretion"
+        "label": "HOMA-β Reference",
+        "text": "40-60%, ≤30% indicates decreased secretion",
+        "unit": "%"
       },
       "quicki": {
         "label": "QUICKI (Insulin Sensitivity)",
@@ -136,8 +145,9 @@
     },
     "output": {
       "ldl": {
-        "label": "LDL Cholesterol [mg/dL]",
+        "label": "LDL Cholesterol",
         "formula": "tc-hdl-tg/5",
+        "unit": "mg/dL",
         "precision": 1
       },
       "warning": {
@@ -165,28 +175,32 @@
     "name": "LDL Cholesterol (Sampson-NIH Equation)",
     "input": {
       "tc": {
-        "label": "Total Cholesterol [mg/dL]",
+        "label": "Total Cholesterol",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       },
       "hdl": {
-        "label": "HDL Cholesterol [mg/dL]",
+        "label": "HDL Cholesterol",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       },
       "tg": {
-        "label": "Triglycerides [mg/dL]",
+        "label": "Triglycerides",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       }
     },
     "output": {
       "ldl": {
-        "label": "LDL Cholesterol [mg/dL]",
+        "label": "LDL Cholesterol",
         "formula": "tc/0.948-hdl/0.971-tg/18+9",
+        "unit": "mg/dL",
         "precision": 1
       },
       "note": {
@@ -215,8 +229,9 @@
     "name": "IGF-1 Z-Score",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "float",
+        "unit": "years",
         "min": 0,
         "max": 77
       },
@@ -225,8 +240,9 @@
         "type": "sex"
       },
       "igf1": {
-        "label": "IGF-1 [ng/mL]",
+        "label": "IGF-1",
         "type": "float",
+        "unit": "ng/mL",
         "min": 0,
         "max": 1000
       },
@@ -247,8 +263,9 @@
     },
     "output": {
       "igf1_corrected": {
-        "label": "IGF-1 Corrected [ng/mL]",
+        "label": "IGF-1 Corrected",
         "formula": "method == 1 ? igf1 : 18.03 + 0.822 * igf1",
+        "unit": "ng/mL",
         "precision": 1
       },
       "zscore": {
@@ -262,18 +279,21 @@
         "precision": 1
       },
       "minus_2sd": {
-        "label": "-2SD [ng/mL]",
+        "label": "-2SD",
         "formula": "CalculateIGF1ValueFromZScore(-2, age, sex)",
+        "unit": "ng/mL",
         "precision": 1
       },
       "mean": {
-        "label": "Mean [ng/mL]",
+        "label": "Mean",
         "formula": "CalculateIGF1ValueFromZScore(0, age, sex)",
+        "unit": "ng/mL",
         "precision": 1
       },
       "plus_2sd": {
-        "label": "+2SD [ng/mL]",
+        "label": "+2SD",
         "formula": "CalculateIGF1ValueFromZScore(2, age, sex)",
+        "unit": "ng/mL",
         "precision": 1
       }
     },
@@ -286,14 +306,16 @@
     "name": "Free T4 Index (FT4I)",
     "input": {
       "total_t4": {
-        "label": "Total T4 [µg/dL]",
+        "label": "Total T4",
         "type": "float",
+        "unit": "µg/dL",
         "min": 0,
         "max": 30
       },
       "t3_uptake": {
-        "label": "T3 Uptake Rate (T3RU) [%]",
+        "label": "T3 Uptake Rate (T3RU)",
         "type": "float",
+        "unit": "%",
         "min": 10,
         "max": 50
       }
@@ -328,14 +350,16 @@
     "name": "T3/T4 Ratio",
     "input": {
       "t3": {
-        "label": "T3 [ng/dL]",
+        "label": "T3",
         "type": "float",
+        "unit": "ng/dL",
         "min": 10,
         "max": 500
       },
       "t4": {
-        "label": "T4 [µg/dL]",
+        "label": "T4",
         "type": "float",
+        "unit": "µg/dL",
         "min": 1,
         "max": 30
       }

@@ -3,20 +3,23 @@
     "name": "CCr, eGFR (Adult)",
     "input": {
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 3,
         "max": 300
       },
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "float",
+        "unit": "years",
         "min": 17,
         "max": 100
       },
       "scr": {
-        "label": "Serum Creatinine [mg/dL]",
+        "label": "Serum Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.001,
         "max": 20
       },
@@ -27,23 +30,27 @@
     },
     "output": {
       "cockcroft": {
-        "label": "CCr [mL/min] (Cockcroft-Gault)",
+        "label": "CCr (Cockcroft-Gault)",
         "formula": "sex==1 ? ((140-age) * weight) / (72 * scr) : (((140-age) * weight) / (72 * scr)) * 0.85",
+        "unit": "mL/min",
         "precision": 2
       },
       "mdrd_original": {
-        "label": "GFR [mL/min/1.73m²] (MDRD original)",
+        "label": "GFR (MDRD original)",
         "formula": "sex==1 ? 186 * age ^ -0.203 * scr ^ -1.154 : (186 * age ^ -0.203 * scr ^ -1.154) * 0.742",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "mdrd_japanese": {
-        "label": "GFR [mL/min/1.73m²] (Japanese MDRD)",
+        "label": "GFR (Japanese MDRD)",
         "formula": "sex==1 ? 175 * age ^ -0.203 * scr ^ -1.154 * 0.741 : (175 * age ^ -0.203 * scr ^ -1.154) * 0.741 * 0.742",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "egfr": {
-        "label": "GFR [mL/min/1.73m²] (Japanese eGFR equation)",
+        "label": "GFR (Japanese eGFR equation)",
         "formula": "sex==1 ? 194 * age ^ -0.287 * scr ^ -1.094 : (194 * age ^ -0.287 * scr ^ -1.094) * 0.739",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -70,40 +77,46 @@
     "name": "CCr from Serum/Urine Creatinine",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 10,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0,
         "max": 300
       },
       "urine_cr": {
-        "label": "Urine Creatinine [mg/dL]",
+        "label": "Urine Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.001,
         "max": 1000
       },
       "serum_cr": {
-        "label": "Serum Creatinine [mg/dL]",
+        "label": "Serum Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.001,
         "max": 100
       },
       "urine_volume": {
-        "label": "24h Urine Volume [mL/day]",
+        "label": "24h Urine Volume",
         "type": "float",
+        "unit": "mL/day",
         "min": 1,
         "max": 50000
       }
     },
     "output": {
       "ccr": {
-        "label": "CCr [mL/min/1.73m²]",
+        "label": "CCr",
         "formula": "urine_cr * (urine_volume/24/60) / serum_cr * 1.73 / BSA_DuBois(height, weight)",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -129,14 +142,16 @@
     "name": "eGFR from Cystatin C and Age (18+)",
     "input": {
       "cystatin_c": {
-        "label": "Serum Cystatin C [mg/L]",
+        "label": "Serum Cystatin C",
         "type": "float",
+        "unit": "mg/L",
         "min": 0,
         "max": 100
       },
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "float",
+        "unit": "years",
         "min": 0,
         "max": 100
       },
@@ -147,8 +162,9 @@
     },
     "output": {
       "egfr_cys": {
-        "label": "eGFRcys [mL/min/1.73m²]",
+        "label": "eGFRcys",
         "formula": "(104 * cystatin_c ^ -1.019 * 0.996 ^ age * (sex ? 1 : 0.929)) - 8",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -186,23 +202,27 @@
     },
     "output": {
       "hoek": {
-        "label": "eGFR [mL/min/1.73m²] (Hoek)",
+        "label": "eGFR (Hoek)",
         "formula": "80.35/cystatin_c-4.32",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "grubb_adult": {
-        "label": "eGFR [mL/min/1.73m²] (Grubb 14+ years)",
+        "label": "eGFR (Grubb 14+ years)",
         "formula": "84.69 * cystatin_c ^ -1.680",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "grubb_child": {
-        "label": "eGFR [mL/min/1.73m²] (Grubb <14 years)",
+        "label": "eGFR (Grubb <14 years)",
         "formula": "84.69 * cystatin_c ^ -1.680 * 1.384",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "filler": {
-        "label": "eGFR [mL/min/1.73m²] (Filler; pediatric)",
+        "label": "eGFR (Filler; pediatric)",
         "formula": "91.62 * cystatin_c ^ -1.123",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -225,14 +245,16 @@
     "name": "eGFR (Child)",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 3,
         "max": 300
       },
       "scr": {
-        "label": "Serum Creatinine (enzymatic) [mg/dL]",
+        "label": "Serum Creatinine (enzymatic)",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.001,
         "max": 20
       },
@@ -265,18 +287,21 @@
     },
     "output": {
       "schwartz": {
-        "label": "eGFR [mL/min/1.73m²] (Schwartz)",
+        "label": "eGFR (Schwartz)",
         "formula": "k*height/(scr+0.2)",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "schwartz_2009": {
-        "label": "eGFR [mL/min/1.73m²] (Schwartz 2009; 7.7-14.3y)",
+        "label": "eGFR (Schwartz 2009; 7.7-14.3y)",
         "formula": "0.413 * height / scr",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       },
       "japanese_child": {
-        "label": "eGFR [mL/min/1.73m²] (Japanese child equation; 2-19y)",
+        "label": "eGFR (Japanese child equation; 2-19y)",
         "formula": "CalculateJapaneseChildeGFR(height, scr, sex)",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -308,8 +333,9 @@
     "name": "FENa Calculation",
     "input": {
       "sodium_serum": {
-        "label": "Serum Na [mEq/L]",
+        "label": "Serum Na",
         "type": "float",
+        "unit": "mEq/L",
         "min": 0,
         "max": 1000
       },
@@ -320,8 +346,9 @@
         "max": 1000
       },
       "sodium_urine": {
-        "label": "Urine Na [mEq/L]",
+        "label": "Urine Na",
         "type": "float",
+        "unit": "mEq/L",
         "min": 0,
         "max": 1000
       },
@@ -334,8 +361,9 @@
     },
     "output": {
       "fena": {
-        "label": "FENa [%]",
+        "label": "FENa",
         "formula": "(sodium_urine*creatinine_serum)/(sodium_serum*creatinine_urine)*100",
+        "unit": "%",
         "precision": 2
       },
       "reference": {
@@ -361,8 +389,9 @@
     "name": "%TRP Calculation",
     "input": {
       "phosphate_serum": {
-        "label": "Serum P [mg/dL]",
+        "label": "Serum P",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       },
@@ -373,8 +402,9 @@
         "max": 1000
       },
       "phosphate_urine": {
-        "label": "Urine P [mg/dL]",
+        "label": "Urine P",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 1000
       },
@@ -392,8 +422,9 @@
         "precision": 1
       },
       "tmp_gfr": {
-        "label": "TmP/GFR [mg/dL]",
+        "label": "TmP/GFR",
         "formula": "trp * phosphate_serum / 100",
+        "unit": "mg/dL",
         "precision": 2
       }
     },
@@ -416,20 +447,23 @@
     "name": "CKD-EPI 2021 (Creatinine-Cystatin C)",
     "input": {
       "scr": {
-        "label": "Serum Creatinine [mg/dL]",
+        "label": "Serum Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.1,
         "max": 20
       },
       "cystatin_c": {
-        "label": "Serum Cystatin C [mg/L]",
+        "label": "Serum Cystatin C",
         "type": "float",
+        "unit": "mg/L",
         "min": 0.1,
         "max": 20
       },
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "float",
+        "unit": "years",
         "min": 18,
         "max": 120
       },
@@ -440,8 +474,9 @@
     },
     "output": {
       "egfr_2021": {
-        "label": "eGFR [mL/min/1.73m²] (CKD-EPI 2021)",
+        "label": "eGFR (CKD-EPI 2021)",
         "formula": "142 * min(scr/(sex?0.9:0.7), 1)^(sex?-0.302:-0.241) * max(scr/(sex?0.9:0.7), 1)^-1.2 * min(cystatin_c/0.8, 1)^-0.171 * max(cystatin_c/0.8, 1)^-0.193 * 0.9938^age * (sex?1:1.012)",
+        "unit": "mL/min/1.73m²",
         "precision": 2
       }
     },
@@ -466,14 +501,16 @@
     "name": "KDIGO CKD Category",
     "input": {
       "gfr": {
-        "label": "eGFR [mL/min/1.73m²]",
+        "label": "eGFR",
         "type": "float",
+        "unit": "mL/min/1.73m²",
         "min": 0,
         "max": 200
       },
       "acr": {
-        "label": "Albumin-Creatinine Ratio [mg/g]",
+        "label": "Albumin-Creatinine Ratio",
         "type": "float",
+        "unit": "mg/g",
         "min": 0,
         "max": 5000
       }
