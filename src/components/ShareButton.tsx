@@ -9,11 +9,13 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { IconShare } from "@tabler/icons-react";
+import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import type { Formula } from "@/types/formula";
+import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
+import { useShareHandler } from "@/hooks/useShareHandler";
 
 interface ShareButtonProps {
   formula: Formula;
@@ -24,6 +26,11 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const [opened, setOpened] = useState(false);
   const [copied, setCopied] = useState(false);
   const t = useTranslations("share");
+  const tApp = useTranslations("app");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Check if native share is supported
+  const supportsNativeShare = typeof navigator !== "undefined" && "share" in navigator;
 
   // Only show share button for calculation formulas with valid inputs
   if (!isCalculationFormula(formula)) {
@@ -53,10 +60,23 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
       return "";
     }
     const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    return `${baseUrl}?${params.toString()}`;
+    const queryString = params.toString();
+    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
   };
 
   const shareUrl = buildShareUrl();
+  const shareTitle = `${formula.name || tApp("title")} - ${tApp("title")}`;
+
+  // Auto-select URL text when modal opens
+  useEffect(() => {
+    if (opened) {
+      // Small delay to ensure the input is rendered
+      const timer = setTimeout(() => {
+        inputRef.current?.select();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [opened]);
 
   const handleCopy = async () => {
     try {
@@ -67,6 +87,13 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
       console.error("Failed to copy:", err);
     }
   };
+
+  const { handleNativeShare, handlePlatformShare } = useShareHandler({
+    shareUrl,
+    shareTitle,
+    supportsNativeShare,
+    onShareComplete: () => setOpened(false),
+  });
 
   return (
     <>
@@ -99,7 +126,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
           }}
           aria-label={t("buttonLabel")}
         >
-          <IconShare size={28} />
+          <IconShare3 size={28} />
         </ActionIcon>
       </Box>
 
@@ -118,6 +145,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
 
           {/* URL Display */}
           <TextInput
+            ref={inputRef}
             value={shareUrl}
             readOnly
             onClick={(e) => e.currentTarget.select()}
@@ -130,9 +158,26 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
           />
 
           {/* Copy Button */}
-          <Button onClick={handleCopy} fullWidth>
+          <Button onClick={handleCopy} fullWidth variant="light">
             {copied ? t("copied") : t("copyButton")}
           </Button>
+
+          {/* SNS Share Buttons */}
+          <div>
+            <Text size="sm" fw={500} mb="xs">
+              {t("snsShare")}
+            </Text>
+            <ShareButtonsGrid
+              shareUrl={shareUrl}
+              shareTitle={shareTitle}
+              supportsNativeShare={supportsNativeShare}
+              onNativeShare={handleNativeShare}
+              onPlatformShare={handlePlatformShare}
+              nativeShareLabel={t("nativeShare")}
+              getPlatformShareLabel={(platformName) => t("shareOn", { platform: platformName })}
+              tooltipPosition="bottom"
+            />
+          </div>
         </Stack>
       </Modal>
     </>

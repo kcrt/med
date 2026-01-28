@@ -47,7 +47,20 @@
     "description": "Copy this URL to share the calculation with input values.",
     "buttonLabel": "Share with URL",
     "copyButton": "Copy URL",
-    "copied": "URL copied to clipboard!"
+    "copied": "URL copied to clipboard!",
+    "nativeShare": "Share...",
+    "snsShare": "Or share on social media",
+    "shareOn": "Share on {platform}"
+  },
+  "homeShare": {
+    "title": "Share this App",
+    "description": "Share this medical calculator with your colleagues.",
+    "buttonLabel": "Share",
+    "copyButton": "Copy URL",
+    "copied": "URL copied to clipboard!",
+    "nativeShare": "Share...",
+    "snsShare": "Or share on social media",
+    "shareOn": "Share on {platform}"
   },
   "calculator": {
     "calculate": "Calculate",

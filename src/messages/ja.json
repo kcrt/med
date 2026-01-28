@@ -68,7 +68,20 @@
     "description": "このURLをコピーして、入力値を含む計算を共有できます。",
     "buttonLabel": "URLで共有",
     "copyButton": "URLをコピー",
-    "copied": "URLをクリップボードにコピーしました！"
+    "copied": "URLをクリップボードにコピーしました！",
+    "nativeShare": "共有...",
+    "snsShare": "SNSで共有",
+    "shareOn": "{platform}で共有"
+  },
+  "homeShare": {
+    "title": "このアプリを共有",
+    "description": "この医療計算アプリを同僚と共有しましょう。",
+    "buttonLabel": "共有",
+    "copyButton": "URLをコピー",
+    "copied": "URLをクリップボードにコピーしました！",
+    "nativeShare": "共有...",
+    "snsShare": "SNSで共有",
+    "shareOn": "{platform}で共有"
   },
   "calculator": {
     "calculate": "計算",
