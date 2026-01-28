@@ -3,6 +3,10 @@
     "title": "医療計算機",
     "description": "医療計算アプリ"
   },
+  "formulaNavigation": {
+    "previousFormula": "前の計算式",
+    "nextFormula": "次の計算式"
+  },
   "home": {
     "title": "医療計算機へようこそ",
     "description": "医療従事者向けの包括的な医療計算アプリです。サイドバーからカテゴリを選択して計算式を確認してください。",

@@ -16,10 +16,14 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FormulaCalculator } from "@/components/FormulaCalculator";
+import {
+  NextFormulaButton,
+  PreviousFormulaButton,
+} from "@/components/FormulaNavigation";
 import { ReferenceLinks } from "@/components/ReferenceLinks";
 import { SparkleEffect } from "@/components/SparkleEffect";
 import { getFavorites, isFavorite, toggleFavorite } from "@/lib/favorites";
-import { getFormula } from "@/lib/formula";
+import { getAdjacentFormulas, getFormula } from "@/lib/formula";
 import { useFormulaName } from "@/lib/formula-translation";
 
 export default function FormulaPage() {
@@ -31,13 +35,27 @@ export default function FormulaPage() {
     : params.id || "";
 
   const formula = getFormula(formulaId);
+  const { previous: previousFormulaId, next: nextFormulaId } =
+    getAdjacentFormulas(formulaId);
+  const previousFormula = previousFormulaId
+    ? getFormula(previousFormulaId)
+    : undefined;
+  const nextFormula = nextFormulaId ? getFormula(nextFormulaId) : undefined;
   const [favorited, setFavorited] = useState(false);
   const [showSparkle, setShowSparkle] = useState(false);
   const [showFirstFavoriteTooltip, setShowFirstFavoriteTooltip] =
     useState(false);
 
-  // Get translated formula name
+  // Get translated formula names
   const formulaName = formula ? useFormulaName(formulaId, formula) : formulaId;
+  const previousFormulaName =
+    previousFormula && previousFormulaId
+      ? useFormulaName(previousFormulaId, previousFormula)
+      : undefined;
+  const nextFormulaName =
+    nextFormula && nextFormulaId
+      ? useFormulaName(nextFormulaId, nextFormula)
+      : undefined;
 
   useEffect(() => {
     if (formulaName) {
@@ -95,8 +113,13 @@ export default function FormulaPage() {
     <ErrorBoundary>
       <Container size="sm" py="xl">
         <Stack gap="md">
-          <Group justify="space-between" wrap="nowrap">
-            <Title order={1}>{formulaName}</Title>
+          <Group justify="space-between" align="center" wrap="nowrap">
+            <PreviousFormulaButton
+              formulaId={previousFormulaId}
+              title={previousFormulaName}
+            />
+            <Title order={2}>{formulaName}</Title>
+            <NextFormulaButton formulaId={nextFormulaId} title={nextFormulaName} />
             <Box style={{ position: "relative" }}>
               <Tooltip
                 label={

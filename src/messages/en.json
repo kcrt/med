@@ -3,6 +3,10 @@
     "title": "Medicalculator",
     "description": "Medical calculator app"
   },
+  "formulaNavigation": {
+    "previousFormula": "Previous formula",
+    "nextFormula": "Next formula"
+  },
   "home": {
     "title": "Welcome to Medicalculator",
     "description": "A comprehensive medical calculator for healthcare professionals. Select a category from the sidebar to explore available formulas.",

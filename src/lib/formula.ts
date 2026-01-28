@@ -660,3 +660,45 @@ export function getMenuItems(): CategoryMenuItem[] {
 
   return items;
 }
+
+/**
+ * Get a flat array of all formula IDs in order (by category and formula).
+ *
+ * @returns Array of formula IDs
+ */
+export function getAllFormulaIds(): string[] {
+  const data = formulaData;
+  const formulaIds: string[] = [];
+
+  for (const [category, categoryData] of Object.entries(data)) {
+    if (category === "_meta") continue;
+    const categoryDataRecord = categoryData as Record<string, Formula>;
+    for (const formulaId of Object.keys(categoryDataRecord)) {
+      formulaIds.push(formulaId);
+    }
+  }
+
+  return formulaIds;
+}
+
+/**
+ * Get the previous and next formula IDs for a given formula.
+ *
+ * @param id - The current formula ID
+ * @returns An object with previous and next formula IDs (undefined if none)
+ */
+export function getAdjacentFormulas(
+  id: string,
+): { previous?: string; next?: string } {
+  const allIds = getAllFormulaIds();
+  const index = allIds.indexOf(id);
+
+  if (index === -1) {
+    return { previous: undefined, next: undefined };
+  }
+
+  return {
+    previous: index > 0 ? allIds[index - 1] : undefined,
+    next: index < allIds.length - 1 ? allIds[index + 1] : undefined,
+  };
+}
