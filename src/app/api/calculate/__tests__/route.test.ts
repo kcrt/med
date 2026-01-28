@@ -172,8 +172,9 @@ describe("POST /api/calculate", () => {
 
       expect(response.status).toBe(200);
       // When locale=ja, output keys are translated to Japanese labels
+      // Note: Units are now separate from labels
       expect(data["BMI [kg/m²]"]).toBeCloseTo(24.2, 1);
-      expect(data["WHO(世界保健機関)"]).toBe("normal");
+      expect(data["WHO (世界保健機関)"]).toBe("normal");
       expect(data["日本肥満学会による肥満度分類"]).toBe("普通体重"); // Japan-specific output
     });
 
