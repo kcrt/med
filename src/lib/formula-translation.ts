@@ -249,3 +249,59 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
     };
   });
 }
+
+/**
+ * Extended menu item with both English and translated labels for search.
+ */
+export interface SearchableMenuItem {
+  label: string;
+  path: string;
+  englishLabel: string;
+}
+
+export interface SearchableCategoryMenuItem {
+  label: string;
+  path: string;
+  englishLabel: string;
+  items: SearchableMenuItem[];
+}
+
+/**
+ * Get menu items with both English and translated labels for search functionality.
+ * This allows searching in both English and the current language.
+ */
+export function useSearchableMenuItems(): SearchableCategoryMenuItem[] {
+  const menuItems = getMenuItems();
+  const locale = useLocale();
+  const messages = useMessages();
+  const labels = messages.labels as Record<string, unknown> | undefined;
+  const categories = messages.category as Record<string, unknown> | undefined;
+
+  // Map through menu items and add both English and translated labels
+  return menuItems.map((category) => {
+    const categoryLabel = category.label;
+    const translatedCategoryLabel =
+      locale !== DEFAULT_LOCALE
+        ? getTranslationDirect(categories, categoryLabel)
+        : null;
+
+    return {
+      path: category.path,
+      label: translatedCategoryLabel ?? categoryLabel,
+      englishLabel: categoryLabel,
+      items: category.items.map((item) => {
+        const englishLabel = item.label;
+        const translated =
+          locale !== DEFAULT_LOCALE
+            ? getTranslationDirect(labels, englishLabel)
+            : null;
+
+        return {
+          path: item.path,
+          label: translated ?? englishLabel,
+          englishLabel: englishLabel,
+        };
+      }),
+    };
+  });
+}
