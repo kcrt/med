@@ -3,20 +3,23 @@
     "name": "Phototherapy Threshold (AAP 2022)",
     "input": {
       "bilirubin": {
-        "label": "Total Bilirubin [mg/dL]",
+        "label": "Total Bilirubin",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 30
       },
       "age_hours": {
-        "label": "Age [hours]",
+        "label": "Age",
         "type": "float",
+        "unit": "hours",
         "min": 0,
         "max": 168
       },
       "gestational_age": {
-        "label": "Gestational Age [weeks]",
+        "label": "Gestational Age",
         "type": "float",
+        "unit": "weeks",
         "min": 35,
         "max": 42
       },
@@ -27,13 +30,15 @@
     },
     "output": {
       "threshold_base": {
-        "label": "Base Threshold [mg/dL]",
+        "label": "Base Threshold",
         "formula": "iif(age_hours <= 24, iif(gestational_age < 36, 10.5, gestational_age < 37, 11.5, gestational_age < 38, 12.5, 13.5), age_hours <= 48, iif(gestational_age < 36, 13.5, gestational_age < 37, 14.5, gestational_age < 38, 15.5, 16.5), age_hours <= 72, iif(gestational_age < 36, 15.0, gestational_age < 37, 16.0, gestational_age < 38, 17.0, 18.0), age_hours <= 96, iif(gestational_age < 36, 16.5, gestational_age < 37, 17.5, gestational_age < 38, 18.5, 19.5), iif(gestational_age < 36, 16.5, gestational_age < 37, 17.5, gestational_age < 38, 18.5, 19.5))",
+        "unit": "mg/dL",
         "precision": 1
       },
       "threshold_adjusted": {
-        "label": "Adjusted Threshold [mg/dL]",
+        "label": "Adjusted Threshold",
         "formula": "has_risk_factors == 1 ? threshold_base - 1.5 : threshold_base",
+        "unit": "mg/dL",
         "precision": 1
       },
       "recommendation": {
@@ -99,20 +104,23 @@
     "name": "Exchange Transfusion Threshold (AAP 2022)",
     "input": {
       "bilirubin": {
-        "label": "Total Bilirubin [mg/dL]",
+        "label": "Total Bilirubin",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 40
       },
       "age_hours": {
-        "label": "Age [hours]",
+        "label": "Age",
         "type": "float",
+        "unit": "hours",
         "min": 0,
         "max": 168
       },
       "gestational_age": {
-        "label": "Gestational Age [weeks]",
+        "label": "Gestational Age",
         "type": "float",
+        "unit": "weeks",
         "min": 35,
         "max": 42
       },
@@ -123,13 +131,15 @@
     },
     "output": {
       "threshold_base": {
-        "label": "Base Threshold [mg/dL]",
+        "label": "Base Threshold",
         "formula": "gestational_age >= 38 ? iif(age_hours <= 24, 19.0, age_hours <= 48, 21.5, age_hours <= 72, 23.0, age_hours <= 96, 24.0, 24.0) : 0",
+        "unit": "mg/dL",
         "precision": 1
       },
       "threshold_adjusted": {
-        "label": "Adjusted Threshold [mg/dL]",
+        "label": "Adjusted Threshold",
         "formula": "has_risk_factors == 1 ? threshold_base - 2.5 : threshold_base",
+        "unit": "mg/dL",
         "precision": 1
       },
       "recommendation": {
@@ -212,20 +222,23 @@
     "name": "Bilirubin/Albumin Ratio",
     "input": {
       "bilirubin": {
-        "label": "Total Bilirubin [mg/dL]",
+        "label": "Total Bilirubin",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 40
       },
       "albumin": {
-        "label": "Albumin [g/dL]",
+        "label": "Albumin",
         "type": "float",
+        "unit": "g/dL",
         "min": 1.0,
         "max": 6.0
       },
       "gestational_age": {
-        "label": "Gestational Age [weeks]",
+        "label": "Gestational Age",
         "type": "float",
+        "unit": "weeks",
         "min": 35,
         "max": 42
       },

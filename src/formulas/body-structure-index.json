@@ -60,14 +60,16 @@
     "name": "BMI (Child)",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 10,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0,
         "max": 300
       }
@@ -124,14 +126,16 @@
     "name": "Target Height",
     "input": {
       "father_height": {
-        "label": "Father's Height [cm]",
+        "label": "Father's Height",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 300
       },
       "mother_height": {
-        "label": "Mother's Height [cm]",
+        "label": "Mother's Height",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 300
       },
@@ -142,18 +146,21 @@
     },
     "output": {
       "target_height": {
-        "label": "Target Height [cm]",
+        "label": "Target Height",
         "formula": "sex ? (father_height+mother_height+13)/2 : (father_height-13+mother_height)/2",
+        "unit": "cm",
         "precision": 1
       },
       "target_range_min": {
-        "label": "Target Range Min [cm]",
+        "label": "Target Range Min",
         "formula": "sex ? target_height - 9 : target_height - 8",
+        "unit": "cm",
         "precision": 1
       },
       "target_range_max": {
-        "label": "Target Range Max [cm]",
+        "label": "Target Range Max",
         "formula": "sex ? target_height + 9 : target_height + 8",
+        "unit": "cm",
         "precision": 1
       }
     },
@@ -177,14 +184,16 @@
     "name": "Body Surface Area",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 10,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0,
         "max": 300
       }

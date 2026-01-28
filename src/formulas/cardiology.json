@@ -197,33 +197,35 @@
     "name": "Left Ventricular Ejection Fraction",
     "input": {
       "lvdd": {
-        "label": "LVDd [mm]",
+        "label": "LVDd",
         "type": "float",
+        "unit": "mm",
         "min": 1,
         "max": 100
       },
       "lvds": {
-        "label": "LVDs [mm]",
+        "label": "LVDs",
         "type": "float",
+        "unit": "mm",
         "min": 2,
         "max": 100
       }
     },
     "output": {
       "pombo": {
-        "label": "Pombo (Cubed) [%]",
+        "label": "Pombo (Cubed)",
         "formula": "(lvdd ^ 3 - lvds ^ 3)/lvdd ^ 3 * 100",
         "unit": "%",
         "precision": 1
       },
       "gibson": {
-        "label": "Gibson [%]",
+        "label": "Gibson",
         "formula": "CalculateGibsonEF(lvdd, lvds)",
         "unit": "%",
         "precision": 1
       },
       "teichholz": {
-        "label": "Teichholz [%]",
+        "label": "Teichholz",
         "formula": "CalculateTeichholzEF(lvdd, lvds)",
         "unit": "%",
         "precision": 1
@@ -249,14 +251,16 @@
     "name": "Pediatric LVDd Standard Values",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 10,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0,
         "max": 300
       }
@@ -298,26 +302,30 @@
     "name": "Kawasaki Disease Coronary Artery",
     "input": {
       "bsa": {
-        "label": "Body Surface Area [m²]",
+        "label": "Body Surface Area",
         "type": "float",
+        "unit": "m²",
         "min": 0,
         "max": 4
       },
       "lmca": {
-        "label": "LMCA [cm]",
+        "label": "LMCA",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       },
       "plad": {
-        "label": "pLAD [cm]",
+        "label": "pLAD",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       },
       "prca": {
-        "label": "pRCA [cm]",
+        "label": "pRCA",
         "type": "float",
+        "unit": "cm",
         "min": 0,
         "max": 8
       }
@@ -560,26 +568,30 @@
     "name": "GRACE Score (ACS)",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 20,
         "max": 120
       },
       "heart_rate": {
-        "label": "Heart Rate [bpm]",
+        "label": "Heart Rate",
         "type": "int",
+        "unit": "bpm",
         "min": 30,
         "max": 250
       },
       "sbp": {
-        "label": "Systolic BP [mmHg]",
+        "label": "Systolic BP",
         "type": "int",
+        "unit": "mmHg",
         "min": 50,
         "max": 250
       },
       "creatinine": {
-        "label": "Creatinine [mg/dL]",
+        "label": "Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 20
       },
@@ -1019,8 +1031,9 @@
     "name": "ASCVD Risk Calculator (10-year)",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 40,
         "max": 79
       },
@@ -1047,20 +1060,23 @@
         ]
       },
       "total_chol": {
-        "label": "Total Cholesterol [mg/dL]",
+        "label": "Total Cholesterol",
         "type": "int",
+        "unit": "mg/dL",
         "min": 130,
         "max": 320
       },
       "hdl": {
-        "label": "HDL Cholesterol [mg/dL]",
+        "label": "HDL Cholesterol",
         "type": "int",
+        "unit": "mg/dL",
         "min": 20,
         "max": 100
       },
       "sbp": {
-        "label": "Systolic BP [mmHg]",
+        "label": "Systolic BP",
         "type": "int",
+        "unit": "mmHg",
         "min": 90,
         "max": 200
       },
@@ -1079,7 +1095,8 @@
     },
     "output": {
       "risk_simple": {
-        "label": "Estimated 10-year ASCVD Risk (%)",
+        "label": "Estimated 10-year ASCVD Risk",
+        "unit": "%",
         "formula": "iif(age<50 and diabetes==0 and smoker==0 and sbp<140 and total_chol<200, '<5% (Low)', age<60 and diabetes==0 and sbp<140, '5-7.5% (Borderline)', '7.5-20% or >20% (Intermediate to High) - Use full calculator')",
         "text": "Simplified estimate. For accurate calculation, use online calculator with race-specific coefficients."
       },

@@ -19,8 +19,9 @@
     "name": "SOFA Score (Sepsis-related Organ Failure Assessment)",
     "input": {
       "pao2": {
-        "label": "PaO₂ [mmHg]",
+        "label": "PaO₂",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 1000
       },
@@ -31,20 +32,23 @@
         "max": 1
       },
       "platelets": {
-        "label": "Platelets [×10³/μL]",
+        "label": "Platelets",
         "type": "float",
+        "unit": "×10³/μL",
         "min": 0,
         "max": 1000
       },
       "bilirubin": {
-        "label": "Bilirubin [mg/dL]",
+        "label": "Bilirubin",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 100
       },
       "map": {
-        "label": "Mean Arterial Pressure [mmHg]",
+        "label": "Mean Arterial Pressure",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 300
       },
@@ -77,14 +81,16 @@
         "max": 15
       },
       "creatinine": {
-        "label": "Creatinine [mg/dL]",
+        "label": "Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0,
         "max": 20
       },
       "urine_output": {
-        "label": "Urine Output [mL/day]",
+        "label": "Urine Output",
         "type": "float",
+        "unit": "mL/day",
         "min": 0,
         "max": 10000,
         "default": 0
@@ -163,8 +169,9 @@
     "name": "qSOFA Score (quick SOFA)",
     "input": {
       "respiratory_rate": {
-        "label": "Respiratory Rate [/min]",
+        "label": "Respiratory Rate",
         "type": "float",
+        "unit": "/min",
         "min": 0,
         "max": 100
       },
@@ -173,8 +180,9 @@
         "type": "onoff"
       },
       "systolic_bp": {
-        "label": "Systolic Blood Pressure [mmHg]",
+        "label": "Systolic Blood Pressure",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 300
       }
@@ -258,7 +266,7 @@
         ]
       },
       "spo2": {
-        "label": "SpO₂ (%)",
+        "label": "SpO₂ [%]",
         "type": "select",
         "options": [
           {
@@ -696,26 +704,30 @@
         ]
       },
       "temperature": {
-        "label": "Temperature [°C]",
+        "label": "Temperature",
         "type": "float",
+        "unit": "°C",
         "min": 25,
         "max": 45
       },
       "map": {
-        "label": "Mean Arterial Pressure [mmHg]",
+        "label": "Mean Arterial Pressure",
         "type": "float",
+        "unit": "mmHg",
         "min": 20,
         "max": 200
       },
       "heart_rate": {
-        "label": "Heart Rate [bpm]",
+        "label": "Heart Rate",
         "type": "int",
+        "unit": "bpm",
         "min": 20,
         "max": 250
       },
       "respiratory_rate": {
-        "label": "Respiratory Rate [/min]",
+        "label": "Respiratory Rate",
         "type": "int",
+        "unit": "/min",
         "min": 5,
         "max": 60
       },
@@ -726,8 +738,9 @@
         "max": 1
       },
       "pao2_or_aado2": {
-        "label": "PaO₂ (if FiO₂<0.5) or A-aDO₂ (if FiO₂≥0.5) [mmHg]",
+        "label": "PaO₂ (if FiO₂<0.5) or A-aDO₂ (if FiO₂≥0.5)",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 600
       },
@@ -738,32 +751,37 @@
         "max": 8
       },
       "sodium": {
-        "label": "Serum Sodium [mEq/L]",
+        "label": "Serum Sodium",
         "type": "int",
+        "unit": "mEq/L",
         "min": 100,
         "max": 200
       },
       "potassium": {
-        "label": "Serum Potassium [mEq/L]",
+        "label": "Serum Potassium",
         "type": "float",
+        "unit": "mEq/L",
         "min": 1,
         "max": 10
       },
       "creatinine": {
-        "label": "Serum Creatinine [mg/dL]",
+        "label": "Serum Creatinine",
         "type": "float",
+        "unit": "mg/dL",
         "min": 0.1,
         "max": 20
       },
       "hematocrit": {
-        "label": "Hematocrit [%]",
+        "label": "Hematocrit",
         "type": "float",
+        "unit": "%",
         "min": 10,
         "max": 70
       },
       "wbc": {
-        "label": "WBC [×10³/μL]",
+        "label": "WBC",
         "type": "float",
+        "unit": "×10³/μL",
         "min": 0.1,
         "max": 100
       },

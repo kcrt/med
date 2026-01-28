@@ -173,32 +173,37 @@
     "name": "Lumbar Puncture Depth Prediction",
     "input": {
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 30,
         "max": 300
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 3,
         "max": 300
       }
     },
     "output": {
       "adult": {
-        "label": "Adult [cm]",
+        "label": "Adult",
         "formula": "1+17*(weight/height)",
+        "unit": "cm",
         "precision": 1
       },
       "child_3m_plus": {
-        "label": "Child (≥3 months) [cm]",
+        "label": "Child (≥3 months)",
         "formula": "1.3 + 0.07*weight",
+        "unit": "cm",
         "precision": 1
       },
       "child_lt_3m": {
-        "label": "Child (<3 months) [cm]",
+        "label": "Child (<3 months)",
         "formula": "height*0.03",
+        "unit": "cm",
         "precision": 1
       }
     },
@@ -223,20 +228,23 @@
     "name": "ABR Latency Reference Values",
     "input": {
       "wave_i": {
-        "label": "Wave I [ms]",
+        "label": "Wave I",
         "type": "float",
+        "unit": "ms",
         "min": 0,
         "max": 10
       },
       "wave_iii": {
-        "label": "Wave III [ms]",
+        "label": "Wave III",
         "type": "float",
+        "unit": "ms",
         "min": 0,
         "max": 10
       },
       "wave_v": {
-        "label": "Wave V [ms]",
+        "label": "Wave V",
         "type": "float",
+        "unit": "ms",
         "min": 0,
         "max": 10
       },

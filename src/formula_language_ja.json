@@ -33,10 +33,10 @@
     "name": "BMI (小児)",
     "input": {
       "height": {
-        "label": "身長[cm]"
+        "label": "身長"
       },
       "weight": {
-        "label": "体重[kg]"
+        "label": "体重"
       }
     },
     "output": {
@@ -104,13 +104,13 @@
     "name": "CKD-EPI 2021 (クレアチニン・シスタチンC)",
     "input": {
       "scr": {
-        "label": "血清クレアチニン [mg/dL]"
+        "label": "血清クレアチニン"
       },
       "cystatin_c": {
-        "label": "血清シスタチンC [mg/L]"
+        "label": "血清シスタチンC"
       },
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -162,19 +162,19 @@
     "name": "SOFAスコア (敗血症関連臓器障害評価)",
     "input": {
       "pao2": {
-        "label": "PaO₂ [mmHg]"
+        "label": "PaO₂"
       },
       "fio2": {
         "label": "FiO₂ (0-1)"
       },
       "platelets": {
-        "label": "血小板数 [×10³/μL]"
+        "label": "血小板数"
       },
       "bilirubin": {
-        "label": "総ビリルビン [mg/dL]"
+        "label": "総ビリルビン"
       },
       "map": {
-        "label": "平均動脈圧 [mmHg]"
+        "label": "平均動脈圧"
       },
       "vasopressor": {
         "label": "血管作動薬使用",
@@ -201,10 +201,10 @@
         "label": "Glasgow Coma Scale"
       },
       "creatinine": {
-        "label": "クレアチニン [mg/dL]"
+        "label": "クレアチニン"
       },
       "urine_output": {
-        "label": "尿量 [mL/day]",
+        "label": "尿量",
         "default": 0
       }
     },
@@ -243,13 +243,13 @@
     "name": "qSOFAスコア (quick SOFA)",
     "input": {
       "respiratory_rate": {
-        "label": "呼吸数 [/分]"
+        "label": "呼吸数"
       },
       "altered_mentation": {
         "label": "意識障害 (GCS<15)"
       },
       "systolic_bp": {
-        "label": "収縮期血圧 [mmHg]"
+        "label": "収縮期血圧"
       }
     },
     "output": {
@@ -274,15 +274,15 @@
     "name": "補正ナトリウム (高血糖時) - Katz式",
     "input": {
       "measured_na": {
-        "label": "測定ナトリウム [mmol/L]"
+        "label": "測定ナトリウム"
       },
       "glucose": {
-        "label": "血糖 [mg/dL]"
+        "label": "血糖"
       }
     },
     "output": {
       "corrected_na": {
-        "label": "補正ナトリウム [mmol/L]"
+        "label": "補正ナトリウム"
       },
       "interpretation": {
         "label": "判定"
@@ -297,18 +297,18 @@
     "name": "血清浸透圧 (計算値)",
     "input": {
       "sodium": {
-        "label": "ナトリウム [mmol/L]"
+        "label": "ナトリウム"
       },
       "glucose": {
-        "label": "血糖 [mg/dL]"
+        "label": "血糖"
       },
       "bun": {
-        "label": "BUN [mg/dL]"
+        "label": "BUN"
       }
     },
     "output": {
       "osmolality": {
-        "label": "計算浸透圧 [mOsm/kg]"
+        "label": "計算浸透圧"
       },
       "interpretation": {
         "label": "判定"
@@ -323,10 +323,10 @@
     "name": "尿中ナトリウム排泄率 (FENa)",
     "input": {
       "urine_na": {
-        "label": "尿中ナトリウム [mmol/L]"
+        "label": "尿中ナトリウム"
       },
       "serum_na": {
-        "label": "血清ナトリウム [mmol/L]"
+        "label": "血清ナトリウム"
       },
       "urine_cr": {
         "label": "尿中クレアチニン [mg/dL]"
@@ -337,7 +337,7 @@
     },
     "output": {
       "fena": {
-        "label": "FENa [%]"
+        "label": "FENa"
       },
       "interpretation": {
         "label": "判定"
@@ -352,10 +352,10 @@
     "name": "網状赤血球産生指数 (RPI)",
     "input": {
       "reticulocyte_percent": {
-        "label": "網状赤血球 [%]"
+        "label": "網状赤血球"
       },
       "patient_hct": {
-        "label": "患者ヘマトクリット [%]"
+        "label": "患者ヘマトクリット"
       }
     },
     "output": {
@@ -374,13 +374,13 @@
     "name": "光線療法開始基準 (AAP 2022)",
     "input": {
       "bilirubin": {
-        "label": "総ビリルビン [mg/dL]"
+        "label": "総ビリルビン"
       },
       "age_hours": {
-        "label": "日齢 [時間]"
+        "label": "日齢"
       },
       "gestational_age": {
-        "label": "在胎週数 [週]"
+        "label": "在胎週数"
       },
       "has_risk_factors": {
         "label": "リスク因子あり"
@@ -388,7 +388,7 @@
     },
     "output": {
       "threshold_adjusted": {
-        "label": "調整後基準値 [mg/dL]"
+        "label": "調整後基準値"
       },
       "recommendation": {
         "label": "推奨"
@@ -489,10 +489,10 @@
     "name": "遊離T4指数 (FT4I)",
     "input": {
       "total_t4": {
-        "label": "総T4 [µg/dL]"
+        "label": "総T4"
       },
       "t3_uptake": {
-        "label": "T3摂取率 (T3RU) [%]"
+        "label": "T3摂取率 (T3RU)"
       }
     },
     "output": {
@@ -505,10 +505,10 @@
     "name": "T3/T4比",
     "input": {
       "t3": {
-        "label": "T3 [ng/dL]"
+        "label": "T3"
       },
       "t4": {
-        "label": "T4 [µg/dL]"
+        "label": "T4"
       }
     },
     "output": {
@@ -653,7 +653,7 @@
         "label": "推算GFR [mL/min/1.73m²]"
       },
       "acr": {
-        "label": "尿アルブミン/クレアチニン比 [mg/g]",
+        "label": "尿アルブミン/クレアチニン比",
         "options": [
           {
             "value": 0,
@@ -709,7 +709,7 @@
     "name": "腰椎穿刺深度予測 (小児)",
     "input": {
       "weight": {
-        "label": "体重 [kg]"
+        "label": "体重"
       }
     },
     "output": {
@@ -726,10 +726,10 @@
     "name": "MELDスコア (肝移植優先度)",
     "input": {
       "creatinine": {
-        "label": "血清クレアチニン [mg/dL]"
+        "label": "血清クレアチニン"
       },
       "bilirubin": {
-        "label": "総ビリルビン [mg/dL]"
+        "label": "総ビリルビン"
       },
       "inr": {
         "label": "PT-INR"
@@ -883,13 +883,13 @@
     "name": "Mifflin-St Jeor式 (基礎代謝量)",
     "input": {
       "weight": {
-        "label": "体重 [kg]"
+        "label": "体重"
       },
       "height": {
-        "label": "身長 [cm]"
+        "label": "身長"
       },
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -1201,7 +1201,7 @@
     "name": "浸透圧ギャップ",
     "input": {
       "measured_osm": {
-        "label": "測定浸透圧 [mOsm/kg]"
+        "label": "測定浸透圧"
       },
       "sodium": {
         "label": "ナトリウム [mmol/L]"
@@ -1218,10 +1218,10 @@
     },
     "output": {
       "calculated_osm": {
-        "label": "計算浸透圧 [mOsm/kg]"
+        "label": "計算浸透圧"
       },
       "osmolar_gap": {
-        "label": "浸透圧ギャップ [mOsm/kg]"
+        "label": "浸透圧ギャップ"
       },
       "interpretation": {
         "label": "判定"
@@ -1472,7 +1472,7 @@
     "name": "PSI/PORTスコア (肺炎重症度)",
     "input": {
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -1608,7 +1608,7 @@
         "label": "総コレステロール [mg/dL]"
       },
       "hdl": {
-        "label": "HDLコレステロール [mg/dL]"
+        "label": "HDLコレステロール"
       },
       "triglycerides": {
         "label": "中性脂肪 [mg/dL]"
@@ -1616,7 +1616,7 @@
     },
     "output": {
       "ldl": {
-        "label": "LDLコレステロール [mg/dL]"
+        "label": "LDLコレステロール"
       },
       "vldl": {
         "label": "VLDLコレステロール [mg/dL]"
@@ -1730,10 +1730,10 @@
     "name": "目標身長 (遺伝身長)",
     "input": {
       "father_height": {
-        "label": "父親の身長 [cm]"
+        "label": "父親の身長"
       },
       "mother_height": {
-        "label": "母親の身長 [cm]"
+        "label": "母親の身長"
       },
       "child_sex": {
         "label": "子の性別"
@@ -1741,7 +1741,7 @@
     },
     "output": {
       "target_height": {
-        "label": "目標身長 [cm]"
+        "label": "目標身長"
       },
       "range": {
         "label": "予測範囲 [cm]",
@@ -2089,10 +2089,10 @@
         "label": "FiO₂ (吸入酸素濃度)"
       },
       "pao2": {
-        "label": "PaO₂ (動脈血酸素分圧) [mmHg]"
+        "label": "PaO₂ (動脈血酸素分圧)"
       },
       "paco2": {
-        "label": "PaCO₂ (動脈血二酸化炭素分圧) [mmHg]"
+        "label": "PaCO₂ (動脈血二酸化炭素分圧)"
       }
     },
     "output": {
@@ -2204,24 +2204,24 @@
     "name": "補正アニオンギャップ (Figge式)",
     "input": {
       "sodium": {
-        "label": "ナトリウム [mmol/L]"
+        "label": "ナトリウム"
       },
       "chloride": {
-        "label": "クロール [mmol/L]"
+        "label": "クロール"
       },
       "bicarbonate": {
-        "label": "重炭酸 [mmol/L]"
+        "label": "重炭酸"
       },
       "albumin": {
-        "label": "アルブミン [g/dL]"
+        "label": "アルブミン"
       }
     },
     "output": {
       "anion_gap": {
-        "label": "測定アニオンギャップ [mEq/L]"
+        "label": "測定アニオンギャップ"
       },
       "corrected_ag": {
-        "label": "補正アニオンギャップ [mEq/L]"
+        "label": "補正アニオンギャップ"
       },
       "interpretation": {
         "label": "判定"
@@ -2232,16 +2232,16 @@
     "name": "APACHE IIスコア",
     "input": {
       "temperature": {
-        "label": "体温 [°C]"
+        "label": "体温"
       },
       "map": {
-        "label": "平均動脈圧 [mmHg]"
+        "label": "平均動脈圧"
       },
       "heart_rate": {
-        "label": "心拍数 [/分]"
+        "label": "心拍数"
       },
       "respiratory_rate": {
-        "label": "呼吸数 [/分]"
+        "label": "呼吸数"
       },
       "fio2": {
         "label": "FiO₂≥0.5"
@@ -2256,22 +2256,22 @@
         "label": "動脈血pH"
       },
       "sodium": {
-        "label": "ナトリウム [mmol/L]"
+        "label": "ナトリウム"
       },
       "potassium": {
-        "label": "カリウム [mmol/L]"
+        "label": "カリウム"
       },
       "creatinine": {
-        "label": "クレアチニン [mg/dL]"
+        "label": "クレアチニン"
       },
       "acute_renal_failure": {
         "label": "急性腎不全"
       },
       "hematocrit": {
-        "label": "ヘマトクリット [%]"
+        "label": "ヘマトクリット"
       },
       "wbc": {
-        "label": "白血球数 [×10³/μL]"
+        "label": "白血球数"
       },
       "gcs": {
         "label": "Glasgow Coma Scale"
@@ -2409,7 +2409,7 @@
     "name": "ASCVD リスク計算 (10年)",
     "input": {
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -2431,7 +2431,7 @@
         "label": "総コレステロール [mg/dL]"
       },
       "hdl": {
-        "label": "HDLコレステロール [mg/dL]"
+        "label": "HDLコレステロール"
       },
       "systolic_bp": {
         "label": "収縮期血圧 [mmHg]"
@@ -2463,7 +2463,7 @@
         "label": "総ビリルビン [mg/dL]"
       },
       "albumin": {
-        "label": "アルブミン [g/dL]"
+        "label": "アルブミン"
       }
     },
     "output": {
@@ -2709,10 +2709,10 @@
     "name": "体表面積 (BSA)",
     "input": {
       "height": {
-        "label": "身長 [cm]"
+        "label": "身長"
       },
       "weight": {
-        "label": "体重 [kg]"
+        "label": "体重"
       }
     },
     "output": {
@@ -2731,10 +2731,10 @@
     "name": "クレアチニンクリアランス (成人) Cockcroft-Gault式",
     "input": {
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "weight": {
-        "label": "体重 [kg]"
+        "label": "体重"
       },
       "creatinine": {
         "label": "血清クレアチニン [mg/dL]"
@@ -2753,7 +2753,7 @@
     "name": "クレアチニンクリアランス (小児) Schwartz式",
     "input": {
       "height": {
-        "label": "身長 [cm]"
+        "label": "身長"
       },
       "creatinine": {
         "label": "血清クレアチニン [mg/dL]"
@@ -2794,13 +2794,13 @@
     "name": "クレアチニンクリアランス (実測値)",
     "input": {
       "urine_cr": {
-        "label": "尿中クレアチニン [mg/dL]"
+        "label": "尿中クレアチニン"
       },
       "serum_cr": {
-        "label": "血清クレアチニン [mg/dL]"
+        "label": "血清クレアチニン"
       },
       "urine_volume": {
-        "label": "尿量 [mL/day]"
+        "label": "尿量"
       },
       "collection_time": {
         "label": "蓄尿時間 [分]"
@@ -2808,7 +2808,7 @@
     },
     "output": {
       "ccr": {
-        "label": "クレアチニンクリアランス [mL/min]"
+        "label": "クレアチニンクリアランス"
       }
     }
   },
@@ -3096,7 +3096,7 @@
         "label": "測定カルシウム [mg/dL]"
       },
       "albumin": {
-        "label": "アルブミン [g/dL]"
+        "label": "アルブミン"
       }
     },
     "output": {
@@ -3112,7 +3112,7 @@
         "label": "測定カルシウム [mg/dL]"
       },
       "albumin": {
-        "label": "アルブミン [g/dL]"
+        "label": "アルブミン"
       }
     },
     "output": {
@@ -3150,10 +3150,10 @@
     "name": "補正網状赤血球数",
     "input": {
       "reticulocyte_percent": {
-        "label": "網状赤血球 [%]"
+        "label": "網状赤血球"
       },
       "patient_hct": {
-        "label": "患者ヘマトクリット [%]"
+        "label": "患者ヘマトクリット"
       }
     },
     "output": {
@@ -3166,15 +3166,15 @@
     "name": "補正ナトリウム (高血糖時) - Hillier式",
     "input": {
       "measured_na": {
-        "label": "測定ナトリウム [mmol/L]"
+        "label": "測定ナトリウム"
       },
       "glucose": {
-        "label": "血糖 [mg/dL]"
+        "label": "血糖"
       }
     },
     "output": {
       "corrected_na": {
-        "label": "補正ナトリウム [mmol/L]"
+        "label": "補正ナトリウム"
       },
       "interpretation": {
         "label": "判定"
@@ -3270,13 +3270,13 @@
     "name": "交換輸血基準 (AAP 2022)",
     "input": {
       "bilirubin": {
-        "label": "総ビリルビン [mg/dL]"
+        "label": "総ビリルビン"
       },
       "age_hours": {
-        "label": "日齢 [時間]"
+        "label": "日齢"
       },
       "gestational_age": {
-        "label": "在胎週数 [週]"
+        "label": "在胎週数"
       },
       "has_risk_factors": {
         "label": "リスク因子あり"
@@ -3284,7 +3284,7 @@
     },
     "output": {
       "threshold_adjusted": {
-        "label": "調整後基準値 [mg/dL]"
+        "label": "調整後基準値"
       },
       "recommendation": {
         "label": "推奨"
@@ -3299,10 +3299,10 @@
     "name": "尿素排泄率 (FEUrea)",
     "input": {
       "urine_urea": {
-        "label": "尿中尿素窒素 [mg/dL]"
+        "label": "尿中尿素窒素"
       },
       "serum_urea": {
-        "label": "血清尿素窒素 [mg/dL]"
+        "label": "血清尿素窒素"
       },
       "urine_cr": {
         "label": "尿中クレアチニン [mg/dL]"
@@ -3313,7 +3313,7 @@
     },
     "output": {
       "feurea": {
-        "label": "FEUrea [%]"
+        "label": "FEUrea"
       },
       "interpretation": {
         "label": "判定"
@@ -3344,7 +3344,7 @@
     },
     "output": {
       "ldl": {
-        "label": "LDLコレステロール [mg/dL]"
+        "label": "LDLコレステロール"
       },
       "limitation": {
         "label": "制限事項",
@@ -3603,16 +3603,16 @@
     "name": "GRACEスコア (ACS予後予測)",
     "input": {
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "heart_rate": {
-        "label": "心拍数 [/分]"
+        "label": "心拍数"
       },
       "systolic_bp": {
         "label": "収縮期血圧 [mmHg]"
       },
       "creatinine": {
-        "label": "クレアチニン [mg/dL]"
+        "label": "クレアチニン"
       },
       "killip_class": {
         "label": "Killip分類",
@@ -3665,13 +3665,13 @@
     "name": "Harris-Benedict式 (基礎代謝量)",
     "input": {
       "weight": {
-        "label": "体重 [kg]"
+        "label": "体重"
       },
       "height": {
-        "label": "身長 [cm]"
+        "label": "身長"
       },
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -3975,10 +3975,10 @@
     "name": "IGF-1 Zスコア計算",
     "input": {
       "igf1": {
-        "label": "IGF-1値 [ng/mL]"
+        "label": "IGF-1値"
       },
       "age": {
-        "label": "年齢 [歳]"
+        "label": "年齢"
       },
       "sex": {
         "label": "性別"
@@ -4245,18 +4245,18 @@
     "name": "アニオンギャップ",
     "input": {
       "sodium": {
-        "label": "ナトリウム [mmol/L]"
+        "label": "ナトリウム"
       },
       "chloride": {
-        "label": "クロール [mmol/L]"
+        "label": "クロール"
       },
       "bicarbonate": {
-        "label": "重炭酸 [mmol/L]"
+        "label": "重炭酸"
       }
     },
     "output": {
       "anion_gap": {
-        "label": "アニオンギャップ [mEq/L]"
+        "label": "アニオンギャップ"
       },
       "interpretation": {
         "label": "判定"

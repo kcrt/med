@@ -3,22 +3,25 @@
     "name": "Corrected Sodium (Hyperglycemia) - Katz Formula",
     "input": {
       "measured_na": {
-        "label": "Measured Sodium [mmol/L]",
+        "label": "Measured Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
       "glucose": {
-        "label": "Glucose [mg/dL]",
+        "label": "Glucose",
         "type": "float",
+        "unit": "mg/dL",
         "min": 50,
         "max": 1000
       }
     },
     "output": {
       "corrected_na": {
-        "label": "Corrected Sodium [mmol/L]",
+        "label": "Corrected Sodium",
         "formula": "measured_na + 1.6 * ((glucose - 100) / 100)",
+        "unit": "mmol/L",
         "precision": 1
       },
       "interpretation": {
@@ -60,22 +63,25 @@
     "name": "Corrected Sodium (Hyperglycemia) - Hillier Formula",
     "input": {
       "measured_na": {
-        "label": "Measured Sodium [mmol/L]",
+        "label": "Measured Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
       "glucose": {
-        "label": "Glucose [mg/dL]",
+        "label": "Glucose",
         "type": "float",
+        "unit": "mg/dL",
         "min": 400,
         "max": 1000
       }
     },
     "output": {
       "corrected_na": {
-        "label": "Corrected Sodium [mmol/L]",
+        "label": "Corrected Sodium",
         "formula": "measured_na + 2.4 * ((glucose - 100) / 100)",
+        "unit": "mmol/L",
         "precision": 1
       },
       "interpretation": {
@@ -107,28 +113,32 @@
     "name": "Serum Osmolality (Calculated)",
     "input": {
       "sodium": {
-        "label": "Sodium [mmol/L]",
+        "label": "Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
       "glucose": {
-        "label": "Glucose [mg/dL]",
+        "label": "Glucose",
         "type": "float",
+        "unit": "mg/dL",
         "min": 50,
         "max": 1000
       },
       "bun": {
-        "label": "BUN [mg/dL]",
+        "label": "BUN",
         "type": "float",
+        "unit": "mg/dL",
         "min": 1,
         "max": 200
       }
     },
     "output": {
       "osmolality": {
-        "label": "Calculated Osmolality [mOsm/kg]",
+        "label": "Calculated Osmolality",
         "formula": "2 * sodium + glucose / 18 + bun / 2.8",
+        "unit": "mOsm/kg",
         "precision": 1
       },
       "interpretation": {
@@ -172,28 +182,32 @@
     "name": "Anion Gap",
     "input": {
       "sodium": {
-        "label": "Sodium [mmol/L]",
+        "label": "Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
       "chloride": {
-        "label": "Chloride [mmol/L]",
+        "label": "Chloride",
         "type": "float",
+        "unit": "mmol/L",
         "min": 50,
         "max": 150
       },
       "bicarbonate": {
-        "label": "Bicarbonate [mmol/L]",
+        "label": "Bicarbonate",
         "type": "float",
+        "unit": "mmol/L",
         "min": 1,
         "max": 50
       }
     },
     "output": {
       "anion_gap": {
-        "label": "Anion Gap [mEq/L]",
+        "label": "Anion Gap",
         "formula": "sodium - (chloride + bicarbonate)",
+        "unit": "mEq/L",
         "precision": 1
       },
       "interpretation": {
@@ -237,39 +251,45 @@
     "name": "Albumin-Corrected Anion Gap (Figge)",
     "input": {
       "sodium": {
-        "label": "Sodium [mmol/L]",
+        "label": "Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
       "chloride": {
-        "label": "Chloride [mmol/L]",
+        "label": "Chloride",
         "type": "float",
+        "unit": "mmol/L",
         "min": 50,
         "max": 150
       },
       "bicarbonate": {
-        "label": "Bicarbonate [mmol/L]",
+        "label": "Bicarbonate",
         "type": "float",
+        "unit": "mmol/L",
         "min": 1,
         "max": 50
       },
       "albumin": {
-        "label": "Albumin [g/dL]",
+        "label": "Albumin",
         "type": "float",
+        "unit": "g/dL",
         "min": 1.0,
         "max": 6.0
       }
     },
     "output": {
       "anion_gap": {
-        "label": "Standard Anion Gap [mEq/L]",
+        "label": "Standard Anion Gap",
         "formula": "sodium - (chloride + bicarbonate)",
+        "unit": "mEq/L",
         "precision": 1
       },
       "corrected_ag": {
-        "label": "Albumin-Corrected Anion Gap [mEq/L]",
+        "label": "Albumin-Corrected Anion Gap",
         "formula": "anion_gap + 2.5 * (4.0 - albumin)",
+        "unit": "mEq/L",
         "precision": 1
       },
       "interpretation": {
@@ -304,22 +324,25 @@
     "name": "Corrected Calcium (Payne Formula)",
     "input": {
       "total_calcium": {
-        "label": "Total Calcium [mg/dL]",
+        "label": "Total Calcium",
         "type": "float",
+        "unit": "mg/dL",
         "min": 1.0,
         "max": 20.0
       },
       "albumin": {
-        "label": "Albumin [g/dL]",
+        "label": "Albumin",
         "type": "float",
+        "unit": "g/dL",
         "min": 1.0,
         "max": 6.0
       }
     },
     "output": {
       "corrected_calcium": {
-        "label": "Corrected Calcium [mg/dL]",
+        "label": "Corrected Calcium",
         "formula": "total_calcium + 0.8 * (4.0 - albumin)",
+        "unit": "mg/dL",
         "precision": 1
       },
       "interpretation": {
@@ -361,22 +384,25 @@
     "name": "Corrected Calcium (Japanese BCP Method)",
     "input": {
       "total_calcium": {
-        "label": "Total Calcium [mg/dL]",
+        "label": "Total Calcium",
         "type": "float",
+        "unit": "mg/dL",
         "min": 1.0,
         "max": 20.0
       },
       "albumin": {
-        "label": "Albumin [g/dL]",
+        "label": "Albumin",
         "type": "float",
+        "unit": "g/dL",
         "min": 1.0,
         "max": 6.0
       }
     },
     "output": {
       "corrected_calcium": {
-        "label": "Corrected Calcium [mg/dL]",
+        "label": "Corrected Calcium",
         "formula": "total_calcium + 0.7 * (4.0 - albumin)",
+        "unit": "mg/dL",
         "precision": 1
       },
       "interpretation": {
@@ -408,14 +434,16 @@
     "name": "Fractional Excretion of Sodium (FENa)",
     "input": {
       "urine_na": {
-        "label": "Urine Sodium [mmol/L]",
+        "label": "Urine Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 1,
         "max": 300
       },
       "serum_na": {
-        "label": "Serum Sodium [mmol/L]",
+        "label": "Serum Sodium",
         "type": "float",
+        "unit": "mmol/L",
         "min": 100,
         "max": 200
       },
@@ -434,8 +462,9 @@
     },
     "output": {
       "fena": {
-        "label": "FENa [%]",
+        "label": "FENa",
         "formula": "((urine_na * serum_cr) / (serum_na * urine_cr)) * 100",
+        "unit": "%",
         "precision": 2
       },
       "interpretation": {
@@ -485,14 +514,16 @@
     "name": "Fractional Excretion of Urea (FEUrea)",
     "input": {
       "urine_urea": {
-        "label": "Urine Urea [mg/dL]",
+        "label": "Urine Urea",
         "type": "float",
+        "unit": "mg/dL",
         "min": 1,
         "max": 2000
       },
       "serum_urea": {
-        "label": "Serum Urea (BUN) [mg/dL]",
+        "label": "Serum Urea (BUN)",
         "type": "float",
+        "unit": "mg/dL",
         "min": 1,
         "max": 200
       },
@@ -511,8 +542,9 @@
     },
     "output": {
       "feurea": {
-        "label": "FEUrea [%]",
+        "label": "FEUrea",
         "formula": "((urine_urea * serum_cr) / (serum_urea * urine_cr)) * 100",
+        "unit": "%",
         "precision": 2
       },
       "interpretation": {
@@ -558,8 +590,9 @@
     "name": "Osmolar Gap",
     "input": {
       "measured_osm": {
-        "label": "Measured Osmolality [mOsm/kg]",
+        "label": "Measured Osmolality",
         "type": "float",
+        "unit": "mOsm/kg",
         "min": 200,
         "max": 500
       },
@@ -584,13 +617,15 @@
     },
     "output": {
       "calculated_osm": {
-        "label": "Calculated Osmolality [mOsm/kg]",
+        "label": "Calculated Osmolality",
         "formula": "2 * sodium + glucose / 18 + bun / 2.8",
+        "unit": "mOsm/kg",
         "precision": 1
       },
       "osmolar_gap": {
-        "label": "Osmolar Gap [mOsm/kg]",
+        "label": "Osmolar Gap",
         "formula": "measured_osm - calculated_osm",
+        "unit": "mOsm/kg",
         "precision": 1
       },
       "interpretation": {
@@ -598,18 +633,21 @@
         "formula": "iif(osmolar_gap > 20, 'Strong indicator of intoxication (>20)', osmolar_gap > 15, 'Toxic alcohol highly suspected (>15)', osmolar_gap > 10, 'Abnormal, requires investigation (>10)', 'Normal (-10 to +10)')"
       },
       "toxic_methanol": {
-        "label": "Estimated Methanol [mg/dL]",
+        "label": "Estimated Methanol",
         "formula": "osmolar_gap * 3.2",
+        "unit": "mg/dL",
         "precision": 1
       },
       "toxic_ethylene_glycol": {
-        "label": "Estimated Ethylene Glycol [mg/dL]",
+        "label": "Estimated Ethylene Glycol",
         "formula": "osmolar_gap * 6.2",
+        "unit": "mg/dL",
         "precision": 1
       },
       "toxic_isopropanol": {
-        "label": "Estimated Isopropanol [mg/dL]",
+        "label": "Estimated Isopropanol",
         "formula": "osmolar_gap * 6.0",
+        "unit": "mg/dL",
         "precision": 1
       },
       "warning": {

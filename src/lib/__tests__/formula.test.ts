@@ -71,7 +71,8 @@ describe("Formula data tests", () => {
       const data = getFormulaData();
       expect(data).toBeDefined();
       const bmiFormula = data["Body Structure Index"]["bmi_adult"];
-      expect(bmiFormula?.input["height"]?.label).toBe("Height [cm]");
+      expect(bmiFormula?.input["height"]?.label).toBe("Height");
+      expect(bmiFormula?.input["height"]?.unit).toBe("cm");
     });
   });
 
@@ -79,7 +80,8 @@ describe("Formula data tests", () => {
     it("returns English formula by default", () => {
       const formula = getFormula("bmi_adult");
       expect(formula).toBeDefined();
-      expect(formula?.input["height"]?.label).toBe("Height [cm]");
+      expect(formula?.input["height"]?.label).toBe("Height");
+      expect(formula?.input["height"]?.unit).toBe("cm");
     });
 
     it("returns formula structure (translations via next-intl)", () => {
@@ -87,7 +89,8 @@ describe("Formula data tests", () => {
       expect(formula).toBeDefined();
       // Formula returns English base data
       // Translations are handled separately via next-intl messages
-      expect(formula?.input["height"]?.label).toBe("Height [cm]");
+      expect(formula?.input["height"]?.label).toBe("Height");
+      expect(formula?.input["height"]?.unit).toBe("cm");
     });
   });
 

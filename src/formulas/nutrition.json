@@ -88,20 +88,23 @@
     "name": "Mifflin-St Jeor Equation (REE)",
     "input": {
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 10,
         "max": 300
       },
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 50,
         "max": 250
       },
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 1,
         "max": 120
       },
@@ -112,8 +115,9 @@
     },
     "output": {
       "ree": {
-        "label": "Resting Energy Expenditure [kcal/day]",
+        "label": "Resting Energy Expenditure",
         "formula": "10*weight + 6.25*height - 5*age + (sex==1?5:-161)",
+        "unit": "kcal/day",
         "precision": 0
       },
       "note": {
@@ -142,20 +146,23 @@
     "name": "Harris-Benedict Equation (BEE)",
     "input": {
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 10,
         "max": 300
       },
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 50,
         "max": 250
       },
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "int",
+        "unit": "years",
         "min": 1,
         "max": 120
       },
@@ -166,8 +173,9 @@
     },
     "output": {
       "bee": {
-        "label": "Basal Energy Expenditure [kcal/day]",
+        "label": "Basal Energy Expenditure",
         "formula": "sex==1 ? (88.362 + 13.397*weight + 4.799*height - 5.677*age) : (447.593 + 9.247*weight + 3.098*height - 4.330*age)",
+        "unit": "kcal/day",
         "precision": 0
       },
       "note": {
