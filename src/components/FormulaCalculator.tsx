@@ -196,6 +196,7 @@ function InputField({
               </Text>
             ) : null
           }
+          rightSectionWidth={inputDef.unit ? 80 : 40}
           step={inputDef.type === "int" ? 1 : 0.1}
           allowDecimal={inputDef.type !== "int"}
           {...inputProps}
