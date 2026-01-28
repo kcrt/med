@@ -3,14 +3,16 @@
     "name": "Corrected Reticulocyte Count (Reticulocyte Index)",
     "input": {
       "reticulocyte_percent": {
-        "label": "Reticulocyte [%]",
+        "label": "Reticulocyte",
         "type": "float",
+        "unit": "%",
         "min": 0,
         "max": 50
       },
       "patient_hct": {
-        "label": "Patient Hematocrit [%]",
+        "label": "Patient Hematocrit",
         "type": "float",
+        "unit": "%",
         "min": 5,
         "max": 70
       }
@@ -54,14 +56,16 @@
     "name": "Reticulocyte Production Index (RPI)",
     "input": {
       "reticulocyte_percent": {
-        "label": "Reticulocyte [%]",
+        "label": "Reticulocyte",
         "type": "float",
+        "unit": "%",
         "min": 0,
         "max": 50
       },
       "patient_hct": {
-        "label": "Patient Hematocrit [%]",
+        "label": "Patient Hematocrit",
         "type": "float",
+        "unit": "%",
         "min": 5,
         "max": 70
       }
@@ -136,21 +140,24 @@
     "name": "Platelet Transfusion Dosing (Pediatric)",
     "input": {
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0.5,
         "max": 150
       }
     },
     "output": {
       "dose_min": {
-        "label": "Minimum Dose [mL platelet concentrate]",
+        "label": "Minimum Dose",
         "formula": "5 * weight",
+        "unit": "mL platelet concentrate",
         "precision": 0
       },
       "dose_max": {
-        "label": "Maximum Dose [mL platelet concentrate]",
+        "label": "Maximum Dose",
         "formula": "10 * weight",
+        "unit": "mL platelet concentrate",
         "precision": 0
       },
       "dosing_note": {
@@ -190,40 +197,46 @@
     "name": "Corrected Count Increment (CCI)",
     "input": {
       "post_transfusion_plt": {
-        "label": "Post-transfusion Platelet Count [×10³/µL]",
+        "label": "Post-transfusion Platelet Count",
         "type": "float",
+        "unit": "×10³/µL",
         "min": 0,
         "max": 1000
       },
       "pre_transfusion_plt": {
-        "label": "Pre-transfusion Platelet Count [×10³/µL]",
+        "label": "Pre-transfusion Platelet Count",
         "type": "float",
+        "unit": "×10³/µL",
         "min": 0,
         "max": 500
       },
       "height": {
-        "label": "Height [cm]",
+        "label": "Height",
         "type": "float",
+        "unit": "cm",
         "min": 30,
         "max": 250
       },
       "weight": {
-        "label": "Weight [kg]",
+        "label": "Weight",
         "type": "float",
+        "unit": "kg",
         "min": 0.5,
         "max": 300
       },
       "transfused_platelets": {
-        "label": "Transfused Platelets [×10¹¹]",
+        "label": "Transfused Platelets",
         "type": "float",
+        "unit": "×10¹¹",
         "min": 0.1,
         "max": 10
       }
     },
     "output": {
       "bsa": {
-        "label": "Body Surface Area [m²]",
+        "label": "Body Surface Area",
         "formula": "BSA_DuBois(height, weight)",
+        "unit": "m²",
         "precision": 2
       },
       "cci": {

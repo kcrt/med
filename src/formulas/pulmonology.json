@@ -9,14 +9,16 @@
         "max": 1
       },
       "pao2": {
-        "label": "PaO₂ [mmHg]",
+        "label": "PaO₂",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 1000
       },
       "paco2": {
-        "label": "PaCO₂ [mmHg]",
+        "label": "PaCO₂",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 1000
       }
@@ -49,8 +51,9 @@
     "name": "Pneumonia Severity Index (PSI)",
     "input": {
       "age": {
-        "label": "Age [years]",
+        "label": "Age",
         "type": "float",
+        "unit": "years",
         "min": 0,
         "max": 150
       },
@@ -120,11 +123,13 @@
       },
       "hematocrit_lt_30": {
         "label": "Ht <30%",
-        "type": "onoff"
+        "type": "onoff",
+        "unit": "%"
       },
       "pao2_lt_60": {
         "label": "PaO₂ <60 mmHg",
-        "type": "onoff"
+        "type": "onoff",
+        "unit": "mmHg"
       },
       "pleural_effusion": {
         "label": "Pleural Effusion",
@@ -215,14 +220,16 @@
         "max": 9
       },
       "pvco2": {
-        "label": "pvCO₂ [mmHg]",
+        "label": "pvCO₂",
         "type": "float",
+        "unit": "mmHg",
         "min": 0,
         "max": 200
       },
       "pvhco3": {
-        "label": "pvHCO₃⁻ [mEq/L]",
+        "label": "pvHCO₃⁻",
         "type": "float",
+        "unit": "mEq/L",
         "min": 0,
         "max": 80
       }
@@ -234,13 +241,15 @@
         "precision": 2
       },
       "paco2": {
-        "label": "paCO₂ [mmHg]",
+        "label": "paCO₂",
         "formula": "0.805 + 0.936 * pvco2",
+        "unit": "mmHg",
         "precision": 1
       },
       "Pahco3": {
-        "label": "paHCO₃⁻ [mEq/L]",
+        "label": "paHCO₃⁻",
         "formula": "0.513 + 0.94 * pvhco3",
+        "unit": "mEq/L",
         "precision": 1
       }
     },
@@ -325,6 +334,7 @@
       "fev1_percent": {
         "label": "FEV1 (% predicted)",
         "type": "select",
+        "unit": "%",
         "options": [
           {
             "value": 0,
