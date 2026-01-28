@@ -352,9 +352,8 @@
     "name": "HAS-BLED Score",
     "input": {
       "hypertension": {
-        "label": "Hypertension (SBP >160)",
-        "type": "onoff",
-        "unit": "mmHg"
+        "label": "Hypertension (SBP >160 mmHg)",
+        "type": "onoff"
       },
       "renal_disease": {
         "label": "Abnormal renal function",
@@ -442,23 +441,20 @@
         "type": "onoff"
       },
       "sbp_lt_100": {
-        "label": "Systolic BP <100",
-        "type": "onoff",
-        "unit": "mmHg"
+        "label": "Systolic BP <100 mmHg",
+        "type": "onoff"
       },
       "hr_gt_100": {
-        "label": "Heart rate >100",
-        "type": "onoff",
-        "unit": "bpm"
+        "label": "Heart rate >100 bpm",
+        "type": "onoff"
       },
       "killip_2to4": {
         "label": "Killip class II-IV",
         "type": "onoff"
       },
       "weight_lt_67": {
-        "label": "Weight <67",
-        "type": "onoff",
-        "unit": "kg"
+        "label": "Weight <67 kg",
+        "type": "onoff"
       },
       "anterior_stemi_lbbb": {
         "label": "Anterior STEMI or LBBB",
@@ -822,9 +818,8 @@
         "type": "onoff"
       },
       "hr_gt_100": {
-        "label": "Heart Rate >100",
-        "type": "onoff",
-        "unit": "bpm"
+        "label": "Heart Rate >100 bpm",
+        "type": "onoff"
       },
       "surgery_immobilization": {
         "label": "Surgery or immobilization within 4 weeks",
@@ -987,14 +982,12 @@
         "type": "onoff"
       },
       "hr_75_94": {
-        "label": "Heart rate 75-94",
-        "type": "onoff",
-        "unit": "bpm"
+        "label": "Heart rate 75-94 bpm",
+        "type": "onoff"
       },
       "hr_gt_94": {
-        "label": "Heart rate ≥95",
-        "type": "onoff",
-        "unit": "bpm"
+        "label": "Heart rate ≥95 bpm",
+        "type": "onoff"
       },
       "pain_edema": {
         "label": "Pain on palpation and unilateral edema",
