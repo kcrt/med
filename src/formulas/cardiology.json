@@ -1,6 +1,7 @@
 {
   "chads2": {
     "name": "CHADS₂ Score",
+    "info": "The CHADS₂ score stratifies stroke risk in patients with atrial fibrillation. Guides anticoagulation decisions by assessing heart failure, hypertension, age, diabetes, and prior stroke/TIA.",
     "input": {
       "heart_failure": {
         "label": "Heart Failure",
@@ -57,6 +58,7 @@
   },
   "cha2ds2_vasc": {
     "name": "CHA₂DS₂-VASc Score",
+    "info": "The CHA₂DS₂-VASc score is a refined stroke risk assessment for atrial fibrillation. Includes vascular disease, age, and sex categories, providing better risk stratification than CHADS₂, especially for low-risk patients.",
     "input": {
       "heart_failure": {
         "label": "Congestive Heart Failure",
@@ -129,6 +131,7 @@
   },
   "cha2ds2_va": {
     "name": "CHA₂DS₂-VA Score",
+    "info": "The CHA₂DS₂-VA score modifies CHA₂DS₂-VASc by removing sex as a risk factor. Developed for more equitable stroke risk assessment in atrial fibrillation across different populations.",
     "input": {
       "heart_failure": {
         "label": "Congestive Heart Failure",
@@ -195,6 +198,7 @@
   },
   "ejection_fraction": {
     "name": "Left Ventricular Ejection Fraction",
+    "info": "Calculates Left Ventricular Ejection Fraction (LVEF) from end-diastolic and end-systolic volumes. LVEF is the primary measure of systolic heart function, guiding heart failure diagnosis and treatment.",
     "input": {
       "lvdd": {
         "label": "LVDd",
@@ -249,6 +253,7 @@
   },
   "pediatric_lvdd": {
     "name": "Pediatric LVDd Standard Values",
+    "info": "Provides age-adjusted normal values for pediatric Left Ventricular end-Diastolic diameter (LVDd). Essential for identifying ventricular dilation in children during echocardiographic assessment.",
     "input": {
       "height": {
         "label": "Height",
@@ -300,6 +305,7 @@
   },
   "kawasaki_coronary": {
     "name": "Kawasaki Disease Coronary Artery",
+    "info": "Assesses coronary artery abnormalities in Kawasaki disease using Z-scores adjusted for body surface area. Critical for identifying aneurysms and guiding long-term cardiac management.",
     "input": {
       "bsa": {
         "label": "Body Surface Area",
@@ -350,6 +356,7 @@
   },
   "has_bled": {
     "name": "HAS-BLED Score",
+    "info": "The HAS-BLED score estimates bleeding risk in patients on anticoagulation for atrial fibrillation. Identifies modifiable risk factors and guides monitoring intensity, not anticoagulation withholding.",
     "input": {
       "hypertension": {
         "label": "Hypertension (SBP >160 mmHg)",
@@ -427,6 +434,7 @@
   },
   "timi_stemi": {
     "name": "TIMI Risk Score (STEMI)",
+    "info": "The TIMI Risk Score for ST-Elevation Myocardial Infarction predicts 30-day mortality. Uses clinical and demographic factors to stratify patients and guide treatment intensity.",
     "input": {
       "age_75": {
         "label": "Age ≥75",
@@ -504,6 +512,7 @@
   },
   "timi_nstemi": {
     "name": "TIMI Risk Score (UA/NSTEMI)",
+    "info": "The TIMI Risk Score for Unstable Angina/Non-ST-Elevation MI predicts adverse outcomes at 14 days. Helps risk-stratify patients to determine urgency of invasive management.",
     "input": {
       "age_65": {
         "label": "Age ≥65 years",
@@ -566,6 +575,7 @@
   },
   "grace": {
     "name": "GRACE Score (ACS)",
+    "info": "The GRACE (Global Registry of Acute Coronary Events) score predicts in-hospital and 6-month mortality in acute coronary syndrome. More comprehensive than TIMI, incorporating more clinical variables.",
     "input": {
       "age": {
         "label": "Age",
@@ -684,6 +694,7 @@
   },
   "heart_score": {
     "name": "HEART Score",
+    "info": "The HEART score predicts major adverse cardiac events in chest pain patients. Combines history, ECG, age, risk factors, and troponin to guide ED disposition and early discharge decisions.",
     "input": {
       "history": {
         "label": "History",
@@ -812,6 +823,7 @@
   },
   "wells_pe": {
     "name": "Wells Score for Pulmonary Embolism",
+    "info": "The Wells score estimates pretest probability of pulmonary embolism. Guides diagnostic strategy by stratifying patients into low, moderate, or high PE probability categories.",
     "input": {
       "previous_pe_dvt": {
         "label": "Previous PE or DVT",
@@ -879,6 +891,7 @@
   },
   "wells_dvt": {
     "name": "Wells Score for DVT",
+    "info": "The Wells score estimates pretest probability of deep vein thrombosis. Helps determine which patients benefit from D-dimer testing versus immediate imaging.",
     "input": {
       "active_cancer": {
         "label": "Active cancer",
@@ -956,6 +969,7 @@
   },
   "modified_geneva": {
     "name": "Modified Geneva Score",
+    "info": "The Modified Geneva Score assesses pulmonary embolism probability using clinical criteria without requiring clinical judgment. Alternative to Wells score, particularly useful in standardized protocols.",
     "input": {
       "age_gt_65": {
         "label": "Age >65 years",
@@ -1029,6 +1043,7 @@
   },
   "ascvd": {
     "name": "ASCVD Risk Calculator (10-year)",
+    "info": "The ASCVD (Atherosclerotic Cardiovascular Disease) Risk Calculator estimates 10-year risk of heart attack or stroke. Guides statin therapy decisions and cardiovascular prevention strategies.",
     "input": {
       "age": {
         "label": "Age",
