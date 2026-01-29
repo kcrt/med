@@ -1,6 +1,7 @@
 {
   "corrected_sodium_katz": {
     "name": "Corrected Sodium (Hyperglycemia) - Katz Formula",
+    "info": "Corrects measured sodium for hyperglycemia using the Katz formula (1.6 mEq/L correction per 100 mg/dL glucose above normal). Helps assess true sodium status in diabetic patients.",
     "input": {
       "measured_na": {
         "label": "Measured Sodium",
@@ -61,6 +62,7 @@
   },
   "corrected_sodium_hillier": {
     "name": "Corrected Sodium (Hyperglycemia) - Hillier Formula",
+    "info": "Corrects measured sodium for hyperglycemia using the variable Hillier formula (2.4 mEq/L correction per 100 mg/dL for glucose >400 mg/dL). More accurate than Katz at extreme hyperglycemia.",
     "input": {
       "measured_na": {
         "label": "Measured Sodium",
@@ -111,6 +113,7 @@
   },
   "serum_osmolality": {
     "name": "Serum Osmolality (Calculated)",
+    "info": "Calculates serum osmolality using sodium, glucose, and BUN. Used to assess fluid and electrolyte balance, identify osmolar gaps, and evaluate hyponatremia causes.",
     "input": {
       "sodium": {
         "label": "Sodium",
@@ -180,6 +183,7 @@
   },
   "anion_gap": {
     "name": "Anion Gap",
+    "info": "The Anion Gap identifies unmeasured anions in serum, essential for diagnosing metabolic acidosis causes. Calculated from sodium, chloride, and bicarbonate. Elevated in lactic acidosis, ketoacidosis, and renal failure.",
     "input": {
       "sodium": {
         "label": "Sodium",
@@ -249,6 +253,7 @@
   },
   "anion_gap_corrected": {
     "name": "Albumin-Corrected Anion Gap (Figge)",
+    "info": "Corrects the anion gap for low albumin levels using the Figge formula. Prevents underestimation of anion gap in hypoalbuminemic patients, improving acidosis diagnosis accuracy.",
     "input": {
       "sodium": {
         "label": "Sodium",
@@ -322,6 +327,7 @@
   },
   "corrected_calcium_payne": {
     "name": "Corrected Calcium (Payne Formula)",
+    "info": "Corrects total calcium for albumin levels using the Payne formula. Provides a more accurate estimate of physiologically active calcium when albumin is abnormal.",
     "input": {
       "total_calcium": {
         "label": "Total Calcium",
@@ -382,6 +388,7 @@
   },
   "corrected_calcium_japanese": {
     "name": "Corrected Calcium (Japanese BCP Method)",
+    "info": "Corrects total calcium for albumin using the Japanese BCP (Bromocresol Purple) method. Specific formula calibrated for Japanese laboratory standards and BCP albumin measurement.",
     "input": {
       "total_calcium": {
         "label": "Total Calcium",
@@ -432,6 +439,7 @@
   },
   "fena": {
     "name": "Fractional Excretion of Sodium (FENa)",
+    "info": "The Fractional Excretion of Sodium (FENa) helps differentiate prerenal from intrinsic renal acute kidney injury. Values <1% suggest prerenal AKI, while >2% suggests intrinsic renal disease.",
     "input": {
       "urine_na": {
         "label": "Urine Sodium",
@@ -512,6 +520,7 @@
   },
   "feurea": {
     "name": "Fractional Excretion of Urea (FEUrea)",
+    "info": "The Fractional Excretion of Urea (FEUrea) differentiates prerenal from intrinsic AKI when FENa is unreliable (e.g., diuretic use). Values <35% suggest prerenal causes.",
     "input": {
       "urine_urea": {
         "label": "Urine Urea",
@@ -588,6 +597,7 @@
   },
   "osmolar_gap": {
     "name": "Osmolar Gap",
+    "info": "The Osmolar Gap (difference between measured and calculated osmolality) identifies unmeasured osmoles. Elevated in toxic alcohol ingestions (methanol, ethylene glycol) and helps guide treatment.",
     "input": {
       "measured_osm": {
         "label": "Measured Osmolality",

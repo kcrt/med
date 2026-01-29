@@ -1,6 +1,7 @@
 {
   "osmotic_pressure": {
     "name": "Osmotic Pressure",
+    "info": "Calculates serum osmolality using sodium, glucose, and BUN levels. Helps identify osmolar gaps and assess causes of altered mental status, seizures, or suspected toxic ingestions.",
     "input": {
       "na": {
         "label": "Na",
@@ -60,6 +61,7 @@
   },
   "homa": {
     "name": "HOMA-IR, HOMA-β",
+    "info": "The Homeostatic Model Assessment (HOMA) estimates insulin resistance (HOMA-IR) and beta-cell function (HOMA-β) using fasting glucose and insulin levels. Widely used in diabetes and metabolic syndrome research.",
     "input": {
       "fpg": {
         "label": "Fasting Plasma Glucose",
@@ -123,6 +125,7 @@
   },
   "friedewald": {
     "name": "LDL Cholesterol (Friedewald Equation)",
+    "info": "The Friedewald equation estimates LDL cholesterol from total cholesterol, HDL, and triglycerides. Simple and widely used but less accurate when triglycerides >400 mg/dL or in certain lipid disorders.",
     "input": {
       "tc": {
         "label": "Total Cholesterol [mg/dL]",
@@ -173,6 +176,7 @@
   },
   "sampson_nih": {
     "name": "LDL Cholesterol (Sampson-NIH Equation)",
+    "info": "The Sampson-NIH equation provides more accurate LDL cholesterol estimation than Friedewald, especially at triglyceride levels >400 mg/dL. Recommended by experts for improved cardiovascular risk assessment.",
     "input": {
       "tc": {
         "label": "Total Cholesterol",
@@ -227,6 +231,7 @@
   },
   "igf1_zscore": {
     "name": "IGF-1 Z-Score",
+    "info": "Calculates IGF-1 (Insulin-like Growth Factor 1) Z-score based on age and sex. Essential for evaluating growth disorders, acromegaly, and growth hormone deficiency by comparing to population norms.",
     "input": {
       "age": {
         "label": "Age",
@@ -304,6 +309,7 @@
   },
   "free_t4_index": {
     "name": "Free T4 Index (FT4I)",
+    "info": "The Free T4 Index estimates free thyroxine levels using total T4 and T3 reuptake. Useful when direct free T4 measurement is unavailable, accounting for thyroid-binding protein variations.",
     "input": {
       "total_t4": {
         "label": "Total T4",
@@ -348,6 +354,7 @@
   },
   "t3_t4_ratio": {
     "name": "T3/T4 Ratio",
+    "info": "The T3/T4 ratio helps differentiate thyroid disorders. Elevated ratios suggest conditions like Graves' disease or T3-toxicosis, while low ratios may indicate hypothyroidism or non-thyroidal illness.",
     "input": {
       "t3": {
         "label": "T3",

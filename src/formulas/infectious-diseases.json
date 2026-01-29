@@ -1,6 +1,7 @@
 {
   "centor": {
     "name": "Centor/McIsaac Score (Strep Pharyngitis)",
+    "info": "The Centor/McIsaac Score estimates the probability of group A streptococcal pharyngitis in patients with sore throat. Helps determine which patients benefit from rapid antigen testing or empiric antibiotics.",
     "input": {
       "tonsillar_exudate": {
         "label": "Tonsillar exudate",
@@ -77,6 +78,7 @@
   },
   "duke_endocarditis": {
     "name": "Duke Criteria for Infective Endocarditis",
+    "info": "The Duke Criteria diagnose infective endocarditis using major and minor clinical, microbiological, and echocardiographic criteria. Classification as definite, possible, or rejected guides treatment decisions.",
     "input": {
       "major_criteria": {
         "label": "Number of Major Criteria",
@@ -123,6 +125,7 @@
   },
   "jones_criteria_low_risk": {
     "name": "Jones Criteria for Rheumatic Fever (Low Risk)",
+    "info": "The Jones Criteria diagnose acute rheumatic fever in low-risk populations. Requires evidence of preceding streptococcal infection plus major and/or minor manifestations. This version uses stricter criteria for low-risk areas.",
     "input": {
       "carditis": {
         "label": "Carditis (Clinical or Subclinical)",
@@ -235,6 +238,7 @@
   },
   "jones_criteria_mod_high_risk": {
     "name": "Jones Criteria for Rheumatic Fever (Moderate-High Risk)",
+    "info": "The Jones Criteria diagnose acute rheumatic fever in moderate-to-high risk populations. Uses modified criteria allowing more liberal interpretation of manifestations appropriate for endemic areas.",
     "input": {
       "carditis": {
         "label": "Carditis (Clinical or Subclinical)",
@@ -334,6 +338,7 @@
   },
   "phoenix_sepsis_score": {
     "name": "Phoenix Sepsis Score (2024)",
+    "info": "The Phoenix Sepsis Score (2024) identifies sepsis-associated organ dysfunction in children. Assesses respiratory, cardiovascular, coagulation, and neurological systems to guide sepsis diagnosis and management.",
     "input": {
       "respiratory_score": {
         "label": "Respiratory Score",

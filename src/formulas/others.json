@@ -1,6 +1,7 @@
 {
   "lms_zscore": {
     "name": "LMS Z-Score Calculation",
+    "info": "The LMS method converts growth measurements into standardized scores (Z-scores) and percentiles using three parameters: L (skewness), M (median), and S (coefficient of variation). Widely used for pediatric growth assessment.",
     "input": {
       "value": {
         "label": "Value",

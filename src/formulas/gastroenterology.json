@@ -1,6 +1,7 @@
 {
   "ranson": {
     "name": "Ranson Criteria (Pancreatitis)",
+    "info": "Ranson's criteria predict the severity of acute pancreatitis using 11 clinical and laboratory parameters assessed at admission and 48 hours. Higher scores correlate with increased morbidity and mortality.",
     "input": {
       "age_gt_55": {
         "label": "Age >55 years",
@@ -88,6 +89,7 @@
   },
   "bisap": {
     "name": "BISAP Score (Pancreatitis)",
+    "info": "The BISAP (Bedside Index for Severity in Acute Pancreatitis) score predicts mortality and severe pancreatitis using five simple criteria. It's easier to calculate than other scoring systems and equally accurate.",
     "input": {
       "bun_gt_25": {
         "label": "BUN >25 mg/dL",
@@ -145,6 +147,7 @@
   },
   "glasgow_imrie": {
     "name": "Glasgow-Imrie Score (Pancreatitis)",
+    "info": "The Glasgow-Imrie criteria assess the severity of acute pancreatitis within 48 hours of admission. Eight clinical and laboratory parameters predict complications and mortality, guiding management decisions.",
     "input": {
       "age_gt_55": {
         "label": "Age >55 years",

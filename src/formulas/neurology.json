@@ -1,6 +1,7 @@
 {
   "abcd2": {
     "name": "ABCD² Score",
+    "info": "The ABCD² score predicts 2-day and 7-day stroke risk after TIA. Helps identify high-risk patients requiring urgent evaluation and hospitalization to prevent subsequent stroke.",
     "input": {
       "age": {
         "label": "Age ≥60",
@@ -81,6 +82,7 @@
   },
   "abcd2i": {
     "name": "ABCD²-I Score",
+    "info": "The ABCD²-I score enhances ABCD² by adding imaging findings (infarction) and symptom duration. Provides improved stroke risk prediction after TIA compared to ABCD² alone.",
     "input": {
       "age": {
         "label": "Age ≥60",
@@ -171,6 +173,7 @@
   },
   "lumbar_puncture_depth": {
     "name": "Lumbar Puncture Depth Prediction",
+    "info": "Predicts the depth from skin to subarachnoid space for lumbar puncture based on patient weight and BMI. Helps guide needle insertion depth for safer, more successful procedures.",
     "input": {
       "height": {
         "label": "Height",
@@ -226,6 +229,7 @@
   },
   "abr_reference": {
     "name": "ABR Latency Reference Values",
+    "info": "Provides age-adjusted reference values for Auditory Brainstem Response (ABR) latencies. Essential for interpreting ABR tests in newborn hearing screening and neurological assessment.",
     "input": {
       "wave_i": {
         "label": "Wave I",
@@ -340,6 +344,7 @@
   },
   "gcs": {
     "name": "Glasgow Coma Scale (GCS)",
+    "info": "The Glasgow Coma Scale (GCS) assesses consciousness level by evaluating eye opening, verbal response, and motor response. Universal tool for tracking neurological status in head injury and coma.",
     "input": {
       "eye": {
         "label": "Eye Response",
@@ -465,6 +470,7 @@
   },
   "nihss": {
     "name": "NIHSS (NIH Stroke Scale)",
+    "info": "The NIH Stroke Scale (NIHSS) quantifies stroke severity by assessing 15 items including consciousness, vision, motor function, sensation, and language. Guides treatment decisions and predicts outcomes.",
     "input": {
       "loc": {
         "label": "1a. Level of Consciousness",
@@ -831,6 +837,7 @@
   },
   "modified_rankin": {
     "name": "Modified Rankin Scale (mRS)",
+    "info": "The Modified Rankin Scale (mRS) measures degree of disability and dependence after stroke. Standard outcome measure in stroke trials, ranging from 0 (no symptoms) to 6 (death).",
     "input": {
       "score": {
         "label": "Modified Rankin Scale",
@@ -899,6 +906,7 @@
   },
   "hunt_hess": {
     "name": "Hunt and Hess Classification",
+    "info": "The Hunt and Hess classification grades the severity of subarachnoid hemorrhage based on clinical symptoms. Predicts outcome and guides treatment decisions in SAH patients.",
     "input": {
       "grade": {
         "label": "Grade",
@@ -958,6 +966,7 @@
   },
   "fisher_grade": {
     "name": "Fisher Grade (SAH)",
+    "info": "The Fisher Grade classifies the amount of blood on CT scan after subarachnoid hemorrhage. Predicts risk of delayed cerebral vasospasm and helps guide monitoring intensity.",
     "input": {
       "grade": {
         "label": "Fisher Grade",
@@ -1013,6 +1022,7 @@
   },
   "ich_score": {
     "name": "ICH Score (Intracerebral Hemorrhage)",
+    "info": "The ICH Score predicts 30-day mortality in intracerebral hemorrhage using GCS, age, ICH volume, intraventricular hemorrhage, and infratentorial location. Guides prognosis discussions and treatment decisions.",
     "input": {
       "gcs_score": {
         "label": "GCS Score",
@@ -1104,6 +1114,7 @@
   },
   "moca": {
     "name": "MoCA (Montreal Cognitive Assessment)",
+    "info": "The Montreal Cognitive Assessment (MoCA) is a brief screening tool for mild cognitive impairment. More sensitive than MMSE, assessing visuospatial, executive, attention, language, and memory functions.",
     "input": {
       "score": {
         "label": "MoCA Score",

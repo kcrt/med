@@ -1,6 +1,7 @@
 {
   "jcs": {
     "name": "Japan Coma Scale (JCS)",
+    "info": "The Japan Coma Scale (JCS) assesses consciousness level using a 3-digit scoring system. Widely used in Japan, it categorizes patients into three main levels: awake (I), responds to stimuli (II), and does not awaken (III).",
     "type": "html",
     "html": "<h3>I. Awake</h3><ul><li>0 Fully alert</li><li>I-1 Not fully alert but responsive to call</li><li>I-2 Disoriented</li><li>I-3 Cannot state name or birthday</li></ul><h3>II. Responds to stimuli with transient awakening</h3><ul><li>II-10 Opens eyes to normal call</li><li>II-20 Opens eyes to loud call or shaking</li><li>II-30 Opens eyes only to pain + continuous calling</li></ul><h3>III. Does not respond even to stimuli</h3><ul><li>III-100 Avoids pain stimuli</li><li>III-200 Reacts to pain with movement or grimacing</li><li>III-300 No response to pain</li></ul>",
     "ref": {
@@ -9,6 +10,7 @@
   },
   "pediatric_jcs": {
     "name": "Pediatric Consciousness Level",
+    "info": "The Pediatric Japan Coma Scale assesses consciousness in children using age-appropriate behavioral indicators. Modified from adult JCS to account for developmental differences in infant and child responses.",
     "type": "html",
     "html": "<h3>I. Awake</h3><ul><li>0 Fully alert</li><li>I-1 Smiles when soothed (but insufficient response)</li><li>I-2 Does not smile but makes eye contact</li><li>I-3 Does not make eye contact with mother</li></ul><h3>II. Awakens with stimuli (falls asleep when stimuli stop)</h3><ul><li>II-10 Tries to drink when shown beverage or sucks when shown nipple</li><li>II-20 Opens eyes and looks when called</li><li>II-30 Opens eyes only with repeated calling</li></ul><h3>III. Does not awaken even with stimuli</h3><ul><li>III-100 Avoids/brushes away pain stimuli</li><li>III-200 Moves limbs slightly or grimaces to pain</li><li>III-300 No response to pain</li></ul>",
     "ref": {
@@ -17,6 +19,7 @@
   },
   "sofa": {
     "name": "SOFA Score (Sepsis-related Organ Failure Assessment)",
+    "info": "The Sequential Organ Failure Assessment (SOFA) score evaluates organ dysfunction in critically ill patients. Assesses six organ systems to track disease progression and predict mortality in sepsis and ICU patients.",
     "input": {
       "pao2": {
         "label": "PaO₂",
@@ -167,6 +170,7 @@
   },
   "qsofa": {
     "name": "qSOFA Score (quick SOFA)",
+    "info": "The quick SOFA (qSOFA) is a bedside screening tool for sepsis. Uses three simple criteria (altered mentation, hypotension, tachypnea) to rapidly identify patients at high risk of poor outcomes.",
     "input": {
       "respiratory_rate": {
         "label": "Respiratory Rate",
@@ -224,6 +228,7 @@
   },
   "news2": {
     "name": "NEWS 2 (National Early Warning Score 2)",
+    "info": "The National Early Warning Score 2 (NEWS2) identifies acutely ill patients at risk of deterioration. Tracks seven physiological parameters to trigger appropriate clinical responses in hospital settings.",
     "input": {
       "respiratory_rate": {
         "label": "Respiratory Rate [/min]",
@@ -447,6 +452,7 @@
   },
   "sirs": {
     "name": "SIRS Criteria",
+    "info": "The Systemic Inflammatory Response Syndrome (SIRS) criteria identify patients with systemic inflammation. Meeting ≥2 criteria suggests SIRS, which combined with infection indicates sepsis.",
     "input": {
       "temperature": {
         "label": "Temperature <36°C or >38°C",
@@ -499,6 +505,7 @@
   },
   "mews": {
     "name": "Modified Early Warning Score (MEWS)",
+    "info": "The Modified Early Warning Score (MEWS) predicts patient deterioration using vital signs and consciousness level. Helps identify patients requiring increased monitoring or escalation of care.",
     "input": {
       "systolic_bp": {
         "label": "Systolic BP [mmHg]",
@@ -658,6 +665,7 @@
   },
   "apache2": {
     "name": "APACHE II Score",
+    "info": "The Acute Physiology and Chronic Health Evaluation II (APACHE II) score predicts ICU mortality. Uses physiological variables, age, and chronic health status to assess illness severity within the first 24 hours of ICU admission.",
     "input": {
       "age": {
         "label": "Age [years]",

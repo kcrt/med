@@ -1,6 +1,7 @@
 {
   "phototherapy_threshold": {
     "name": "Phototherapy Threshold (AAP 2022)",
+    "info": "Establishes phototherapy initiation thresholds for neonatal hyperbilirubinemia based on gestational age, postnatal age, and risk factors. Follows evidence-based AAP 2022 guidelines to prevent severe hyperbilirubinemia.",
     "input": {
       "bilirubin": {
         "label": "Total Bilirubin",
@@ -102,6 +103,7 @@
   },
   "exchange_transfusion_threshold": {
     "name": "Exchange Transfusion Threshold (AAP 2022)",
+    "info": "Determines when exchange transfusion is indicated for severe hyperbilirubinemia in newborns based on AAP 2022 guidelines. This procedure prevents kernicterus and bilirubin encephalopathy in high-risk neonates.",
     "input": {
       "bilirubin": {
         "label": "Total Bilirubin",
@@ -220,6 +222,7 @@
   },
   "bilirubin_albumin_ratio": {
     "name": "Bilirubin/Albumin Ratio",
+    "info": "The bilirubin-to-albumin ratio helps assess the risk of bilirubin neurotoxicity in neonates. It accounts for albumin's role in binding bilirubin, providing a more accurate risk assessment than total bilirubin alone.",
     "input": {
       "bilirubin": {
         "label": "Total Bilirubin",
