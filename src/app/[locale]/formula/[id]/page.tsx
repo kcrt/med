@@ -119,7 +119,10 @@ export default function FormulaPage() {
               title={previousFormulaName}
             />
             <Title order={2}>{formulaName}</Title>
-            <NextFormulaButton formulaId={nextFormulaId} title={nextFormulaName} />
+            <NextFormulaButton
+              formulaId={nextFormulaId}
+              title={nextFormulaName}
+            />
             <Box style={{ position: "relative" }}>
               <Tooltip
                 label={

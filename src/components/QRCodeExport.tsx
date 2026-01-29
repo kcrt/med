@@ -36,12 +36,12 @@ export function QRCodeExport({
   const qrDataString = isDisabled
     ? ""
     : buildHumanReadableData(
-    formula,
-    formulaId,
-    inputValues,
-    outputResults,
-    locale,
-  );
+        formula,
+        formulaId,
+        inputValues,
+        outputResults,
+        locale,
+      );
 
   return (
     <>

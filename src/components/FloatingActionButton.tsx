@@ -65,7 +65,7 @@ export function FloatingActionButton({
         variant="filled"
         color={color}
         disabled={disabled}
-        onClick={() => !disabled && onClick()}
+        onClick={onClick}
         style={{
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
           transition: "transform 0.2s, box-shadow 0.2s",

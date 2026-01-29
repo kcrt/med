@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Button, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -32,7 +26,8 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const inputRef = useAutoSelectInput(opened);
 
   // Check if native share is supported
-  const supportsNativeShare = typeof navigator !== "undefined" && "share" in navigator;
+  const supportsNativeShare =
+    typeof navigator !== "undefined" && "share" in navigator;
 
   // Only show share button for calculation formulas with valid inputs
   if (!isCalculationFormula(formula)) {
@@ -117,7 +112,9 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
               onNativeShare={handleNativeShare}
               onPlatformShare={handlePlatformShare}
               nativeShareLabel={t("nativeShare")}
-              getPlatformShareLabel={(platformName) => t("shareOn", { platform: platformName })}
+              getPlatformShareLabel={(platformName) =>
+                t("shareOn", { platform: platformName })
+              }
               tooltipPosition="bottom"
             />
           </div>

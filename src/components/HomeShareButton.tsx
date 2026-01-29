@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Group,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -47,7 +42,9 @@ export function HomeShareButton() {
       <Stack gap="md" align="center" ta="center">
         <Group gap="xs">
           <IconShare3 size={24} color="var(--mantine-color-blue-6)" />
-          <Text fw={500} size="lg">Share this site</Text>
+          <Text fw={500} size="lg">
+            Share this site
+          </Text>
         </Group>
 
         {/* SNS Share Buttons */}
@@ -58,7 +55,9 @@ export function HomeShareButton() {
           onNativeShare={handleNativeShare}
           onPlatformShare={handlePlatformShare}
           nativeShareLabel={t("nativeShare")}
-          getPlatformShareLabel={(platformName) => t("shareOn", { platform: platformName })}
+          getPlatformShareLabel={(platformName) =>
+            t("shareOn", { platform: platformName })
+          }
           tooltipPosition="top"
         />
       </Stack>

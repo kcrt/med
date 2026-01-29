@@ -1,11 +1,4 @@
-import {
-  Container,
-  Title,
-  Text,
-  Stack,
-  Paper,
-  ThemeIcon,
-} from "@mantine/core";
+import { Container, Title, Text, Stack, Paper, ThemeIcon } from "@mantine/core";
 import { IconCalculator, IconHeartRateMonitor } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import { getToppageMarkdown } from "@/lib/markdown";
@@ -42,7 +35,6 @@ export default async function Home({
               dangerouslySetInnerHTML={{ __html: featuredContent }}
             />
           </Paper>
-
         </Stack>
       </Container>
 

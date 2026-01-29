@@ -171,12 +171,7 @@ function InputField({
 
     case "date":
       return (
-        <TextInput
-          key={inputKey}
-          type="date"
-          label={label}
-          {...inputProps}
-        />
+        <TextInput key={inputKey} type="date" label={label} {...inputProps} />
       );
 
     case "int":

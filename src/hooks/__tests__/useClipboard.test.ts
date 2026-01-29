@@ -5,7 +5,7 @@ import { useClipboard } from "../useClipboard";
 describe("useClipboard", () => {
   // Mock clipboard API
   const mockWriteText = vi.fn();
-  
+
   beforeEach(() => {
     Object.assign(navigator, {
       clipboard: {
@@ -59,7 +59,9 @@ describe("useClipboard", () => {
   });
 
   it("should handle clipboard errors gracefully", async () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
     mockWriteText.mockRejectedValue(new Error("Clipboard error"));
     const { result } = renderHook(() => useClipboard());
 

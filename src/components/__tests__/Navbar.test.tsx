@@ -49,7 +49,9 @@ describe("Navbar", () => {
   it("renders search input", () => {
     renderWithProviders(<Navbar />);
 
-    expect(screen.getByPlaceholderText("Search formulas...")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Search formulas..."),
+    ).toBeInTheDocument();
   });
 
   it("renders favorites link", () => {

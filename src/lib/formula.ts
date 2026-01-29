@@ -221,13 +221,13 @@ export function iterateFormulas(callback: FormulaCallback): void {
  */
 export function getFormula(id: string): Formula | undefined {
   let found: Formula | undefined;
-  
+
   iterateFormulas((_, formulaId, formula) => {
     if (formulaId === id) {
       found = formula;
     }
   });
-  
+
   return found;
 }
 
@@ -729,7 +729,7 @@ export function getMenuItems(): CategoryMenuItem[] {
     if (!categoryMap.has(categoryName)) {
       categoryMap.set(categoryName, []);
     }
-    
+
     categoryMap.get(categoryName)!.push({
       label: formula.name ?? formulaId,
       path: `/formula/${formulaId}`,
@@ -770,9 +770,10 @@ export function getAllFormulaIds(): string[] {
  * @param id - The current formula ID
  * @returns An object with previous and next formula IDs (undefined if none)
  */
-export function getAdjacentFormulas(
-  id: string,
-): { previous?: string; next?: string } {
+export function getAdjacentFormulas(id: string): {
+  previous?: string;
+  next?: string;
+} {
   const allIds = getAllFormulaIds();
   const index = allIds.indexOf(id);
 

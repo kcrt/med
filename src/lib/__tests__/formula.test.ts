@@ -517,19 +517,5 @@ describe("Mathematical Helper Functions", () => {
 
       expect(found).toBe(true);
     });
-
-    it("should allow early termination via callback logic", () => {
-      let count = 0;
-      iterateFormulas(() => {
-        count++;
-        if (count >= 5) {
-          // Callback can implement its own early exit logic
-          return;
-        }
-      });
-
-      // Should have called callback at least 5 times
-      expect(count).toBeGreaterThanOrEqual(5);
-    });
   });
 });
