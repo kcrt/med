@@ -144,7 +144,7 @@
         "label": "Risk",
         "formula": "iif(score>=7, 'Very high risk', score>=5, 'High risk', score>=3, 'Moderate risk', 'Low risk')"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "ABCD²-I adds DWI imaging to ABCD². Score range: 0-9. DWI lesion adds 2 points."
       }
@@ -328,7 +328,7 @@
         "label": "Wave I-V",
         "formula": "CalculateABRVIntervalZScore(wave_i, wave_v, period)"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "Newborns: 85dBHL, thereafter: 90dBHL"
       }
@@ -429,7 +429,7 @@
         "label": "Severity",
         "formula": "iif(total>=13, 'Minor injury', total>=9, 'Moderate injury', 'Severe injury')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "13-15: Minor, 9-12: Moderate, 3-8: Severe (coma), 3: Deep coma/brain death"
       }
@@ -794,7 +794,7 @@
         "label": "Stroke Severity",
         "formula": "iif(total==0, 'No stroke symptoms', total<=4, 'Minor stroke', total<=15, 'Moderate stroke', total<=20, 'Moderate to severe stroke', 'Severe stroke')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "0: No stroke, 1-4: Minor, 5-15: Moderate, 16-20: Moderate-severe, 21-42: Severe. Score >15 suggests high benefit from thrombolysis"
       }
@@ -1078,7 +1078,7 @@
         "label": "30-day Mortality",
         "formula": "iif(score==0, '0%', score==1, '13%', score==2, '26%', score==3, '72%', score==4, '97%', '100%')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "Score 0-2: Low mortality, Score 3-4: High mortality, Score 5-6: Very high mortality"
       }
@@ -1125,7 +1125,7 @@
         "label": "Interpretation",
         "formula": "iif(adjusted_score>=26, 'Normal cognition', adjusted_score>=18, 'Mild cognitive impairment', 'Significant cognitive impairment')"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "Add 1 point if education ≤12 years. Normal: ≥26/30. Cutoff for MCI: 18-25"
       }

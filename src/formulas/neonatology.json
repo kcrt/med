@@ -45,13 +45,13 @@
         "label": "Recommendation",
         "formula": "iif(bilirubin >= threshold_adjusted, 'START PHOTOTHERAPY', 'Continue monitoring')"
       },
-      "risk_factors": {
-        "label": "Risk Factors",
-        "text": "GA <38 weeks, Albumin <3.0 g/dL, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
-      },
       "age_category": {
         "label": "Age Category",
         "formula": "iif(age_hours <= 24, '24h', age_hours <= 48, '48h', age_hours <= 72, '72h', '96h+')"
+      },
+      "info": {
+        "label": "Risk Factors",
+        "text": "GA <38 weeks, Albumin <3.0 g/dL, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
       }
     },
     "test": [
@@ -146,15 +146,15 @@
         "label": "Recommendation",
         "formula": "gestational_age < 38 ? 'CONSULT NEONATOLOGY for GA <38 weeks' : iif(bilirubin >= threshold_adjusted, 'URGENT: EXCHANGE TRANSFUSION INDICATED', 'Continue phototherapy')"
       },
-      "risk_factors": {
-        "label": "Risk Factors",
-        "text": "GA <38 weeks, Albumin <3.0 g/dL, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
-      },
       "age_category": {
         "label": "Age Category",
         "formula": "iif(age_hours <= 24, '24h', age_hours <= 48, '48h', age_hours <= 72, '72h', '96h+')"
       },
-      "note": {
+      "info1": {
+        "label": "Risk Factors",
+        "text": "GA <38 weeks, Albumin <3.0 g/dL, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
+      },
+      "info2": {
         "label": "Note",
         "text": "Guidelines primarily for ≥38 weeks GA. For <38 weeks, individualized decision-making required."
       }
@@ -262,11 +262,11 @@
         "label": "Recommendation",
         "formula": "iif(ba_ratio >= threshold, 'URGENT: Consider exchange transfusion', 'Continue phototherapy')"
       },
-      "threshold_explanation": {
+      "info1": {
         "label": "Threshold Criteria",
         "text": "B/A ≥8.0: ≥38 weeks, no risk factors | B/A ≥7.2: With risk factors OR 35-37 weeks | B/A ≥6.8: 35-37 weeks + risk factors"
       },
-      "risk_factors": {
+      "info2": {
         "label": "Risk Factors",
         "text": "GA <38 weeks, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
       }

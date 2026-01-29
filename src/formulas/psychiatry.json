@@ -405,7 +405,7 @@
         "label": "Anxiety Severity",
         "formula": "iif(score<5, 'Minimal', score<10, 'Mild', score<15, 'Moderate', 'Severe')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "Score ≥10: Consider further assessment and treatment. Score ≥15: Active treatment recommended"
       }

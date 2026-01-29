@@ -23,7 +23,7 @@
         "formula": "reticulocyte_percent * (patient_hct / 45)",
         "precision": 2
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "Normal Hct reference: 45%. This corrects for the degree of anemia."
       }
@@ -89,7 +89,7 @@
         "label": "Interpretation",
         "formula": "iif(rpi < 2, 'Inadequate marrow response (hypoproliferative)', rpi > 3, 'Appropriate marrow response (hemolysis/bleeding)', 'Borderline response')"
       },
-      "maturation_table": {
+      "info": {
         "label": "Maturation Correction Factors",
         "text": "Hct 36-45%: 1.0 | Hct 26-35%: 1.5 | Hct 16-25%: 2.0 | Hct <16%: 2.5"
       }
@@ -160,11 +160,11 @@
         "unit": "mL platelet concentrate",
         "precision": 0
       },
-      "dosing_note": {
+      "info1": {
         "label": "Dosing Note",
         "text": "Pediatric dose: 5-10 mL/kg of platelet concentrate"
       },
-      "thresholds": {
+      "info2": {
         "label": "Transfusion Thresholds",
         "text": "Stable: 10,000/µL | Fever/infection/minor procedure: 20,000/µL | Major surgery/LP: 50,000/µL | CNS/ophthalmic surgery: 100,000/µL"
       }
@@ -252,7 +252,7 @@
         "label": "Interpretation at 24 hours",
         "formula": "iif(cci >= 4500, 'Adequate (≥4,500)', 'Poor (<4,500)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Note",
         "text": "CCI <5,000 at 1h or <4,500 at 24h suggests platelet refractoriness. Consider causes: alloimmunization, fever, sepsis, DIC, splenomegaly, medications"
       }

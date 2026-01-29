@@ -96,11 +96,11 @@
         "label": "Duke Diagnosis",
         "formula": "iif(major_criteria==2, 'Definite IE', major_criteria==1 and minor_criteria>=3, 'Definite IE', major_criteria==1 and minor_criteria<=2, 'Possible IE', minor_criteria>=3, 'Possible IE', 'Rejected')"
       },
-      "major": {
+      "info1": {
         "label": "Major Criteria (2 types)",
         "text": "1) Positive blood cultures (typical organisms in 2 separate cultures OR persistently positive blood cultures), 2) Evidence of endocardial involvement (vegetation, abscess, new valvular regurgitation on echo)"
       },
-      "minor": {
+      "info2": {
         "label": "Minor Criteria (5 types)",
         "text": "1) Predisposing condition/IVDU, 2) Fever ≥38°C, 3) Vascular phenomena, 4) Immunologic phenomena, 5) Microbiologic evidence not meeting major criteria"
       }
@@ -180,11 +180,11 @@
         "label": "Diagnosis",
         "formula": "iif(strep_evidence == 0, 'Requires evidence of streptococcal infection', major_count >= 2, 'Acute Rheumatic Fever', major_count >= 1 and minor_count >= 2, 'Acute Rheumatic Fever', 'Does not meet criteria')"
       },
-      "population": {
+      "info1": {
         "label": "Population",
         "text": "Low Risk: ARF incidence <2/100,000 school-age children OR RHD prevalence ≤1/1,000"
       },
-      "criteria_note": {
+      "info2": {
         "label": "Criteria for Low Risk",
         "text": "Major: Carditis, Polyarthritis only, Chorea, Erythema marginatum, Subcutaneous nodules | Minor: Polyarthralgia, Fever ≥38.5°C, ESR ≥60 OR CRP ≥3.0"
       }
@@ -244,10 +244,22 @@
         "label": "Arthritis",
         "type": "select",
         "options": [
-          { "value": 0, "label": "None" },
-          { "value": 1, "label": "Monoarthritis" },
-          { "value": 1, "label": "Polyarthritis" },
-          { "value": 1, "label": "Polyarthralgia" }
+          {
+            "value": 0,
+            "label": "None"
+          },
+          {
+            "value": 1,
+            "label": "Monoarthritis"
+          },
+          {
+            "value": 1,
+            "label": "Polyarthritis"
+          },
+          {
+            "value": 1,
+            "label": "Polyarthralgia"
+          }
         ]
       },
       "chorea": {
@@ -298,11 +310,11 @@
         "label": "Diagnosis",
         "formula": "iif(strep_evidence == 0, 'Requires evidence of streptococcal infection', major_count >= 2, 'Acute Rheumatic Fever', major_count >= 1 and minor_count >= 2, 'Acute Rheumatic Fever', 'Does not meet criteria')"
       },
-      "population": {
+      "info1": {
         "label": "Population",
         "text": "Moderate-High Risk: ARF incidence ≥2/100,000 OR RHD prevalence >1/1,000 (includes most countries including Japan)"
       },
-      "criteria_note": {
+      "info2": {
         "label": "Criteria for Moderate-High Risk",
         "text": "Major: Carditis, Mono/Poly-arthritis/arthralgia, Chorea, Erythema marginatum, Subcutaneous nodules | Minor: Monoarthralgia, Fever ≥38.0°C, ESR ≥30 OR CRP ≥3.0"
       }
@@ -347,8 +359,14 @@
             "value": 1,
             "label": "1 - SpO₂/FiO₂ <292 or PaO₂/FiO₂ <400, no IMV"
           },
-          { "value": 2, "label": "2 - Any IMV or HFNC/CPAP/BiPAP" },
-          { "value": 3, "label": "3 - IMV + FiO₂ ≥50%" }
+          {
+            "value": 2,
+            "label": "2 - Any IMV or HFNC/CPAP/BiPAP"
+          },
+          {
+            "value": 3,
+            "label": "3 - IMV + FiO₂ ≥50%"
+          }
         ]
       },
       "cardiovascular_points": {
@@ -361,18 +379,36 @@
         "label": "Coagulation Score",
         "type": "select",
         "options": [
-          { "value": 0, "label": "0 - Platelets >100×10³/µL, INR ≤1.3" },
-          { "value": 1, "label": "1 - Platelets 50-100×10³/µL OR INR >1.3" },
-          { "value": 2, "label": "2 - Platelets <50×10³/µL AND INR >1.3" }
+          {
+            "value": 0,
+            "label": "0 - Platelets >100×10³/µL, INR ≤1.3"
+          },
+          {
+            "value": 1,
+            "label": "1 - Platelets 50-100×10³/µL OR INR >1.3"
+          },
+          {
+            "value": 2,
+            "label": "2 - Platelets <50×10³/µL AND INR >1.3"
+          }
         ]
       },
       "neurologic_score": {
         "label": "Neurologic Score",
         "type": "select",
         "options": [
-          { "value": 0, "label": "0 - GCS >10" },
-          { "value": 1, "label": "1 - GCS ≤10 OR bilateral fixed pupils" },
-          { "value": 2, "label": "2 - GCS ≤10 AND bilateral fixed pupils" }
+          {
+            "value": 0,
+            "label": "0 - GCS >10"
+          },
+          {
+            "value": 1,
+            "label": "1 - GCS ≤10 OR bilateral fixed pupils"
+          },
+          {
+            "value": 2,
+            "label": "2 - GCS ≤10 AND bilateral fixed pupils"
+          }
         ]
       }
     },
@@ -390,15 +426,15 @@
         "label": "Septic Shock",
         "formula": "iif(phoenix_score >= 2 and cardiovascular_points >= 1, 'Septic Shock (Sepsis + cardiovascular dysfunction)', 'Not septic shock')"
       },
-      "cardiovascular_note": {
+      "info1": {
         "label": "Cardiovascular Scoring",
         "text": "MAP below age threshold: +1 | Lactate 5-10.9 mmol/L: +1, ≥11: +2 | 1 vasopressor: +1, ≥2: +2"
       },
-      "map_thresholds": {
+      "info2": {
         "label": "Age-Specific MAP Thresholds",
         "text": "0-<1mo: 17 | 1-<12mo: 25 | 1-<2y: 31 | 2-<5y: 32 | 5-<12y: 36 | ≥12y: 38 mmHg"
       },
-      "purpose": {
+      "info3": {
         "label": "Purpose",
         "text": "New pediatric sepsis definition (2024) replacing SIRS criteria with improved specificity"
       }

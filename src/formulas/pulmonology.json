@@ -29,7 +29,7 @@
         "formula": "(760-47)*fio2-paco2/0.8-pao2",
         "precision": 1
       },
-      "reference": {
+      "info": {
         "label": "Reference",
         "text": "Normal: ≤10"
       }
@@ -185,7 +185,7 @@
         "label": "Judgment",
         "formula": "iif(count==0, 'Outpatient', count<=2, 'Outpatient or Hospitalization', count==3, 'Hospitalization', 'ICU admission')"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "If shock present, consider severe regardless of count"
       }
@@ -505,7 +505,7 @@
         "label": "GOLD Group (ABE)",
         "formula": "iif(exacerbations==0 and symptoms==0, 'Group A', exacerbations==0 and symptoms==1, 'Group B', 'Group E')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "Group A: Low risk, fewer symptoms. Group B: Low risk, more symptoms. Group E: High risk (≥2 exacerbations or ≥1 hospitalization)"
       }

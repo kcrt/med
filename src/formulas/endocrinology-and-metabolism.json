@@ -38,7 +38,7 @@
         "unit": "mOsm/kg",
         "precision": 1
       },
-      "reference": {
+      "info": {
         "label": "Reference",
         "text": "285-295",
         "unit": "mOsm/kg"
@@ -82,26 +82,26 @@
         "formula": "iri*fpg/405",
         "precision": 2
       },
-      "homa_ir_ref": {
-        "label": "HOMA-IR Reference",
-        "text": "≤1.6, ≥2.5 indicates insulin resistance"
-      },
       "homa_beta": {
         "label": "HOMA-β (β-cell function)",
         "formula": "iri*360/(fpg-63)",
         "precision": 1
-      },
-      "homa_beta_ref": {
-        "label": "HOMA-β Reference",
-        "text": "40-60%, ≤30% indicates decreased secretion",
-        "unit": "%"
       },
       "quicki": {
         "label": "QUICKI (Insulin Sensitivity)",
         "formula": "1/((log(fpg) + log(iri))/log(10))",
         "precision": 3
       },
-      "quicki_ref": {
+      "info1": {
+        "label": "HOMA-IR Reference",
+        "text": "≤1.6, ≥2.5 indicates insulin resistance"
+      },
+      "info2": {
+        "label": "HOMA-β Reference",
+        "text": "40-60%, ≤30% indicates decreased secretion",
+        "unit": "%"
+      },
+      "info3": {
         "label": "QUICKI Reference",
         "text": "<0.3: resistance, 0.348-0.430: normal, ≥3.0: high sensitivity (type 1 DM)"
       }
@@ -150,7 +150,7 @@
         "unit": "mg/dL",
         "precision": 1
       },
-      "warning": {
+      "info": {
         "label": "Caution",
         "text": "If TG ≥400 mg/dL, measure LDL directly"
       }
@@ -203,7 +203,7 @@
         "unit": "mg/dL",
         "precision": 1
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "Valid for TG < 800 mg/dL; more accurate than Friedewald at low LDL-C and high TG"
       }
@@ -326,7 +326,7 @@
         "formula": "total_t4 * t3_uptake / 100",
         "precision": 2
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "FT4I provides an estimate of free T4 when direct measurement is unavailable. Normal range varies by laboratory."
       }
@@ -374,7 +374,7 @@
         "label": "Interpretation",
         "formula": "iif(t3_t4_ratio > 20, 'Elevated (>20): Suggests Graves disease or toxic adenoma', t3_t4_ratio >= 14, 'Normal (14-20)', 'Low (<14)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Note",
         "text": "Elevated T3/T4 ratio (>20) suggests Graves' disease or toxic adenoma with preferential T3 secretion"
       }

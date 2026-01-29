@@ -130,7 +130,7 @@
         "label": "Total SOFA Score",
         "formula": "respiration_score + coagulation_score + liver_score + cardiovascular_score + cns_score + renal_score"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "≥2: Indicates organ dysfunction; Score change ≥2 indicates significant change in organ function"
       }
@@ -196,11 +196,11 @@
         "label": "Risk Assessment",
         "formula": "iif(score >= 2, 'High risk - consider sepsis', 'Low risk')"
       },
-      "interpretation": {
+      "info1": {
         "label": "Interpretation",
         "text": "Score ≥2: Associated with greater risk of poor outcome (mortality ≥10%); Prompt further evaluation and consider sepsis"
       },
-      "note": {
+      "info2": {
         "label": "Note",
         "text": "qSOFA is a bedside prompt for early identification of patients with suspected infection who are at greater risk for poor outcome outside the ICU"
       }
@@ -474,7 +474,7 @@
         "label": "SIRS",
         "formula": "iif(score>=2, 'SIRS Present (≥2 criteria)', 'SIRS Absent')"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "SIRS ≥2 criteria + infection = Sepsis. SIRS alone is non-specific."
       }

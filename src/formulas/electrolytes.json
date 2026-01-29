@@ -28,7 +28,7 @@
         "label": "Interpretation",
         "formula": "iif(corrected_na >= 143, 'High (>143 mmol/L)', corrected_na >= 137, 'Normal (137-143 mmol/L)', 'Low (<137 mmol/L)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Significance",
         "text": "In DKA, if corrected Na doesn't rise ~5 mmol/L in 8h, indicates cerebral edema risk"
       }
@@ -88,7 +88,7 @@
         "label": "Interpretation",
         "formula": "iif(corrected_na >= 143, 'High (>143 mmol/L)', corrected_na >= 137, 'Normal (137-143 mmol/L)', 'Low (<137 mmol/L)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Note",
         "text": "Use Hillier formula for glucose >400 mg/dL. For glucose ≤400 mg/dL, use Katz formula (1.6 correction factor)."
       }
@@ -145,7 +145,7 @@
         "label": "Interpretation",
         "formula": "iif(osmolality > 295, 'High (>295 mOsm/kg)', osmolality >= 275, 'Normal (275-295 mOsm/kg)', 'Low (<275 mOsm/kg)')"
       },
-      "pediatric_note": {
+      "info": {
         "label": "Pediatric Reference",
         "text": "Pediatric normal range: 275-290 mOsm/kg"
       }
@@ -214,7 +214,7 @@
         "label": "Interpretation",
         "formula": "iif(anion_gap > 12, 'Elevated (>12 mEq/L)', anion_gap >= 8, 'Normal (8-12 mEq/L)', 'Low (<8 mEq/L)')"
       },
-      "differential": {
+      "info": {
         "label": "Elevated AG Differential (CATMUDPILES)",
         "text": "CO/cyanide, Aminoglycosides, Theophylline, Methanol, Uremia, DKA, Paracetamol, Iron/INH, Lactic acidosis, Ethanol/Ethylene glycol, Salicylates"
       }
@@ -296,7 +296,7 @@
         "label": "Interpretation",
         "formula": "iif(corrected_ag > 12, 'Elevated (>12 mEq/L)', corrected_ag >= 8, 'Normal (8-12 mEq/L)', 'Low (<8 mEq/L)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Note",
         "text": "Correction is important because low albumin artificially lowers the anion gap, potentially masking metabolic acidosis"
       }
@@ -349,7 +349,7 @@
         "label": "Interpretation",
         "formula": "iif(corrected_calcium > 10.5, 'Hypercalcemia (>10.5 mg/dL)', corrected_calcium >= 8.5, 'Normal (8.5-10.5 mg/dL)', 'Hypocalcemia (<8.5 mg/dL)')"
       },
-      "clinical_note": {
+      "info": {
         "label": "Clinical Note",
         "text": "JAMA Network Open 2025 study recommends ionized Ca measurement for critically ill, CKD, elderly patients"
       }
@@ -409,7 +409,7 @@
         "label": "Interpretation",
         "formula": "iif(corrected_calcium > 10.5, 'Hypercalcemia (>10.5 mg/dL)', corrected_calcium >= 8.5, 'Normal (8.5-10.5 mg/dL)', 'Hypocalcemia (<8.5 mg/dL)')"
       },
-      "method_note": {
+      "info": {
         "label": "Note",
         "text": "Japanese BCP method uses 0.7 correction factor (vs. 0.8 in Payne formula)"
       }
@@ -471,11 +471,11 @@
         "label": "Interpretation",
         "formula": "iif(fena < 1, 'Prerenal AKI (<1%)', fena <= 2, 'Indeterminate (1-2%)', 'Renal AKI/ATN (>2-3%)')"
       },
-      "pediatric_note": {
+      "info1": {
         "label": "Pediatric Considerations",
         "text": "Term neonates: FENa <3% suggests prerenal. Preterm: Up to 4% normal (immature tubules)"
       },
-      "limitation": {
+      "info2": {
         "label": "Limitation",
         "text": "Unreliable with diuretics → use FEUrea instead"
       }
@@ -551,7 +551,7 @@
         "label": "Interpretation",
         "formula": "iif(feurea < 35, 'Prerenal AKI (<35%)', feurea >= 50, 'Renal AKI/ATN (>50%)', 'Indeterminate (35-50%)')"
       },
-      "advantage": {
+      "info": {
         "label": "Advantage",
         "text": "Less affected by diuretics (proximal tubule reabsorption). More reliable than FENa in patients on diuretics"
       }
@@ -650,7 +650,7 @@
         "unit": "mg/dL",
         "precision": 1
       },
-      "warning": {
+      "info": {
         "label": "Warning",
         "text": "Normal osmolar gap does NOT exclude toxic alcohol (gap decreases as metabolism progresses, anion gap increases)"
       }

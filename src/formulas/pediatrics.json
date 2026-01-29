@@ -102,7 +102,7 @@
         "label": "Interpretation",
         "formula": "iif(score>=7, 'Normal (7-10)', score>=4, 'Moderately abnormal (4-6)', 'Low (0-3) - needs immediate resuscitation')"
       },
-      "note": {
+      "info": {
         "label": "Note",
         "text": "Assessed at 1 and 5 minutes after birth. Score at 5 min is more predictive of outcome."
       }

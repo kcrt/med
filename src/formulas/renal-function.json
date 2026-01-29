@@ -366,7 +366,7 @@
         "unit": "%",
         "precision": 2
       },
-      "reference": {
+      "info": {
         "label": "Reference",
         "text": "Normal: <1%, Renal failure: >1%"
       }
@@ -528,7 +528,7 @@
         "label": "Risk of CKD Progression",
         "formula": "iif(gfr>=60 and acr<30, 'Green (low risk)', gfr>=60 and acr<300, 'Yellow (moderate risk)', gfr>=45 and acr<30, 'Yellow (moderate risk)', gfr>=30 and acr<30, 'Orange (high risk)', gfr>=15 and acr<30, 'Red (very high risk)', 'Red (very high risk)')"
       },
-      "interpretation": {
+      "info": {
         "label": "Interpretation",
         "text": "KDIGO 2012 CKD classification. Combines GFR and albuminuria categories for risk stratification."
       }
