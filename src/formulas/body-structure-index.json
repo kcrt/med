@@ -59,6 +59,7 @@
   },
   "bmi_child": {
     "name": "BMI (Child)",
+    "info": "Pediatric BMI assessment evaluates growth and nutritional status in children using age- and sex-specific percentiles. Different cutoffs and interpretations apply compared to adult BMI.",
     "input": {
       "height": {
         "label": "Height",
@@ -125,6 +126,7 @@
   },
   "target_height": {
     "name": "Target Height",
+    "info": "Target height (also called mid-parental height) predicts a child's expected adult height based on parents' heights. Provides a reference point for evaluating growth patterns and potential growth disorders.",
     "input": {
       "father_height": {
         "label": "Father's Height",
@@ -183,6 +185,7 @@
   },
   "bsa": {
     "name": "Body Surface Area",
+    "info": "Body Surface Area (BSA) estimates the total surface area of the human body using height and weight. Essential for drug dosing calculations, cardiac index determination, and burn assessment.",
     "input": {
       "height": {
         "label": "Height",

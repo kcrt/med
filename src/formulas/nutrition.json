@@ -1,6 +1,7 @@
 {
   "must": {
     "name": "MUST Score (Malnutrition)",
+    "info": "The Malnutrition Universal Screening Tool (MUST) identifies adults at risk of malnutrition using BMI, unplanned weight loss, and acute disease effects. Guides nutritional intervention decisions.",
     "input": {
       "bmi": {
         "label": "BMI",
@@ -86,6 +87,7 @@
   },
   "mifflin_st_jeor": {
     "name": "Mifflin-St Jeor Equation (REE)",
+    "info": "The Mifflin-St Jeor equation estimates Resting Energy Expenditure (REE) using weight, height, age, and sex. It's currently the most accurate predictive equation for calculating daily energy needs.",
     "input": {
       "weight": {
         "label": "Weight",
@@ -144,6 +146,7 @@
   },
   "harris_benedict": {
     "name": "Harris-Benedict Equation (BEE)",
+    "info": "The Harris-Benedict equation estimates Basal Energy Expenditure (BEE) to calculate daily caloric needs. The revised 1984 version improves accuracy for nutrition planning and diet prescription.",
     "input": {
       "weight": {
         "label": "Weight",

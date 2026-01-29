@@ -1,6 +1,7 @@
 {
   "apgar": {
     "name": "Apgar Score",
+    "info": "The Apgar Score assesses newborn health immediately after birth using five criteria: Appearance, Pulse, Grimace, Activity, and Respiration. Evaluated at 1 and 5 minutes to guide resuscitation needs.",
     "input": {
       "appearance": {
         "label": "Appearance (Color)",
@@ -128,6 +129,7 @@
   },
   "silverman_andersen": {
     "name": "Silverman-Andersen Score",
+    "info": "The Silverman-Andersen Score evaluates respiratory distress in newborns by assessing chest movement, intercostal retractions, xiphoid retractions, nasal flaring, and expiratory grunting. Higher scores indicate more severe distress.",
     "input": {
       "chest_retraction": {
         "label": "Upper Chest Retraction",
@@ -251,6 +253,7 @@
   },
   "pews": {
     "name": "Pediatric Early Warning Score (PEWS)",
+    "info": "The Pediatric Early Warning Score (PEWS) identifies children at risk of clinical deterioration by assessing behavior, cardiovascular status, and respiratory function. Helps trigger timely escalation of care.",
     "input": {
       "behavior": {
         "label": "Behavior",
@@ -348,6 +351,7 @@
   },
   "westley_croup": {
     "name": "Westley Croup Score",
+    "info": "The Westley Croup Score assesses the severity of croup by evaluating stridor, retractions, air entry, cyanosis, and level of consciousness. Guides treatment decisions including corticosteroid and epinephrine use.",
     "input": {
       "inspiratory_stridor": {
         "label": "Inspiratory Stridor",

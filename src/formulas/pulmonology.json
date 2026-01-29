@@ -1,6 +1,7 @@
 {
   "aado2": {
     "name": "A-aDO₂",
+    "info": "The Alveolar-arterial oxygen gradient (A-aDO₂) assesses gas exchange efficiency by comparing calculated alveolar oxygen to measured arterial oxygen. Helps differentiate causes of hypoxemia.",
     "input": {
       "fio2": {
         "label": "FiO₂",
@@ -49,6 +50,7 @@
   },
   "psi": {
     "name": "Pneumonia Severity Index (PSI)",
+    "info": "The Pneumonia Severity Index (PSI) stratifies patients with community-acquired pneumonia into risk classes I-V based on mortality risk. Guides decisions regarding outpatient versus inpatient treatment.",
     "input": {
       "age": {
         "label": "Age",
@@ -154,6 +156,7 @@
   },
   "adrop": {
     "name": "A-DROP Score",
+    "info": "The A-DROP score is a Japanese severity assessment tool for community-acquired pneumonia. It evaluates Age, Dehydration, Respiratory failure, Orientation disturbance, and blood Pressure to guide treatment decisions.",
     "input": {
       "age": {
         "label": "Age (Male ≥70 / Female ≥75)",
@@ -210,6 +213,7 @@
   },
   "venous_to_arterial_blood_gas": {
     "name": "Central Venous to Arterial Blood Gas",
+    "info": "Estimates arterial blood gas values from central venous blood gas measurements using validated conversion formulas. Useful when arterial sampling is difficult or contraindicated.",
     "input": {
       "ph": {
         "label": "pH",
@@ -271,6 +275,7 @@
   },
   "curb65": {
     "name": "CURB-65 Score",
+    "info": "The CURB-65 score predicts mortality and severity in community-acquired pneumonia using five simple criteria. Guides site-of-care decisions and helps identify patients needing intensive care.",
     "input": {
       "confusion": {
         "label": "Confusion (new onset)",
@@ -328,6 +333,7 @@
   },
   "bode_index": {
     "name": "BODE Index (COPD)",
+    "info": "The BODE Index predicts mortality in COPD patients using Body mass index, airflow Obstruction, Dyspnea, and Exercise capacity. Provides a multidimensional assessment superior to FEV1 alone.",
     "input": {
       "fev1_percent": {
         "label": "FEV1 (% predicted) [%]",
@@ -444,6 +450,7 @@
   },
   "gold_copd": {
     "name": "GOLD COPD Classification",
+    "info": "The GOLD (Global Initiative for Chronic Obstructive Lung Disease) classification system grades COPD severity based on FEV1, symptoms, and exacerbation history. Guides treatment intensity and monitoring.",
     "input": {
       "fev1_percent": {
         "label": "FEV1/FVC <0.7 and FEV1 (% predicted)",
