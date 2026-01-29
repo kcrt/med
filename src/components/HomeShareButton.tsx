@@ -4,6 +4,7 @@ import { Box, Group, Stack, Text } from "@mantine/core";
 import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
 import { useShareHandler } from "@/hooks/useShareHandler";
 import { useShareUrl } from "@/hooks/useShareUrl";
@@ -13,6 +14,7 @@ export function HomeShareButton() {
   const tApp = useTranslations("app");
 
   const [supportsNativeShare, setSupportsNativeShare] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   // Get current page URL (no input values for home page)
   const shareUrl = useShareUrl();
@@ -34,8 +36,9 @@ export function HomeShareButton() {
       style={{
         position: "fixed",
         bottom: "20px",
-        left: "50%",
-        transform: "translateX(-50%)",
+        left: isDesktop ? "auto" : "50%",
+        right: isDesktop ? "20px" : "auto",
+        transform: isDesktop ? "none" : "translateX(-50%)",
         zIndex: 100,
       }}
     >
