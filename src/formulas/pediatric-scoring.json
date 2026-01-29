@@ -1,6 +1,7 @@
 {
   "pews_brighton": {
     "name": "PEWS (Pediatric Early Warning Score) - Brighton",
+    "info": "The Brighton PEWS identifies children at risk of clinical deterioration by assessing behavior, cardiovascular status, and respiratory function. A validated early warning system to trigger timely medical intervention.",
     "input": {
       "behavior": {
         "label": "Behavior",
@@ -131,6 +132,7 @@
   },
   "pgcs_infant": {
     "name": "Pediatric Glasgow Coma Scale (Infant)",
+    "info": "The Pediatric Glasgow Coma Scale (Infant version) assesses consciousness level in infants under 2 years. Adapts verbal and motor responses for developmental stage, scoring eye opening, verbal response, and motor response.",
     "input": {
       "eye_opening": {
         "label": "Eye Opening (E)",
@@ -212,6 +214,7 @@
   },
   "pgcs_child": {
     "name": "Pediatric Glasgow Coma Scale (Child)",
+    "info": "The Pediatric Glasgow Coma Scale (Child version) assesses consciousness level in children aged 2 years and older. Evaluates eye opening, verbal response, and motor response with age-appropriate criteria.",
     "input": {
       "eye_opening": {
         "label": "Eye Opening (E)",
@@ -293,6 +296,7 @@
   },
   "psofa_simplified": {
     "name": "pSOFA (Pediatric Sequential Organ Failure Assessment)",
+    "info": "The Pediatric Sequential Organ Failure Assessment (pSOFA) score evaluates multi-organ dysfunction in critically ill children. Assesses respiratory, cardiovascular, hepatic, coagulation, renal, and neurological systems.",
     "input": {
       "respiratory_score": {
         "label": "Respiratory Score",

@@ -1,6 +1,7 @@
 {
   "ccr_adult": {
     "name": "CCr, eGFR (Adult)",
+    "info": "Calculates Creatinine Clearance (CCr) using the Cockcroft-Gault equation and estimates GFR using CKD-EPI equations. Essential for assessing kidney function and medication dosing adjustments.",
     "input": {
       "weight": {
         "label": "Weight",
@@ -75,6 +76,7 @@
   },
   "ccr_measured": {
     "name": "CCr from Serum/Urine Creatinine",
+    "info": "Calculates measured Creatinine Clearance from serum creatinine, urine creatinine, and urine volume. The gold standard method for assessing kidney function when 24-hour urine collection is available.",
     "input": {
       "height": {
         "label": "Height",
@@ -140,6 +142,7 @@
   },
   "cystatin_c_age": {
     "name": "eGFR from Cystatin C and Age (18+)",
+    "info": "Estimates GFR using cystatin C and age. Cystatin C is less affected by muscle mass than creatinine, providing better GFR estimation in elderly, malnourished, or muscular patients.",
     "input": {
       "cystatin_c": {
         "label": "Serum Cystatin C",
@@ -192,6 +195,7 @@
   },
   "cystatin_c": {
     "name": "eGFR from Cystatin C",
+    "info": "Estimates GFR using cystatin C levels alone. Useful when creatinine-based estimates are unreliable due to extreme body composition or muscle mass variations.",
     "input": {
       "cystatin_c": {
         "label": "Serum Cystatin C [mg/L]",
@@ -243,6 +247,7 @@
   },
   "ccr_child": {
     "name": "eGFR (Child)",
+    "info": "Estimates GFR in children using the Schwartz equation. Age-appropriate formula accounting for changes in creatinine production during growth and development.",
     "input": {
       "height": {
         "label": "Height",
@@ -331,6 +336,7 @@
   },
   "fena": {
     "name": "FENa Calculation",
+    "info": "The Fractional Excretion of Sodium (FENa) differentiates prerenal from intrinsic acute kidney injury using serum and urine sodium and creatinine. Values <1% suggest prerenal causes.",
     "input": {
       "sodium_serum": {
         "label": "Serum Na",
@@ -387,6 +393,7 @@
   },
   "trp": {
     "name": "%TRP Calculation",
+    "info": "The Tubular Reabsorption of Phosphate (%TRP) assesses renal phosphate handling. Low values suggest renal phosphate wasting, seen in conditions like Fanconi syndrome or hyperparathyroidism.",
     "input": {
       "phosphate_serum": {
         "label": "Serum P",
@@ -445,6 +452,7 @@
   },
   "ckd_epi_2021": {
     "name": "CKD-EPI 2021 (Creatinine-Cystatin C)",
+    "info": "The CKD-EPI 2021 equation estimates GFR using both creatinine and cystatin C. Race-free formula providing the most accurate GFR estimation by combining both biomarkers.",
     "input": {
       "scr": {
         "label": "Serum Creatinine",
@@ -499,6 +507,7 @@
   },
   "kdigo_ckd": {
     "name": "KDIGO CKD Category",
+    "info": "The KDIGO classification stages Chronic Kidney Disease based on GFR and albuminuria, categorizing risk and guiding monitoring frequency and treatment intensity.",
     "input": {
       "gfr": {
         "label": "eGFR",
@@ -551,6 +560,7 @@
   },
   "kdigo_aki": {
     "name": "KDIGO AKI Stage",
+    "info": "The KDIGO classification stages Acute Kidney Injury based on serum creatinine changes and urine output. Standardizes AKI diagnosis and severity assessment for research and clinical care.",
     "input": {
       "scr_increase": {
         "label": "Serum Creatinine Increase",
