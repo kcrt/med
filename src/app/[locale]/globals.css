@@ -79,6 +79,13 @@ body {
   }
 }
 
+@media (hover: hover) and (prefers-color-scheme: dark) {
+  .mantine-NavLink-root:not([data-active]):hover {
+    background-color: #1e3a5f !important;
+    color: #ffffff !important;
+  }
+}
+
 /* Tailwind CSS import - must come after custom rules for Safari compatibility */
 @import "tailwindcss";
 
