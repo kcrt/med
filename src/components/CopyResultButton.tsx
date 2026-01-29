@@ -3,9 +3,9 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
 import { useTranslations, useLocale } from "next-intl";
-import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import { buildHumanReadableData } from "@/lib/calculation-export";
+import { useClipboard } from "@/hooks/useClipboard";
 import type { Formula } from "@/types/formula";
 import type { FormulaInputValues, FormulaOutputValues } from "@/lib/formula";
 
@@ -22,7 +22,7 @@ export function CopyResultButton({
   inputValues,
   outputResults,
 }: CopyResultButtonProps) {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useClipboard();
   const t = useTranslations("copyResult");
   const locale = useLocale();
 
@@ -33,20 +33,14 @@ export function CopyResultButton({
 
   const handleCopy = async () => {
     if (isDisabled) return;
-    try {
-      const dataString = buildHumanReadableData(
-        formula,
-        formulaId,
-        inputValues,
-        outputResults,
-        locale,
-      );
-      await navigator.clipboard.writeText(dataString);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
+    const dataString = buildHumanReadableData(
+      formula,
+      formulaId,
+      inputValues,
+      outputResults,
+      locale,
+    );
+    await copy(dataString);
   };
 
   const getTooltipLabel = () => {

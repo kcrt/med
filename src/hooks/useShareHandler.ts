@@ -33,7 +33,11 @@ export function useShareHandler({
   const handlePlatformShare = (platform: SharePlatform) => {
     const config = SHARE_PLATFORMS[platform];
     const platformUrl = config.buildUrl(shareUrl, shareTitle);
-    window.open(platformUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+    window.open(
+      platformUrl,
+      "_blank",
+      "noopener,noreferrer,width=600,height=400",
+    );
   };
 
   return { handleNativeShare, handlePlatformShare };

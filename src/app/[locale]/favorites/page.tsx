@@ -119,7 +119,6 @@ export default function FavoritesPage() {
   // Memoize category mapping to avoid repeated lookups
   const categoryMap = useMemo(() => getCategoryMap(), []);
 
-
   // Combine current favorites with items being removed (for animation)
   const displayItems = useMemo(() => {
     const itemSet = new Set([...favorites, ...Array.from(removingIds)]);

@@ -1,21 +1,17 @@
 "use client";
 
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Modal,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Button, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import type { Formula } from "@/types/formula";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
+import { FloatingActionButton } from "@/components/FloatingActionButton";
 import { useShareHandler } from "@/hooks/useShareHandler";
+import { useClipboard } from "@/hooks/useClipboard";
+import { useShareUrl } from "@/hooks/useShareUrl";
+import { useAutoSelectInput } from "@/hooks/useAutoSelectInput";
 
 interface ShareButtonProps {
   formula: Formula;
@@ -24,13 +20,14 @@ interface ShareButtonProps {
 
 export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const [opened, setOpened] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useClipboard();
   const t = useTranslations("share");
   const tApp = useTranslations("app");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useAutoSelectInput(opened);
 
   // Check if native share is supported
-  const supportsNativeShare = typeof navigator !== "undefined" && "share" in navigator;
+  const supportsNativeShare =
+    typeof navigator !== "undefined" && "share" in navigator;
 
   // Only show share button for calculation formulas with valid inputs
   if (!isCalculationFormula(formula)) {
@@ -48,44 +45,11 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   }
 
   // Build shareable URL with query parameters
-  const buildShareUrl = (): string => {
-    const params = new URLSearchParams();
-    for (const [key, value] of Object.entries(inputValues)) {
-      if (value !== null && value !== "" && value !== undefined) {
-        params.append(key, String(value));
-      }
-    }
-    // Check if window is available (client-side only)
-    if (typeof window === "undefined") {
-      return "";
-    }
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    const queryString = params.toString();
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-  };
-
-  const shareUrl = buildShareUrl();
+  const shareUrl = useShareUrl(inputValues);
   const shareTitle = `${formula.name || tApp("title")} - ${tApp("title")}`;
 
-  // Auto-select URL text when modal opens
-  useEffect(() => {
-    if (opened) {
-      // Small delay to ensure the input is rendered
-      const timer = setTimeout(() => {
-        inputRef.current?.select();
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [opened]);
-
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
+    await copy(shareUrl);
   };
 
   const { handleNativeShare, handlePlatformShare } = useShareHandler({
@@ -97,38 +61,12 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <Box
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "90px",
-          zIndex: 100,
-        }}
-      >
-        <ActionIcon
-          size={56}
-          radius="xl"
-          variant="filled"
-          color="blue"
-          onClick={() => setOpened(true)}
-          style={{
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            transition: "transform 0.2s, box-shadow 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-            e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
-          }}
-          aria-label={t("buttonLabel")}
-        >
-          <IconShare3 size={28} />
-        </ActionIcon>
-      </Box>
+      <FloatingActionButton
+        icon={<IconShare3 size={28} />}
+        onClick={() => setOpened(true)}
+        ariaLabel={t("buttonLabel")}
+        right={90}
+      />
 
       {/* Share URL Modal */}
       <Modal
@@ -174,7 +112,9 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
               onNativeShare={handleNativeShare}
               onPlatformShare={handlePlatformShare}
               nativeShareLabel={t("nativeShare")}
-              getPlatformShareLabel={(platformName) => t("shareOn", { platform: platformName })}
+              getPlatformShareLabel={(platformName) =>
+                t("shareOn", { platform: platformName })
+              }
               tooltipPosition="bottom"
             />
           </div>

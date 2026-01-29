@@ -15,7 +15,7 @@ export function Navbar() {
   const menuItems = useSearchableMenuItems();
   const [searchQuery, setSearchQuery] = useState("");
   const [accordionValue, setAccordionValue] = useState<string | null>(
-    menuItems[0]?.label ?? null
+    menuItems[0]?.label ?? null,
   );
 
   // Filter menu items based on search query
@@ -25,16 +25,18 @@ export function Navbar() {
     }
 
     const query = searchQuery.toLowerCase().trim();
-    
+
     return menuItems
       .map((category) => {
         const filteredItems = category.items.filter((item) => {
           // Search in translated label
           const matchesTranslated = item.label.toLowerCase().includes(query);
-          
+
           // Search in English label
-          const matchesEnglish = item.englishLabel.toLowerCase().includes(query);
-          
+          const matchesEnglish = item.englishLabel
+            .toLowerCase()
+            .includes(query);
+
           return matchesTranslated || matchesEnglish;
         });
 

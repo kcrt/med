@@ -20,6 +20,7 @@ import {
   GetPercentileFromZScore,
   GetValueFromZScore,
   iif,
+  iterateFormulas,
   type CalculationFormula,
   type HtmlFormula,
 } from "@/lib/formula";
@@ -478,6 +479,43 @@ describe("Mathematical Helper Functions", () => {
       const bmi = 28;
       const result = iif(bmi >= 30, "obese", bmi >= 25, "overweight", "normal");
       expect(result).toBe("overweight");
+    });
+  });
+
+  describe("iterateFormulas", () => {
+    it("should iterate through all formulas", () => {
+      const formulaIds: string[] = [];
+      iterateFormulas((_, formulaId) => {
+        formulaIds.push(formulaId);
+      });
+
+      expect(formulaIds.length).toBeGreaterThan(0);
+      expect(formulaIds).toContain("bmi_adult"); // Known formula
+    });
+
+    it("should skip _meta category", () => {
+      const categories: string[] = [];
+      iterateFormulas((categoryName) => {
+        if (!categories.includes(categoryName)) {
+          categories.push(categoryName);
+        }
+      });
+
+      expect(categories).not.toContain("_meta");
+    });
+
+    it("should provide category name, formula ID, and formula object", () => {
+      let found = false;
+      iterateFormulas((categoryName, formulaId, formula) => {
+        if (formulaId === "bmi_adult") {
+          expect(categoryName).toBe("Body Structure Index");
+          expect(formula).toBeDefined();
+          expect(formula.name).toBeDefined();
+          found = true;
+        }
+      });
+
+      expect(found).toBe(true);
     });
   });
 });

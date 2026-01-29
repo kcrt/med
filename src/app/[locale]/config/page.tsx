@@ -3,11 +3,7 @@
 import { Card, Container, Select, Stack, Text, Title } from "@mantine/core";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  DEFAULT_LOCALE,
-  SUPPORTED_LOCALES,
-  type Locale,
-} from "@/lib/locale";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type Locale } from "@/lib/locale";
 import { usePathname, useRouter } from "@/lib/navigation";
 
 type LocaleValue = Locale | "auto";
@@ -33,7 +29,8 @@ export default function ConfigPage() {
 
     if (selectedLocale === "auto") {
       // Remove cookie to let next-intl handle browser detection
-      document.cookie = "NEXT_LOCALE=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie =
+        "NEXT_LOCALE=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
       // Detect browser's preferred language
       const browserLang = navigator.language.split("-")[0];

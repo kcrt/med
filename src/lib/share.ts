@@ -7,7 +7,12 @@ import {
   IconShare2,
 } from "@tabler/icons-react";
 
-export type SharePlatform = "twitter" | "facebook" | "linkedin" | "line" | "pocket";
+export type SharePlatform =
+  | "twitter"
+  | "facebook"
+  | "linkedin"
+  | "line"
+  | "pocket";
 
 export interface SharePlatformConfig {
   name: string;

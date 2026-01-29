@@ -1,5 +1,9 @@
 import { ActionIcon, Group, Tooltip, TooltipProps } from "@mantine/core";
-import { NATIVE_SHARE_ICON, SHARE_PLATFORMS, type SharePlatform } from "@/lib/share";
+import {
+  NATIVE_SHARE_ICON,
+  SHARE_PLATFORMS,
+  type SharePlatform,
+} from "@/lib/share";
 
 export interface ShareButtonsGridProps {
   shareUrl: string;
@@ -21,7 +25,13 @@ export function ShareButtonsGrid({
   tooltipPosition = "bottom",
 }: ShareButtonsGridProps) {
   return (
-    <Group wrap="wrap" justify="center" gap="xs" w="100%" style={{ alignContent: "center" }}>
+    <Group
+      wrap="wrap"
+      justify="center"
+      gap="xs"
+      w="100%"
+      style={{ alignContent: "center" }}
+    >
       {/* Native Share Button (macOS/iOS style) */}
       {supportsNativeShare && (
         <Tooltip label={nativeShareLabel} position={tooltipPosition}>
@@ -41,7 +51,11 @@ export function ShareButtonsGrid({
         const config = SHARE_PLATFORMS[platform];
         const Icon = config.icon;
         return (
-          <Tooltip key={platform} label={config.name} position={tooltipPosition}>
+          <Tooltip
+            key={platform}
+            label={config.name}
+            position={tooltipPosition}
+          >
             <ActionIcon
               onClick={() => onPlatformShare(platform)}
               size={48}
