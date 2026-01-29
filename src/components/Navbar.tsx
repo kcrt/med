@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion, NavLink, Stack, TextInput, Text } from "@mantine/core";
-import { IconSettings, IconStar, IconSearch } from "@tabler/icons-react";
+import { IconSettings, IconStar, IconSearch, IconX } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useSearchableMenuItems } from "@/lib/formula-translation";
 import { Link, usePathname } from "@/lib/navigation";
@@ -67,6 +67,15 @@ export function Navbar() {
       <TextInput
         placeholder={tSearch("placeholder")}
         leftSection={<IconSearch size={18} />}
+        rightSection={
+          searchQuery ? (
+            <IconX
+              size={18}
+              style={{ cursor: "pointer" }}
+              onClick={() => setSearchQuery("")}
+            />
+          ) : null
+        }
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.currentTarget.value)}
         aria-label={tSearch("placeholder")}
