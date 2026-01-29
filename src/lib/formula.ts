@@ -337,7 +337,8 @@ export function GetZScoreStr(
 const factorialCache = new Map<number, number>();
 
 /**
- * Calculate factorial with memoization.
+ * Calculate factorial with memoization and optimized calculation.
+ * Uses the largest cached value smaller than n as a starting point.
  *
  * @param n - The number to calculate factorial for (must be non-negative integer)
  * @returns The factorial of n
@@ -356,9 +357,19 @@ function factorial(n: number): number {
     return factorialCache.get(n)!;
   }
 
-  // Calculate factorial
+  // Find the largest cached factorial smaller than n
+  let startN = 0;
   let result = 1;
-  for (let i = 2; i <= n; i++) {
+  
+  for (const [cachedN, cachedValue] of factorialCache.entries()) {
+    if (cachedN < n && cachedN > startN) {
+      startN = cachedN;
+      result = cachedValue;
+    }
+  }
+
+  // Calculate factorial from the largest cached value
+  for (let i = startN + 1; i <= n; i++) {
     result *= i;
   }
 
