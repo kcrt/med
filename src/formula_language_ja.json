@@ -1,4 +1,4 @@
-{!!!!! NOT USED
+{
   "_meta": {
     "language": "ja",
     "version": "1.0.0",
@@ -155,6 +155,10 @@
       "note": {
         "label": "備考",
         "text": "ABCD²-IはDWI画像診断を追加。スコア範囲: 0-9点。DWI病変ありで2点。"
+      },
+      "info": {
+        "label": "注意",
+        "text": "ABCD²-IはABCD²にDWI画像を追加。スコア範囲: 0-9。DWI病変は2点追加。"
       }
     }
   },
@@ -236,6 +240,10 @@
       "interpretation": {
         "label": "解釈",
         "text": "≧2点: 臓器障害を示唆; スコア変化≧2点: 臓器機能の有意な変化を示す"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "≥2: 臓器機能障害を示す; スコア変化≥2は臓器機能の有意な変化を示す"
       }
     }
   },
@@ -267,6 +275,14 @@
       "note": {
         "label": "備考",
         "text": "qSOFAは、ICU外で感染疑い例のうち予後不良リスクが高い症例を早期同定するためのベッドサイドスクリーニングツール"
+      },
+      "info1": {
+        "label": "解釈",
+        "text": "スコア≥2: 予後不良のリスク増大と関連(死亡率≥10%); 速やかな追加評価と敗血症を考慮"
+      },
+      "info2": {
+        "label": "注意",
+        "text": "qSOFAはICU外で感染が疑われ予後不良リスクが高い患者の早期識別のためのベッドサイドツール"
       }
     }
   },
@@ -290,6 +306,10 @@
       "clinical_note": {
         "label": "臨床的意義",
         "text": "DKAにおいて、補正Naが8時間で約5 mmol/L上昇しない場合、脳浮腫のリスクを示す"
+      },
+      "info": {
+        "label": "臨床的意義",
+        "text": "DKAにおいて、補正Na が8時間で約5 mmol/L 上昇しない場合、脳浮腫のリスクを示す"
       }
     }
   },
@@ -314,6 +334,10 @@
         "label": "判定"
       },
       "pediatric_note": {
+        "label": "小児基準値",
+        "text": "小児正常範囲: 275-290 mOsm/kg"
+      },
+      "info": {
         "label": "小児基準値",
         "text": "小児正常範囲: 275-290 mOsm/kg"
       }
@@ -345,6 +369,14 @@
       "limitation": {
         "label": "注意点",
         "text": "利尿薬使用時は信頼性が低下 → FEUreaを使用"
+      },
+      "info1": {
+        "label": "小児における考慮事項",
+        "text": "正期産新生児: FENa <3%は腎前性を示唆。早産児: 4%まで正常(未熟な尿細管)"
+      },
+      "info2": {
+        "label": "制限事項",
+        "text": "利尿薬使用時は信頼性低下 → FEUreaを使用"
       }
     }
   },
@@ -367,6 +399,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "Maturation Correction Factors",
+        "text": "Hct 36-45%: 1.0 | Hct 26-35%: 1.5 | Hct 16-25%: 2.0 | Hct <16%: 2.5"
       }
     }
   },
@@ -396,6 +432,10 @@
       "risk_factors": {
         "label": "リスク因子",
         "text": "在胎38週未満、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT陽性)、G6PD欠損症、敗血症、臨床的不安定"
+      },
+      "info": {
+        "label": "Risk Factors",
+        "text": "在胎週数<38週、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT+)、G6PD欠損症、敗血症、臨床的不安定性"
       }
     }
   },
@@ -425,6 +465,14 @@
       "purpose": {
         "label": "目的",
         "text": "入院小児の臨床悪化の早期発見、迅速対応チーム(RRT)のトリガー"
+      },
+      "info1": {
+        "label": "Performance Characteristics",
+        "text": "感度78-97% (カットオフ3)、特異度74-95% (カットオフ5)"
+      },
+      "info2": {
+        "label": "Purpose",
+        "text": "入院中の小児の臨床的悪化の早期検出、迅速対応チーム(RRT)の起動"
       }
     }
   },
@@ -447,6 +495,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "Age Group",
+        "text": "乳児版"
       }
     }
   },
@@ -482,6 +534,14 @@
       "definition": {
         "label": "Sepsis-3定義",
         "text": "敗血症: pSOFA≥2 + 感染疑い | 敗血症性ショック: 敗血症 + 昇圧薬 + 乳酸>18 mg/dL"
+      },
+      "info1": {
+        "label": "Validation",
+        "text": "AUC 0.94 (Matics & Sanchez-Pinto, JAMA Pediatr 2017)"
+      },
+      "info2": {
+        "label": "Sepsis-3 Definition",
+        "text": "Sepsis: pSOFA ≥2 + suspected infection | Septic Shock: Sepsis + vasopressors + lactate >18 mg/dL"
       }
     }
   },
@@ -498,6 +558,10 @@
     "output": {
       "ft4_index": {
         "label": "遊離T4指数"
+      },
+      "info": {
+        "label": "注意",
+        "text": "FT4I provides an estimate of free T4 when direct measurement is unavailable. Normal range varies by laboratory."
       }
     }
   },
@@ -521,6 +585,10 @@
       "clinical_note": {
         "label": "臨床的意義",
         "text": "T3/T4比上昇(>20)はバセドウ病または中毒性腺腫を示唆（優先的T3分泌）"
+      },
+      "info": {
+        "label": "臨床的注意",
+        "text": "Elevated T3/T4 ratio (>20) suggests Graves' disease or toxic adenoma with preferential T3 secretion"
       }
     }
   },
@@ -539,6 +607,14 @@
       "population": {
         "label": "対象集団",
         "text": "低リスク: ARF発生率<2/10万学齢児 または RHD有病率≤1/1,000"
+      },
+      "info1": {
+        "label": "Population",
+        "text": "低リスク: 学童におけるARF発生率<2/100,000 または RHD有病率≤1/1,000"
+      },
+      "info2": {
+        "label": "Criteria for Low Risk",
+        "text": "主要: 心炎、多関節炎のみ、舞踏病、環状紅斑、皮下結節 | 副次: 多関節痛、発熱≥38.5°C、ESR≥60 または CRP≥3.0"
       }
     }
   },
@@ -571,6 +647,18 @@
       "purpose": {
         "label": "目的",
         "text": "新しい小児敗血症定義(2024) - SIRS基準を特異度向上で置換"
+      },
+      "info1": {
+        "label": "Cardiovascular Scoring",
+        "text": "MAP below age threshold: +1 | Lactate 5-10.9 mmol/L: +1, ≥11: +2 | 1 vasopressor: +1, ≥2: +2"
+      },
+      "info2": {
+        "label": "Age-Specific MAP Thresholds",
+        "text": "0-<1mo: 17 | 1-<12mo: 25 | 1-<2y: 31 | 2-<5y: 32 | 5-<12y: 36 | ≥12y: 38 mmHg"
+      },
+      "info3": {
+        "label": "Purpose",
+        "text": "New pediatric sepsis definition (2024) replacing SIRS criteria with improved specificity"
       }
     }
   },
@@ -589,6 +677,14 @@
       "population": {
         "label": "対象集団",
         "text": "中高リスク: ARF発生率≥2/10万学齢児 または RHD有病率>1/1,000"
+      },
+      "info1": {
+        "label": "Population",
+        "text": "中-高リスク: ARF発生率≥2/100,000 または RHD有病率>1/1,000 (日本を含む多くの国)"
+      },
+      "info2": {
+        "label": "Criteria for Moderate-High Risk",
+        "text": "Major: Carditis, Mono/Poly-arthritis/arthralgia, Chorea, Erythema marginatum, Subcutaneous nodules | Minor: Monoarthralgia, Fever ≥38.0°C, ESR ≥30 OR CRP ≥3.0"
       }
     }
   },
@@ -677,6 +773,10 @@
       },
       "risk": {
         "label": "予後リスク"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "KDIGO 2012 CKD分類。GFRとアルブミン尿カテゴリーを組み合わせてリスク層別化。"
       }
     }
   },
@@ -898,13 +998,23 @@
     "output": {
       "bmr": {
         "label": "基礎代謝量 (BMR) [kcal/day]"
+      },
+      "info": {
+        "label": "注意",
+        "text": "活動係数を乗じる: 座位中心(1.2)、軽度(1.375)、中等度(1.55)、活動的(1.725)、非常に活動的(1.9)"
       }
     }
   },
   "moca": {
     "name": "MoCA (Montreal Cognitive Assessment)",
     "type": "html",
-    "html": "<h3>MoCA (Montreal Cognitive Assessment)</h3><p>認知機能スクリーニング検査。30点満点。</p><h4>評価項目:</h4><ul><li>視空間/実行機能 (5点)</li><li>命名 (3点)</li><li>記憶 (なし - 遅延再生で評価)</li><li>注意 (6点)</li><li>言語 (3点)</li><li>抽象的思考 (2点)</li><li>遅延再生 (5点)</li><li>見当識 (6点)</li></ul><h4>判定:</h4><ul><li>≥26点: 正常</li><li><26点: 軽度認知機能障害を示唆</li><li>教育年数≤12年の場合: +1点を加算</li></ul>"
+    "html": "<h3>MoCA (Montreal Cognitive Assessment)</h3><p>認知機能スクリーニング検査。30点満点。</p><h4>評価項目:</h4><ul><li>視空間/実行機能 (5点)</li><li>命名 (3点)</li><li>記憶 (なし - 遅延再生で評価)</li><li>注意 (6点)</li><li>言語 (3点)</li><li>抽象的思考 (2点)</li><li>遅延再生 (5点)</li><li>見当識 (6点)</li></ul><h4>判定:</h4><ul><li>≥26点: 正常</li><li><26点: 軽度認知機能障害を示唆</li><li>教育年数≤12年の場合: +1点を加算</li></ul>",
+    "output": {
+      "info": {
+        "label": "注意",
+        "text": "Add 1 point if education ≤12 years. Normal: ≥26/30. Cutoff for MCI: 18-25"
+      }
+    }
   },
   "modified_geneva": {
     "name": "修正Geneva肺塞栓症スコア",
@@ -961,7 +1071,8 @@
   "modified_rankin": {
     "name": "Modified Rankin Scale (mRS)",
     "type": "html",
-    "html": "<h3>Modified Rankin Scale (mRS)</h3><p>脳卒中後の機能障害度評価</p><table><tr><th>スコア</th><th>説明</th></tr><tr><td>0</td><td>まったく症候がない</td></tr><tr><td>1</td><td>明らかな障害はない: 日常の勤めや活動は行える</td></tr><tr><td>2</td><td>軽度の障害: 発症以前の活動すべてを行えるわけではないが、自分の身の回りのことは介助なしに行える</td></tr><tr><td>3</td><td>中等度の障害: 何らかの介助を必要とするが、歩行は介助なしに行える</td></tr><tr><td>4</td><td>中等度から重度の障害: 歩行や身体的要求には介助が必要</td></tr><tr><td>5</td><td>重度の障害: 寝たきり、失禁状態、常に介護と見守りを必要とする</td></tr><tr><td>6</td><td>死亡</td></tr></table>"
+    "html": "<h3>Modified Rankin Scale (mRS)</h3><p>脳卒中後の機能障害度評価</p><table><tr><th>スコア</th><th>説明</th></tr><tr><td>0</td><td>まったく症候がない</td></tr><tr><td>1</td><td>明らかな障害はない: 日常の勤めや活動は行える</td></tr><tr><td>2</td><td>軽度の障害: 発症以前の活動すべてを行えるわけではないが、自分の身の回りのことは介助なしに行える</td></tr><tr><td>3</td><td>中等度の障害: 何らかの介助を必要とするが、歩行は介助なしに行える</td></tr><tr><td>4</td><td>中等度から重度の障害: 歩行や身体的要求には介助が必要</td></tr><tr><td>5</td><td>重度の障害: 寝たきり、失禁状態、常に介護と見守りを必要とする</td></tr><tr><td>6</td><td>死亡</td></tr></table>",
+    "output": {}
   },
   "must": {
     "name": "MUST (Malnutrition Universal Screening Tool)",
@@ -1195,7 +1306,13 @@
   "nihss": {
     "name": "NIHSSスコア (脳卒中重症度)",
     "type": "html",
-    "html": "<h3>NIHSS (NIH Stroke Scale)</h3><p>脳卒中の神経学的重症度評価。15項目、最大42点。</p><h4>評価項目:</h4><ol><li>意識レベル (0-3)</li><li>質問応答 (0-2)</li><li>従命 (0-2)</li><li>注視 (0-2)</li><li>視野 (0-3)</li><li>顔面麻痺 (0-3)</li><li>上肢運動(右) (0-4)</li><li>上肢運動(左) (0-4)</li><li>下肢運動(右) (0-4)</li><li>下肢運動(左) (0-4)</li><li>運動失調 (0-2)</li><li>感覚 (0-2)</li><li>言語 (0-3)</li><li>構音障害 (0-2)</li><li>消去現象と注意障害 (0-2)</li></ol><h4>判定:</h4><ul><li>0点: 症状なし</li><li>1-4点: 軽症</li><li>5-15点: 中等症</li><li>16-20点: 中等症-重症</li><li>21-42点: 重症</li></ul>"
+    "html": "<h3>NIHSS (NIH Stroke Scale)</h3><p>脳卒中の神経学的重症度評価。15項目、最大42点。</p><h4>評価項目:</h4><ol><li>意識レベル (0-3)</li><li>質問応答 (0-2)</li><li>従命 (0-2)</li><li>注視 (0-2)</li><li>視野 (0-3)</li><li>顔面麻痺 (0-3)</li><li>上肢運動(右) (0-4)</li><li>上肢運動(左) (0-4)</li><li>下肢運動(右) (0-4)</li><li>下肢運動(左) (0-4)</li><li>運動失調 (0-2)</li><li>感覚 (0-2)</li><li>言語 (0-3)</li><li>構音障害 (0-2)</li><li>消去現象と注意障害 (0-2)</li></ol><h4>判定:</h4><ul><li>0点: 症状なし</li><li>1-4点: 軽症</li><li>5-15点: 中等症</li><li>16-20点: 中等症-重症</li><li>21-42点: 重症</li></ul>",
+    "output": {
+      "info": {
+        "label": "解釈",
+        "text": "0: 脳卒中なし、1-4: 軽度、5-15: 中等度、16-20: 中等度-重度、21-42: 重度。スコア>15は血栓溶解療法の高い利益を示唆"
+      }
+    }
   },
   "osmolar_gap": {
     "name": "浸透圧ギャップ",
@@ -1225,6 +1342,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "警告",
+        "text": "正常浸透圧ギャップでも有毒アルコールは除外できない(代謝が進むとギャップは減少し、アニオンギャップが増加)"
       }
     }
   },
@@ -1241,6 +1362,10 @@
     "output": {
       "cop": {
         "label": "膠質浸透圧 [mmHg]"
+      },
+      "info": {
+        "label": "Reference",
+        "text": "285-295"
       }
     }
   },
@@ -1431,6 +1556,10 @@
       "interpretation": {
         "label": "判定",
         "formula": "iif(total_score>=13, '軽症', total_score>=9, '中等症', '重症')"
+      },
+      "info": {
+        "label": "Age Group",
+        "text": "小児版"
       }
     }
   },
@@ -1465,6 +1594,14 @@
     "output": {
       "recommendation": {
         "label": "推奨"
+      },
+      "info1": {
+        "label": "Dosing Note",
+        "text": "小児投与量: 血小板濃厚液5-10 mL/kg"
+      },
+      "info2": {
+        "label": "Transfusion Thresholds",
+        "text": "安定: 10,000/µL | 発熱/感染/軽処置: 20,000/µL | 大手術/腰椎穿刺: 50,000/µL | 中枢神経/眼科手術: 100,000/µL"
       }
     }
   },
@@ -1598,6 +1735,10 @@
       "mortality": {
         "label": "死亡率",
         "formula": "iif(total_score<3, '<1%', total_score<=5, '10-20%', total_score<=7, '40%', '>80%')"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "入院時に最初の5基準、48時間後に残りの6基準。スコア≥3は重症膵炎を示す"
       }
     }
   },
@@ -1624,6 +1765,10 @@
       "advantage": {
         "label": "利点",
         "text": "Friedewald式より高TG時も正確"
+      },
+      "info": {
+        "label": "注意",
+        "text": "Valid for TG < 800 mg/dL; more accurate than Friedewald at low LDL-C and high TG"
       }
     }
   },
@@ -1837,6 +1982,10 @@
       "mortality_30day": {
         "label": "30日死亡率",
         "formula": "iif(score==0, '0.8%', score==1, '1.6%', score==2, '2.2%', score==3, '4.4%', score==4, '7.3%', score==5, '12.4%', score==6, '16.1%', score==7, '23.4%', score==8, '26.8%', '>35.9%')"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "スコア範囲0-14。スコアが高いほど30日死亡率リスクが高い"
       }
     }
   },
@@ -1937,6 +2086,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "低リスク: Dダイマー, 中-高リスク: 画像検査"
+      },
+      "info": {
+        "label": "推奨",
+        "text": ""
       }
     }
   },
@@ -1976,6 +2129,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "低リスク: Dダイマー, 中-高リスク: 画像検査(CTPA)"
+      },
+      "info": {
+        "label": "推奨",
+        "text": ""
       }
     }
   },
@@ -2102,6 +2259,10 @@
       "reference": {
         "label": "基準値",
         "text": "正常: ≤10"
+      },
+      "info": {
+        "label": "Reference",
+        "text": "正常: ≤10"
       }
     }
   },
@@ -2165,7 +2326,13 @@
   "abr_reference": {
     "name": "ABR潜時基準値",
     "type": "html",
-    "html": "<h3>聴性脳幹反応(ABR)潜時基準値</h3><p>新生児・乳児の聴力スクリーニングに使用</p><table><tr><th>波</th><th>潜時(ms)</th></tr><tr><td>I波</td><td>1.5-1.9</td></tr><tr><td>III波</td><td>3.5-4.5</td></tr><tr><td>V波</td><td>5.5-6.5</td></tr></table><p>I-III間隔: 2.0-2.5 ms<br>III-V間隔: 1.8-2.4 ms<br>I-V間隔: 3.8-4.8 ms</p>"
+    "html": "<h3>聴性脳幹反応(ABR)潜時基準値</h3><p>新生児・乳児の聴力スクリーニングに使用</p><table><tr><th>波</th><th>潜時(ms)</th></tr><tr><td>I波</td><td>1.5-1.9</td></tr><tr><td>III波</td><td>3.5-4.5</td></tr><tr><td>V波</td><td>5.5-6.5</td></tr></table><p>I-III間隔: 2.0-2.5 ms<br>III-V間隔: 1.8-2.4 ms<br>I-V間隔: 3.8-4.8 ms</p>",
+    "output": {
+      "info": {
+        "label": "注意",
+        "text": "新生児: 85dBHL、その後: 90dBHL"
+      }
+    }
   },
   "adrop": {
     "name": "A-DROPスコア (市中肺炎重症度)",
@@ -2197,6 +2364,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "軽症: 外来治療, 中等症: 外来または入院, 重症: 入院, 超重症: ICU入室を考慮"
+      },
+      "info": {
+        "label": "注意",
+        "text": "ショックがある場合、カウントに関わらず重症と考慮"
       }
     }
   },
@@ -2225,6 +2396,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "臨床的注意",
+        "text": "低アルブミン血症はアニオンギャップを人為的に低下させ、代謝性アシドーシスを隠蔽する可能性があるため、補正が重要"
       }
     }
   },
@@ -2402,6 +2577,10 @@
       "interpretation": {
         "label": "判定",
         "formula": "iif(total>=7, '正常', total>=4, '中等度抑制', '重度抑制')"
+      },
+      "info": {
+        "label": "注意",
+        "text": "出生1分後と5分後に評価。5分後のスコアが予後をより予測"
       }
     }
   },
@@ -2453,6 +2632,14 @@
       "interpretation": {
         "label": "リスク分類",
         "formula": "iif(risk<5, '低リスク', risk<7.5, '境界リスク', risk<20, '中リスク', '高リスク')"
+      },
+      "info1": {
+        "label": "スタチンの推奨",
+        "text": "リスク≥7.5%: スタチンを考慮。リスク≥20%: 高強度スタチン推奨。医師-患者間でリスクについて議論"
+      },
+      "info2": {
+        "label": "注意",
+        "text": "これは簡易版です。正確な計算には人種特異的な対数係数が必要です。正確なリスクにはACC/AHA公式計算機を使用してください。"
       }
     }
   },
@@ -2472,6 +2659,14 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info1": {
+        "label": "Threshold Criteria",
+        "text": "B/A≥8.0: ≥38週、リスク因子なし | B/A≥7.2: リスク因子あり または 35-37週 | B/A≥6.8: 35-37週+リスク因子"
+      },
+      "info2": {
+        "label": "Risk Factors",
+        "text": "GA <38 weeks, Isoimmune hemolytic disease (DAT+), G6PD deficiency, Sepsis, Clinical instability"
       }
     }
   },
@@ -2905,6 +3100,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "スコア≥2: 抗凝固療法を強く推奨; スコア=1: 抗凝固療法を考慮"
+      },
+      "info": {
+        "label": "経口抗凝固薬の推奨",
+        "text": "スコア≥2: 経口抗凝固薬を考慮"
       }
     }
   },
@@ -2946,6 +3145,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "男性スコア≥2または女性スコア≥3: 抗凝固療法を推奨"
+      },
+      "info": {
+        "label": "経口抗凝固薬の推奨",
+        "text": "スコア≥2 (男性) または≥3 (女性): 経口抗凝固薬を考慮"
       }
     }
   },
@@ -2979,6 +3182,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "スコア≥2ではワルファリンを考慮"
+      },
+      "info": {
+        "label": "推奨",
+        "text": "スコア≥2の場合、ワルファリンを考慮"
       }
     }
   },
@@ -3102,6 +3309,10 @@
     "output": {
       "corrected_ca": {
         "label": "補正カルシウム [mg/dL]"
+      },
+      "info": {
+        "label": "注意",
+        "text": "日本のBCP法では補正係数0.7を使用 (Payne式の0.8に対して)"
       }
     }
   },
@@ -3118,6 +3329,10 @@
     "output": {
       "corrected_ca": {
         "label": "補正カルシウム [mg/dL]"
+      },
+      "info": {
+        "label": "臨床的注意",
+        "text": "JAMA Network Open 2025研究では、重症患者、CKD患者、高齢者ではイオン化カルシウム測定を推奨"
       }
     }
   },
@@ -3143,6 +3358,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "臨床的注意",
+        "text": "1時間後CCI<5,000または24時間後<4,500は血小板不応性を示唆。原因の考慮: 同種免疫、発熱、敗血症、DIC、脾腫、薬剤"
       }
     }
   },
@@ -3159,6 +3378,10 @@
     "output": {
       "corrected_retic": {
         "label": "補正網状赤血球 [%]"
+      },
+      "info": {
+        "label": "注意",
+        "text": "正常Hct基準値: 45%。これは貧血の程度を補正する。"
       }
     }
   },
@@ -3178,6 +3401,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "臨床的注意",
+        "text": "血糖値>400 mg/dLの場合はHillier式を使用。血糖値≤400 mg/dLの場合はKatz式(補正係数1.6)を使用。"
       }
     }
   },
@@ -3239,12 +3466,23 @@
   "cystatin_c_age": {
     "name": "年齢別シスタチンC基準値",
     "type": "html",
-    "html": "<h3>年齢別シスタチンC基準値</h3><table><tr><th>年齢</th><th>基準値 (mg/L)</th></tr><tr><td>新生児</td><td>1.3-1.9</td></tr><tr><td>1-11ヶ月</td><td>0.75-1.35</td></tr><tr><td>1-3歳</td><td>0.60-1.15</td></tr><tr><td>4-6歳</td><td>0.55-1.00</td></tr><tr><td>7-12歳</td><td>0.50-0.95</td></tr><tr><td>13-17歳</td><td>0.55-0.95</td></tr><tr><td>成人</td><td>0.50-0.95</td></tr></table>"
+    "html": "<h3>年齢別シスタチンC基準値</h3><table><tr><th>年齢</th><th>基準値 (mg/L)</th></tr><tr><td>新生児</td><td>1.3-1.9</td></tr><tr><td>1-11ヶ月</td><td>0.75-1.35</td></tr><tr><td>1-3歳</td><td>0.60-1.15</td></tr><tr><td>4-6歳</td><td>0.55-1.00</td></tr><tr><td>7-12歳</td><td>0.50-0.95</td></tr><tr><td>13-17歳</td><td>0.55-0.95</td></tr><tr><td>成人</td><td>0.50-0.95</td></tr></table>",
+    "output": {}
   },
   "duke_endocarditis": {
     "name": "Duke基準 (感染性心内膜炎診断)",
     "type": "html",
-    "html": "<h3>確定診断</h3><p>以下のいずれか:</p><ul><li>大基準2項目</li><li>大基準1項目+小基準3項目</li><li>小基準5項目</li></ul><h3>大基準</h3><ol><li>血液培養陽性:<ul><li>IE典型菌が2回以上の血液培養陽性</li><li>持続菌血症</li></ul></li><li>心内膜病変:<ul><li>心エコーで疣贅、膿瘍、弁逆流の新規出現</li></ul></li></ol><h3>小基準</h3><ol><li>素因: 心疾患既往、静注薬物使用</li><li>発熱≥38°C</li><li>血管現象: 動脈塞栓、敗血症性肺梗塞、Janeway病変</li><li>免疫現象: Osler結節、Roth斑、リウマチ因子陽性</li><li>微生物学的証拠: 血液培養陽性(大基準に該当しない)</li></ol>"
+    "html": "<h3>確定診断</h3><p>以下のいずれか:</p><ul><li>大基準2項目</li><li>大基準1項目+小基準3項目</li><li>小基準5項目</li></ul><h3>大基準</h3><ol><li>血液培養陽性:<ul><li>IE典型菌が2回以上の血液培養陽性</li><li>持続菌血症</li></ul></li><li>心内膜病変:<ul><li>心エコーで疣贅、膿瘍、弁逆流の新規出現</li></ul></li></ol><h3>小基準</h3><ol><li>素因: 心疾患既往、静注薬物使用</li><li>発熱≥38°C</li><li>血管現象: 動脈塞栓、敗血症性肺梗塞、Janeway病変</li><li>免疫現象: Osler結節、Roth斑、リウマチ因子陽性</li><li>微生物学的証拠: 血液培養陽性(大基準に該当しない)</li></ol>",
+    "output": {
+      "info1": {
+        "label": "Major Criteria (2 types)",
+        "text": "1) 陽性血液培養(2回の別々の培養で典型的な菌 または 持続陽性血液培養)、2) 心内膜障害の証拠(疣贅、膿瘍、心エコーでの新規弁逆流)"
+      },
+      "info2": {
+        "label": "Minor Criteria (5 types)",
+        "text": "1) 素因/静注薬物使用、2) 発熱≥38°C、3) 血管現象、4) 免疫学的現象、5) 主要基準を満たさない微生物学的証拠"
+      }
+    }
   },
   "ejection_fraction": {
     "name": "駆出率 (EF)",
@@ -3292,6 +3530,14 @@
       "risk_factors": {
         "label": "リスク因子",
         "text": "在胎38週未満、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT陽性)、G6PD欠損症、敗血症、臨床的不安定"
+      },
+      "info1": {
+        "label": "Risk Factors",
+        "text": "在胎週数<38週、アルブミン<3.0 g/dL、同種免疫性溶血性疾患(DAT+)、G6PD欠損症、敗血症、臨床的不安定性"
+      },
+      "info2": {
+        "label": "注意",
+        "text": "ガイドラインは主に在胎週数≥38週向け。<38週では個別の判断が必要。"
       }
     }
   },
@@ -3321,13 +3567,18 @@
       "advantage": {
         "label": "利点",
         "text": "利尿薬使用時もFENaより信頼性が高い"
+      },
+      "info": {
+        "label": "利点",
+        "text": "利尿薬の影響を受けにくい(近位尿細管再吸収)。利尿薬使用患者ではFENaより信頼性が高い"
       }
     }
   },
   "fisher_grade": {
     "name": "Fisherグレード (くも膜下出血)",
     "type": "html",
-    "html": "<h3>Fisherグレード分類</h3><table><tr><th>グレード</th><th>CT所見</th><th>血管攣縮リスク</th></tr><tr><td>1</td><td>くも膜下出血なし</td><td>低</td></tr><tr><td>2</td><td>びまん性または厚さ<1mm</td><td>中</td></tr><tr><td>3</td><td>局所性凝血塊または厚さ>1mm</td><td>高</td></tr><tr><td>4</td><td>脳室内または実質内出血(±SAH)</td><td>中</td></tr></table><p>グレード3が最も血管攣縮リスクが高い</p>"
+    "html": "<h3>Fisherグレード分類</h3><table><tr><th>グレード</th><th>CT所見</th><th>血管攣縮リスク</th></tr><tr><td>1</td><td>くも膜下出血なし</td><td>低</td></tr><tr><td>2</td><td>びまん性または厚さ<1mm</td><td>中</td></tr><tr><td>3</td><td>局所性凝血塊または厚さ>1mm</td><td>高</td></tr><tr><td>4</td><td>脳室内または実質内出血(±SAH)</td><td>中</td></tr></table><p>グレード3が最も血管攣縮リスクが高い</p>",
+    "output": {}
   },
   "friedewald": {
     "name": "LDLコレステロール (Friedewald式)",
@@ -3349,6 +3600,10 @@
       "limitation": {
         "label": "制限事項",
         "text": "中性脂肪≥400 mg/dLでは使用不可"
+      },
+      "info": {
+        "label": "Caution",
+        "text": "TG≥400 mg/dLの場合、LDLを直接測定"
       }
     }
   },
@@ -3514,6 +3769,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "スコア≥10: 専門家への紹介を考慮"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "スコア≥10: さらなる評価と治療を考慮。スコア≥15: 積極的治療を推奨"
       }
     }
   },
@@ -3596,6 +3855,10 @@
       "group": {
         "label": "GOLDグループ",
         "formula": "iif(symptoms==0 and exacerbations==0, 'グループA', symptoms==1 and exacerbations==0, 'グループB', 'グループE (増悪高リスク)')"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "グループA: 低リスク、症状少ない。グループB: 低リスク、症状多い。グループE: 高リスク(増悪≥2回 または 入院≥1回)"
       }
     }
   },
@@ -3733,6 +3996,10 @@
       },
       "tee": {
         "label": "総エネルギー消費量 (TEE) [kcal/day]"
+      },
+      "info": {
+        "label": "注意",
+        "text": "改訂式(1984年)。総エネルギー必要量には活動係数を乗じる。"
       }
     }
   },
@@ -3778,6 +4045,10 @@
       "recommendation": {
         "label": "推奨",
         "text": "スコア≥3: 慎重な経過観察と修正可能なリスク因子の是正を要する"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "スコア≥3: 出血リスク高。より慎重な経過観察と修正可能な危険因子の是正を考慮"
       }
     }
   },
@@ -3906,13 +4177,26 @@
       },
       "interpretation_beta": {
         "label": "β細胞機能の判定"
+      },
+      "info1": {
+        "label": "HOMA-IR Reference",
+        "text": "≤1.6、≥2.5はインスリン抵抗性を示す"
+      },
+      "info2": {
+        "label": "HOMA-β Reference",
+        "text": "40-60%、≤30%は分泌低下を示す"
+      },
+      "info3": {
+        "label": "QUICKI Reference",
+        "text": "<0.3: 抵抗性、0.348-0.430: 正常、≥3.0: 高感受性(1型糖尿病)"
       }
     }
   },
   "hunt_hess": {
     "name": "Hunt-Hessグレード (くも膜下出血)",
     "type": "html",
-    "html": "<h3>Hunt-Hess分類</h3><table><tr><th>グレード</th><th>臨床所見</th><th>死亡率</th></tr><tr><td>1</td><td>無症状または軽度の頭痛、項部硬直なし</td><td>0-5%</td></tr><tr><td>2</td><td>中等度～重度の頭痛、項部硬直、脳神経麻痺なし</td><td>5-10%</td></tr><tr><td>3</td><td>傾眠、錯乱、または軽度の巣症状</td><td>10-15%</td></tr><tr><td>4</td><td>昏迷、中等度～重度の片麻痺、早期除脳硬直</td><td>60-70%</td></tr><tr><td>5</td><td>深昏睡、除脳硬直、瀕死状態</td><td>70-100%</td></tr></table>"
+    "html": "<h3>Hunt-Hess分類</h3><table><tr><th>グレード</th><th>臨床所見</th><th>死亡率</th></tr><tr><td>1</td><td>無症状または軽度の頭痛、項部硬直なし</td><td>0-5%</td></tr><tr><td>2</td><td>中等度～重度の頭痛、項部硬直、脳神経麻痺なし</td><td>5-10%</td></tr><tr><td>3</td><td>傾眠、錯乱、または軽度の巣症状</td><td>10-15%</td></tr><tr><td>4</td><td>昏迷、中等度～重度の片麻痺、早期除脳硬直</td><td>60-70%</td></tr><tr><td>5</td><td>深昏睡、除脳硬直、瀕死状態</td><td>70-100%</td></tr></table>",
+    "output": {}
   },
   "ich_score": {
     "name": "ICHスコア (脳出血予後予測)",
@@ -3968,6 +4252,10 @@
       "mortality_1year": {
         "label": "1年死亡率",
         "formula": "iif(score==0, '13%', score==1, '26%', score==2, '37%', score==3, '75%', score==4, '100%', '100%')"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "スコア0-2: 低死亡率、スコア3-4: 高死亡率、スコア5-6: 非常に高い死亡率"
       }
     }
   },
@@ -4021,6 +4309,10 @@
       "note": {
         "label": "注意",
         "text": "SIRS≥2 + 感染疑い = 敗血症 (旧定義); 現在はSepsis-3定義(SOFA≥2)を使用"
+      },
+      "info": {
+        "label": "注意",
+        "text": "SIRS≥2基準 + 感染 = 敗血症。SIRS単独では特異的ではない。"
       }
     }
   },
@@ -4260,6 +4552,10 @@
       },
       "interpretation": {
         "label": "判定"
+      },
+      "info": {
+        "label": "アニオンギャップ上昇の鑑別 (CATMUDPILES)",
+        "text": "CO/シアン化物、アミノグリコシド、テオフィリン、メタノール、尿毒症、DKA、パラセタモール、鉄/INH、乳酸アシドーシス、エタノール/エチレングリコール、サリチル酸"
       }
     }
   },
@@ -4353,6 +4649,10 @@
       "interpretation": {
         "label": "解釈",
         "text": "13-15点: 軽症, 9-12点: 中等症, 3-8点: 重症（昏睡）, 3点: 深昏睡/脳死"
+      },
+      "info": {
+        "label": "解釈",
+        "text": "13-15: 軽度、9-12: 中等度、3-8: 重度(昏睡)、3: 深昏睡/脳死"
       }
     },
     "test": [
