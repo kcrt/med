@@ -51,12 +51,14 @@ export function Navbar() {
   // Auto-expand first matching category when searching
   useEffect(() => {
     if (searchQuery.trim() && filteredMenuItems.length > 0) {
+      // Only update when actively searching
       setAccordionValue(filteredMenuItems[0].label);
-    } else if (!searchQuery.trim() && menuItems.length > 0) {
-      // Reset to first category when clearing search
-      setAccordionValue(menuItems[0].label);
     }
-  }, [searchQuery, filteredMenuItems, menuItems]);
+    // Note: We intentionally don't include filteredMenuItems or menuItems in dependencies
+    // to prevent the effect from running on every render and resetting user's selection.
+    // We only want this to run when the user types in the search box (searchQuery changes).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const hasSearchResults = filteredMenuItems.length > 0;
 
