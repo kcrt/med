@@ -1,6 +1,7 @@
 {
   "corrected_reticulocyte_count": {
     "name": "Corrected Reticulocyte Count (Reticulocyte Index)",
+    "info": "The Corrected Reticulocyte Count adjusts the reticulocyte percentage for the degree of anemia, providing a more accurate assessment of red blood cell production in anemic patients.",
     "input": {
       "reticulocyte_percent": {
         "label": "Reticulocyte",
@@ -54,6 +55,7 @@
   },
   "reticulocyte_production_index": {
     "name": "Reticulocyte Production Index (RPI)",
+    "info": "The Reticulocyte Production Index (RPI) assesses bone marrow's effective red blood cell production by accounting for both anemia severity and reticulocyte maturation time. Helps classify anemias as hypo- or hyperproliferative.",
     "input": {
       "reticulocyte_percent": {
         "label": "Reticulocyte",
@@ -138,6 +140,7 @@
   },
   "platelet_transfusion_pediatric": {
     "name": "Platelet Transfusion Dosing (Pediatric)",
+    "info": "Calculates the volume of platelet concentrate needed for pediatric transfusion based on weight and desired platelet increment. Ensures appropriate dosing for children while accounting for body size.",
     "input": {
       "weight": {
         "label": "Weight",
@@ -195,6 +198,7 @@
   },
   "corrected_count_increment": {
     "name": "Corrected Count Increment (CCI)",
+    "info": "The Corrected Count Increment (CCI) evaluates the effectiveness of platelet transfusions by accounting for body surface area and platelet dose. Values <5,000-7,500 suggest platelet refractoriness.",
     "input": {
       "post_transfusion_plt": {
         "label": "Post-transfusion Platelet Count",

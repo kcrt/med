@@ -1,6 +1,7 @@
 {
   "child_pugh": {
     "name": "Child-Pugh Score",
+    "info": "The Child-Pugh Score assesses the severity of chronic liver disease and cirrhosis. It combines five clinical measures to stratify patients into classes A, B, or C, predicting prognosis and surgical risk.",
     "input": {
       "bilirubin": {
         "label": "Bilirubin [mg/dL]",
@@ -133,6 +134,7 @@
   },
   "meld": {
     "name": "MELD 3.0 Score",
+    "info": "The Model for End-Stage Liver Disease (MELD) score predicts 3-month mortality in patients with end-stage liver disease. It's primarily used for prioritizing liver transplant allocation and assessing disease severity.",
     "input": {
       "creatinine": {
         "label": "Creatinine",

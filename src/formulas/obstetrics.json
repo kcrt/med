@@ -1,6 +1,7 @@
 {
   "bishop_score": {
     "name": "Bishop Score",
+    "info": "The Bishop Score evaluates cervical readiness for induction of labor. It assesses five components: dilation, effacement, station, consistency, and position. Scores ≥8 indicate favorable conditions for successful induction.",
     "input": {
       "dilation": {
         "label": "Cervical Dilation [cm]",
@@ -136,6 +137,7 @@
   },
   "postconceptional_days": {
     "name": "Postconceptional Days",
+    "info": "Calculates postconceptional age (PCA) and corrected age for preterm infants based on expected date of confinement (EDC). Essential for adjusting developmental milestones and growth parameters in premature babies.",
     "input": {
       "edc": {
         "label": "Expected Date of Confinement",

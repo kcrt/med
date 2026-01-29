@@ -1,6 +1,7 @@
 {
   "phq9": {
     "name": "PHQ-9 (Depression)",
+    "info": "The Patient Health Questionnaire-9 (PHQ-9) is a validated screening tool for depression severity. It consists of 9 questions based on DSM-IV criteria, scoring each from 0-3 based on frequency over the past 2 weeks.",
     "input": {
       "interest": {
         "label": "Little interest or pleasure",
@@ -240,6 +241,7 @@
   },
   "gad7": {
     "name": "GAD-7 (Anxiety)",
+    "info": "The Generalized Anxiety Disorder-7 (GAD-7) is a validated screening tool for anxiety disorders. It consists of 7 questions assessing anxiety symptoms over the past 2 weeks, with each item scored 0-3.",
     "input": {
       "nervous": {
         "label": "Feeling nervous, anxious, on edge",
