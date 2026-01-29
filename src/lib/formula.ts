@@ -168,6 +168,51 @@ const _validatedData = FormulaDataSchema.parse(formulaJson);
 export const formulaData: FormulaData = _validatedData;
 
 /**
+ * Type for the callback function used in iterateFormulas.
+ */
+type FormulaCallback = (
+  categoryName: string,
+  formulaId: string,
+  formula: Formula,
+) => void;
+
+/**
+ * Utility to iterate over all formulas in formulaData.
+ * Provides a DRY (Don't Repeat Yourself) abstraction for formula iteration.
+ * Automatically skips the "_meta" category.
+ *
+ * @param callback - Function called for each formula with category name, formula ID, and formula object
+ *
+ * @example
+ * ```ts
+ * // Collect all formula IDs
+ * const ids: string[] = [];
+ * iterateFormulas((_, formulaId) => {
+ *   ids.push(formulaId);
+ * });
+ *
+ * // Find a specific formula
+ * let found: Formula | undefined;
+ * iterateFormulas((_, formulaId, formula) => {
+ *   if (formulaId === 'bmi_adult') {
+ *     found = formula;
+ *   }
+ * });
+ * ```
+ */
+export function iterateFormulas(callback: FormulaCallback): void {
+  const data = formulaData;
+
+  for (const [categoryName, categoryData] of Object.entries(data)) {
+    if (categoryName === "_meta") continue;
+    const categoryRecord = categoryData as Record<string, Formula>;
+    for (const [formulaId, formula] of Object.entries(categoryRecord)) {
+      callback(categoryName, formulaId, formula);
+    }
+  }
+}
+
+/**
  * Get a formula by ID (searches across all categories).
  * Returns English base data. Use translation helpers for localized labels.
  *
@@ -175,16 +220,15 @@ export const formulaData: FormulaData = _validatedData;
  * @returns The formula definition, or undefined if not found
  */
 export function getFormula(id: string): Formula | undefined {
-  const data = formulaData;
-
-  for (const category of Object.keys(data)) {
-    if (category === "_meta") continue;
-    const categoryData = data[category] as Record<string, Formula> | undefined;
-    if (categoryData?.[id]) {
-      return categoryData[id];
+  let found: Formula | undefined;
+  
+  iterateFormulas((_, formulaId, formula) => {
+    if (formulaId === id) {
+      found = formula;
     }
-  }
-  return undefined;
+  });
+  
+  return found;
 }
 
 /**
@@ -204,15 +248,10 @@ export function getFormula(id: string): Formula | undefined {
  */
 export function getCategoryMap(): Map<string, string> {
   const map = new Map<string, string>();
-  const data = formulaData;
 
-  for (const [categoryName, categoryData] of Object.entries(data)) {
-    if (categoryName === "_meta") continue;
-    const categoryRecord = categoryData as Record<string, Formula>;
-    for (const formulaId of Object.keys(categoryRecord)) {
-      map.set(formulaId, categoryName);
-    }
-  }
+  iterateFormulas((categoryName, formulaId) => {
+    map.set(formulaId, categoryName);
+  });
 
   return map;
 }
@@ -636,24 +675,26 @@ export interface CategoryMenuItem extends MenuItem {
  * ```
  */
 export function getMenuItems(): CategoryMenuItem[] {
-  const data = formulaData;
-  const items: CategoryMenuItem[] = [];
+  const categoryMap = new Map<string, MenuItem[]>();
 
-  for (const [category, categoryData] of Object.entries(data)) {
-    if (category === "_meta") continue;
-
-    const formulas: MenuItem[] = [];
-    const categoryDataRecord = categoryData as Record<string, Formula>;
-    for (const [formulaId, formula] of Object.entries(categoryDataRecord)) {
-      formulas.push({
-        label: formula.name ?? formulaId,
-        path: `/formula/${formulaId}`,
-      });
+  // Build category menu structure
+  iterateFormulas((categoryName, formulaId, formula) => {
+    if (!categoryMap.has(categoryName)) {
+      categoryMap.set(categoryName, []);
     }
+    
+    categoryMap.get(categoryName)!.push({
+      label: formula.name ?? formulaId,
+      path: `/formula/${formulaId}`,
+    });
+  });
 
+  // Convert map to array of CategoryMenuItem
+  const items: CategoryMenuItem[] = [];
+  for (const [categoryName, formulas] of categoryMap.entries()) {
     items.push({
-      label: category,
-      path: `/category/${encodeURIComponent(category)}`,
+      label: categoryName,
+      path: `/category/${encodeURIComponent(categoryName)}`,
       items: formulas,
     });
   }
@@ -667,16 +708,11 @@ export function getMenuItems(): CategoryMenuItem[] {
  * @returns Array of formula IDs
  */
 export function getAllFormulaIds(): string[] {
-  const data = formulaData;
   const formulaIds: string[] = [];
 
-  for (const [category, categoryData] of Object.entries(data)) {
-    if (category === "_meta") continue;
-    const categoryDataRecord = categoryData as Record<string, Formula>;
-    for (const formulaId of Object.keys(categoryDataRecord)) {
-      formulaIds.push(formulaId);
-    }
-  }
+  iterateFormulas((_, formulaId) => {
+    formulaIds.push(formulaId);
+  });
 
   return formulaIds;
 }
