@@ -1,14 +1,37 @@
 "use client";
 
-import { useTranslations, useLocale, useMessages } from "next-intl";
-import { getFormula, getMenuItems, type CategoryMenuItem } from "./formula";
+import { useLocale, useMessages } from "next-intl";
+import { getMenuItems, type CategoryMenuItem } from "./formula";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
 import { DEFAULT_LOCALE } from "./locale";
 import {
-  DOT_PLACEHOLDER,
   escapeTranslationKey,
   getTranslationDirect,
 } from "./translation-utils";
+
+type MessageNamespace = "labels" | "category" | "formula_info";
+
+/**
+ * Core translation helper. Returns translation from a message namespace or falls back to English.
+ */
+function useMessageTranslation(
+  namespace: MessageNamespace,
+  englishValue: string,
+  options?: { escapeKey?: boolean; customKey?: string },
+): string {
+  const locale = useLocale();
+
+  if (locale === DEFAULT_LOCALE) {
+    return englishValue;
+  }
+
+  const messages = useMessages();
+  const section = messages[namespace] as Record<string, unknown> | undefined;
+  const key = options?.customKey ?? englishValue;
+  const finalKey = options?.escapeKey ? escapeTranslationKey(key) : key;
+
+  return getTranslationDirect(section, finalKey) ?? englishValue;
+}
 
 /**
  * Get translated label for a formula name.
@@ -16,25 +39,8 @@ import {
  * Falls back to English name if translation doesn't exist.
  */
 export function useFormulaName(formulaId: string, formula: Formula): string {
-  const locale = useLocale();
   const englishName = formula.name ?? formulaId;
-
-  // For English, no translation needed
-  if (locale === DEFAULT_LOCALE) {
-    return englishName;
-  }
-
-  const messages = useMessages();
-  const labels = messages.labels as Record<string, unknown> | undefined;
-
-  // Try with escaped dots for backward compatibility
-  const escapedKey = escapeTranslationKey(englishName);
-  const translated = getTranslationDirect(labels, escapedKey);
-  if (translated) {
-    return translated;
-  }
-
-  return englishName;
+  return useMessageTranslation("labels", englishName, { escapeKey: true });
 }
 
 /**
@@ -47,25 +53,8 @@ export function useInputLabel(
   inputKey: string,
   input: FormulaInput,
 ): string {
-  const locale = useLocale();
   const englishLabel = input.label ?? inputKey;
-
-  // For English, no translation needed
-  if (locale === DEFAULT_LOCALE) {
-    return englishLabel;
-  }
-
-  const messages = useMessages();
-  const labels = messages.labels as Record<string, unknown> | undefined;
-
-  // Try with escaped dots for backward compatibility
-  const escapedKey = escapeTranslationKey(englishLabel);
-  const translated = getTranslationDirect(labels, escapedKey);
-  if (translated) {
-    return translated;
-  }
-
-  return englishLabel;
+  return useMessageTranslation("labels", englishLabel, { escapeKey: true });
 }
 
 /**
@@ -74,24 +63,7 @@ export function useInputLabel(
  * Falls back to English label if translation doesn't exist.
  */
 export function useOptionLabel(optionLabel: string): string {
-  const locale = useLocale();
-
-  // For English, no translation needed
-  if (locale === DEFAULT_LOCALE) {
-    return optionLabel;
-  }
-
-  const messages = useMessages();
-  const labels = messages.labels as Record<string, unknown> | undefined;
-
-  // Try with escaped dots for backward compatibility
-  const escapedKey = escapeTranslationKey(optionLabel);
-  const translated = getTranslationDirect(labels, escapedKey);
-  if (translated) {
-    return translated;
-  }
-
-  return optionLabel;
+  return useMessageTranslation("labels", optionLabel, { escapeKey: true });
 }
 
 /**
@@ -104,25 +76,8 @@ export function useOutputLabel(
   outputKey: string,
   output: FormulaOutput,
 ): string {
-  const locale = useLocale();
   const englishLabel = output.label ?? outputKey;
-
-  // For English, no translation needed
-  if (locale === DEFAULT_LOCALE) {
-    return englishLabel;
-  }
-
-  const messages = useMessages();
-  const labels = messages.labels as Record<string, unknown> | undefined;
-
-  // Try with escaped dots for backward compatibility
-  const escapedKey = escapeTranslationKey(englishLabel);
-  const translated = getTranslationDirect(labels, escapedKey);
-  if (translated) {
-    return translated;
-  }
-
-  return englishLabel;
+  return useMessageTranslation("labels", englishLabel, { escapeKey: true });
 }
 
 /**
@@ -158,24 +113,22 @@ export function useOutputText(
 
   // Fall back to escaped English text as key (for backward compatibility)
   const escapedKey = escapeTranslationKey(englishText);
-  const translated = getTranslationDirect(labels, escapedKey);
-  if (translated) {
-    return translated;
-  }
-
-  return englishText;
+  return getTranslationDirect(labels, escapedKey) ?? englishText;
 }
 
 /**
- * Get translated formula with all labels translated.
- * This is a convenience hook that returns a formula with translated labels.
+ * Get translated text for a formula info field.
+ * Tries semantic key pattern in formula_info section (e.g., "bmi_adult")
+ * then falls back to English text if translation not found.
  */
-export function useTranslatedFormula(formulaId: string): Formula | undefined {
-  const formula = getFormula(formulaId);
-  // Note: This returns the base formula structure.
-  // Use the individual translation hooks (useFormulaName, useInputLabel, etc.)
-  // in your components to get translated labels.
-  return formula;
+export function useFormulaInfo(
+  formulaId: string,
+  formula: Formula,
+): string | undefined {
+  const englishInfo = formula.info;
+  if (!englishInfo) return englishInfo;
+
+  return useMessageTranslation("formula_info", englishInfo, { customKey: formulaId });
 }
 
 /**
@@ -184,22 +137,7 @@ export function useTranslatedFormula(formulaId: string): Formula | undefined {
  * Falls back to English name if translation doesn't exist.
  */
 export function useCategoryName(categoryName: string): string {
-  const locale = useLocale();
-
-  // For English, no translation needed
-  if (locale === DEFAULT_LOCALE) {
-    return categoryName;
-  }
-
-  const messages = useMessages();
-  const categories = messages.category as Record<string, unknown> | undefined;
-
-  const translated = getTranslationDirect(categories, categoryName);
-  if (translated) {
-    return translated;
-  }
-
-  return categoryName;
+  return useMessageTranslation("category", categoryName);
 }
 
 /**
@@ -237,14 +175,7 @@ export function useTranslatedMenuItems(): CategoryMenuItem[] {
 
         // Get translation directly to handle keys with dots
         const translated = getTranslationDirect(labels, englishLabel);
-        if (translated) {
-          return {
-            ...item,
-            label: translated,
-          };
-        }
-
-        return item;
+        return translated ? { ...item, label: translated } : item;
       }),
     };
   });

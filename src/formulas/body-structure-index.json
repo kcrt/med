@@ -1,6 +1,7 @@
 {
   "bmi_adult": {
     "name": "BMI (Adult)",
+	  "info": "BMI (Body Mass Index) is a simple measure that uses your height and weight to estimate body fat. It's calculated by dividing weight in kilograms by height in meters squared (kg/m²)",
     "input": {
       "height": {
         "label": "Height",

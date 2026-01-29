@@ -68,6 +68,7 @@ const HtmlFormulaSchema = z.object({
   name: z.string().optional(),
   type: z.literal("html"),
   html: z.string(),
+  info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
 });
 
@@ -76,6 +77,7 @@ const HtmlFormulaSchema = z.object({
  */
 const CalculationFormulaSchema = z.object({
   name: z.string().optional(),
+  info: z.string().optional(),
   input: z.record(z.string(), FormulaInputSchema),
   output: z.record(z.string(), FormulaOutputSchema),
   assert: z.array(FormulaAssertionSchema).optional(),
@@ -185,6 +187,7 @@ const PartialHtmlFormulaSchema = z.object({
   name: z.string().optional(),
   type: z.literal("html").optional(),
   html: z.string().optional(),
+  info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
 });
 
@@ -194,6 +197,7 @@ const PartialHtmlFormulaSchema = z.object({
  */
 const PartialCalculationFormulaSchema = z.object({
   name: z.string().optional(),
+  info: z.string().optional(),
   input: z.record(z.string(), PartialFormulaInputSchema).optional(),
   output: z.record(z.string(), PartialFormulaOutputSchema).optional(),
   assert: z.array(FormulaAssertionSchema).optional(),

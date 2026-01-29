@@ -64,7 +64,7 @@ export function deepMerge<T extends Record<string, unknown>>(
  *
  * @param labels - The labels object from messages
  * @param key - The escaped translation key
- * @returns The translated string if found, undefined otherwise
+ * @returns The translated string if found, undefined otherwise (labels[key] or undefined)
  */
 export function getTranslationDirect(
   labels: Record<string, unknown> | undefined,
