@@ -331,13 +331,19 @@ export function GetZScoreStr(
 }
 
 /**
- * Helper function to calculate factorial.
+ * Memoization cache for factorial calculations.
+ * Key: number, Value: factorial result
+ */
+const factorialCache = new Map<number, number>();
+
+/**
+ * Calculate factorial with memoization.
  *
  * @param n - The number to calculate factorial for (must be non-negative integer)
  * @returns The factorial of n
  * @throws {Error} If n is negative or not an integer
  */
-function factorialHelper(n: number): number {
+function factorial(n: number): number {
   if (n < 0) {
     throw new Error("Factorial is not defined for negative numbers");
   }
@@ -345,10 +351,19 @@ function factorialHelper(n: number): number {
     throw new Error("Factorial is only defined for integers");
   }
 
+  // Check cache first
+  if (factorialCache.has(n)) {
+    return factorialCache.get(n)!;
+  }
+
+  // Calculate factorial
   let result = 1;
   for (let i = 2; i <= n; i++) {
     result *= i;
   }
+
+  // Store in cache
+  factorialCache.set(n, result);
   return result;
 }
 
@@ -363,9 +378,9 @@ export function erf(x: number): number {
   let s = 1.0;
   let sum = x * 1.0;
   for (let i = 1; i < 50; i++) {
-    const factorial = factorialHelper(i);
+    const fact = factorial(i);
     s *= -1;
-    sum += (s * Math.pow(x, 2.0 * i + 1.0)) / (factorial * (2.0 * i + 1.0));
+    sum += (s * Math.pow(x, 2.0 * i + 1.0)) / (fact * (2.0 * i + 1.0));
   }
   return (2 * sum) / Math.sqrt(Math.PI);
 }
