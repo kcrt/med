@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
-import { createTheme, MantineProvider } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { NextIntlClientProvider } from "next-intl";
 import { AppShellLayout } from "@/components/AppShellLayout";
 import { getMessages, getTranslations } from "next-intl/server";
 import "./globals.css";
-
-const theme = createTheme({
-  primaryColor: "blue",
-});
+import { theme } from "@/theme";
 
 export async function generateMetadata({
   params,

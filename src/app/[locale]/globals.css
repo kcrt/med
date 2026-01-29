@@ -72,6 +72,13 @@ body {
   scrollbar-width: none;
 }
 
+/* Sidebar hover effect for NavLink */
+@media (hover: hover) {
+  .mantine-NavLink-root:not([data-active]):hover {
+    background-color: #e7f5ff !important;
+  }
+}
+
 /* Tailwind CSS import - must come after custom rules for Safari compatibility */
 @import "tailwindcss";
 
