@@ -11,21 +11,22 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
 import { useShareHandler } from "@/hooks/useShareHandler";
+import { useShareUrl } from "@/hooks/useShareUrl";
 
 export function HomeShareButton() {
   const t = useTranslations("homeShare");
   const tApp = useTranslations("app");
 
-  const [shareUrl, setShareUrl] = useState("");
   const [supportsNativeShare, setSupportsNativeShare] = useState(false);
+
+  // Get current page URL (no input values for home page)
+  const shareUrl = useShareUrl();
+  const shareTitle = tApp("title");
 
   // Initialize client-only values after hydration
   useEffect(() => {
-    setShareUrl(window.location.href);
     setSupportsNativeShare("share" in navigator);
   }, []);
-
-  const shareTitle = tApp("title");
 
   const { handleNativeShare, handlePlatformShare } = useShareHandler({
     shareUrl,

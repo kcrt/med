@@ -11,11 +11,14 @@ import {
 } from "@mantine/core";
 import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import type { Formula } from "@/types/formula";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
 import { useShareHandler } from "@/hooks/useShareHandler";
+import { useClipboard } from "@/hooks/useClipboard";
+import { useShareUrl } from "@/hooks/useShareUrl";
+import { useAutoSelectInput } from "@/hooks/useAutoSelectInput";
 
 interface ShareButtonProps {
   formula: Formula;
@@ -24,10 +27,10 @@ interface ShareButtonProps {
 
 export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const [opened, setOpened] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useClipboard();
   const t = useTranslations("share");
   const tApp = useTranslations("app");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useAutoSelectInput(opened);
 
   // Check if native share is supported
   const supportsNativeShare = typeof navigator !== "undefined" && "share" in navigator;
@@ -48,44 +51,11 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   }
 
   // Build shareable URL with query parameters
-  const buildShareUrl = (): string => {
-    const params = new URLSearchParams();
-    for (const [key, value] of Object.entries(inputValues)) {
-      if (value !== null && value !== "" && value !== undefined) {
-        params.append(key, String(value));
-      }
-    }
-    // Check if window is available (client-side only)
-    if (typeof window === "undefined") {
-      return "";
-    }
-    const baseUrl = `${window.location.origin}${window.location.pathname}`;
-    const queryString = params.toString();
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-  };
-
-  const shareUrl = buildShareUrl();
+  const shareUrl = useShareUrl(inputValues);
   const shareTitle = `${formula.name || tApp("title")} - ${tApp("title")}`;
 
-  // Auto-select URL text when modal opens
-  useEffect(() => {
-    if (opened) {
-      // Small delay to ensure the input is rendered
-      const timer = setTimeout(() => {
-        inputRef.current?.select();
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [opened]);
-
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
+    await copy(shareUrl);
   };
 
   const { handleNativeShare, handlePlatformShare } = useShareHandler({
