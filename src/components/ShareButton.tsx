@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  ActionIcon,
-  Box,
   Button,
   Modal,
   Stack,
@@ -15,6 +13,7 @@ import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
 import type { Formula } from "@/types/formula";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
+import { FloatingActionButton } from "@/components/FloatingActionButton";
 import { useShareHandler } from "@/hooks/useShareHandler";
 import { useClipboard } from "@/hooks/useClipboard";
 import { useShareUrl } from "@/hooks/useShareUrl";
@@ -67,38 +66,12 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <Box
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "90px",
-          zIndex: 100,
-        }}
-      >
-        <ActionIcon
-          size={56}
-          radius="xl"
-          variant="filled"
-          color="blue"
-          onClick={() => setOpened(true)}
-          style={{
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            transition: "transform 0.2s, box-shadow 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-            e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
-          }}
-          aria-label={t("buttonLabel")}
-        >
-          <IconShare3 size={28} />
-        </ActionIcon>
-      </Box>
+      <FloatingActionButton
+        icon={<IconShare3 size={28} />}
+        onClick={() => setOpened(true)}
+        ariaLabel={t("buttonLabel")}
+        right={90}
+      />
 
       {/* Share URL Modal */}
       <Modal
