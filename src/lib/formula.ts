@@ -296,18 +296,12 @@ export function BSA_DuBois(height: number, weight: number): number {
 }
 
 /**
- * Expression parser with custom functions for formula evaluation.
- */
-const parser = new Parser({
-  operators: {
-    // Enable 'and', 'or' keywords and || operator
-    logical: true,
-    comparison: true,
-  },
-});
-
-/**
  * Calculate Z-score.
+ *
+ * @param value - The observed value
+ * @param average - The mean/average value
+ * @param sd - The standard deviation
+ * @returns The Z-score
  */
 export function GetZScore(value: number, average: number, sd: number): number {
   return (value - average) / sd;
@@ -315,6 +309,11 @@ export function GetZScore(value: number, average: number, sd: number): number {
 
 /**
  * Calculate Z-score with formatted string.
+ *
+ * @param value - The observed value
+ * @param average - The mean/average value
+ * @param sd - The standard deviation
+ * @returns Formatted string with Z-score notation
  */
 export function GetZScoreStr(
   value: number,
@@ -332,21 +331,6 @@ export function GetZScoreStr(
 }
 
 /**
- * Error function (erf) approximation using Taylor expansion.
- */
-export function erf(x: number): number {
-  const m = 1.0;
-  let s = 1.0;
-  let sum = x * 1.0;
-  for (let i = 1; i < 50; i++) {
-    const factorial = factorialHelper(i);
-    s *= -1;
-    sum += (s * Math.pow(x, 2.0 * i + 1.0)) / (factorial * (2.0 * i + 1.0));
-  }
-  return (2 * sum) / Math.sqrt(Math.PI);
-}
-
-/**
  * Helper function to calculate factorial.
  *
  * @param n - The number to calculate factorial for (must be non-negative integer)
@@ -354,7 +338,6 @@ export function erf(x: number): number {
  * @throws {Error} If n is negative or not an integer
  */
 function factorialHelper(n: number): number {
-  // Validate input
   if (n < 0) {
     throw new Error("Factorial is not defined for negative numbers");
   }
@@ -370,7 +353,31 @@ function factorialHelper(n: number): number {
 }
 
 /**
- * Get Z-score from LMS parameters.
+ * Error function (erf) approximation using Taylor expansion.
+ *
+ * @param x - Input value
+ * @returns Error function value
+ */
+export function erf(x: number): number {
+  const m = 1.0;
+  let s = 1.0;
+  let sum = x * 1.0;
+  for (let i = 1; i < 50; i++) {
+    const factorial = factorialHelper(i);
+    s *= -1;
+    sum += (s * Math.pow(x, 2.0 * i + 1.0)) / (factorial * (2.0 * i + 1.0));
+  }
+  return (2 * sum) / Math.sqrt(Math.PI);
+}
+
+/**
+ * Get Z-score from LMS parameters (Box-Cox transformation).
+ *
+ * @param value - The observed value
+ * @param l - Lambda (Box-Cox power)
+ * @param m - Mu (median)
+ * @param s - Sigma (coefficient of variation)
+ * @returns Z-score
  */
 export function GetZScoreFromLMS(
   value: number,
@@ -387,6 +394,9 @@ export function GetZScoreFromLMS(
 
 /**
  * Get percentile from Z-score using error function.
+ *
+ * @param sd - Standard deviation (Z-score)
+ * @returns Percentile value (0-100)
  */
 export function GetPercentileFromZScore(sd: number): number {
   const area = erf(sd / 1.41421356) / 2;
@@ -394,7 +404,13 @@ export function GetPercentileFromZScore(sd: number): number {
 }
 
 /**
- * Get value from Z-score using LMS parameters.
+ * Get value from Z-score using LMS parameters (inverse Box-Cox transformation).
+ *
+ * @param zscore - The Z-score
+ * @param l - Lambda (Box-Cox power)
+ * @param m - Mu (median)
+ * @param s - Sigma (coefficient of variation)
+ * @returns The calculated value
  */
 export function GetValueFromZScore(
   zscore: number,
@@ -411,6 +427,7 @@ export function GetValueFromZScore(
 
 /**
  * Parse ISO date string (YYYY-MM-DD) to timestamp (milliseconds since epoch).
+ *
  * @param dateString - ISO date string
  * @returns Timestamp in milliseconds
  */
@@ -432,25 +449,55 @@ export function concat(...args: unknown[]): string {
   return args.join("");
 }
 
-// Register custom functions
-parser.functions.iif = iif;
-parser.functions.if = iif; // Alias for compatibility
-parser.functions.BSA_DuBois = BSA_DuBois;
-parser.functions.min = Math.min;
-parser.functions.max = Math.max;
-parser.functions.sqrt = Math.sqrt;
-parser.functions.log = Math.log;
-parser.functions.pow = Math.pow;
-parser.functions.exp = Math.exp;
-parser.functions.floor = Math.floor;
-parser.functions.GetZScore = GetZScore;
-parser.functions.GetZScoreStr = GetZScoreStr;
-parser.functions.erf = erf;
-parser.functions.GetZScoreFromLMS = GetZScoreFromLMS;
-parser.functions.GetPercentileFromZScore = GetPercentileFromZScore;
-parser.functions.GetValueFromZScore = GetValueFromZScore;
-parser.functions.dateparse = dateparse;
-parser.functions.concat = concat;
+/**
+ * Expression parser with custom functions for formula evaluation.
+ */
+const parser = new Parser({
+  operators: {
+    // Enable 'and', 'or' keywords and || operator
+    logical: true,
+    comparison: true,
+  },
+});
+
+/**
+ * Custom functions available in formula expressions.
+ * Organized by category for better maintainability and documentation.
+ */
+const customFunctions = {
+  // Conditional functions
+  iif,
+  if: iif, // Alias for compatibility
+
+  // Mathematical functions
+  min: Math.min,
+  max: Math.max,
+  sqrt: Math.sqrt,
+  log: Math.log,
+  pow: Math.pow,
+  exp: Math.exp,
+  floor: Math.floor,
+
+  // Medical calculations
+  BSA_DuBois,
+  GetZScore,
+  GetZScoreStr,
+  GetZScoreFromLMS,
+  GetPercentileFromZScore,
+  GetValueFromZScore,
+
+  // Statistical functions
+  erf,
+
+  // Utility functions
+  dateparse,
+  concat,
+} as const;
+
+// Register all custom functions with the parser
+Object.entries(customFunctions).forEach(([name, func]) => {
+  parser.functions[name] = func;
+});
 
 /**
  * Input values for formula evaluation.
