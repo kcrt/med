@@ -63,7 +63,7 @@ export function Navbar() {
   const hasSearchResults = filteredMenuItems.length > 0;
 
   return (
-    <Stack h="100%" style={{ overflowY: "auto" }}>
+    <Stack h="100%" className="no-scrollbar" style={{ overflowY: "auto" }}>
       <TextInput
         placeholder={tSearch("placeholder")}
         leftSection={<IconSearch size={18} />}

@@ -62,6 +62,16 @@ body {
   pointer-events: auto;
 }
 
+/* Hide scrollbar while keeping scrollable */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Tailwind CSS import - must come after custom rules for Safari compatibility */
 @import "tailwindcss";
 
