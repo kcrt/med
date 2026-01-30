@@ -53,16 +53,15 @@ export function QRCodeExport({
         }
         position="top"
         zIndex={101}
+        withinPortal={false}
       >
-        <div>
-          <FloatingActionButton
-            icon={<IconQrcode size={28} />}
-            onClick={() => setOpened(true)}
-            ariaLabel={t("buttonLabel")}
-            right={20}
-            disabled={isDisabled}
-          />
-        </div>
+        <FloatingActionButton
+          icon={<IconQrcode size={28} />}
+          onClick={() => setOpened(true)}
+          ariaLabel={t("buttonLabel")}
+          right={20}
+          disabled={isDisabled}
+        />
       </Tooltip>
 
       {/* QR Code Modal */}
