@@ -1,8 +1,8 @@
-import { Container, Title, Text, Stack, Paper, ThemeIcon, Badge } from "@mantine/core";
-import { IconCalculator, IconHeartRateMonitor } from "@tabler/icons-react";
+import { Container, Title, Text, Stack, Paper, Badge } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { getToppageMarkdown } from "@/lib/markdown";
 import { HomeShareButton } from "@/components/HomeShareButton";
+import { InteractiveStethoscope } from "@/components/InteractiveStethoscope";
 import packageJson from "@/../package.json";
 
 export default async function Home({
@@ -20,9 +20,7 @@ export default async function Home({
         <Stack gap="xl">
           <Paper p="xl" radius="md" withBorder>
             <Stack gap="md" align="center" ta="center">
-              <ThemeIcon size={64} radius="xl" color="blue">
-                <IconCalculator size={32} />
-              </ThemeIcon>
+              <InteractiveStethoscope />
               <Title order={1} textWrap="balance">{t("title")}</Title>
               <Badge variant="light" size="lg">v{packageJson.version}</Badge>
               <Text c="dimmed" size="lg" maw={500}>

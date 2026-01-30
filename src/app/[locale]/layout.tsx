@@ -6,6 +6,7 @@ import { AppShellLayout } from "@/components/AppShellLayout";
 import { getMessages, getTranslations } from "next-intl/server";
 import "./globals.css";
 import { theme } from "@/theme";
+import { DebugModeProvider } from "@/contexts/DebugModeContext";
 
 export async function generateMetadata({
   params,
@@ -42,7 +43,9 @@ export default async function LocaleLayout({
       <body className={`antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <MantineProvider theme={theme} defaultColorScheme="auto">
-            <AppShellLayout>{children}</AppShellLayout>
+            <DebugModeProvider>
+              <AppShellLayout>{children}</AppShellLayout>
+            </DebugModeProvider>
           </MantineProvider>
         </NextIntlClientProvider>
       </body>

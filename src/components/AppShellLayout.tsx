@@ -1,11 +1,10 @@
 "use client";
 
-import { AppShell, Badge, Burger, Group, Text } from "@mantine/core";
+import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./Navbar";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDebug } from "@/lib/use-debug";
 import { RightToolBar } from "./RightToolBar";
 import { Link, usePathname } from "@/lib/navigation";
 
@@ -13,7 +12,6 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle, close }] = useDisclosure();
   const pathname = usePathname();
   const t = useTranslations("app");
-  const isDebug = useDebug();
 
   // Close mobile navbar when route changes
   useEffect(() => {
@@ -45,7 +43,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
               </Text>
             </Link>
           </Group>
-          <RightToolBar isDebug={isDebug} />
+          <RightToolBar />
         </Group>
       </AppShell.Header>
 

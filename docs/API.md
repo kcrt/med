@@ -155,26 +155,39 @@ const text = buildHumanReadableData(
 // BMI: 22.86 kg/m²"
 ```
 
-### `useDebug()` (`src/lib/use-debug.ts`)
+### `useDebugMode()` (`src/contexts/DebugModeContext.tsx`)
 
-Hook to detect if the app is running in development/localhost environment.
+Hook to access and control debug mode state. Debug mode is determined by:
+1. Manual override via localStorage (highest priority)
+2. Hostname detection (contains "localhost")
+3. Default: Release mode (lowest priority)
 
 **Signature:**
 
 ```typescript
-function useDebug(): boolean
+function useDebugMode(): {
+  isDebug: boolean;
+  setDebugMode: (enabled: boolean) => void;
+  toggleDebugMode: () => void;
+}
 ```
 
 **Example:**
 
 ```typescript
-import { useDebug } from "@/lib/use-debug";
+import { useDebugMode } from "@/contexts/DebugModeContext";
 
-const isDebug = useDebug(); // true on localhost, false otherwise
+const { isDebug, setDebugMode, toggleDebugMode } = useDebugMode();
 
 if (isDebug) {
   // Show development-only features
 }
+
+// Manually enable/disable debug mode
+setDebugMode(true);
+
+// Toggle debug mode
+toggleDebugMode();
 ```
 
 Components
@@ -258,7 +271,7 @@ import { DevModeBar } from "@/components/DevModeBar";
 ```
 
 **Behavior:**
-- Automatically visible only in localhost environments (uses `useDebug()` internally)
+- Automatically visible only in localhost environments (uses `useDebugMode()` internally)
 - Alternates between English and Japanese on click
 - Uses compact button styling (size="xs", variant="light")
 
