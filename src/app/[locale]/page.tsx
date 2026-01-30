@@ -1,8 +1,9 @@
-import { Container, Title, Text, Stack, Paper, ThemeIcon } from "@mantine/core";
+import { Container, Title, Text, Stack, Paper, ThemeIcon, Badge } from "@mantine/core";
 import { IconCalculator, IconHeartRateMonitor } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import { getToppageMarkdown } from "@/lib/markdown";
 import { HomeShareButton } from "@/components/HomeShareButton";
+import packageJson from "@/../package.json";
 
 export default async function Home({
   params,
@@ -23,6 +24,7 @@ export default async function Home({
                 <IconCalculator size={32} />
               </ThemeIcon>
               <Title order={1} textWrap="balance">{t("title")}</Title>
+              <Badge variant="light" size="lg">v{packageJson.version}</Badge>
               <Text c="dimmed" size="lg" maw={500}>
                 {t("description")}
               </Text>
