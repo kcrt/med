@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Modal, Stack, Text, Tooltip } from "@mantine/core";
+import { Box, Modal, Stack, Text } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
 import { useLocale, useTranslations } from "next-intl";
 import { QRCodeSVG } from "qrcode.react";
@@ -45,25 +45,19 @@ export function QRCodeExport({
 
   return (
     <>
-      <Tooltip
-        label={
+      <FloatingActionButton
+        icon={<IconQrcode size={28} />}
+        onClick={() => setOpened(true)}
+        ariaLabel={t("buttonLabel")}
+        right={20}
+        disabled={isDisabled}
+        tooltip={
           isDisabled
             ? t("disabledTooltip", { defaultValue: "Enter inputs to enable" })
             : t("buttonLabel")
         }
-        position="top"
-        withinPortal
-      >
-        <Box component="span" style={{ display: "inline-block" }}>
-          <FloatingActionButton
-            icon={<IconQrcode size={28} />}
-            onClick={() => setOpened(true)}
-            ariaLabel={t("buttonLabel")}
-            right={20}
-            disabled={isDisabled}
-          />
-        </Box>
-      </Tooltip>
+        tooltipPosition="top"
+      />
 
       {/* QR Code Modal */}
       <Modal
