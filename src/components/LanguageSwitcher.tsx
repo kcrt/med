@@ -12,7 +12,7 @@ const LOCALE_LABELS: Record<string, string> = {
   "zh-Hant": "繁體",
 };
 
-export function DevModeBar() {
+export function LanguageSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
@@ -20,10 +20,6 @@ export function DevModeBar() {
   const switchLocale = (newLocale: (typeof LOCALES)[number]) => {
     router.replace(pathname, { locale: newLocale });
   };
-
-  // Find next locale in the list
-  const currentIndex = LOCALES.indexOf(locale as (typeof LOCALES)[number]);
-  const nextLocale = LOCALES[(currentIndex + 1) % LOCALES.length];
 
   return (
     <Group gap="xs">
