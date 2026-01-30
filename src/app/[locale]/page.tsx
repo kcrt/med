@@ -22,7 +22,7 @@ export default async function Home({
               <ThemeIcon size={64} radius="xl" color="blue">
                 <IconCalculator size={32} />
               </ThemeIcon>
-              <Title order={1}>{t("title")}</Title>
+              <Title order={1} textWrap="balance">{t("title")}</Title>
               <Text c="dimmed" size="lg" maw={500}>
                 {t("description")}
               </Text>
