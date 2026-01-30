@@ -66,6 +66,8 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
         onClick={() => setOpened(true)}
         ariaLabel={t("buttonLabel")}
         right={90}
+        tooltip={t("buttonLabel")}
+        tooltipPosition="top"
       />
 
       {/* Share URL Modal */}
