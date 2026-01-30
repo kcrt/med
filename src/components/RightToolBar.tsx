@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Group } from "@mantine/core";
+import { Badge } from "@mantine/core";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface RightToolBarProps {
