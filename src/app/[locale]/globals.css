@@ -73,6 +73,18 @@ body[lang="zh-Hant"] {
   pointer-events: auto;
 }
 
+/* Right toolbar without dev mode styling */
+.right-toolbar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 16px;
+}
+
 /* Hide scrollbar while keeping scrollable */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

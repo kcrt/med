@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useDebug } from "@/lib/use-debug";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { RightToolBar } from "./RightToolBar";
 import { Link, usePathname } from "@/lib/navigation";
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
@@ -45,14 +45,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
               </Text>
             </Link>
           </Group>
-          <Group gap="xs">
-            <LanguageSwitcher />
-            {isDebug && (
-              <Badge color="red" size="lg" radius="sm">
-                DEV MODE
-              </Badge>
-            )}
-          </Group>
+          <RightToolBar isDebug={isDebug} />
         </Group>
       </AppShell.Header>
 
