@@ -1,0 +1,106 @@
+{
+  "app": {
+    "title": "醫療計算機",
+    "description": "醫療計算應用程式"
+  },
+  "formulaNavigation": {
+    "previousFormula": "上一個公式",
+    "nextFormula": "下一個公式"
+  },
+  "home": {
+    "title": "歡迎使用醫療計算機",
+    "description": "為醫療專業人員提供的綜合醫療計算機。從側邊欄選擇類別以瀏覽可用公式。",
+    "featuresTitle": "功能",
+    "feature1": "基於循證醫學的公式和評分系統",
+    "feature2": "支援多個類別，包括心臟內科、腎內科和兒科",
+    "feature3": "易於使用的介面，即時顯示結果",
+    "selectFromSidebar": "從側邊欄選擇公式",
+    "sidebarHint": "使用左側導覽選單按類別瀏覽公式"
+  },
+  "config": {
+    "title": "設定",
+    "description": "設定您的偏好設定"
+  },
+  "qrcode": {
+    "title": "匯出計算結果",
+    "description": "掃描此 QR Code 將計算資料傳輸到您的病歷系統。",
+    "buttonLabel": "匯出為 QR Code",
+    "disabledTooltip": "請輸入數值以啟用"
+  },
+  "copyResult": {
+    "buttonLabel": "複製結果",
+    "copied": "已複製！",
+    "disabledTooltip": "請輸入數值以啟用"
+  },
+  "search": {
+    "placeholder": "搜尋公式...",
+    "noResults": "未找到公式",
+    "noResultsDescription": "請嘗試其他關鍵詞"
+  },
+  "favorites": {
+    "title": "收藏",
+    "addToFavorites": "加入到收藏",
+    "removeFromFavorites": "從收藏中移除",
+    "firstFavoriteMessage": "加入更多您喜歡的公式吧！",
+    "noFavorites": "暫無收藏",
+    "noFavoritesDescription": "為公式加星標以加入到這裡！",
+    "category": "類別",
+    "remove": "移除"
+  },
+  "share": {
+    "title": "分享計算結果",
+    "description": "複製此 URL 以分享包含輸入值的計算結果。",
+    "buttonLabel": "透過 URL 分享",
+    "copyButton": "複製 URL",
+    "copied": "URL 已複製到剪貼簿！",
+    "nativeShare": "分享...",
+    "snsShare": "或在社群媒體上分享",
+    "shareOn": "在 {platform} 上分享"
+  },
+  "homeShare": {
+    "title": "分享此應用程式",
+    "description": "與您的同事分享此醫療計算機。",
+    "buttonLabel": "分享",
+    "copyButton": "複製 URL",
+    "copied": "URL 已複製到剪貼簿！",
+    "nativeShare": "分享...",
+    "snsShare": "或在社群媒體上分享",
+    "shareOn": "在 {platform} 上分享"
+  },
+  "calculator": {
+    "calculate": "計算",
+    "result": "結果",
+    "inputError": "輸入錯誤",
+    "calculationError": "無法計算",
+    "male": "男性",
+    "female": "女性",
+    "placeholder": "輸入 {label}"
+  },
+  "error": {
+    "title": "發生錯誤",
+    "message": "很抱歉，發生了意外錯誤。請重新載入頁面或重試。",
+    "retry": "重試"
+  },
+  "category": {
+    "Body Structure Index": "體格指數",
+    "Gastroenterology": "消化內科",
+    "Hepatology": "肝臟科",
+    "Cardiology": "心臟內科",
+    "Endocrinology and Metabolism": "內分泌與代謝",
+    "Renal Function": "腎功能",
+    "Electrolytes and Fluid Balance": "電解質與體液平衡",
+    "Hematology": "血液科",
+    "Infectious Diseases": "感染科",
+    "Pulmonology": "呼吸內科",
+    "Neurology": "神經內科",
+    "Emergency Medicine": "急診醫學",
+    "Obstetrics": "婦產科",
+    "Pediatrics": "兒科",
+    "Neonatology": "新生兒科",
+    "Pediatric Scoring Systems": "兒科評分系統",
+    "Nutrition": "營養科",
+    "Psychiatry": "精神科",
+    "Others": "其他"
+  },
+  "labels": {}
+}

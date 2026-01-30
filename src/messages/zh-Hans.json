@@ -1,0 +1,106 @@
+{
+  "app": {
+    "title": "医疗计算器",
+    "description": "医疗计算应用"
+  },
+  "formulaNavigation": {
+    "previousFormula": "上一个公式",
+    "nextFormula": "下一个公式"
+  },
+  "home": {
+    "title": "欢迎使用医疗计算器",
+    "description": "为医疗专业人员提供的综合医疗计算器。从侧边栏选择类别以浏览可用公式。",
+    "featuresTitle": "功能",
+    "feature1": "基于循证医学的公式和评分系统",
+    "feature2": "支持多个类别，包括心脏内科、肾内科和儿科",
+    "feature3": "易于使用的界面，即时显示结果",
+    "selectFromSidebar": "从侧边栏选择公式",
+    "sidebarHint": "使用左侧导航菜单按类别浏览公式"
+  },
+  "config": {
+    "title": "设置",
+    "description": "配置您的偏好设置"
+  },
+  "qrcode": {
+    "title": "导出计算结果",
+    "description": "扫描此二维码将计算数据传输到您的病历系统。",
+    "buttonLabel": "导出为二维码",
+    "disabledTooltip": "请输入数值以启用"
+  },
+  "copyResult": {
+    "buttonLabel": "复制结果",
+    "copied": "已复制！",
+    "disabledTooltip": "请输入数值以启用"
+  },
+  "search": {
+    "placeholder": "搜索公式...",
+    "noResults": "未找到公式",
+    "noResultsDescription": "请尝试其他关键词"
+  },
+  "favorites": {
+    "title": "收藏",
+    "addToFavorites": "添加到收藏",
+    "removeFromFavorites": "从收藏中移除",
+    "firstFavoriteMessage": "添加更多您喜欢的公式吧！",
+    "noFavorites": "暂无收藏",
+    "noFavoritesDescription": "为公式加星标以添加到这里！",
+    "category": "类别",
+    "remove": "移除"
+  },
+  "share": {
+    "title": "分享计算结果",
+    "description": "复制此 URL 以分享包含输入值的计算结果。",
+    "buttonLabel": "通过 URL 分享",
+    "copyButton": "复制 URL",
+    "copied": "URL 已复制到剪贴板！",
+    "nativeShare": "分享...",
+    "snsShare": "或在社交媒体上分享",
+    "shareOn": "在 {platform} 上分享"
+  },
+  "homeShare": {
+    "title": "分享此应用",
+    "description": "与您的同事分享此医疗计算器。",
+    "buttonLabel": "分享",
+    "copyButton": "复制 URL",
+    "copied": "URL 已复制到剪贴板！",
+    "nativeShare": "分享...",
+    "snsShare": "或在社交媒体上分享",
+    "shareOn": "在 {platform} 上分享"
+  },
+  "calculator": {
+    "calculate": "计算",
+    "result": "结果",
+    "inputError": "输入错误",
+    "calculationError": "无法计算",
+    "male": "男性",
+    "female": "女性",
+    "placeholder": "输入 {label}"
+  },
+  "error": {
+    "title": "发生错误",
+    "message": "很抱歉，发生了意外错误。请重新加载页面或重试。",
+    "retry": "重试"
+  },
+  "category": {
+    "Body Structure Index": "体格指数",
+    "Gastroenterology": "消化内科",
+    "Hepatology": "肝脏科",
+    "Cardiology": "心脏内科",
+    "Endocrinology and Metabolism": "内分泌与代谢",
+    "Renal Function": "肾功能",
+    "Electrolytes and Fluid Balance": "电解质与体液平衡",
+    "Hematology": "血液科",
+    "Infectious Diseases": "感染科",
+    "Pulmonology": "呼吸内科",
+    "Neurology": "神经内科",
+    "Emergency Medicine": "急诊医学",
+    "Obstetrics": "妇产科",
+    "Pediatrics": "儿科",
+    "Neonatology": "新生儿科",
+    "Pediatric Scoring Systems": "儿科评分系统",
+    "Nutrition": "营养科",
+    "Psychiatry": "精神科",
+    "Others": "其他"
+  },
+  "labels": {}
+}

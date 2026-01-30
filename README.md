@@ -20,7 +20,7 @@ Tech Stack
 - **TypeScript 5**
 - **Mantine 8** for UI components
 - **Tailwind CSS v4** for styling
-- **next-intl** for internationalization (English/Japanese)
+- **next-intl** for internationalization (English/Japanese/Chinese)
 - **Vitest** for testing
 - **Zod** for runtime type validation
 - **qrcode.react** for QR code generation
@@ -29,7 +29,7 @@ Tech Stack
 Locale Configuration
 --------------------
 
-The application supports English and Japanese with automatic browser detection. See [docs/LOCALE.md](docs/LOCALE.md) for detailed configuration, translation system, and adding new languages.
+The application supports English, Japanese, Simplified Chinese, and Traditional Chinese with automatic browser detection. See [docs/LOCALE.md](docs/LOCALE.md) for detailed configuration, translation system, and adding new languages.
 
 Usage
 ----------------------

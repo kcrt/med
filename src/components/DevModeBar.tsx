@@ -1,13 +1,15 @@
 "use client";
 
-import { Button, Group } from "@mantine/core";
+import { Button, Group, Menu } from "@mantine/core";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/lib/navigation";
 
-const LOCALES = ["en", "ja"] as const;
+const LOCALES = ["en", "ja", "zh-Hans", "zh-Hant"] as const;
 const LOCALE_LABELS: Record<string, string> = {
   en: "EN",
   ja: "日本語",
+  "zh-Hans": "简体",
+  "zh-Hant": "繁體",
 };
 
 export function DevModeBar() {
@@ -19,17 +21,31 @@ export function DevModeBar() {
     router.replace(pathname, { locale: newLocale });
   };
 
-  const nextLocale = locale === "en" ? "ja" : "en";
+  // Find next locale in the list
+  const currentIndex = LOCALES.indexOf(locale as (typeof LOCALES)[number]);
+  const nextLocale = LOCALES[(currentIndex + 1) % LOCALES.length];
 
   return (
     <Group gap="xs">
-      <Button
-        size="xs"
-        variant="filled"
-        onClick={() => switchLocale(nextLocale)}
-      >
-        {LOCALE_LABELS[locale]}
-      </Button>
+      <Menu>
+        <Menu.Target>
+          <Button size="xs" variant="filled">
+            {LOCALE_LABELS[locale] || locale}
+          </Button>
+        </Menu.Target>
+
+        <Menu.Dropdown>
+          {LOCALES.map((loc) => (
+            <Menu.Item
+              key={loc}
+              leftSection={loc === locale ? "✓" : undefined}
+              onClick={() => switchLocale(loc)}
+            >
+              {LOCALE_LABELS[loc]}
+            </Menu.Item>
+          ))}
+        </Menu.Dropdown>
+      </Menu>
     </Group>
   );
 }

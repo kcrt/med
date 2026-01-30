@@ -1,19 +1,23 @@
 Locale Configuration
 ====================
 
-The Medicalculator supports two languages with centralized locale management using next-intl.
+The Medicalculator supports four languages with centralized locale management using next-intl.
 
 Supported Languages
 -------------------
 
 - **English** (`en`) - Default locale
 - **Japanese** (`ja`)
+- **Chinese (Simplified)** (`zh-Hans`)
+- **Chinese (Traditional)** (`zh-Hant`)
 
 Locale detection is automatic based on browser settings, with manual selection available via the `/config` page.
 
 **URL Structure**: Language-specific URLs are used for SEO purposes:
 - English: `/en/` (e.g., `/en/formula/bmi_adult`)
 - Japanese: `/ja/` (e.g., `/ja/formula/bmi_adult`)
+- Simplified Chinese: `/zh-Hans/` (e.g., `/zh-Hans/formula/bmi_adult`)
+- Traditional Chinese: `/zh-Hant/` (e.g., `/zh-Hant/formula/bmi_adult`)
 
 Configuration Files
 -------------------
@@ -24,7 +28,7 @@ Central locale configuration - single source of truth for supported languages.
 
 ```typescript
 // Type-safe locale values
-type Locale = "en" | "ja";
+type Locale = "en" | "ja" | "zh-Hans" | "zh-Hant";
 
 // Language metadata
 interface LanguageInfo {
@@ -33,7 +37,7 @@ interface LanguageInfo {
 }
 
 // Constants
-export const SUPPORTED_LOCALES: Locale[] = ["en", "ja"];
+export const SUPPORTED_LOCALES: Locale[] = ["en", "ja", "zh-Hans", "zh-Hant"];
 export const DEFAULT_LOCALE: Locale = "en";
 
 // Validation
@@ -55,6 +59,14 @@ Language metadata storage for UI display:
   "ja": {
     "english_name": "Japanese",
     "local_name": "日本語"
+  },
+  "zh-Hans": {
+    "english_name": "Chinese (Simplified)",
+    "local_name": "简体中文"
+  },
+  "zh-Hant": {
+    "english_name": "Chinese (Traditional)",
+    "local_name": "繁體中文"
   }
 }
 ```
@@ -102,7 +114,7 @@ import { Locale, SUPPORTED_LOCALES, DEFAULT_LOCALE, isValidLocale } from "@/lib/
 // Type narrowing
 function processLocale(value: unknown) {
   if (isValidLocale(value)) {
-    // value is typed as Locale ("en" | "ja")
+    // value is typed as Locale ("en" | "ja" | "zh-Hans" | "zh-Hant")
     console.log(value);
   }
 }
@@ -116,7 +128,7 @@ Use next-intl hooks in components:
 import { useLocale } from "next-intl";
 
 function Component() {
-  const locale = useLocale(); // "en" | "ja"
+  const locale = useLocale(); // "en" | "ja" | "zh-Hans" | "zh-Hant"
 }
 ```
 
@@ -153,12 +165,14 @@ Users can manually select language preference at `/config`:
 - **Auto**: Browser-based detection (default)
 - **English**: Force English locale
 - **Japanese**: Force Japanese locale
+- **Chinese (Simplified)**: Force Simplified Chinese locale
+- **Chinese (Traditional)**: Force Traditional Chinese locale
 
 Selection is persisted via `NEXT_LOCALE` cookie (1 year expiry).
 
 ### Development Locale Switcher
 
-The `<DevModeBar />` component displays a quick locale switcher button in development environments (localhost). It alternates between English and Japanese for easy translation testing.
+The `<DevModeBar />` component displays a quick locale switcher menu in development environments (localhost). It allows switching between English, Japanese, Simplified Chinese, and Traditional Chinese for easy translation testing.
 
 ```typescript
 import { DevModeBar } from "@/components/DevModeBar";
@@ -170,50 +184,56 @@ import { DevModeBar } from "@/components/DevModeBar";
 Adding a New Language
 ---------------------
 
+To add a new language, follow these steps:
+
 1. **Add to `languages.json`:**
 
 ```json
 {
-  "zh": {
-    "english_name": "Chinese",
-    "local_name": "中文"
+  "ko": {
+    "english_name": "Korean",
+    "local_name": "한국어"
   }
 }
 ```
 
 2. **Add translation files:**
 
-Create `src/messages/zh.json` with translations following the same structure as `en.json` and `ja.json`.
+Create `src/messages/ko.json` with translations following the same structure as `en.json` and `ja.json`.
 
 3. **Update DevModeBar** (`src/components/DevModeBar.tsx`):
 
 Add the new locale to the constants:
 
 ```typescript
-const LOCALES = ["en", "ja", "zh"] as const;
+const LOCALES = ["en", "ja", "zh-Hans", "zh-Hant", "ko"] as const;
 const LOCALE_LABELS: Record<string, string> = {
   en: "EN",
   ja: "日本語",
-  zh: "中文",
+  "zh-Hans": "简体",
+  "zh-Hant": "繁體",
+  ko: "한국어",
 };
 ```
 
 4. **Add config page option** (`src/app/[locale]/config/page.tsx`):
 
-```tsx
-<Select
-  data={[
-    { label: t("language.auto"), value: "auto" },
-    { label: t("language.en"), value: "en" },
-    { label: t("language.ja"), value: "ja" },
-    { label: t("language.zh"), value: "zh" }, // Add this
-  ]}
-/>
+Add the new locale to the Select data array.
+
+5. **Update language detection** (`src/app/[locale]/config/page.tsx`):
+
+Add mapping for browser language codes to the new locale in the `localeMap`:
+
+```typescript
+const localeMap: Record<string, Locale> = {
+  "ko": "ko",
+  // ... other mappings
+};
 ```
 
-5. **Add translation for the new language in message files:**
+6. **Add translation for the new language in message files:**
 
-Add `config.language.zh: "Chinese"` to all message files.
+Add the language name to `src/messages/shared.ts` and all locale-specific message files.
 
 Translation System
 ------------------
