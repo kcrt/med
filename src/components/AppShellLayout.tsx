@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useDebug } from "@/lib/use-debug";
-import { DevModeBar } from "./DevModeBar";
+import { RightToolBar } from "./RightToolBar";
 import { Link, usePathname } from "@/lib/navigation";
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
@@ -31,21 +31,21 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md" pos="relative">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Link href="/">
-            <Text fw={700} size="xl" style={{ cursor: "pointer" }}>
-              {t("title")}
-            </Text>
-          </Link>
-          {isDebug && (
-            <div className="dev-mode-toolbar">
-              <DevModeBar />
-              <Badge className="mr-4" color="red" size="lg" radius="sm">
-                DEV MODE
-              </Badge>
-            </div>
-          )}
+        <Group h="100%" px="md" pos="relative" justify="space-between">
+          <Group>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Link href="/">
+              <Text fw={700} size="xl" style={{ cursor: "pointer" }}>
+                {t("title")}
+              </Text>
+            </Link>
+          </Group>
+          <RightToolBar isDebug={isDebug} />
         </Group>
       </AppShell.Header>
 
