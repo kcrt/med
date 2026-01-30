@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { Modal, Stack, Text, Box, Tooltip } from "@mantine/core";
+import { Box, Modal, Stack, Text, Tooltip } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
+import { useLocale, useTranslations } from "next-intl";
 import { QRCodeSVG } from "qrcode.react";
-import { useTranslations, useLocale } from "next-intl";
-import type { Formula } from "@/types/formula";
+import { useState } from "react";
+import { FloatingActionButton } from "@/components/FloatingActionButton";
+import { buildHumanReadableData } from "@/lib/calculation-export";
 import type { FormulaInputValues, FormulaOutputValues } from "@/lib/formula";
 import { isCalculationFormula } from "@/lib/formula";
-import { buildHumanReadableData } from "@/lib/calculation-export";
-import { FloatingActionButton } from "@/components/FloatingActionButton";
+import type { Formula } from "@/types/formula";
 
 interface QRCodeExportProps {
   formula: Formula;
@@ -52,16 +52,17 @@ export function QRCodeExport({
             : t("buttonLabel")
         }
         position="top"
-        zIndex={101}
-        withinPortal={false}
+        withinPortal
       >
-        <FloatingActionButton
-          icon={<IconQrcode size={28} />}
-          onClick={() => setOpened(true)}
-          ariaLabel={t("buttonLabel")}
-          right={20}
-          disabled={isDisabled}
-        />
+        <Box component="span" style={{ display: "inline-block" }}>
+          <FloatingActionButton
+            icon={<IconQrcode size={28} />}
+            onClick={() => setOpened(true)}
+            ariaLabel={t("buttonLabel")}
+            right={20}
+            disabled={isDisabled}
+          />
+        </Box>
       </Tooltip>
 
       {/* QR Code Modal */}
