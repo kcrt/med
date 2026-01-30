@@ -6,10 +6,10 @@ import { usePathname, useRouter } from "@/lib/navigation";
 
 const LOCALES = ["en", "ja", "zh-Hans", "zh-Hant"] as const;
 const LOCALE_LABELS: Record<string, string> = {
-  en: "EN",
+  en: "English",
   ja: "日本語",
-  "zh-Hans": "简体",
-  "zh-Hant": "繁體",
+  "zh-Hans": "中文 (简体)",
+  "zh-Hant": "中文 (繁體)",
 };
 
 export function LanguageSwitcher() {
