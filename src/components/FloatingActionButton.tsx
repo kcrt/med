@@ -1,7 +1,7 @@
 "use client";
 
-import { ActionIcon, type ActionIconProps, Box } from "@mantine/core";
-import { type ReactNode } from "react";
+import { ActionIcon, type ActionIconProps, Box, Tooltip } from "@mantine/core";
+import type { ReactNode } from "react";
 
 interface FloatingActionButtonProps {
   /** Icon to display in the button */
@@ -22,6 +22,10 @@ interface FloatingActionButtonProps {
   size?: number;
   /** Color of the button (default: "blue") */
   color?: ActionIconProps["color"];
+  /** Optional tooltip label */
+  tooltip?: string;
+  /** Tooltip position (default: "top") */
+  tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
 /**
@@ -48,7 +52,37 @@ export function FloatingActionButton({
   disabled = false,
   size = 56,
   color = "blue",
+  tooltip,
+  tooltipPosition = "top",
 }: FloatingActionButtonProps) {
+  const actionIcon = (
+    <ActionIcon
+      size={size}
+      radius="xl"
+      variant="filled"
+      color={color}
+      disabled={disabled}
+      onClick={onClick}
+      style={{
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        transition: "transform 0.2s, box-shadow 0.2s",
+      }}
+      onMouseEnter={(e) => {
+        if (!disabled) {
+          e.currentTarget.style.transform = "scale(1.1)";
+          e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
+        }
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
+        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+      }}
+      aria-label={ariaLabel}
+    >
+      {icon}
+    </ActionIcon>
+  );
+
   return (
     <Box
       style={{
@@ -59,31 +93,13 @@ export function FloatingActionButton({
         zIndex: 100,
       }}
     >
-      <ActionIcon
-        size={size}
-        radius="xl"
-        variant="filled"
-        color={color}
-        disabled={disabled}
-        onClick={onClick}
-        style={{
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-          transition: "transform 0.2s, box-shadow 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          if (!disabled) {
-            e.currentTarget.style.transform = "scale(1.1)";
-            e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
-        }}
-        aria-label={ariaLabel}
-      >
-        {icon}
-      </ActionIcon>
+      {tooltip ? (
+        <Tooltip label={tooltip} position={tooltipPosition} withinPortal>
+          {actionIcon}
+        </Tooltip>
+      ) : (
+        actionIcon
+      )}
     </Box>
   );
 }
