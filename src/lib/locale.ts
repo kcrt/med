@@ -20,16 +20,29 @@ export function isValidLocale(value: unknown): value is Locale {
 }
 
 /**
+ * Cached browser language code to locale mapping.
+ * Generated once from languages.json to avoid redundant computation.
+ */
+let cachedBrowserLanguageMap: Record<string, Locale> | null = null;
+
+/**
  * Get browser language code to locale mapping.
  * Automatically generated from languages.json.
+ * Result is cached for performance.
  */
 export function getBrowserLanguageMap(): Record<string, Locale> {
+  if (cachedBrowserLanguageMap) {
+    return cachedBrowserLanguageMap;
+  }
+
   const map: Record<string, Locale> = {};
   for (const [locale, info] of Object.entries(languages)) {
     for (const code of info.browser_codes) {
       map[code] = locale as Locale;
     }
   }
+
+  cachedBrowserLanguageMap = map;
   return map;
 }
 

@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
               leftSection={loc === locale ? "✓" : undefined}
               onClick={() => switchLocale(loc)}
             >
-              {languages[loc].short_name}
+              {languages[loc]?.short_name || loc}
             </Menu.Item>
           ))}
         </Menu.Dropdown>
