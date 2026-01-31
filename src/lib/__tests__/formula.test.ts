@@ -22,6 +22,7 @@ import {
   isHtmlFormula,
   iterateFormulas,
   shouldDisplayForLocale,
+  shouldDisplayFormula,
   shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
@@ -149,6 +150,62 @@ describe("Formula data tests", () => {
       };
       expect(shouldDisplayInputForLocale(input, "en")).toBe(true);
       expect(shouldDisplayInputForLocale(input, "ja")).toBe(false);
+    });
+  });
+
+  describe("shouldDisplayFormula", () => {
+    it("returns true for formulas without locale restrictions", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+    });
+
+    it("respects locales_in filter for calculation formulas", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+      expect(shouldDisplayFormula(formula, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter for calculation formulas", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(false);
+    });
+
+    it("respects locales_in filter for HTML formulas", () => {
+      const formula = {
+        name: "Test HTML Formula",
+        type: "html" as const,
+        html: "<div>Test</div>",
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+      expect(shouldDisplayFormula(formula, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter for HTML formulas", () => {
+      const formula = {
+        name: "Test HTML Formula",
+        type: "html" as const,
+        html: "<div>Test</div>",
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(false);
     });
   });
 

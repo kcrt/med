@@ -72,6 +72,8 @@ const HtmlFormulaSchema = z.object({
   html: z.string(),
   info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show formula in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
 });
 
 /**
@@ -85,6 +87,8 @@ const CalculationFormulaSchema = z.object({
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show formula in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
 });
 
 /**
@@ -193,6 +197,8 @@ const PartialHtmlFormulaSchema = z.object({
   html: z.string().optional(),
   info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**
@@ -207,6 +213,8 @@ const PartialCalculationFormulaSchema = z.object({
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**
