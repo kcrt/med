@@ -2,25 +2,21 @@
   "en": {
     "english_name": "English",
     "local_name": "English",
-    "short_name": "English",
     "browser_codes": ["en"]
   },
   "ja": {
     "english_name": "Japanese",
     "local_name": "日本語",
-    "short_name": "日本語",
     "browser_codes": ["ja"]
   },
   "zh-Hans": {
     "english_name": "Chinese (Simplified)",
-    "local_name": "简体中文",
-    "short_name": "中文 (简体)",
+    "local_name": "中文 (简体)",
     "browser_codes": ["zh-CN", "zh-SG", "zh"]
   },
   "zh-Hant": {
     "english_name": "Chinese (Traditional)",
-    "local_name": "繁體中文",
-    "short_name": "中文 (繁體)",
+    "local_name": "中文 (繁體)",
     "browser_codes": ["zh-TW", "zh-HK", "zh-MO"]
   }
 }

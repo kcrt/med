@@ -19,7 +19,7 @@ export function LanguageSwitcher() {
       <Menu>
         <Menu.Target>
           <Button size="xs" variant="filled">
-            {languages[locale]?.short_name || locale}
+            {languages[locale]?.local_name || locale}
           </Button>
         </Menu.Target>
 
@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
               leftSection={loc === locale ? "✓" : undefined}
               onClick={() => switchLocale(loc)}
             >
-              {languages[loc]?.short_name || loc}
+              {languages[loc]?.local_name || loc}
             </Menu.Item>
           ))}
         </Menu.Dropdown>

@@ -14,8 +14,8 @@ export const sharedMessages = {
       auto: "Auto (Browser language)",
       en: "English",
       ja: "日本語",
-      "zh-Hans": "简体中文",
-      "zh-Hant": "繁體中文",
+      "zh-Hans": "中文 (简体)",
+      "zh-Hant": "中文 (繁體)",
     },
   },
 } as const;

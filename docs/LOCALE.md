@@ -55,25 +55,21 @@ function isValidLocale(value: unknown): value is Locale {
   "en": {
     "english_name": "English",
     "local_name": "English",
-    "short_name": "English",
     "browser_codes": ["en"]
   },
   "ja": {
     "english_name": "Japanese",
     "local_name": "日本語",
-    "short_name": "日本語",
     "browser_codes": ["ja"]
   },
   "zh-Hans": {
     "english_name": "Chinese (Simplified)",
-    "local_name": "简体中文",
-    "short_name": "中文 (简体)",
+    "local_name": "中文 (简体)",
     "browser_codes": ["zh-CN", "zh-SG", "zh"]
   },
   "zh-Hant": {
     "english_name": "Chinese (Traditional)",
-    "local_name": "繁體中文",
-    "short_name": "中文 (繁體)",
+    "local_name": "中文 (繁體)",
     "browser_codes": ["zh-TW", "zh-HK", "zh-MO"]
   }
 }
@@ -81,8 +77,7 @@ function isValidLocale(value: unknown): value is Locale {
 
 **Fields:**
 - `english_name`: Language name in English (for documentation and fallbacks)
-- `local_name`: Native language name (full form)
-- `short_name`: Short display name for UI components
+- `local_name`: Native language name displayed in UI components
 - `browser_codes`: Browser language codes that map to this locale
 
 ### `src/lib/locale.ts`
@@ -233,7 +228,6 @@ Add the new language with its metadata, including browser language codes:
   "ko": {
     "english_name": "Korean",
     "local_name": "한국어",
-    "short_name": "한국어",
     "browser_codes": ["ko", "ko-KR"]
   }
 }
@@ -241,8 +235,7 @@ Add the new language with its metadata, including browser language codes:
 
 The fields are:
 - `english_name`: Name of the language in English (for documentation)
-- `local_name`: Name of the language in its native script (displayed in language selector)
-- `short_name`: Short display name (used in UI components like LanguageSwitcher)
+- `local_name`: Name of the language in its native script (displayed in UI components)
 - `browser_codes`: Array of browser language codes that should map to this locale
 
 2. **Add translation files:**
