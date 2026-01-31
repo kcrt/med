@@ -3,21 +3,14 @@
 import { Button, Group, Menu } from "@mantine/core";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/lib/navigation";
-
-const LOCALES = ["en", "ja", "zh-Hans", "zh-Hant"] as const;
-const LOCALE_LABELS: Record<string, string> = {
-  en: "English",
-  ja: "日本語",
-  "zh-Hans": "中文 (简体)",
-  "zh-Hant": "中文 (繁體)",
-};
+import { SUPPORTED_LOCALES, languages, type Locale } from "@/lib/locale";
 
 export function LanguageSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
 
-  const switchLocale = (newLocale: (typeof LOCALES)[number]) => {
+  const switchLocale = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale });
   };
 
@@ -26,18 +19,18 @@ export function LanguageSwitcher() {
       <Menu>
         <Menu.Target>
           <Button size="xs" variant="filled">
-            {LOCALE_LABELS[locale] || locale}
+            {languages[locale]?.short_name || locale}
           </Button>
         </Menu.Target>
 
         <Menu.Dropdown>
-          {LOCALES.map((loc) => (
+          {SUPPORTED_LOCALES.map((loc) => (
             <Menu.Item
               key={loc}
               leftSection={loc === locale ? "✓" : undefined}
               onClick={() => switchLocale(loc)}
             >
-              {LOCALE_LABELS[loc]}
+              {languages[loc].short_name}
             </Menu.Item>
           ))}
         </Menu.Dropdown>

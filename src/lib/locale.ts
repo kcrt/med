@@ -18,3 +18,34 @@ export const DEFAULT_LOCALE: Locale = "en";
 export function isValidLocale(value: unknown): value is Locale {
   return typeof value === "string" && value in languages;
 }
+
+/**
+ * Get browser language code to locale mapping.
+ * Automatically generated from languages.json.
+ */
+export function getBrowserLanguageMap(): Record<string, Locale> {
+  const map: Record<string, Locale> = {};
+  for (const [locale, info] of Object.entries(languages)) {
+    for (const code of info.browser_codes) {
+      map[code] = locale as Locale;
+    }
+  }
+  return map;
+}
+
+/**
+ * Detect locale from browser language code.
+ */
+export function detectLocaleFromBrowser(browserLang: string): Locale {
+  const map = getBrowserLanguageMap();
+  // Try exact match first
+  if (map[browserLang]) {
+    return map[browserLang];
+  }
+  // Try first part (e.g., "en-US" -> "en")
+  const langPrefix = browserLang.split("-")[0];
+  if (map[langPrefix]) {
+    return map[langPrefix];
+  }
+  return DEFAULT_LOCALE;
+}

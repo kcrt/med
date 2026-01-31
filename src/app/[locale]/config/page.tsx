@@ -3,7 +3,13 @@
 import { Card, Container, Select, Stack, Text, Title } from "@mantine/core";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type Locale } from "@/lib/locale";
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  detectLocaleFromBrowser,
+  languages,
+  type Locale,
+} from "@/lib/locale";
 import { usePathname, useRouter } from "@/lib/navigation";
 
 type LocaleValue = Locale | "auto";
@@ -32,24 +38,9 @@ export default function ConfigPage() {
       document.cookie =
         "NEXT_LOCALE=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
-      // Detect browser's preferred language
+      // Detect browser's preferred language using centralized detection
       const browserLang = navigator.language;
-      // Map browser language codes to our supported locales
-      const localeMap: Record<string, Locale> = {
-        "zh-CN": "zh-Hans",
-        "zh-SG": "zh-Hans",
-        "zh-TW": "zh-Hant",
-        "zh-HK": "zh-Hant",
-        "zh-MO": "zh-Hant",
-        "zh": "zh-Hans", // Generic Chinese defaults to Simplified
-        "ja": "ja",
-        "en": "en",
-      };
-
-      // Try exact match first, then try first part
-      const detectedLocale = localeMap[browserLang] ||
-                            localeMap[browserLang.split("-")[0]] ||
-                            DEFAULT_LOCALE;
+      const detectedLocale = detectLocaleFromBrowser(browserLang);
 
       // Check if detected locale is supported
       const finalLocale = SUPPORTED_LOCALES.includes(detectedLocale)
@@ -82,10 +73,10 @@ export default function ConfigPage() {
               onChange={handleLanguageChange}
               data={[
                 { label: t("language.auto"), value: "auto" },
-                { label: t("language.en"), value: "en" },
-                { label: t("language.ja"), value: "ja" },
-                { label: t("language.zh-Hans"), value: "zh-Hans" },
-                { label: t("language.zh-Hant"), value: "zh-Hant" },
+                ...SUPPORTED_LOCALES.map((loc) => ({
+                  label: t(`language.${loc}`),
+                  value: loc,
+                })),
               ]}
               allowDeselect={false}
             />
