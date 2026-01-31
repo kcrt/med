@@ -281,7 +281,7 @@ export function FormulaCalculator({
   const t = useTranslations("calculator");
   const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input).filter((key) =>
-    shouldDisplayInputForLocale(formula.input[key]!, locale)
+    shouldDisplayInputForLocale(formula.input[key]!, locale),
   );
   const allOutputs = Object.entries(formula.output);
 

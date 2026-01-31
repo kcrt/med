@@ -126,8 +126,8 @@ export async function POST(request: NextRequest) {
     const useLocale = locale || DEFAULT_LOCALE;
 
     // Filter inputs based on locale
-    const visibleInputs = Object.entries(formula.input).filter(([_, inputDef]) =>
-      shouldDisplayInputForLocale(inputDef, useLocale)
+    const visibleInputs = Object.entries(formula.input).filter(
+      ([_, inputDef]) => shouldDisplayInputForLocale(inputDef, useLocale),
     );
     const visibleInputKeys = visibleInputs.map(([key]) => key);
 
