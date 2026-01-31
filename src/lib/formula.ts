@@ -117,7 +117,7 @@ export function getFormulaData(): FormulaData {
  * @param locale - The locale code (e.g., "en", "ja")
  * @returns True if the output should be displayed, false otherwise
  */
-export function shouldDisplayForLocale(
+export function shouldDisplayOutputForLocale(
   output: FormulaOutput,
   locale: string,
 ): boolean {

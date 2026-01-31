@@ -5,7 +5,7 @@ import {
   evaluateFormulaOutputs,
   getFormula,
   isCalculationFormula,
-  shouldDisplayForLocale,
+  shouldDisplayOutputForLocale,
   shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
         filteredOutputs = {};
         for (const [key, value] of Object.entries(outputs)) {
           const outputDef = formula.output[key];
-          if (outputDef && shouldDisplayForLocale(outputDef, useLocale)) {
+          if (outputDef && shouldDisplayOutputForLocale(outputDef, useLocale)) {
             filteredOutputs[key] = value;
           }
         }

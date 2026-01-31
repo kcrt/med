@@ -23,7 +23,7 @@ import {
   evaluateFormulaOutputs,
   type FormulaInputValues,
   isCalculationFormula,
-  shouldDisplayForLocale,
+  shouldDisplayOutputForLocale,
   shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
@@ -229,7 +229,7 @@ function OutputItem({
   }
 
   // Check locale filtering
-  if (!shouldDisplayForLocale(outputDef, locale)) {
+  if (!shouldDisplayOutputForLocale(outputDef, locale)) {
     return null;
   }
 
