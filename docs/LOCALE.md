@@ -48,32 +48,65 @@ function isValidLocale(value: unknown): value is Locale {
 
 ### `src/lib/languages.json`
 
-Language metadata storage for UI display:
+**Single source of truth** for language metadata and configuration:
 
 ```json
 {
   "en": {
     "english_name": "English",
-    "local_name": "English"
+    "local_name": "English",
+    "browser_codes": ["en"]
   },
   "ja": {
     "english_name": "Japanese",
-    "local_name": "日本語"
+    "local_name": "日本語",
+    "browser_codes": ["ja"]
   },
   "zh-Hans": {
     "english_name": "Chinese (Simplified)",
-    "local_name": "简体中文"
+    "local_name": "中文 (简体)",
+    "browser_codes": ["zh-CN", "zh-SG", "zh"]
   },
   "zh-Hant": {
     "english_name": "Chinese (Traditional)",
-    "local_name": "繁體中文"
+    "local_name": "中文 (繁體)",
+    "browser_codes": ["zh-TW", "zh-HK", "zh-MO"]
   }
 }
 ```
 
+**Fields:**
+- `english_name`: Language name in English (for documentation and fallbacks)
+- `local_name`: Native language name displayed in UI components
+- `browser_codes`: Browser language codes that map to this locale
+
+### `src/lib/locale.ts`
+
+Central locale utilities that build upon `languages.json`:
+
+```typescript
+import languagesJson from "./languages.json";
+
+export type Locale = keyof typeof languagesJson;
+export type LanguageInfo = (typeof languagesJson)[Locale];
+
+export const languages = languagesJson as Record<Locale, LanguageInfo>;
+export const SUPPORTED_LOCALES = Object.keys(languages) as Locale[];
+export const DEFAULT_LOCALE: Locale = "en";
+
+// Utility functions
+export function isValidLocale(value: unknown): value is Locale;
+export function getBrowserLanguageMap(): Record<string, Locale>;
+export function detectLocaleFromBrowser(browserLang: string): Locale;
+```
+
+**All components and utilities automatically derive locale data from `languages.json`**, ensuring consistency across the application.
+
 ### `src/middleware.ts`
 
 next-intl middleware configuration for routing and locale detection:
+
+**Note:** This file is referenced in the documentation but does not currently exist in the repository. If needed, create it with:
 
 ```typescript
 import createMiddleware from "next-intl/middleware";
@@ -186,54 +219,37 @@ Adding a New Language
 
 To add a new language, follow these steps:
 
-1. **Add to `languages.json`:**
+1. **Add to `src/lib/languages.json`:**
+
+Add the new language with its metadata, including browser language codes:
 
 ```json
 {
   "ko": {
     "english_name": "Korean",
-    "local_name": "한국어"
+    "local_name": "한국어",
+    "browser_codes": ["ko", "ko-KR"]
   }
 }
 ```
+
+The fields are:
+- `english_name`: Name of the language in English (for documentation)
+- `local_name`: Name of the language in its native script (displayed in UI components)
+- `browser_codes`: Array of browser language codes that should map to this locale
 
 2. **Add translation files:**
 
 Create `src/messages/ko.json` with translations following the same structure as `en.json` and `ja.json`.
 
-3. **Update DevModeBar** (`src/components/DevModeBar.tsx`):
+That's it! The centralized configuration in `languages.json` will automatically:
+- Update `SUPPORTED_LOCALES` array
+- Update the language switcher dropdown
+- Update the config page language options
+- Update browser language detection mapping
+- Generate language labels in shared messages
 
-Add the new locale to the constants:
-
-```typescript
-const LOCALES = ["en", "ja", "zh-Hans", "zh-Hant", "ko"] as const;
-const LOCALE_LABELS: Record<string, string> = {
-  en: "EN",
-  ja: "日本語",
-  "zh-Hans": "简体",
-  "zh-Hant": "繁體",
-  ko: "한국어",
-};
-```
-
-4. **Add config page option** (`src/app/[locale]/config/page.tsx`):
-
-Add the new locale to the Select data array.
-
-5. **Update language detection** (`src/app/[locale]/config/page.tsx`):
-
-Add mapping for browser language codes to the new locale in the `localeMap`:
-
-```typescript
-const localeMap: Record<string, Locale> = {
-  "ko": "ko",
-  // ... other mappings
-};
-```
-
-6. **Add translation for the new language in message files:**
-
-Add the language name to `src/messages/shared.ts` and all locale-specific message files.
+**Note:** No need to manually update `LanguageSwitcher.tsx`, `config/page.tsx`, or `shared.ts` anymore - they automatically use the centralized definitions.
 
 Translation System
 ------------------

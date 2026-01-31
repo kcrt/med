@@ -17,7 +17,7 @@ import { useDebugMode } from "@/contexts/DebugModeContext";
 export function InteractiveStethoscope() {
   const [clickCount, setClickCount] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const { setDebugMode } = useDebugMode();
 
   const handleClick = useCallback(() => {
