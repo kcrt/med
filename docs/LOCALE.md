@@ -242,32 +242,14 @@ The fields are:
 
 Create `src/messages/ko.json` with translations following the same structure as `en.json` and `ja.json`.
 
-3. **Add language label to shared messages** (`src/messages/shared.ts`):
-
-Add the language name to the config.language section:
-
-```typescript
-export const sharedMessages = {
-  config: {
-    language: {
-      // ... existing entries
-      ko: "한국어",
-    },
-  },
-} as const;
-```
-
 That's it! The centralized configuration in `languages.json` will automatically:
 - Update `SUPPORTED_LOCALES` array
 - Update the language switcher dropdown
 - Update the config page language options
 - Update browser language detection mapping
+- Generate language labels in shared messages
 
-**Note:** No need to manually update `LanguageSwitcher.tsx` or `config/page.tsx` anymore - they automatically use the centralized definitions.
-
-6. **Add translation for the new language in message files:**
-
-Add the language name to `src/messages/shared.ts` and all locale-specific message files.
+**Note:** No need to manually update `LanguageSwitcher.tsx`, `config/page.tsx`, or `shared.ts` anymore - they automatically use the centralized definitions.
 
 Translation System
 ------------------

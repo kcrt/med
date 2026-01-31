@@ -3,19 +3,27 @@
  * Language names themselves are intentionally not translated as they
  * should be displayed consistently (e.g., "English" shown to all users).
  * 
- * Note: Language labels (en, ja, zh-Hans, zh-Hant) should match the
- * local_name values in src/lib/languages.json to maintain consistency.
+ * Language labels are automatically generated from src/lib/languages.json
+ * to maintain a single source of truth.
  */
+
+import languagesJson from "../lib/languages.json";
+
+// Generate language labels from languages.json
+const languageLabels = Object.entries(languagesJson).reduce(
+  (acc, [locale, info]) => {
+    acc[locale] = info.local_name;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
 export const sharedMessages = {
   config: {
     language: {
       label: "Language",
       auto: "Auto (Browser language)",
-      en: "English",
-      ja: "日本語",
-      "zh-Hans": "中文 (简体)",
-      "zh-Hant": "中文 (繁體)",
+      ...languageLabels,
     },
   },
 } as const;
