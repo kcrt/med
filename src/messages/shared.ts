@@ -2,6 +2,9 @@
  * Shared configuration that is common across all languages.
  * Language names themselves are intentionally not translated as they
  * should be displayed consistently (e.g., "English" shown to all users).
+ * 
+ * Note: Language labels (en, ja, zh-Hans, zh-Hant) should match the
+ * local_name values in src/lib/languages.json to maintain consistency.
  */
 
 export const sharedMessages = {
