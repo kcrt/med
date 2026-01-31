@@ -117,7 +117,7 @@ export function getFormulaData(): FormulaData {
  * @param locale - The locale code (e.g., "en", "ja")
  * @returns True if the output should be displayed, false otherwise
  */
-export function shouldDisplayForLocale(
+export function shouldDisplayOutputForLocale(
   output: FormulaOutput,
   locale: string,
 ): boolean {
@@ -137,6 +137,72 @@ export function shouldDisplayForLocale(
     output.locales_not_in.length > 0
   ) {
     return !output.locales_not_in.includes(locale);
+  }
+
+  // No locale restrictions: show for all
+  return true;
+}
+
+/**
+ * Check if an input should be displayed for the given locale.
+ *
+ * @param input - The input definition (FormulaInput)
+ * @param locale - The locale code (e.g., "en", "ja")
+ * @returns True if the input should be displayed, false otherwise
+ */
+export function shouldDisplayInputForLocale(
+  input: FormulaInput,
+  locale: string,
+): boolean {
+  // locales_in: only show if locale is in the list
+  if (
+    "locales_in" in input &&
+    input.locales_in &&
+    input.locales_in.length > 0
+  ) {
+    return input.locales_in.includes(locale);
+  }
+
+  // locales_not_in: hide if locale is in the list
+  if (
+    "locales_not_in" in input &&
+    input.locales_not_in &&
+    input.locales_not_in.length > 0
+  ) {
+    return !input.locales_not_in.includes(locale);
+  }
+
+  // No locale restrictions: show for all
+  return true;
+}
+
+/**
+ * Check if a formula should be displayed for the given locale.
+ *
+ * @param formula - The formula definition (Formula)
+ * @param locale - The locale code (e.g., "en", "ja")
+ * @returns True if the formula should be displayed, false otherwise
+ */
+export function shouldDisplayFormula(
+  formula: Formula,
+  locale: string,
+): boolean {
+  // locales_in: only show if locale is in the list
+  if (
+    "locales_in" in formula &&
+    formula.locales_in &&
+    formula.locales_in.length > 0
+  ) {
+    return formula.locales_in.includes(locale);
+  }
+
+  // locales_not_in: hide if locale is in the list
+  if (
+    "locales_not_in" in formula &&
+    formula.locales_not_in &&
+    formula.locales_not_in.length > 0
+  ) {
+    return !formula.locales_not_in.includes(locale);
   }
 
   // No locale restrictions: show for all
@@ -360,7 +426,7 @@ function factorial(n: number): number {
   // Find the largest cached factorial smaller than n
   let startN = 0;
   let result = 1;
-  
+
   for (const [cachedN, cachedValue] of factorialCache.entries()) {
     if (cachedN < n && cachedN > startN) {
       startN = cachedN;
@@ -727,6 +793,7 @@ export interface CategoryMenuItem extends MenuItem {
  * Get all categories and formulas as a menu structure for navigation.
  * Returns English base data. Use translation helpers for localized labels.
  *
+ * @param locale - Optional locale code to filter formulas by (e.g., "en", "ja")
  * @returns Array of category menu items with nested formula items
  *
  * @example
@@ -734,7 +801,10 @@ export interface CategoryMenuItem extends MenuItem {
  * import { getMenuItems } from '@/lib/formula';
  *
  * const menuItems = getMenuItems();
- * // Returns:
+ * // Returns all formulas
+ *
+ * const jaMenuItems = getMenuItems('ja');
+ * // Returns only formulas that should be shown in Japanese locale
  * // [
  * //   {
  * //     label: "Body Structure Index",
@@ -747,11 +817,16 @@ export interface CategoryMenuItem extends MenuItem {
  * // ]
  * ```
  */
-export function getMenuItems(): CategoryMenuItem[] {
+export function getMenuItems(locale?: string): CategoryMenuItem[] {
   const categoryMap = new Map<string, MenuItem[]>();
 
   // Build category menu structure
   iterateFormulas((categoryName, formulaId, formula) => {
+    // Filter by locale if specified
+    if (locale && !shouldDisplayFormula(formula, locale)) {
+      return;
+    }
+
     if (!categoryMap.has(categoryName)) {
       categoryMap.set(categoryName, []);
     }
@@ -765,11 +840,14 @@ export function getMenuItems(): CategoryMenuItem[] {
   // Convert map to array of CategoryMenuItem
   const items: CategoryMenuItem[] = [];
   for (const [categoryName, formulas] of categoryMap.entries()) {
-    items.push({
-      label: categoryName,
-      path: `/category/${encodeURIComponent(categoryName)}`,
-      items: formulas,
-    });
+    // Only include categories that have formulas after filtering
+    if (formulas.length > 0) {
+      items.push({
+        label: categoryName,
+        path: `/category/${encodeURIComponent(categoryName)}`,
+        items: formulas,
+      });
+    }
   }
 
   return items;

@@ -19,6 +19,8 @@ export const FormulaInputSchema = z.object({
   unit: z.string().optional(),
   default: z.union([z.number(), z.string()]).optional(),
   options: z.array(FormulaSelectOptionSchema).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide in these locales
 });
 
 export type FormulaInput = z.infer<typeof FormulaInputSchema>;
@@ -70,6 +72,8 @@ const HtmlFormulaSchema = z.object({
   html: z.string(),
   info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show formula in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
 });
 
 /**
@@ -83,6 +87,8 @@ const CalculationFormulaSchema = z.object({
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show formula in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
 });
 
 /**
@@ -164,6 +170,8 @@ const PartialFormulaInputSchema = z.object({
   max: z.number().optional(),
   default: z.union([z.number(), z.string()]).optional(),
   options: z.array(FormulaSelectOptionSchema).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**
@@ -189,6 +197,8 @@ const PartialHtmlFormulaSchema = z.object({
   html: z.string().optional(),
   info: z.string().optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**
@@ -203,6 +213,8 @@ const PartialCalculationFormulaSchema = z.object({
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
   ref: z.record(z.string(), z.string()).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**

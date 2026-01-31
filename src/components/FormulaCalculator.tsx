@@ -23,7 +23,8 @@ import {
   evaluateFormulaOutputs,
   type FormulaInputValues,
   isCalculationFormula,
-  shouldDisplayForLocale,
+  shouldDisplayOutputForLocale,
+  shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
 import {
@@ -228,7 +229,7 @@ function OutputItem({
   }
 
   // Check locale filtering
-  if (!shouldDisplayForLocale(outputDef, locale)) {
+  if (!shouldDisplayOutputForLocale(outputDef, locale)) {
     return null;
   }
 
@@ -279,7 +280,9 @@ export function FormulaCalculator({
   const locale = useLocale();
   const t = useTranslations("calculator");
   const searchParams = useSearchParams();
-  const inputKeys = Object.keys(formula.input);
+  const inputKeys = Object.keys(formula.input).filter((key) =>
+    shouldDisplayInputForLocale(formula.input[key]!, locale),
+  );
   const allOutputs = Object.entries(formula.output);
 
   // State for assertion errors - updates when form values change

@@ -128,7 +128,9 @@ export function useFormulaInfo(
   const englishInfo = formula.info;
   if (!englishInfo) return englishInfo;
 
-  return useMessageTranslation("formula_info", englishInfo, { customKey: formulaId });
+  return useMessageTranslation("formula_info", englishInfo, {
+    customKey: formulaId,
+  });
 }
 
 /**
@@ -143,10 +145,11 @@ export function useCategoryName(categoryName: string): string {
 /**
  * Get menu items with translated labels.
  * Returns menu structure where labels are translated using next-intl.
+ * Filters formulas by locale automatically.
  */
 export function useTranslatedMenuItems(): CategoryMenuItem[] {
-  const menuItems = getMenuItems();
   const locale = useLocale();
+  const menuItems = getMenuItems(locale);
 
   // For English, no translation needed
   if (locale === DEFAULT_LOCALE) {
@@ -200,10 +203,11 @@ export interface SearchableCategoryMenuItem {
 /**
  * Get menu items with both English and translated labels for search functionality.
  * This allows searching in both English and the current language.
+ * Filters formulas by locale automatically.
  */
 export function useSearchableMenuItems(): SearchableCategoryMenuItem[] {
-  const menuItems = getMenuItems();
   const locale = useLocale();
+  const menuItems = getMenuItems(locale);
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
   const categories = messages.category as Record<string, unknown> | undefined;

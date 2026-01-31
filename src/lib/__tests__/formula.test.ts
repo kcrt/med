@@ -1,28 +1,30 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  formulaData,
-  evaluateFormulaOutputs,
-  getFormulaData,
-  getFormula,
-  shouldDisplayForLocale,
-  getMenuItems,
-  isCalculationFormula,
-  isHtmlFormula,
-  hasFormulaProperty,
-  getFormulaOutputs,
-  evaluateFormula,
-  validateAssertions,
   BSA_DuBois,
-  GetZScore,
-  GetZScoreStr,
+  type CalculationFormula,
   erf,
-  GetZScoreFromLMS,
+  evaluateFormula,
+  evaluateFormulaOutputs,
+  formulaData,
   GetPercentileFromZScore,
   GetValueFromZScore,
-  iif,
-  iterateFormulas,
-  type CalculationFormula,
+  GetZScore,
+  GetZScoreFromLMS,
+  GetZScoreStr,
+  getFormula,
+  getFormulaData,
+  getFormulaOutputs,
+  getMenuItems,
   type HtmlFormula,
+  hasFormulaProperty,
+  iif,
+  isCalculationFormula,
+  isHtmlFormula,
+  iterateFormulas,
+  shouldDisplayOutputForLocale,
+  shouldDisplayFormula,
+  shouldDisplayInputForLocale,
+  validateAssertions,
 } from "@/lib/formula";
 
 describe("formula.json tests", () => {
@@ -95,11 +97,11 @@ describe("Formula data tests", () => {
     });
   });
 
-  describe("shouldDisplayForLocale", () => {
+  describe("shouldDisplayOutputForLocale", () => {
     it("returns true for outputs without locale restrictions", () => {
       const output = { label: "Test", text: "No restrictions" };
-      expect(shouldDisplayForLocale(output, "en")).toBe(true);
-      expect(shouldDisplayForLocale(output, "ja")).toBe(true);
+      expect(shouldDisplayOutputForLocale(output, "en")).toBe(true);
+      expect(shouldDisplayOutputForLocale(output, "ja")).toBe(true);
     });
 
     it("respects locales_in filter", () => {
@@ -108,8 +110,8 @@ describe("Formula data tests", () => {
         text: "Japanese only",
         locales_in: ["ja"],
       };
-      expect(shouldDisplayForLocale(output, "ja")).toBe(true);
-      expect(shouldDisplayForLocale(output, "en")).toBe(false);
+      expect(shouldDisplayOutputForLocale(output, "ja")).toBe(true);
+      expect(shouldDisplayOutputForLocale(output, "en")).toBe(false);
     });
 
     it("respects locales_not_in filter", () => {
@@ -118,8 +120,92 @@ describe("Formula data tests", () => {
         text: "Not for Japanese",
         locales_not_in: ["ja"],
       };
-      expect(shouldDisplayForLocale(output, "en")).toBe(true);
-      expect(shouldDisplayForLocale(output, "ja")).toBe(false);
+      expect(shouldDisplayOutputForLocale(output, "en")).toBe(true);
+      expect(shouldDisplayOutputForLocale(output, "ja")).toBe(false);
+    });
+  });
+
+  describe("shouldDisplayInputForLocale", () => {
+    it("returns true for inputs without locale restrictions", () => {
+      const input = { label: "Test", type: "float" as const };
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(true);
+    });
+
+    it("respects locales_in filter", () => {
+      const input = {
+        label: "Test",
+        type: "float" as const,
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter", () => {
+      const input = {
+        label: "Test",
+        type: "float" as const,
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(false);
+    });
+  });
+
+  describe("shouldDisplayFormula", () => {
+    it("returns true for formulas without locale restrictions", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+    });
+
+    it("respects locales_in filter for calculation formulas", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+      expect(shouldDisplayFormula(formula, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter for calculation formulas", () => {
+      const formula = {
+        name: "Test Formula",
+        input: {},
+        output: {},
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(false);
+    });
+
+    it("respects locales_in filter for HTML formulas", () => {
+      const formula = {
+        name: "Test HTML Formula",
+        type: "html" as const,
+        html: "<div>Test</div>",
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
+      expect(shouldDisplayFormula(formula, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter for HTML formulas", () => {
+      const formula = {
+        name: "Test HTML Formula",
+        type: "html" as const,
+        html: "<div>Test</div>",
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayFormula(formula, "en")).toBe(true);
+      expect(shouldDisplayFormula(formula, "ja")).toBe(false);
     });
   });
 
