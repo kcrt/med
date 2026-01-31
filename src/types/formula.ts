@@ -19,6 +19,8 @@ export const FormulaInputSchema = z.object({
   unit: z.string().optional(),
   default: z.union([z.number(), z.string()]).optional(),
   options: z.array(FormulaSelectOptionSchema).optional(),
+  locales_in: z.array(z.string()).optional(), // Only show in these locales
+  locales_not_in: z.array(z.string()).optional(), // Hide in these locales
 });
 
 export type FormulaInput = z.infer<typeof FormulaInputSchema>;
@@ -164,6 +166,8 @@ const PartialFormulaInputSchema = z.object({
   max: z.number().optional(),
   default: z.union([z.number(), z.string()]).optional(),
   options: z.array(FormulaSelectOptionSchema).optional(),
+  locales_in: z.array(z.string()).optional(),
+  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**

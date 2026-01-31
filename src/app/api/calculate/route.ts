@@ -6,6 +6,7 @@ import {
   getFormula,
   isCalculationFormula,
   shouldDisplayForLocale,
+  shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
 import { DEFAULT_LOCALE, isValidLocale } from "@/lib/locale";
@@ -121,9 +122,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate that all required input parameters are provided and have correct types
-    const requiredInputs = Object.keys(formula.input);
-    const missingInputs = requiredInputs.filter(
+    // Get the locale to use for filtering (default to DEFAULT_LOCALE)
+    const useLocale = locale || DEFAULT_LOCALE;
+
+    // Filter inputs based on locale
+    const visibleInputs = Object.entries(formula.input).filter(([_, inputDef]) =>
+      shouldDisplayInputForLocale(inputDef, useLocale)
+    );
+    const visibleInputKeys = visibleInputs.map(([key]) => key);
+
+    // Validate that all required visible input parameters are provided
+    const missingInputs = visibleInputKeys.filter(
       (input) => !(input in parameters),
     );
 
@@ -131,8 +140,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    // Validate input types
-    for (const [key, inputDef] of Object.entries(formula.input)) {
+    // Validate input types for visible inputs only
+    for (const [key, inputDef] of visibleInputs) {
       const value = parameters[key];
       const expectedType = inputDef.type;
 
@@ -164,7 +173,6 @@ export async function POST(request: NextRequest) {
       const outputs = evaluateFormulaOutputs(formula, parameters);
 
       // Load messages for translation if locale is provided and not English
-      const useLocale = locale || DEFAULT_LOCALE;
       const shouldTranslate = useLocale !== DEFAULT_LOCALE;
       const messages = shouldTranslate ? await loadMessages(useLocale) : {};
 

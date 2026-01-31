@@ -5,6 +5,7 @@ import {
   getFormulaData,
   getFormula,
   shouldDisplayForLocale,
+  shouldDisplayInputForLocale,
   getMenuItems,
   isCalculationFormula,
   isHtmlFormula,
@@ -120,6 +121,34 @@ describe("Formula data tests", () => {
       };
       expect(shouldDisplayForLocale(output, "en")).toBe(true);
       expect(shouldDisplayForLocale(output, "ja")).toBe(false);
+    });
+  });
+
+  describe("shouldDisplayInputForLocale", () => {
+    it("returns true for inputs without locale restrictions", () => {
+      const input = { label: "Test", type: "float" as const };
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(true);
+    });
+
+    it("respects locales_in filter", () => {
+      const input = {
+        label: "Test",
+        type: "float" as const,
+        locales_in: ["ja"],
+      };
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(false);
+    });
+
+    it("respects locales_not_in filter", () => {
+      const input = {
+        label: "Test",
+        type: "float" as const,
+        locales_not_in: ["ja"],
+      };
+      expect(shouldDisplayInputForLocale(input, "en")).toBe(true);
+      expect(shouldDisplayInputForLocale(input, "ja")).toBe(false);
     });
   });
 

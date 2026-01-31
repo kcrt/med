@@ -24,6 +24,7 @@ import {
   type FormulaInputValues,
   isCalculationFormula,
   shouldDisplayForLocale,
+  shouldDisplayInputForLocale,
   validateAssertions,
 } from "@/lib/formula";
 import {
@@ -279,7 +280,9 @@ export function FormulaCalculator({
   const locale = useLocale();
   const t = useTranslations("calculator");
   const searchParams = useSearchParams();
-  const inputKeys = Object.keys(formula.input);
+  const inputKeys = Object.keys(formula.input).filter((key) =>
+    shouldDisplayInputForLocale(formula.input[key]!, locale)
+  );
   const allOutputs = Object.entries(formula.output);
 
   // State for assertion errors - updates when form values change

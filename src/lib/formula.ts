@@ -144,6 +144,39 @@ export function shouldDisplayForLocale(
 }
 
 /**
+ * Check if an input should be displayed for the given locale.
+ *
+ * @param input - The input definition (FormulaInput)
+ * @param locale - The locale code (e.g., "en", "ja")
+ * @returns True if the input should be displayed, false otherwise
+ */
+export function shouldDisplayInputForLocale(
+  input: FormulaInput,
+  locale: string,
+): boolean {
+  // locales_in: only show if locale is in the list
+  if (
+    "locales_in" in input &&
+    input.locales_in &&
+    input.locales_in.length > 0
+  ) {
+    return input.locales_in.includes(locale);
+  }
+
+  // locales_not_in: hide if locale is in the list
+  if (
+    "locales_not_in" in input &&
+    input.locales_not_in &&
+    input.locales_not_in.length > 0
+  ) {
+    return !input.locales_not_in.includes(locale);
+  }
+
+  // No locale restrictions: show for all
+  return true;
+}
+
+/**
  * Singleton instance of the validated formula data.
  *
  * The JSON is validated at import time using Zod. If the JSON structure
