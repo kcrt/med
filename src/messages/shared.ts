@@ -10,13 +10,9 @@
 import languagesJson from "../lib/languages.json";
 
 // Generate language labels from languages.json
-const languageLabels = Object.entries(languagesJson).reduce(
-  (acc, [locale, info]) => {
-    acc[locale] = info.local_name;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
+const languageLabels = Object.fromEntries(
+  Object.entries(languagesJson).map(([locale, info]) => [locale, info.local_name]),
+) as Record<string, string>;
 
 export const sharedMessages = {
   config: {
