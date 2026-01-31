@@ -28,14 +28,19 @@ The endpoint leverages the existing formula evaluation system:
 ```
 
 ### Locale Parameter (Optional)
-The `locale` parameter provides two key features:
+The `locale` parameter provides three key features:
 
-1. **Output Filtering**: Filters outputs based on locale-specific restrictions defined in formulas
+1. **Input Filtering**: Filters inputs based on locale-specific restrictions defined in formulas
+   - Inputs with `locales_in`: Only included if locale matches
+   - Inputs with `locales_not_in`: Excluded if locale matches
+   - When `locale` is omitted: All inputs are required regardless of locale restrictions
+
+2. **Output Filtering**: Filters outputs based on locale-specific restrictions defined in formulas
    - Outputs with `locales_in`: Only included if locale matches
    - Outputs with `locales_not_in`: Excluded if locale matches
    - When `locale` is omitted: All outputs are returned regardless of locale restrictions
 
-2. **Label Translation**: Translates output keys to localized labels using next-intl messages
+3. **Label Translation**: Translates output keys to localized labels using next-intl messages
    - For `locale=en` or omitted: Returns English output keys (e.g., `BMI`, `who_diag`)
    - For `locale=ja`: Returns Japanese translated labels (e.g., `BMI [kg/m²]`, `WHO(世界保健機関)`)
 
