@@ -144,10 +144,14 @@ import type {
 
 ## Dependencies
 
-The library has minimal dependencies:
+The library has minimal core dependencies required for calculation functionality:
 
 - `expr-eval` - For formula evaluation
 - `zod` - For runtime type validation
+
+These are automatically installed when you install the package.
+
+Note: The full `med` package also includes Next.js, React, and Mantine UI components for the web application. When using just the calculation library, these additional dependencies are installed but not required for core calculation features.
 
 ## License
 
