@@ -66,7 +66,8 @@ const formulaJson: FormulaData = {
 
 // Type guards for Formula types
 export type CalculationFormula = {
-  name?: string;
+  name: string;
+  info: string;
   input: Record<string, FormulaInput>;
   output: Record<string, FormulaOutput>;
   assert?: Array<{ condition: string; message: string }>;
@@ -75,13 +76,28 @@ export type CalculationFormula = {
     output: Record<string, number | string>;
   }>;
   ref?: Record<string, string>;
+  metadata?: {
+    obsolete?: string;
+    caution?: string;
+    recommended?: string;
+  };
+  locales_in?: string[];
+  locales_not_in?: string[];
 };
 
 export type HtmlFormula = {
-  name?: string;
+  name: string;
+  info: string;
   type: "html";
   html: string;
   ref?: Record<string, string>;
+  metadata?: {
+    obsolete?: string;
+    caution?: string;
+    recommended?: string;
+  };
+  locales_in?: string[];
+  locales_not_in?: string[];
 };
 
 export function isCalculationFormula(

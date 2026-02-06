@@ -1,14 +1,33 @@
 {
   "name": "med",
   "version": "0.1.0",
-  "private": true,
+  "description": "Medicalculator - Medical calculation library and Next.js web application. Provides comprehensive medical calculation functions for BMI, renal function, pediatric scores, and more. Can be used as a standalone library or as a web application.",
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "files": [
+    "dist",
+    "src/formulas"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:lib": "tsc -p tsconfig.lib.json && tsc-alias -p tsconfig.lib.json",
+    "prepublishOnly": "npm run build:lib",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
     "test": "vitest"
+  },
+  "keywords": [
+    "medical",
+    "calculator",
+    "healthcare",
+    "bmi",
+    "clinical"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kcrt/med.git"
   },
   "dependencies": {
     "@mantine/core": "^8.3.13",
@@ -39,6 +58,7 @@
     "happy-dom": "^20.3.7",
     "jsdom": "^27.4.0",
     "tailwindcss": "^4",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5",
     "vitest": "^4.0.18"
   }
