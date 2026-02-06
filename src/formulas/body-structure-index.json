@@ -136,7 +136,7 @@
     "output": {
       "target_height": {
         "label": "Target Height",
-        "formula": "sex ? (father_height+mother_height+13)/2 : (father_height-13+mother_height)/2",
+        "formula": "(father_height + mother_height + (sex ? 13 : -13)) / 2",
         "unit": "cm",
         "precision": 1
       },
@@ -195,15 +195,61 @@
         "unit": "m²",
         "precision": 4
       },
-      "bsa_takahira": {
-        "label": "BSA (m²) Takahira",
-        "formula": "0.007246 * weight ^ 0.425 * height ^ 0.725",
-        "unit": "m²",
-        "precision": 4
-      },
       "bsa_mosteller": {
         "label": "BSA (m²) Mosteller",
         "formula": "sqrt(height * weight / 3600)",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_haycock": {
+        "label": "BSA (m²) Haycock",
+        "formula": "0.024265 * height ^ 0.3964 * weight ^ 0.5378",
+        "unit": "m²",
+        "precision": 4
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "height": 170,
+          "weight": 70
+        },
+        "output": {
+          "bsa_dubois": 1.8097,
+          "bsa_mosteller": 1.8181,
+          "bsa_haycock": 1.8257
+        }
+      }
+    ],
+    "ref": {
+      "G B Haycock, et al: J Pediatr. 1978": "pmid:650346",
+      "Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pmid:2520314",
+      "Mosteller RD: N Engl J Med 317: 1098, 1987": "pmid:3657876"
+    }
+  },
+  "bsa_jp": {
+    "name": "Body Surface Area (Japanese)",
+    "info": "Body Surface Area (BSA) estimates the total surface area of the human body using height and weight. Essential for drug dosing calculations, cardiac index determination, and burn assessment.",
+    "input": {
+      "height": {
+        "label": "Height",
+        "type": "float",
+        "unit": "cm",
+        "min": 10,
+        "max": 300
+      },
+      "weight": {
+        "label": "Weight",
+        "type": "float",
+        "unit": "kg",
+        "min": 0,
+        "max": 300
+      }
+    },
+    "output": {
+      "bsa_takahira": {
+        "label": "BSA (m²) Takahira",
+        "formula": "0.007246 * weight ^ 0.425 * height ^ 0.725",
         "unit": "m²",
         "precision": 4
       },
@@ -220,8 +266,26 @@
         "precision": 4
       },
       "bsa_fujimoto_6": {
-        "label": "BSA (m²) Fujimoto (6+ years)",
+        "label": "BSA (m²) Fujimoto (6+ years - elders)",
         "formula": "88.83 * weight ^ 0.444 * height ^ 0.663 / 10000",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_kurazumi": {
+        "label": "BSA (m²) Kurazumi",
+        "formula": "100.315 * weight ^ 0.383 * height ^ 0.693 / 10000",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_kurazumi_male": {
+        "label": "BSA (m²) Kurazumi Male",
+        "formula": "53.189 * weight ^ 0.362 * height ^ 0.833 / 10000",
+        "unit": "m²",
+        "precision": 4
+      },
+      "bsa_kurazumi_female": {
+        "label": "BSA (m²) Kurazumi Female",
+        "formula": "110.529 * weight ^ 0.445 * height ^ 0.627 / 10000",
         "unit": "m²",
         "precision": 4
       }
@@ -229,18 +293,18 @@
     "test": [
       {
         "input": {
-          "height": 170,
-          "weight": 70
+          "height": 150,
+          "weight":50
         },
         "output": {
-          "bsa_mosteller": 1.8181
+          "bsa_takahira": 1.4449
         }
       }
     ],
     "ref": {
-      "Du Bois D, Du Bois EF: Nutrision 5: 303-311, 1989": "pubmed:2520314",
-      "Mosteller RD: N Engl J Med 317: 1098, 1987": "pubmed:3657876",
-      "藤本ら (1968), 日本衛生学雑誌 23(5):7-14": ""
+      "Takahira (1925): 日本人体表面積の測定並びに之を表す式に就いて (in Japanese)": "https://cir.nii.ac.jp/crid/1571698600971702272",
+      "Shigeki Fujimoto (1968): Studies on the Physical Surface Area of Japanese (in Japanese)": "doi:10.1265/jjh.23.443",
+      "Y Kurazumi (1994): The body surface area of Japanese (in Japanese)": "doi:10.11227/sekisho1966.31.5"
     }
   }
 }

@@ -75,13 +75,11 @@ export const FormulaMetadataSchema = z.object({
 export type FormulaMetadata = z.infer<typeof FormulaMetadataSchema>;
 
 /**
- * Schema for HTML-only formula (reference chart, no calculation)
+ * Base schema for formula common fields
  */
-const HtmlFormulaSchema = z.object({
-  name: z.string().optional(),
-  type: z.literal("html"),
-  html: z.string(),
-  info: z.string().optional(),
+const BaseFormulaSchema = z.object({
+  name: z.string(),
+  info: z.string(),
   metadata: FormulaMetadataSchema.optional(),
   ref: z.record(z.string(), z.string()).optional(),
   locales_in: z.array(z.string()).optional(), // Only show formula in these locales
@@ -89,19 +87,21 @@ const HtmlFormulaSchema = z.object({
 });
 
 /**
+ * Schema for HTML-only formula (reference chart, no calculation)
+ */
+const HtmlFormulaSchema = BaseFormulaSchema.extend({
+  type: z.literal("html"),
+  html: z.string(),
+});
+
+/**
  * Schema for calculation formula
  */
-const CalculationFormulaSchema = z.object({
-  name: z.string().optional(),
-  info: z.string().optional(),
-  metadata: FormulaMetadataSchema.optional(),
+const CalculationFormulaSchema = BaseFormulaSchema.extend({
   input: z.record(z.string(), FormulaInputSchema),
   output: z.record(z.string(), FormulaOutputSchema),
   assert: z.array(FormulaAssertionSchema).optional(),
   test: z.array(FormulaTestCaseSchema).optional(),
-  ref: z.record(z.string(), z.string()).optional(),
-  locales_in: z.array(z.string()).optional(), // Only show formula in these locales
-  locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
 });
 
 /**
@@ -174,62 +174,27 @@ export type FormulaLanguageMeta = z.infer<typeof FormulaLanguageMetaSchema>;
  * Schema for partial formula input (for language overrides)
  * All fields are optional
  */
-const PartialFormulaInputSchema = z.object({
-  label: z.string().optional(),
-  type: z
-    .enum(["float", "int", "string", "onoff", "sex", "date", "select"])
-    .optional(),
-  min: z.number().optional(),
-  max: z.number().optional(),
-  default: z.union([z.number(), z.string()]).optional(),
-  options: z.array(FormulaSelectOptionSchema).optional(),
-  locales_in: z.array(z.string()).optional(),
-  locales_not_in: z.array(z.string()).optional(),
-});
+const PartialFormulaInputSchema = FormulaInputSchema.partial();
 
 /**
  * Schema for partial formula output (for language overrides)
  * All fields are optional
  */
-const PartialFormulaOutputSchema = z.object({
-  label: z.string().optional(),
-  formula: z.string().optional(),
-  unit: z.string().optional(),
-  precision: z.number().optional(),
-  text: z.string().optional(),
-  locales_in: z.array(z.string()).optional(),
-  locales_not_in: z.array(z.string()).optional(),
-});
+const PartialFormulaOutputSchema = FormulaOutputSchema.partial();
 
 /**
  * Schema for partial HTML formula (for language overrides)
  */
-const PartialHtmlFormulaSchema = z.object({
-  name: z.string().optional(),
-  type: z.literal("html").optional(),
-  html: z.string().optional(),
-  info: z.string().optional(),
-  ref: z.record(z.string(), z.string()).optional(),
-  locales_in: z.array(z.string()).optional(),
-  locales_not_in: z.array(z.string()).optional(),
-  metadata: FormulaMetadataSchema.optional(),
-});
+const PartialHtmlFormulaSchema = HtmlFormulaSchema.partial();
 
 /**
  * Schema for partial calculation formula (for language overrides)
  * All fields are optional
  */
-const PartialCalculationFormulaSchema = z.object({
-  name: z.string().optional(),
-  info: z.string().optional(),
-  metadata: FormulaMetadataSchema.optional(),
+const PartialCalculationFormulaSchema = CalculationFormulaSchema.partial().extend({
+  // Override input/output to use partial schemas for nested optional fields
   input: z.record(z.string(), PartialFormulaInputSchema).optional(),
   output: z.record(z.string(), PartialFormulaOutputSchema).optional(),
-  assert: z.array(FormulaAssertionSchema).optional(),
-  test: z.array(FormulaTestCaseSchema).optional(),
-  ref: z.record(z.string(), z.string()).optional(),
-  locales_in: z.array(z.string()).optional(),
-  locales_not_in: z.array(z.string()).optional(),
 });
 
 /**
