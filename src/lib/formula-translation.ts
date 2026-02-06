@@ -9,7 +9,7 @@ import {
   getTranslationDirect,
 } from "./translation-utils";
 
-type MessageNamespace = "labels" | "category" | "formula_info";
+type MessageNamespace = "labels" | "category" | "formula_info" | "formula_metadata";
 
 /**
  * Core translation helper. Returns translation from a message namespace or falls back to English.
@@ -241,5 +241,22 @@ export function useSearchableMenuItems(): SearchableCategoryMenuItem[] {
         };
       }),
     };
+  });
+}
+
+/**
+ * Get translated formula metadata (obsolete, caution, recommended).
+ * Tries semantic key pattern in formula_metadata section (e.g., "bmi_for_age_obsolete")
+ * then falls back to English text if translation not found.
+ */
+export function useFormulaMetadata(
+  formulaId: string,
+  metadataKey: "obsolete" | "caution" | "recommended",
+  englishValue?: string,
+): string | undefined {
+  if (!englishValue) return undefined;
+
+  return useMessageTranslation("formula_metadata", englishValue, {
+    customKey: `${formulaId}_${metadataKey}`,
   });
 }

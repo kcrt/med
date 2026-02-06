@@ -42,3 +42,6 @@ next-env.d.ts
 
 # claude code
 .claude/settings.local.json
+
+# Reference data that can not be redistributed
+no_git

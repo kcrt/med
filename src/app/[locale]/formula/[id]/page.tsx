@@ -5,9 +5,7 @@ import {
   Box,
   Container,
   Group,
-  Paper,
   Stack,
-  Text,
   Title,
   Tooltip,
 } from "@mantine/core";
@@ -18,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FormulaCalculator } from "@/components/FormulaCalculator";
+import { FormulaInfoPanes } from "@/components/FormulaInfoPanes";
 import {
   NextFormulaButton,
   PreviousFormulaButton,
@@ -26,7 +25,7 @@ import { ReferenceLinks } from "@/components/ReferenceLinks";
 import { SparkleEffect } from "@/components/SparkleEffect";
 import { getFavorites, isFavorite, toggleFavorite } from "@/lib/favorites";
 import { getAdjacentFormulas, getFormula } from "@/lib/formula";
-import { useFormulaInfo, useFormulaName } from "@/lib/formula-translation";
+import { useFormulaName } from "@/lib/formula-translation";
 
 export default function FormulaPage() {
   const params = useParams<{ locale: string; id: string }>();
@@ -50,7 +49,6 @@ export default function FormulaPage() {
 
   // Get translated formula names
   const formulaName = formula ? useFormulaName(formulaId, formula) : formulaId;
-  const formulaInfo = formula ? useFormulaInfo(formulaId, formula) : undefined;
   const previousFormulaName =
     previousFormula && previousFormulaId
       ? useFormulaName(previousFormulaId, previousFormula)
@@ -159,21 +157,7 @@ export default function FormulaPage() {
             </Box>
           </Group>
 
-          {"info" in formula && formulaInfo && (
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              style={{
-                background: "linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(96, 165, 250, 0.04) 100%)",
-                borderColor: "rgba(59, 130, 246, 0.2)",
-              }}
-            >
-              <Text c="blue" size="sm" style={{ lineHeight: 1.6 }}>
-                {formulaInfo}
-              </Text>
-            </Paper>
-          )}
+          <FormulaInfoPanes formula={formula} formulaId={formulaId} />
 
           {"type" in formula && formula.type === "html" ? (
             // SECURITY: HTML content from formula.json is sanitized with DOMPurify
@@ -187,9 +171,10 @@ export default function FormulaPage() {
           ) : (
             <>
               <FormulaCalculator formula={formula} formulaId={formulaId} />
-              <ReferenceLinks ref={formula.ref} />
             </>
           )}
+
+          <ReferenceLinks ref={formula.ref} />
         </Stack>
       </Container>
     </ErrorBoundary>

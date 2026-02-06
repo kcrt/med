@@ -59,7 +59,10 @@
   },
   "bmi_child": {
     "name": "BMI (Child)",
-    "info": "Pediatric BMI assessment evaluates growth and nutritional status in children using age- and sex-specific percentiles. Different cutoffs and interpretations apply compared to adult BMI.",
+    "info": "Pediatric BMI assessment evaluates growth and nutritional status in childrens. Different cutoffs and interpretations apply compared to adult BMI.",
+    "metadata": {
+      "obsolete": "We recommend to use BMI-for-Age instead."
+    },
     "input": {
       "height": {
         "label": "Height",
@@ -78,32 +81,16 @@
     },
     "output": {
       "kaup": {
-        "label": "Kaup Index",
+        "label": "Kaup Index (BMI)",
         "formula": "weight/(height/100)/(height/100)",
         "unit": "kg/m²",
         "precision": 1
       },
-      "info1": {
-        "label": "Infants (3 months+)",
-        "text": "Normal range: 15-18"
-      },
-      "kaup_diag": {
-        "label": "Infants (3 months+)",
-        "formula": "if(kaup>=15 and kaup<=18, 'Normal range', 'Outside normal range')"
-      },
       "rohrer": {
         "label": "Rohrer Index",
         "formula": "weight/((height/100)*(height/100)*(height/100))*10",
-        "unit": "",
+        "unit": "kg/m³",
         "precision": 1
-      },
-      "info2": {
-        "label": "School-age children",
-        "text": "Standard: 130, ≥160 indicates obesity"
-      },
-      "rohrer_diag": {
-        "label": "School-age children",
-        "formula": "iif(rohrer<130, 'Underweight', rohrer<160, 'Standard', 'Obese')"
       }
     },
     "test": [
@@ -114,14 +101,13 @@
         },
         "output": {
           "kaup": 15.6,
-          "kaup_diag": "Normal range",
-          "rohrer": 195.3,
-          "rohrer_diag": "Obese"
+          "rohrer": 195.3
         }
       }
     ],
     "ref": {
-      "Wikipedia": "http://ja.wikipedia.org/wiki/%E4%BD%93%E6%A0%BC%E6%8C%87%E6%95%B0"
+      "Rohrer, F. (1921). Der index der körperfülle als maß des ernährungszustandes.": "",
+      "乳幼児身体発育評価マニュアル (Japanese)": "https://www.cfa.go.jp/policies/boshihoken/hatsuiku"
     }
   },
   "target_height": {

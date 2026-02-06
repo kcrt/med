@@ -104,7 +104,7 @@
     "WHO (World Health Organization)": "WHO (世界保健機関)",
     "Japan Society for the Study of Obesity": "日本肥満学会",
     "BMI (Child)": "BMI (小児)",
-    "Kaup Index": "Kaup指数",
+    "Kaup Index (BMI)": "Kaup指数 (BMI)",
     "Infants (3 months+)": "乳幼児(3ヶ月以降)",
     "Normal range: 15-18": "正常範囲: 15-18",
     "Rohrer Index": "Rohrer指数",
@@ -152,7 +152,7 @@
     "Interpretation": "解釈",
     "≥2: Indicates organ dysfunction; Score change ≥2 indicates significant change in organ function": "≧2点: 臓器障害を示唆; スコア変化≧2点: 臓器機能の有意な変化を示す",
     "qSOFA Score (quick SOFA)": "qSOFAスコア (quick SOFA)",
-    "Respiratory Rate [/min]": "呼吸数 [/分]",
+    "Respiratory Rate [/min]": "呼���数 [/分]",
     "Altered Mentation (GCS <15)": "意識障害 (GCS<15)",
     "Systolic Blood Pressure [mmHg]": "収縮期血圧 [mmHg]",
     "qSOFA Score": "qSOFAスコア",
@@ -537,7 +537,7 @@
   },
   "formula_info": {
     "bmi_adult": "BMI（体格指数）は、身長と体重を使って体格を評価する簡単な指標です。体重（kg）を身長（m）の2乗で割って算出されます。",
-    "bmi_child": "小児BMIは、年齢・性別別のパーセンタイルを用いて、小児の成長と栄養状態を評価します。成人BMIとは異なるカットオフ値と解釈が適用されます。",
+    "bmi_child": "小児BMIは、小児の成長と栄養状態を評価します。成人BMIとは異なるカットオフ値と解釈が適用されます。",
     "target_height": "目標身長（Mid-parental height）は、両親の身長から子どもの予測成人身長を算出します。成長パターンの評価や成長障害の発見に役立ちます。",
     "bsa": "体表面積（BSA）は、身長と体重から体の総表面積を推定します。薬剤投与量の計算、心係数の算出、熱傷面積の評価に不可欠です。",
     "must": "MUST（Malnutrition Universal Screening Tool）は、BMI、体重減少、急性疾患の影響を用いて、成人の栄養不良リスクを評価します。栄養介入の判断を支援します。",
@@ -640,5 +640,8 @@
     "fisher_grade": "Fisher Gradeは、くも膜下出血後のCT画像上の血液量を分類します。遅発性脳血管攣縮のリスクを予測し、モニタリング強度の決定を支援します。",
     "ich_score": "ICH Scoreは、GCS、年齢、ICH容積、脳室内出血、テント下の位置を用いて脳内出血の30日死亡率を予測します。予後の話し合いと治療決定を導きます。",
     "moca": "Montreal Cognitive Assessment（MoCA）は、軽度認知障害の簡便なスクリーニングツールです。MMSEよりも感度が高く、視空間認知、実行機能、注意、言語、記憶機能を評価します。"
+  },
+  "formula_metadata": {
+    "bmi_child_obsolete": "BMI-for-Age の使用をおすすめいたします。"
   }
 }

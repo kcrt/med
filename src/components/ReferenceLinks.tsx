@@ -48,22 +48,24 @@ export function ReferenceLinks({ ref: references }: ReferenceLinksProps) {
           <IconExternalLink size={16} />
           <Title order={4}>参照</Title>
         </Group>
-        {Object.entries(references)
-          .filter(([, url]) => url.trim() !== "")
-          .map(([label, url]) => {
-            const { url: href } = parseReference(url);
-            return (
-              <Anchor
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                size="sm"
-              >
-                {label}
-              </Anchor>
-            );
-          })}
+        {Object.entries(references).map(([label, url]) => {
+          if (url.trim() === "") {
+            // Reference without link - display as plain text
+            return <Text key={label} size="sm">{label}</Text>;
+          }
+          const { url: href } = parseReference(url);
+          return (
+            <Anchor
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="sm"
+            >
+              {label}
+            </Anchor>
+          );
+        })}
       </Stack>
     </Card>
   );

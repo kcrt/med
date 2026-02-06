@@ -64,6 +64,17 @@ export const FormulaTestCaseSchema = z.object({
 export type FormulaTestCase = z.infer<typeof FormulaTestCaseSchema>;
 
 /**
+ * Schema for formula metadata (obsolete, caution, recommended)
+ */
+export const FormulaMetadataSchema = z.object({
+  obsolete: z.string().optional(), // Reason why formula is obsolete
+  caution: z.string().optional(), // Usage warnings
+  recommended: z.string().optional(), // Recommended alternative formula
+});
+
+export type FormulaMetadata = z.infer<typeof FormulaMetadataSchema>;
+
+/**
  * Schema for HTML-only formula (reference chart, no calculation)
  */
 const HtmlFormulaSchema = z.object({
@@ -71,6 +82,7 @@ const HtmlFormulaSchema = z.object({
   type: z.literal("html"),
   html: z.string(),
   info: z.string().optional(),
+  metadata: FormulaMetadataSchema.optional(),
   ref: z.record(z.string(), z.string()).optional(),
   locales_in: z.array(z.string()).optional(), // Only show formula in these locales
   locales_not_in: z.array(z.string()).optional(), // Hide formula in these locales
@@ -82,6 +94,7 @@ const HtmlFormulaSchema = z.object({
 const CalculationFormulaSchema = z.object({
   name: z.string().optional(),
   info: z.string().optional(),
+  metadata: FormulaMetadataSchema.optional(),
   input: z.record(z.string(), FormulaInputSchema),
   output: z.record(z.string(), FormulaOutputSchema),
   assert: z.array(FormulaAssertionSchema).optional(),
@@ -199,6 +212,7 @@ const PartialHtmlFormulaSchema = z.object({
   ref: z.record(z.string(), z.string()).optional(),
   locales_in: z.array(z.string()).optional(),
   locales_not_in: z.array(z.string()).optional(),
+  metadata: FormulaMetadataSchema.optional(),
 });
 
 /**
@@ -208,6 +222,7 @@ const PartialHtmlFormulaSchema = z.object({
 const PartialCalculationFormulaSchema = z.object({
   name: z.string().optional(),
   info: z.string().optional(),
+  metadata: FormulaMetadataSchema.optional(),
   input: z.record(z.string(), PartialFormulaInputSchema).optional(),
   output: z.record(z.string(), PartialFormulaOutputSchema).optional(),
   assert: z.array(FormulaAssertionSchema).optional(),
