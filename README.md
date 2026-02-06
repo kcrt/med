@@ -34,14 +34,37 @@ The application supports English, Japanese, Simplified Chinese, and Traditional 
 Usage
 ----------------------
 
-Web Browser
-----------------------
+### Web Browser
 
 A stable version of the [Medicalculator](http://app.kcrt.net/med/) is hosted at app.kcrt.net.
 Access it via your web browser, or on iOS, add it as a Web Clip for convenient access.
 
-Local Development
-----------------------
+### As an NPM Package
+
+The calculation features are also available as an npm package that can be installed and used in other JavaScript/TypeScript applications:
+
+```bash
+npm install med
+```
+
+For detailed usage instructions and API documentation, see [LIB_README.md](LIB_README.md).
+
+Quick example:
+
+```typescript
+import { getFormula, evaluateFormulaOutputs } from 'med';
+
+const formula = getFormula('bmi_adult');
+if (formula) {
+  const results = evaluateFormulaOutputs(formula, {
+    height: 170,  // cm
+    weight: 70    // kg
+  });
+  console.log(results); // { BMI: 24.2, ... }
+}
+```
+
+### Local Development
 
 ```bash
 # Install dependencies
