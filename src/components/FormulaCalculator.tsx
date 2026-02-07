@@ -28,8 +28,7 @@ import {
   validateAssertions,
 } from "@/lib/formula";
 import {
-  useInputLabel,
-  useOutputLabel,
+  useFieldLabel,
   useOutputText,
 } from "@/lib/formula-translation";
 import {
@@ -143,7 +142,7 @@ function InputField({
   inputProps,
 }: InputFieldProps) {
   const t = useTranslations("calculator");
-  const label = useInputLabel(formulaId, inputKey, inputDef);
+  const label = useFieldLabel(formulaId, inputKey, inputDef);
 
   switch (inputDef.type) {
     case "heading":
@@ -234,7 +233,7 @@ function OutputItem({
   locale,
 }: OutputItemProps) {
   // Call hooks unconditionally at the top of the component
-  const label = useOutputLabel(formulaId, outputKey, outputDef);
+  const label = useFieldLabel(formulaId, outputKey, outputDef);
   const text = useOutputText(formulaId, outputKey, outputDef);
 
   // Skip hidden outputs (intermediate calculation values)

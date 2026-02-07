@@ -3,9 +3,8 @@ import { renderHook } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import {
   useFormulaName,
-  useInputLabel,
+  useFieldLabel,
   useOptionLabel,
-  useOutputLabel,
   useOutputText,
   useTranslatedMenuItems,
 } from "../formula-translation";
@@ -134,8 +133,8 @@ describe("formula-translation", () => {
     });
   });
 
-  describe("useInputLabel", () => {
-    it("should handle labels with brackets correctly", () => {
+  describe("useFieldLabel", () => {
+    it("should handle input labels with brackets correctly", () => {
       const input: FormulaInput = {
         label: "Height [cm]",
         type: "number",
@@ -148,13 +147,35 @@ describe("formula-translation", () => {
       };
 
       const { result } = renderHook(
-        () => useInputLabel("test", "height", input),
+        () => useFieldLabel("test", "height", input),
         {
           wrapper: createWrapper("ja", messages),
         },
       );
 
       expect(result.current).toBe("身長 [cm]");
+    });
+
+    it("should handle output labels with units containing dots", () => {
+      const output: FormulaOutput = {
+        label: "eGFR [mL/min/1.73m²]",
+      };
+
+      const messages = {
+        labels: {
+          // Labels with dots use escaped format for backward compatibility
+          "eGFR [mL/min/1{{dot}}73m²]": "推算GFR [mL/min/1.73m²]",
+        },
+      };
+
+      const { result } = renderHook(
+        () => useFieldLabel("test", "egfr", output),
+        {
+          wrapper: createWrapper("ja", messages),
+        },
+      );
+
+      expect(result.current).toBe("推算GFR [mL/min/1.73m²]");
     });
   });
 
@@ -213,30 +234,6 @@ describe("formula-translation", () => {
       );
 
       expect(result.current).toBe("Untranslated Option");
-    });
-  });
-
-  describe("useOutputLabel", () => {
-    it("should handle labels with units containing dots", () => {
-      const output: FormulaOutput = {
-        label: "eGFR [mL/min/1.73m²]",
-      };
-
-      const messages = {
-        labels: {
-          // Labels with dots use escaped format for backward compatibility
-          "eGFR [mL/min/1{{dot}}73m²]": "推算GFR [mL/min/1.73m²]",
-        },
-      };
-
-      const { result } = renderHook(
-        () => useOutputLabel("test", "egfr", output),
-        {
-          wrapper: createWrapper("ja", messages),
-        },
-      );
-
-      expect(result.current).toBe("推算GFR [mL/min/1.73m²]");
     });
   });
 

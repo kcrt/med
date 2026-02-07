@@ -73,15 +73,18 @@ const name = useFormulaName("bmi_adult", formula);
 // Returns: "BMI" (en) or "BMI" (ja)
 ```
 
-### `useInputLabel(formulaId: string, inputKey: string, input: FormulaInput): string`
+### `useFieldLabel(formulaId: string, fieldKey: string, field: FormulaInput | FormulaOutput): string`
 
-Get translated input label. Uses English label as translation key.
+Get translated label for a formula input or output field. Uses English label as translation key.
 
 ```typescript
-import { useInputLabel } from "@/lib/formula-translation";
+import { useFieldLabel } from "@/lib/formula-translation";
 
-const label = useInputLabel(formulaId, "weight", input);
+const inputLabel = useFieldLabel(formulaId, "weight", input);
 // Returns: "Weight (kg)" (en) or "体重 (kg)" (ja)
+
+const outputLabel = useFieldLabel(formulaId, "bmi", output);
+// Returns: "BMI" (en) or "BMI" (ja)
 ```
 
 ### `useOptionLabel(optionLabel: string): string`
@@ -93,17 +96,6 @@ import { useOptionLabel } from "@/lib/formula-translation";
 
 const label = useOptionLabel("Male");
 // Returns: "Male" (en) or "男性" (ja)
-```
-
-### `useOutputLabel(formulaId: string, outputKey: string, output: FormulaOutput): string`
-
-Get translated output label.
-
-```typescript
-import { useOutputLabel } from "@/lib/formula-translation";
-
-const label = useOutputLabel(formulaId, "bmi", output);
-// Returns: "BMI" (en) or "BMI" (ja)
 ```
 
 ### `useOutputText(formulaId: string, outputKey: string, output: FormulaOutput): string | undefined`

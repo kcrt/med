@@ -49,18 +49,18 @@ export function useFormulaName(formulaId: string, formula: Formula): string {
 }
 
 /**
- * Get translated label for a formula input field.
+ * Get translated label for a formula input or output field.
  * Uses the English label as the translation key under "labels" namespace.
  * Falls back to English label if translation doesn't exist.
  */
-export function useInputLabel(
+export function useFieldLabel(
   formulaId: string,
-  inputKey: string,
-  input: FormulaInput,
+  fieldKey: string,
+  field: FormulaInput | FormulaOutput,
 ): string {
   const locale = useLocale();
   const messages = useMessages();
-  const englishLabel = input.label ?? inputKey;
+  const englishLabel = field.label ?? fieldKey;
   return getLabelTranslation(messages, locale, englishLabel);
 }
 
@@ -73,22 +73,6 @@ export function useOptionLabel(optionLabel: string): string {
   const locale = useLocale();
   const messages = useMessages();
   return getOptionTranslation(messages, locale, optionLabel);
-}
-
-/**
- * Get translated label for a formula output field.
- * Uses the English label as the translation key under "labels" namespace.
- * Falls back to English label if translation doesn't exist.
- */
-export function useOutputLabel(
-  formulaId: string,
-  outputKey: string,
-  output: FormulaOutput,
-): string {
-  const locale = useLocale();
-  const messages = useMessages();
-  const englishLabel = output.label ?? outputKey;
-  return getLabelTranslation(messages, locale, englishLabel);
 }
 
 /**

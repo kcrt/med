@@ -262,11 +262,8 @@ Formula labels are translated using English text as the key:
 // Formula name translation
 useFormulaName(formulaId, formula);
 
-// Input label translation
-useInputLabel(formulaId, inputKey, input);
-
-// Output label translation
-useOutputLabel(formulaId, outputKey, output);
+// Field label translation (works for both input and output)
+useFieldLabel(formulaId, fieldKey, field);
 
 // Option label translation (for select inputs)
 useOptionLabel("Option label");
