@@ -37,9 +37,11 @@ import {
 } from "@/lib/translation-utils";
 import { DEFAULT_LOCALE } from "@/lib/locale";
 import type { Formula, FormulaInput, FormulaOutput } from "@/types/formula";
+import { DebugTooltip } from "./DebugTooltip";
 import { QRCodeExport } from "./QRCodeExport";
 import { ShareButton } from "./ShareButton";
 import { CopyResultButton } from "./CopyResultButton";
+import { useDebugMode } from "@/contexts/DebugModeContext";
 
 // Constants
 const HIDDEN_OUTPUT_LABEL = "hidden";
@@ -228,6 +230,7 @@ function OutputItem({
   // Call hooks unconditionally at the top of the component
   const label = useFieldLabel(formulaId, outputKey, outputDef);
   const text = useOutputText(formulaId, outputKey, outputDef);
+  const { isDebug } = useDebugMode();
 
   // Skip hidden outputs (intermediate calculation values)
   if ("label" in outputDef && outputDef.label === HIDDEN_OUTPUT_LABEL) {
@@ -262,7 +265,19 @@ function OutputItem({
 
     return (
       <Group key={outputKey} justify="space-between">
-        <Text fw={500}>{label}</Text>
+        {isDebug && outputDef.formula ? (
+          <DebugTooltip
+            multiline
+            label={outputDef.formula}
+            position="top"
+            withinPortal
+            w={300}
+          >
+            <Text fw={500}>{label}</Text>
+          </DebugTooltip>
+        ) : (
+          <Text fw={500}>{label}</Text>
+        )}
         <Group gap={4}>
           <Text>{value}</Text>
           {unit && <Text c="dimmed">{unit}</Text>}
