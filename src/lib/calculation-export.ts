@@ -29,7 +29,34 @@ export function buildHumanReadableData(
   for (const [key, value] of Object.entries(inputValues)) {
     const inputDef = formula.input[key];
     if (inputDef) {
-      lines.push(`${inputDef.label}: ${value}`);
+      let displayValue: string | number = value;
+
+      // Convert value based on input type
+      switch (inputDef.type) {
+        case "onoff":
+          // Display as Yes/No instead of 1/0
+          displayValue = value === 1 ? "Yes" : "No";
+          break;
+        case "sex":
+          // Display as Male/Female instead of 1/0
+          displayValue = value === 1 ? "Male" : "Female";
+          break;
+        case "select": {
+          // Display the option label instead of the value
+          const selectedOption = inputDef.options?.find(
+            (opt) => opt.value === value,
+          );
+          if (selectedOption) {
+            displayValue = selectedOption.label;
+          }
+          break;
+        }
+        // For other types (float, int, string, date), keep the original value
+        default:
+          displayValue = value;
+      }
+
+      lines.push(`${inputDef.label}: ${displayValue}`);
     }
   }
 
