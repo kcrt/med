@@ -35,10 +35,12 @@ export function buildHumanReadableData(
       switch (inputDef.type) {
         case "onoff":
           // Display as Yes/No instead of 1/0
+          // Treat 1 as Yes, all other values (0, null, undefined) as No
           displayValue = value === 1 ? "Yes" : "No";
           break;
         case "sex":
           // Display as Male/Female instead of 1/0
+          // Treat 1 as Male, all other values (0, null, undefined) as Female
           displayValue = value === 1 ? "Male" : "Female";
           break;
         case "select": {
@@ -49,6 +51,7 @@ export function buildHumanReadableData(
           if (selectedOption) {
             displayValue = selectedOption.label;
           }
+          // If no matching option found, keep the original value
           break;
         }
         // For other types (float, int, string, date), keep the original value
