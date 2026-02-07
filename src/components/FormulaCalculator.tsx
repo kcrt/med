@@ -153,6 +153,13 @@ function InputField({
         </Text>
       );
 
+    case "info":
+      return (
+        <Text key={inputKey} size="sm" c="dimmed">
+          {label}
+        </Text>
+      );
+
     case "onoff":
       return <Switch key={inputKey} label={label} {...inputProps} />;
 
@@ -309,7 +316,8 @@ export function FormulaCalculator({
     // Type-based defaults
     switch (inputDef?.type) {
       case "heading":
-        return ""; // Headings don't have form values
+      case "info":
+        return ""; // Headings and info fields don't have form values
       case "onoff":
       case "sex":
         return false; // default to off/female
@@ -331,8 +339,8 @@ export function FormulaCalculator({
     for (const [key, value] of Object.entries(values)) {
       const inputDef = formula.input[key];
 
-      // Skip headings
-      if (inputDef?.type === "heading") {
+      // Skip headings and info fields
+      if (inputDef?.type === "heading" || inputDef?.type === "info") {
         continue;
       }
 
@@ -396,8 +404,8 @@ export function FormulaCalculator({
 
     inputKeys.forEach((key) => {
       const inputDef = formula.input[key];
-      // Skip headings
-      if (inputDef?.type === "heading") {
+      // Skip headings and info fields
+      if (inputDef?.type === "heading" || inputDef?.type === "info") {
         return;
       }
 
@@ -460,8 +468,8 @@ export function FormulaCalculator({
 
   const hasValidInputs = inputKeys.every((key) => {
     const inputDef = formula.input[key];
-    // Skip headings from validation
-    if (inputDef?.type === "heading") return true;
+    // Skip headings and info fields from validation
+    if (inputDef?.type === "heading" || inputDef?.type === "info") return true;
 
     const value = form.values[key];
     // Consider non-empty strings, non-zero numbers, and booleans as valid

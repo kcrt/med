@@ -103,7 +103,7 @@
     "name": "Modified Ranson Criteria (Gallstone Pancreatitis)",
     "info": "Modified Ranson's criteria predict the severity of gallstone pancreatitis by observations assessed at admission and 48 hours. Higher scores correlate with increased morbidity and mortality.",
     "metadata": {
-      "recommended": "Use Modified Ranson Criteria for gallstone pancreatitis"
+      "recommended": "Use Ranson Criteria for non-gallstone pancreatitis"
     },
     "input": {
       "at_admission": {
@@ -197,18 +197,22 @@
   },
   "bisap": {
     "name": "BISAP Score (Pancreatitis)",
-    "info": "The BISAP (Bedside Index for Severity in Acute Pancreatitis) score predicts mortality and severe pancreatitis using five simple criteria. It's easier to calculate than other scoring systems and equally accurate.",
+    "info": "The BISAP score predicts mortality of severe pancreatitis using five simple criteria.",
     "input": {
       "bun_gt_25": {
         "label": "BUN >25 mg/dL",
         "type": "onoff"
       },
       "impaired_mental": {
-        "label": "Impaired mental status (GCS <15)",
+        "label": "Impaired mental status",
         "type": "onoff"
       },
+      "impaired_mental_info": {
+        "label": "= disorientation, lethargy, coma, or stupor",
+        "type": "info"
+      },
       "sirs": {
-        "label": "SIRS present (≥2 criteria)",
+        "label": "SIRS",
         "type": "onoff"
       },
       "age_gt_60": {
@@ -216,7 +220,7 @@
         "type": "onoff"
       },
       "pleural_effusion": {
-        "label": "Pleural effusion present",
+        "label": "Pleural effusion",
         "type": "onoff"
       }
     },
@@ -225,13 +229,13 @@
         "label": "BISAP Score",
         "formula": "bun_gt_25 + impaired_mental + sirs + age_gt_60 + pleural_effusion"
       },
-      "mortality": {
-        "label": "In-hospital Mortality",
-        "formula": "iif(score==0, '<1%', score==1, '<2%', score==2, '~2%', score==3, '~5%', score==4, '~15%', '>20%')"
+      "mortality_derivation": {
+        "label": "In-hospital Mortality (Derivation cohort)",
+        "formula": "iif(score==0, '0.2%', score==1, '0.7%', score==2, '2.1%', score==3, '8.3%', score==4, '19.3%', '26.7%')"
       },
-      "severe_pancreatitis": {
-        "label": "Risk of Severe Pancreatitis",
-        "formula": "iif(score>=3, 'High risk', 'Low risk')"
+      "mortality_validation": {
+        "label": "In-hospital Mortality (Validation cohort)",
+        "formula": "iif(score==0, '0.1%', score==1, '0.5%', score==2, '1.9%', score==3, '5.3%', score==4, '12.7%', '22.5%')"
       }
     },
     "test": [
@@ -250,13 +254,20 @@
       }
     ],
     "ref": {
-      "Wu BU, et al. Gut. 2008;57(12):1698-703.": "pubmed:18519429"
+      "B U Wu et al. (2008): The early prediction of mortality in acute pancreatitis: a large population-based study": "10.1136/gut.2008.152702"
     }
   },
   "glasgow_imrie": {
     "name": "Glasgow-Imrie Score (Pancreatitis)",
     "info": "The Glasgow-Imrie criteria assess the severity of acute pancreatitis within 48 hours of admission. Eight clinical and laboratory parameters predict complications and mortality, guiding management decisions.",
+    "metadata": {
+      "obsolete": "Use Ranson criteria or BISAP score instead"
+    },
     "input": {
+      "pao2_lt_60": {
+        "label": "PaO₂ <60 mmHg",
+        "type": "onoff"
+      },
       "age_gt_55": {
         "label": "Age >55 years",
         "type": "onoff"
@@ -265,28 +276,24 @@
         "label": "WBC >15,000/μL",
         "type": "onoff"
       },
-      "glucose_gt_180": {
-        "label": "Glucose >180 mg/dL",
+      "calcium_lt_8": {
+        "label": "Calcium <8 mg/dL (<2.0 mmol/L)",
         "type": "onoff"
       },
       "bun_gt_45": {
-        "label": "BUN >45 mg/dL",
+        "label": "BUN >45 mg/dL (>16 mmol/L)",
         "type": "onoff"
       },
-      "pao2_lt_60": {
-        "label": "PaO₂ <60 mmHg",
+      "ldh_gt_600": {
+        "label": "LDH >600 IU/L",
         "type": "onoff"
       },
       "albumin_lt_32": {
         "label": "Albumin <3.2 g/dL",
         "type": "onoff"
       },
-      "calcium_lt_8": {
-        "label": "Calcium <8 mg/dL",
-        "type": "onoff"
-      },
-      "ldh_gt_600": {
-        "label": "LDH >600 IU/L",
+      "glucose_gt_180": {
+        "label": "Glucose >180 mg/dL (>10 mmol/L)",
         "type": "onoff"
       }
     },
@@ -295,13 +302,13 @@
         "label": "Glasgow-Imrie Score",
         "formula": "age_gt_55 + wbc_gt_15 + glucose_gt_180 + bun_gt_45 + pao2_lt_60 + albumin_lt_32 + calcium_lt_8 + ldh_gt_600"
       },
-      "severity": {
-        "label": "Severity",
-        "formula": "iif(score<=2, 'Mild pancreatitis', 'Severe pancreatitis')"
+      "severity_info": {
+        "label": "Severity Interpretation",
+        "text": "Score ≥3: Severe pancreatitis"
       },
-      "mortality": {
-        "label": "Mortality Risk",
-        "formula": "iif(score<=2, '~0-2%', score<=4, '~15%', '>40%')"
+      "severity": {
+        "label": "Severe",
+        "formula": "iif(score==0, '3%', score==1, '8%', score==2, '7%', score==3, '14%', score==4, '53%', score==5, '63%', score>=6, '- (small number of subjects)')"
       }
     },
     "test": [
@@ -313,8 +320,7 @@
           "bun_gt_45": 0,
           "pao2_lt_60": 0,
           "albumin_lt_32": 0,
-          "calcium_lt_8": 0,
-          "ldh_gt_600": 0
+          "calcium_lt_8": 0
         },
         "output": {
           "score": 0,
@@ -323,7 +329,7 @@
       }
     ],
     "ref": {
-      "Blamey SL, et al. Gut. 1984;25(12):1340-6.": "pubmed:6510766"
+      "S L Blamey, et al. Gut. 1984;25(12):1340-1346.": "10.1136/gut.25.12.1340"
     }
   }
 }
