@@ -46,7 +46,7 @@ export function ReferenceLinks({ ref: references }: ReferenceLinksProps) {
       <Stack gap="sm">
         <Group>
           <IconExternalLink size={16} />
-          <Title order={4}>参照</Title>
+          <Title order={4}>Reference</Title>
         </Group>
         {Object.entries(references).map(([label, url]) => {
           if (url.trim() === "") {

@@ -294,6 +294,7 @@
     "Class": "リスククラス",
     "Mortality (PORT Study) [%]": "30日死亡率",
     "Ranson Criteria (Pancreatitis)": "Ranson基準 (急性膵炎)",
+    "Modified Ranson Criteria (Gallstone Pancreatitis)": "修正Ranson基準 (胆石に伴う膵炎)",
     "Mortality": "死亡率",
     "LDL Cholesterol (Sampson-NIH Equation)": "Sampson-NIH式 (LDLコレステロール)",
     "HDL Cholesterol [mg/dL]": "HDLコレステロール [mg/dL]",
@@ -554,7 +555,8 @@
     "phototherapy_threshold": "光線療法開始基準は、在胎週数、日齢、リスク因子に基づいて新生児高ビリルビン血症の光線療法開始閾値を設定します。2022年AAP診療ガイドラインに準拠しています。",
     "exchange_transfusion_threshold": "交換輸血閾値は、2022年AAP診療ガイドラインに基づき、重症新生児高ビリルビン血症の交換輸血適応を判定します。核黄疸やビリルビン脳症を予防します。",
     "bilirubin_albumin_ratio": "ビリルビン/アルブミン比は、新生児のビリルビン神経毒性リスクを評価します。アルブミンのビリルビン結合能を考慮し、総ビリルビン値単独よりも正確なリスク評価を提供します。",
-    "ranson": "Ransonの基準は、入院時と48時間後に評価される11の臨床・検査パラメータを用いて、急性膵炎の重症度を予測します。高スコアは高い罹患率・死亡率と相関します。",
+    "ranson": "Ranson基準は、入院時と48時間後に評価される11の臨床・検査パラメータを用いて、急性膵炎の重症度を予測します。高スコアは高い罹患率・死亡率と相関します。",
+    "ranson_modified": "修正Ranson基準は、入院時と48時間後に評価される10の臨床・検査パラメータを用いて、胆石に伴う急性膵炎の重症度を予測します。高スコアは高い罹患率・死亡率と相関します。",
     "bisap": "BISAP（Bedside Index for Severity in Acute Pancreatitis）スコアは、5つのシンプルな基準を用いて死亡率と重症膵炎を予測します。他のスコアリングシステムより計算が容易で同等の精度があります。",
     "glasgow_imrie": "Glasgow-Imrie基準は、入院後48時間以内に急性膵炎の重症度を評価します。8つの臨床・検査パラメータが合併症と死亡率を予測し、管理方針の決定を支援します。",
     "corrected_reticulocyte_count": "補正網赤血球数は、貧血の程度に応じて網赤血球%を補正し、貧血患者の赤血球産生をより正確に評価します。",
@@ -643,6 +645,8 @@
     "moca": "Montreal Cognitive Assessment（MoCA）は、軽度認知障害の簡便なスクリーニングツールです。MMSEよりも感度が高く、視空間認知、実行機能、注意、言語、記憶機能を評価します。"
   },
   "formula_metadata": {
-    "bmi_child_obsolete": "BMI-for-Age の使用をおすすめいたします。"
+    "bmi_child_obsolete": "BMI-for-Age の使用をおすすめいたします。",
+    "ranson_recommended": "胆石に伴う膵炎は修正Ranson基準の使用をおすすめいたします。",
+    "ranson_modified_recommended": "胆石に伴わない膵炎はRanson基準の使用をおすすめいたします。"
   }
 }

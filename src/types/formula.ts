@@ -13,7 +13,7 @@ export const FormulaSelectOptionSchema = z.object({
  */
 export const FormulaInputSchema = z.object({
   label: z.string(),
-  type: z.enum(["float", "int", "string", "onoff", "sex", "date", "select"]),
+  type: z.enum(["float", "int", "string", "onoff", "sex", "date", "select", "heading"]),
   min: z.number().optional(),
   max: z.number().optional(),
   unit: z.string().optional(),

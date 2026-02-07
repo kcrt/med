@@ -1,8 +1,15 @@
 {
   "ranson": {
     "name": "Ranson Criteria (Pancreatitis)",
-    "info": "Ranson's criteria predict the severity of acute pancreatitis using 11 clinical and laboratory parameters assessed at admission and 48 hours. Higher scores correlate with increased morbidity and mortality.",
+    "info": "Ranson's criteria predict the severity of acute pancreatitis by observations assessed at admission and 48 hours. Higher scores correlate with increased morbidity and mortality.",
+    "metadata": {
+      "recommended": "Use Modified Ranson Criteria for gallstone pancreatitis"
+    },
     "input": {
+      "at_admission": {
+        "label": "At Admission",
+        "type": "heading"
+      },
       "age_gt_55": {
         "label": "Age >55 years",
         "type": "onoff"
@@ -15,28 +22,32 @@
         "label": "Glucose >200 mg/dL",
         "type": "onoff"
       },
+      "ast_gt_250": {
+        "label": "AST >250 IU/L",
+        "type": "onoff"
+      },
       "ldh_gt_350": {
         "label": "LDH >350 IU/L",
         "type": "onoff"
       },
-      "ast_gt_250": {
-        "label": "AST >250 IU/L",
+      "at_48_hours": {
+        "label": "At 48 hours",
+        "type": "heading"
+      },
+      "calcium_lt_8": {
+        "label": "Ca <8 mg/dL (<2.0 mmol/L)",
         "type": "onoff"
       },
       "hct_drop_10": {
         "label": "Hct drop >10%",
         "type": "onoff"
       },
-      "bun_rise_5": {
-        "label": "BUN rise >5 mg/dL",
-        "type": "onoff"
-      },
-      "calcium_lt_8": {
-        "label": "Ca <8 mg/dL",
-        "type": "onoff"
-      },
       "pao2_lt_60": {
         "label": "PaO₂ <60 mmHg",
+        "type": "onoff"
+      },
+      "bun_rise_5": {
+        "label": "BUN increased by >5 mg/dL",
         "type": "onoff"
       },
       "base_deficit_gt_4": {
@@ -55,11 +66,11 @@
       },
       "mortality": {
         "label": "Mortality",
-        "formula": "iif(score<=2, '<1%', score<=4, '~15%', score<=6, '~40%', '>50%')"
+        "formula": "iif(score<=2, '0 to 3%', score<=4, '15%', score<=6, '40%', 'nearly 100%')"
       },
       "interpretation": {
         "label": "Interpretation",
-        "text": "First 5 criteria at admission, remaining 6 at 48h. Score ≥3 indicates severe pancreatitis"
+        "text": "Score ≥3 indicates severe pancreatitis"
       }
     },
     "test": [
@@ -84,7 +95,104 @@
       }
     ],
     "ref": {
-      "Ranson JH, et al. Surg Gynecol Obstet. 1974;139(1):69-81.": "pubmed:4834279"
+      "Ranson JH, et al. Surg Gynecol Obstet. 1974;139(1):69-81.": "pmid:4834279",
+      "Hajira Basit: Ranson Criteria (StatPearls)": "https://www.ncbi.nlm.nih.gov/books/NBK482345/"
+    }
+  },
+  "ranson_modified": {
+    "name": "Modified Ranson Criteria (Gallstone Pancreatitis)",
+    "info": "Modified Ranson's criteria predict the severity of gallstone pancreatitis by observations assessed at admission and 48 hours. Higher scores correlate with increased morbidity and mortality.",
+    "metadata": {
+      "recommended": "Use Modified Ranson Criteria for gallstone pancreatitis"
+    },
+    "input": {
+      "at_admission": {
+        "label": "At Admission",
+        "type": "heading"
+      },
+      "age_gt_70": {
+        "label": "Age >70 years",
+        "type": "onoff"
+      },
+      "wbc_gt_18": {
+        "label": "WBC >18,000/μL",
+        "type": "onoff"
+      },
+      "glucose_gt_220": {
+        "label": "Glucose >220 mg/dL",
+        "type": "onoff"
+      },
+      "ast_gt_250": {
+        "label": "AST >250 IU/L",
+        "type": "onoff"
+      },
+      "ldh_gt_400": {
+        "label": "LDH >400 IU/L",
+        "type": "onoff"
+      },
+      "at_48_hours": {
+        "label": "At 48 hours",
+        "type": "heading"
+      },
+      "calcium_lt_8": {
+        "label": "Ca <8 mg/dL (<2.0 mmol/L)",
+        "type": "onoff"
+      },
+      "hct_drop_10": {
+        "label": "Hct drop >10%",
+        "type": "onoff"
+      },
+      "bun_rise_2": {
+        "label": "BUN increased by >2 mg/dL",
+        "type": "onoff"
+      },
+      "base_deficit_gt_5": {
+        "label": "Base deficit >5 mEq/L",
+        "type": "onoff"
+      },
+      "fluid_seq_gt_4l": {
+        "label": "Fluid sequestration >4L",
+        "type": "onoff"
+      }
+    },
+    "output": {
+      "score": {
+        "label": "Ranson Score",
+        "formula": "age_gt_70 + wbc_gt_18 + glucose_gt_220 + ldh_gt_400 + ast_gt_250 + hct_drop_10 + bun_rise_2 + calcium_lt_8 + base_deficit_gt_5 + fluid_seq_gt_4l"
+      },
+      "mortality": {
+        "label": "Mortality",
+        "formula": "iif(score<=2, '0 to 3%', score<=4, '15%', score<=6, '40%', 'nearly 100%')"
+      },
+      "interpretation": {
+        "label": "Interpretation",
+        "text": "Score ≥3 indicates severe pancreatitis"
+      }
+    },
+    "test": [
+      {
+        "input": {
+          "age_gt_70": 1,
+          "wbc_gt_18": 0,
+          "glucose_gt_220": 1,
+          "ldh_gt_400": 0,
+          "ast_gt_250": 0,
+          "hct_drop_10": 0,
+          "bun_rise_2": 0,
+          "calcium_lt_8": 0,
+          "pao2_lt_60": 0,
+          "base_deficit_gt_5": 0,
+          "fluid_seq_gt_4l": 0
+        },
+        "output": {
+          "score": 2,
+          "mortality": "<1%"
+        }
+      }
+    ],
+    "ref": {
+      "Ranson JH, et al. Surg Gynecol Obstet. 1974;139(1):69-81.": "pmid:4834279",
+      "Hajira Basit: Ranson Criteria (StatPearls)": "https://www.ncbi.nlm.nih.gov/books/NBK482345/"
     }
   },
   "bisap": {

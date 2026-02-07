@@ -146,6 +146,13 @@ function InputField({
   const label = useInputLabel(formulaId, inputKey, inputDef);
 
   switch (inputDef.type) {
+    case "heading":
+      return (
+        <Text key={inputKey} fw={700} size="lg" c="dimmed" mt="md">
+          {label}
+        </Text>
+      );
+
     case "onoff":
       return <Switch key={inputKey} label={label} {...inputProps} />;
 
@@ -301,6 +308,8 @@ export function FormulaCalculator({
     }
     // Type-based defaults
     switch (inputDef?.type) {
+      case "heading":
+        return ""; // Headings don't have form values
       case "onoff":
       case "sex":
         return false; // default to off/female
@@ -321,6 +330,11 @@ export function FormulaCalculator({
     const inputValues: FormulaInputValues = {};
     for (const [key, value] of Object.entries(values)) {
       const inputDef = formula.input[key];
+
+      // Skip headings
+      if (inputDef?.type === "heading") {
+        continue;
+      }
 
       // Skip empty/unset values
       if (value === "" || value === null || value === undefined) {
@@ -381,10 +395,15 @@ export function FormulaCalculator({
     let hasQueryParams = false;
 
     inputKeys.forEach((key) => {
+      const inputDef = formula.input[key];
+      // Skip headings
+      if (inputDef?.type === "heading") {
+        return;
+      }
+
       const paramValue = searchParams.get(key);
       if (paramValue !== null) {
         hasQueryParams = true;
-        const inputDef = formula.input[key];
 
         // Convert to appropriate type based on input definition
         switch (inputDef?.type) {
@@ -440,6 +459,10 @@ export function FormulaCalculator({
       : {};
 
   const hasValidInputs = inputKeys.every((key) => {
+    const inputDef = formula.input[key];
+    // Skip headings from validation
+    if (inputDef?.type === "heading") return true;
+
     const value = form.values[key];
     // Consider non-empty strings, non-zero numbers, and booleans as valid
     if (typeof value === "boolean") return true;
