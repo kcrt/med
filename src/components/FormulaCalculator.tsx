@@ -94,6 +94,7 @@ interface SelectInputFieldProps {
   label: string;
   options: { value: number | string; label: string }[] | undefined;
   inputProps: ReturnType<ReturnType<typeof useForm>["getInputProps"]>;
+  debugLabel?: React.ReactNode;
 }
 
 function SelectInputField({
@@ -101,10 +102,12 @@ function SelectInputField({
   label,
   options,
   inputProps,
+  debugLabel,
 }: SelectInputFieldProps) {
   const locale = useLocale();
   const messages = useMessages();
   const labels = messages.labels as Record<string, unknown> | undefined;
+  const { isDebug } = useDebugMode();
 
   const translatedOptions =
     options?.map((opt, idx) => ({
@@ -112,7 +115,7 @@ function SelectInputField({
       label: translateOptionLabel(opt.label, locale, labels),
     })) ?? [];
 
-  return (
+  const selectElement = (
     <Select
       key={inputKey}
       label={label}
@@ -120,6 +123,22 @@ function SelectInputField({
       {...inputProps}
     />
   );
+
+  if (isDebug && debugLabel) {
+    return (
+      <DebugTooltip
+        multiline
+        label={debugLabel}
+        position="top"
+        withinPortal
+        w={200}
+      >
+        {selectElement}
+      </DebugTooltip>
+    );
+  }
+
+  return selectElement;
 }
 
 // Component for rendering a single input field
@@ -138,28 +157,64 @@ function InputField({
 }: InputFieldProps) {
   const t = useTranslations("calculator");
   const label = useFieldLabel(formulaId, inputKey, inputDef);
+  const { isDebug } = useDebugMode();
+
+  // Build debug tooltip content
+  const debugLabel = isDebug ? (
+    <>
+      <Text fw={700}>Input ID: {inputKey}</Text>
+      {inputDef.min !== undefined && (
+        <Text>Min: {inputDef.min}</Text>
+      )}
+      {inputDef.max !== undefined && (
+        <Text>Max: {inputDef.max}</Text>
+      )}
+      {inputDef.unit && (
+        <Text>Unit: {inputDef.unit}</Text>
+      )}
+    </>
+  ) : undefined;
+
+  const labelWithDebug = (element: React.ReactNode) => {
+    if (isDebug) {
+      return (
+        <DebugTooltip
+          multiline
+          label={debugLabel}
+          position="top"
+          withinPortal
+          w={200}
+        >
+          {element}
+        </DebugTooltip>
+      );
+    }
+    return element;
+  };
 
   switch (inputDef.type) {
     case "heading":
-      return (
+      return labelWithDebug(
         <Text key={inputKey} fw={700} size="lg" c="dimmed" mt="md">
           {label}
         </Text>
       );
 
     case "info":
-      return (
+      return labelWithDebug(
         <Text key={inputKey} size="sm" c="dimmed">
           {label}
         </Text>
       );
 
     case "onoff":
-      return <Switch key={inputKey} label={label} {...inputProps} />;
+      return (
+        <Switch key={inputKey} label={labelWithDebug(<Text>{label}</Text>)} {...inputProps} />
+      );
 
     case "sex":
       return (
-        <Radio.Group key={inputKey} label={label} {...inputProps}>
+        <Radio.Group key={inputKey} label={labelWithDebug(<Text>{label}</Text>)} {...inputProps}>
           <Group>
             <Radio value="true" label={t("male")} />
             <Radio value="false" label={t("female")} />
@@ -175,18 +230,19 @@ function InputField({
           label={label}
           options={inputDef.options}
           inputProps={inputProps}
+          debugLabel={debugLabel}
         />
       );
 
     case "date":
-      return (
+      return labelWithDebug(
         <TextInput key={inputKey} type="date" label={label} {...inputProps} />
       );
 
     case "int":
     case "float":
     default:
-      return (
+      return labelWithDebug(
         <NumberInput
           key={inputKey}
           label={label}
@@ -263,12 +319,24 @@ function OutputItem({
     const value = result !== undefined ? String(result) : "-";
     const unit = outputDef.unit ?? "";
 
+    const debugLabel = isDebug ? (
+      <>
+        <Text fw={700}>Output ID: {outputKey}</Text>
+        {outputDef.formula && (
+          <>
+            <Text mt="xs" fw={700}>Formula:</Text>
+            <Text style={{ fontFamily: "monospace" }}>{outputDef.formula}</Text>
+          </>
+        )}
+      </>
+    ) : undefined;
+
     return (
       <Group key={outputKey} justify="space-between">
-        {isDebug && outputDef.formula ? (
+        {isDebug ? (
           <DebugTooltip
             multiline
-            label={outputDef.formula}
+            label={debugLabel}
             position="top"
             withinPortal
             w={300}

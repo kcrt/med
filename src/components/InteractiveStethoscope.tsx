@@ -18,7 +18,7 @@ export function InteractiveStethoscope() {
   const [clickCount, setClickCount] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  const { setDebugMode } = useDebugMode();
+  const { setDebugMode, isDebug } = useDebugMode();
 
   const handleClick = useCallback(() => {
     const newCount = clickCount + 1;
@@ -53,7 +53,7 @@ export function InteractiveStethoscope() {
     <ThemeIcon
       size={64}
       radius="xl"
-      color="blue"
+      color={isDebug ? "yellow" : "blue"}
       onClick={handleClick}
       style={{
         transform: `scale(${scale})`,
@@ -62,7 +62,7 @@ export function InteractiveStethoscope() {
         position: "relative",
       }}
     >
-      <IconStethoscope size={32} />
+      <IconStethoscope size={32} color={isDebug ? "black" : "white"} />
       {showSparkle && <SparkleEffect show={true} onComplete={handleSparkleComplete} />}
     </ThemeIcon>
   );

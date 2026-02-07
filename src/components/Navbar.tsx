@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { useSearchableMenuItems } from "@/lib/formula-translation";
 import { Link, usePathname } from "@/lib/navigation";
 import { useState, useMemo, useEffect } from "react";
+import { useDebugMode } from "@/contexts/DebugModeContext";
+import { DebugTooltip } from "./DebugTooltip";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -17,6 +19,7 @@ export function Navbar() {
   const [accordionValue, setAccordionValue] = useState<string | null>(
     menuItems[0]?.label ?? null,
   );
+  const { isDebug } = useDebugMode();
 
   // Filter menu items based on search query
   const filteredMenuItems = useMemo(() => {
@@ -106,15 +109,30 @@ export function Navbar() {
           <Accordion.Item key={category.path} value={category.label}>
             <Accordion.Control>{category.label}</Accordion.Control>
             <Accordion.Panel>
-              {category.items.map((item) => (
-                <NavLink
-                  key={item.path}
-                  component={Link}
-                  href={item.path}
-                  label={item.label}
-                  active={pathname === item.path}
-                />
-              ))}
+              {category.items.map((item) => {
+                // Extract formula ID from path (e.g., "/formula/abc123" -> "abc123")
+                const formulaId = item.path.split("/").pop() ?? "";
+                const navLink = (
+                  <NavLink
+                    key={item.path}
+                    component={Link}
+                    href={item.path}
+                    label={item.label}
+                    active={pathname === item.path}
+                  />
+                );
+
+                // Show formula ID tooltip in debug mode
+                if (isDebug && formulaId) {
+                  return (
+                    <DebugTooltip key={item.path} label={`formula: ${formulaId}`} position="right">
+                      {navLink}
+                    </DebugTooltip>
+                  );
+                } else {
+                  return navLink;
+                }
+              })}
             </Accordion.Panel>
           </Accordion.Item>
         ))}
