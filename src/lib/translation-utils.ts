@@ -1,3 +1,5 @@
+import { DEFAULT_LOCALE } from "./locale";
+
 /**
  * Shared utility functions for translation and message handling.
  * Used by both client-side (formula-translation.ts) and server-side (API routes) code.
@@ -17,6 +19,64 @@ export const DOT_PLACEHOLDER = "{{dot}}";
  */
 export function escapeTranslationKey(key: string): string {
   return key.replace(/\./g, DOT_PLACEHOLDER);
+}
+
+/**
+ * Get translated label without hooks.
+ * Works in any context - components, utilities, API routes, tests.
+ *
+ * @param messages - The messages object from useMessages() or getMessages()
+ * @param locale - The current locale (e.g., "ja", "zh-Hans")
+ * @param englishLabel - The English label to translate (used as key)
+ * @returns The translated label, or English if no translation found or locale is default
+ */
+export function getLabelTranslation(
+  messages: Record<string, unknown> | undefined,
+  locale: string,
+  englishLabel: string,
+): string {
+  if (locale === DEFAULT_LOCALE || !messages) {
+    return englishLabel;
+  }
+
+  const labels = messages.labels as Record<string, unknown> | undefined;
+  const escapedKey = escapeTranslationKey(englishLabel);
+  return getTranslationDirect(labels, escapedKey) ?? englishLabel;
+}
+
+/**
+ * Get translated formula name without hooks.
+ * Uses the English formula name as the translation key (same pattern as useFormulaName).
+ *
+ * @param messages - The messages object from useMessages() or getMessages()
+ * @param locale - The current locale
+ * @param formulaId - The formula ID (unused in key lookup, kept for consistency)
+ * @param englishName - The English formula name used as translation key
+ * @returns The translated formula name, or English if no translation found
+ */
+export function getFormulaNameTranslation(
+  messages: Record<string, unknown> | undefined,
+  locale: string,
+  _formulaId: string,
+  englishName: string,
+): string {
+  return getLabelTranslation(messages, locale, englishName);
+}
+
+/**
+ * Get translated option label (for select inputs) without hooks.
+ *
+ * @param messages - The messages object from useMessages() or getMessages()
+ * @param locale - The current locale
+ * @param englishLabel - The English option label to translate
+ * @returns The translated option label, or English if no translation found
+ */
+export function getOptionTranslation(
+  messages: Record<string, unknown> | undefined,
+  locale: string,
+  englishLabel: string,
+): string {
+  return getLabelTranslation(messages, locale, englishLabel);
 }
 
 /**

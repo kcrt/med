@@ -7,6 +7,10 @@ import {
   hasFormulaProperty,
   shouldDisplayOutputForLocale,
 } from "@/lib/formula";
+import {
+  getLabelTranslation,
+  getFormulaNameTranslation,
+} from "@/lib/translation-utils";
 
 /**
  * Build human-readable calculation result string
@@ -18,11 +22,15 @@ export function buildHumanReadableData(
   inputValues: FormulaInputValues,
   outputResults: FormulaOutputValues,
   locale?: string,
+  messages?: Record<string, unknown>,
 ): string {
   const lines: string[] = [];
 
   // Add formula name
-  lines.push(formula.name ?? formulaId);
+  const formulaName = messages && locale
+    ? getFormulaNameTranslation(messages, locale, formulaId, formula.name ?? formulaId)
+    : formula.name ?? formulaId;
+  lines.push(formulaName);
   lines.push("");
 
   // Add inputs
@@ -49,7 +57,9 @@ export function buildHumanReadableData(
             (opt) => opt.value === value,
           );
           if (selectedOption) {
-            displayValue = selectedOption.label;
+            displayValue = messages && locale
+              ? getLabelTranslation(messages, locale, selectedOption.label)
+              : selectedOption.label;
           }
           // If no matching option found, keep the original value
           break;
@@ -59,7 +69,10 @@ export function buildHumanReadableData(
           displayValue = value;
       }
 
-      lines.push(`${inputDef.label}: ${displayValue}`);
+      const inputLabel = messages && locale
+        ? getLabelTranslation(messages, locale, inputDef.label)
+        : inputDef.label;
+      lines.push(`${inputLabel}: ${displayValue}`);
     }
   }
 
@@ -74,7 +87,10 @@ export function buildHumanReadableData(
         continue;
       }
       const unit = outputDef.unit ? ` ${outputDef.unit}` : "";
-      lines.push(`${outputDef.label}: ${value}${unit}`);
+      const outputLabel = messages && locale
+        ? getLabelTranslation(messages, locale, outputDef.label)
+        : outputDef.label;
+      lines.push(`${outputLabel}: ${value}${unit}`);
     }
   }
 

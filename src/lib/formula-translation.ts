@@ -7,6 +7,9 @@ import { DEFAULT_LOCALE } from "./locale";
 import {
   escapeTranslationKey,
   getTranslationDirect,
+  getLabelTranslation,
+  getFormulaNameTranslation,
+  getOptionTranslation,
 } from "./translation-utils";
 
 type MessageNamespace = "labels" | "category" | "formula_info" | "formula_metadata";
@@ -39,8 +42,10 @@ function useMessageTranslation(
  * Falls back to English name if translation doesn't exist.
  */
 export function useFormulaName(formulaId: string, formula: Formula): string {
+  const locale = useLocale();
+  const messages = useMessages();
   const englishName = formula.name ?? formulaId;
-  return useMessageTranslation("labels", englishName, { escapeKey: true });
+  return getFormulaNameTranslation(messages, locale, formulaId, englishName);
 }
 
 /**
@@ -53,8 +58,10 @@ export function useInputLabel(
   inputKey: string,
   input: FormulaInput,
 ): string {
+  const locale = useLocale();
+  const messages = useMessages();
   const englishLabel = input.label ?? inputKey;
-  return useMessageTranslation("labels", englishLabel, { escapeKey: true });
+  return getLabelTranslation(messages, locale, englishLabel);
 }
 
 /**
@@ -63,7 +70,9 @@ export function useInputLabel(
  * Falls back to English label if translation doesn't exist.
  */
 export function useOptionLabel(optionLabel: string): string {
-  return useMessageTranslation("labels", optionLabel, { escapeKey: true });
+  const locale = useLocale();
+  const messages = useMessages();
+  return getOptionTranslation(messages, locale, optionLabel);
 }
 
 /**
@@ -76,8 +85,10 @@ export function useOutputLabel(
   outputKey: string,
   output: FormulaOutput,
 ): string {
+  const locale = useLocale();
+  const messages = useMessages();
   const englishLabel = output.label ?? outputKey;
-  return useMessageTranslation("labels", englishLabel, { escapeKey: true });
+  return getLabelTranslation(messages, locale, englishLabel);
 }
 
 /**

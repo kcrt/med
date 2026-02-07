@@ -2,7 +2,7 @@
 
 import { Box, Modal, Stack, Text } from "@mantine/core";
 import { IconQrcode } from "@tabler/icons-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale, useTranslations, useMessages } from "next-intl";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import { FloatingActionButton } from "@/components/FloatingActionButton";
@@ -27,6 +27,7 @@ export function QRCodeExport({
   const [opened, setOpened] = useState(false);
   const t = useTranslations("qrcode");
   const locale = useLocale();
+  const messages = useMessages();
 
   const isCalculation = isCalculationFormula(formula);
   const hasInputs = Object.keys(inputValues).length > 0;
@@ -41,6 +42,7 @@ export function QRCodeExport({
         inputValues,
         outputResults,
         locale,
+        messages,
       );
 
   return (
