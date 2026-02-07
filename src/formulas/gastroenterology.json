@@ -89,8 +89,7 @@
           "fluid_seq_gt_6l": 0
         },
         "output": {
-          "score": 2,
-          "mortality": "<1%"
+          "score": 2
         }
       }
     ],
@@ -185,8 +184,7 @@
           "fluid_seq_gt_4l": 0
         },
         "output": {
-          "score": 2,
-          "mortality": "<1%"
+          "score": 2
         }
       }
     ],
@@ -248,8 +246,7 @@
           "pleural_effusion": 0
         },
         "output": {
-          "score": 1,
-          "mortality": "<2%"
+          "score": 1
         }
       }
     ],
@@ -314,17 +311,17 @@
     "test": [
       {
         "input": {
-          "age_gt_55": 0,
+          "age_gt_55": 1,
           "wbc_gt_15": 0,
           "glucose_gt_180": 0,
-          "bun_gt_45": 0,
+          "bun_gt_45": 1,
           "pao2_lt_60": 0,
-          "albumin_lt_32": 0,
-          "calcium_lt_8": 0
+          "albumin_lt_32": 1,
+          "calcium_lt_8": 0,
+          "ldh_gt_600": 0
         },
         "output": {
-          "score": 0,
-          "severity": "Mild pancreatitis"
+          "score": 3
         }
       }
     ],

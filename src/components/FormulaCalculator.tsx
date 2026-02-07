@@ -23,8 +23,8 @@ import {
   evaluateFormulaOutputs,
   type FormulaInputValues,
   isCalculationFormula,
-  shouldDisplayOutputForLocale,
-  shouldDisplayInputForLocale,
+  hasFormulaProperty,
+  shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
 import {
@@ -56,13 +56,6 @@ interface FormulaCalculatorProps {
 
 interface FormValues {
   [key: string]: number | string | boolean | Date | null;
-}
-
-// Type guard to check if output has formula
-function hasFormula(
-  output: FormulaOutput,
-): output is FormulaOutput & { formula: string } {
-  return "formula" in output && typeof output.formula === "string";
 }
 
 // Type guard to check if output has text
@@ -242,7 +235,7 @@ function OutputItem({
   }
 
   // Check locale filtering
-  if (!shouldDisplayOutputForLocale(outputDef, locale)) {
+  if (!shouldDisplayForLocale(outputDef, locale)) {
     return null;
   }
 
@@ -263,7 +256,7 @@ function OutputItem({
   }
 
   // Formula item - only show when valid inputs
-  if (hasValidInputs && hasFormula(outputDef)) {
+  if (hasValidInputs && hasFormulaProperty(outputDef)) {
     const value = result !== undefined ? String(result) : "-";
     const unit = outputDef.unit ?? "";
 
@@ -294,7 +287,7 @@ export function FormulaCalculator({
   const t = useTranslations("calculator");
   const searchParams = useSearchParams();
   const inputKeys = Object.keys(formula.input).filter((key) =>
-    shouldDisplayInputForLocale(formula.input[key]!, locale),
+    shouldDisplayForLocale(formula.input[key]!, locale),
   );
   const allOutputs = Object.entries(formula.output);
 

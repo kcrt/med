@@ -3,6 +3,8 @@
  * Uses browser localStorage to persist favorites across sessions.
  */
 
+import { isBrowser } from "@/lib/environment";
+
 const STORAGE_KEY = "med_favorites";
 
 /**
@@ -16,7 +18,7 @@ const STORAGE_KEY = "med_favorites";
  */
 export function getFavorites(): string[] {
   // Return empty array if not in browser environment
-  if (typeof window === "undefined") return [];
+  if (!isBrowser()) return [];
 
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -57,7 +59,7 @@ export function getFavorites(): string[] {
  * toggleFavorite("bmi_adult");
  */
 export function toggleFavorite(formulaId: string): void {
-  if (typeof window === "undefined") return;
+  if (!isBrowser()) return;
 
   try {
     const favorites = getFavorites();

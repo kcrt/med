@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Formula } from "@/types/formula";
-import { getMenuItems, shouldDisplayFormula } from "@/lib/formula";
+import { getMenuItems, shouldDisplayForLocale } from "@/lib/formula";
 
 describe("Formula-level Locale Filtering Feature Demo", () => {
-  describe("shouldDisplayFormula", () => {
+  describe("shouldDisplayForLocale", () => {
     it("shows formulas without locale restrictions for all locales", () => {
       const formula: Formula = {
         name: "Universal Formula",
@@ -15,9 +15,9 @@ describe("Formula-level Locale Filtering Feature Demo", () => {
         },
       };
 
-      expect(shouldDisplayFormula(formula, "en")).toBe(true);
-      expect(shouldDisplayFormula(formula, "ja")).toBe(true);
-      expect(shouldDisplayFormula(formula, "zh-CN")).toBe(true);
+      expect(shouldDisplayForLocale(formula, "en")).toBe(true);
+      expect(shouldDisplayForLocale(formula, "ja")).toBe(true);
+      expect(shouldDisplayForLocale(formula, "zh-CN")).toBe(true);
     });
 
     it("filters formulas with locales_in restriction", () => {
@@ -32,9 +32,9 @@ describe("Formula-level Locale Filtering Feature Demo", () => {
         locales_in: ["ja"],
       };
 
-      expect(shouldDisplayFormula(japanOnlyFormula, "ja")).toBe(true);
-      expect(shouldDisplayFormula(japanOnlyFormula, "en")).toBe(false);
-      expect(shouldDisplayFormula(japanOnlyFormula, "zh-CN")).toBe(false);
+      expect(shouldDisplayForLocale(japanOnlyFormula, "ja")).toBe(true);
+      expect(shouldDisplayForLocale(japanOnlyFormula, "en")).toBe(false);
+      expect(shouldDisplayForLocale(japanOnlyFormula, "zh-CN")).toBe(false);
     });
 
     it("filters formulas with locales_not_in restriction", () => {
@@ -49,9 +49,9 @@ describe("Formula-level Locale Filtering Feature Demo", () => {
         locales_not_in: ["ja"],
       };
 
-      expect(shouldDisplayFormula(nonJapanFormula, "en")).toBe(true);
-      expect(shouldDisplayFormula(nonJapanFormula, "ja")).toBe(false);
-      expect(shouldDisplayFormula(nonJapanFormula, "zh-CN")).toBe(true);
+      expect(shouldDisplayForLocale(nonJapanFormula, "en")).toBe(true);
+      expect(shouldDisplayForLocale(nonJapanFormula, "ja")).toBe(false);
+      expect(shouldDisplayForLocale(nonJapanFormula, "zh-CN")).toBe(true);
     });
 
     it("supports multiple locales in locales_in", () => {
@@ -66,10 +66,10 @@ describe("Formula-level Locale Filtering Feature Demo", () => {
         locales_in: ["ja", "zh-CN", "zh-TW"],
       };
 
-      expect(shouldDisplayFormula(asianFormula, "ja")).toBe(true);
-      expect(shouldDisplayFormula(asianFormula, "zh-CN")).toBe(true);
-      expect(shouldDisplayFormula(asianFormula, "zh-TW")).toBe(true);
-      expect(shouldDisplayFormula(asianFormula, "en")).toBe(false);
+      expect(shouldDisplayForLocale(asianFormula, "ja")).toBe(true);
+      expect(shouldDisplayForLocale(asianFormula, "zh-CN")).toBe(true);
+      expect(shouldDisplayForLocale(asianFormula, "zh-TW")).toBe(true);
+      expect(shouldDisplayForLocale(asianFormula, "en")).toBe(false);
     });
   });
 

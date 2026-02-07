@@ -5,6 +5,7 @@ import { IconShare3 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { isCalculationFormula } from "@/lib/formula";
+import { doesSupportNativeShare } from "@/lib/environment";
 import type { Formula } from "@/types/formula";
 import { ShareButtonsGrid } from "@/components/ShareButtonsGrid";
 import { FloatingActionButton } from "@/components/FloatingActionButton";
@@ -26,8 +27,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const inputRef = useAutoSelectInput(opened);
 
   // Check if native share is supported
-  const supportsNativeShare =
-    typeof navigator !== "undefined" && "share" in navigator;
+  const nativeShareSupported = doesSupportNativeShare();
 
   // Only show share button for calculation formulas with valid inputs
   if (!isCalculationFormula(formula)) {
@@ -55,7 +55,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
   const { handleNativeShare, handlePlatformShare } = useShareHandler({
     shareUrl,
     shareTitle,
-    supportsNativeShare,
+    supportsNativeShare: nativeShareSupported,
     onShareComplete: () => setOpened(false),
   });
 
@@ -110,7 +110,7 @@ export function ShareButton({ formula, inputValues }: ShareButtonProps) {
             <ShareButtonsGrid
               shareUrl={shareUrl}
               shareTitle={shareTitle}
-              supportsNativeShare={supportsNativeShare}
+              supportsNativeShare={nativeShareSupported}
               onNativeShare={handleNativeShare}
               onPlatformShare={handlePlatformShare}
               nativeShareLabel={t("nativeShare")}

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { isBrowser } from "@/lib/environment";
 
 export const STORAGE_KEY = "med-dev-mode-override";
 
@@ -24,7 +25,7 @@ const DebugModeContext = createContext<DebugModeContextValue | undefined>(undefi
  * 3. Default (Release mode) - lowest priority
  */
 export function computeDebugState(): boolean {
-  if (typeof window === "undefined") {
+  if (!isBrowser()) {
     return false;
   }
 

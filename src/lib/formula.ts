@@ -127,98 +127,56 @@ export function getFormulaData(): FormulaData {
 }
 
 /**
- * Check if an output should be displayed for the given locale.
- *
- * @param output - The output definition (FormulaOutput)
- * @param locale - The locale code (e.g., "en", "ja")
- * @returns True if the output should be displayed, false otherwise
+ * Type for objects that can be filtered by locale.
+ * Objects can have optional locales_in (whitelist) and locales_not_in (blacklist) arrays.
  */
-export function shouldDisplayOutputForLocale(
-  output: FormulaOutput,
-  locale: string,
-): boolean {
-  // locales_in: only show if locale is in the list
-  if (
-    "locales_in" in output &&
-    output.locales_in &&
-    output.locales_in.length > 0
-  ) {
-    return output.locales_in.includes(locale);
-  }
-
-  // locales_not_in: hide if locale is in the list
-  if (
-    "locales_not_in" in output &&
-    output.locales_not_in &&
-    output.locales_not_in.length > 0
-  ) {
-    return !output.locales_not_in.includes(locale);
-  }
-
-  // No locale restrictions: show for all
-  return true;
-}
+export type LocaleFilterable = {
+  locales_in?: string[] | null;
+  locales_not_in?: string[] | null;
+};
 
 /**
- * Check if an input should be displayed for the given locale.
+ * Check if an object should be displayed for the given locale.
+ * Generic function that works with Formula, FormulaInput, and FormulaOutput.
  *
- * @param input - The input definition (FormulaInput)
+ * Rules:
+ * - locales_in: only show if locale is in the list (whitelist)
+ * - locales_not_in: hide if locale is in the list (blacklist)
+ * - If both are present, locales_in takes precedence
+ * - If neither is present, show for all locales
+ *
+ * @param obj - The object to check (Formula, FormulaInput, or FormulaOutput)
  * @param locale - The locale code (e.g., "en", "ja")
- * @returns True if the input should be displayed, false otherwise
+ * @returns True if the object should be displayed, false otherwise
+ *
+ * @example
+ * ```ts
+ * // Output with locales_in: only show in Japanese
+ * const output = { locales_in: ["ja"] };
+ * shouldDisplayForLocale(output, "ja"); // true
+ * shouldDisplayForLocale(output, "en"); // false
+ *
+ * // Formula with locales_not_in: hide in Chinese
+ * const formula = { locales_not_in: ["zh-CN", "zh-TW"] };
+ * shouldDisplayForLocale(formula, "ja"); // true
+ * shouldDisplayForLocale(formula, "zh-CN"); // false
+ *
+ * // No locale restrictions: show for all
+ * shouldDisplayForLocale({}, "en"); // true
+ * ```
  */
-export function shouldDisplayInputForLocale(
-  input: FormulaInput,
+export function shouldDisplayForLocale<T extends LocaleFilterable>(
+  obj: T,
   locale: string,
 ): boolean {
-  // locales_in: only show if locale is in the list
-  if (
-    "locales_in" in input &&
-    input.locales_in &&
-    input.locales_in.length > 0
-  ) {
-    return input.locales_in.includes(locale);
+  // locales_in: only show if locale is in the list (whitelist takes precedence)
+  if (obj.locales_in && obj.locales_in.length > 0) {
+    return obj.locales_in.includes(locale);
   }
 
-  // locales_not_in: hide if locale is in the list
-  if (
-    "locales_not_in" in input &&
-    input.locales_not_in &&
-    input.locales_not_in.length > 0
-  ) {
-    return !input.locales_not_in.includes(locale);
-  }
-
-  // No locale restrictions: show for all
-  return true;
-}
-
-/**
- * Check if a formula should be displayed for the given locale.
- *
- * @param formula - The formula definition (Formula)
- * @param locale - The locale code (e.g., "en", "ja")
- * @returns True if the formula should be displayed, false otherwise
- */
-export function shouldDisplayFormula(
-  formula: Formula,
-  locale: string,
-): boolean {
-  // locales_in: only show if locale is in the list
-  if (
-    "locales_in" in formula &&
-    formula.locales_in &&
-    formula.locales_in.length > 0
-  ) {
-    return formula.locales_in.includes(locale);
-  }
-
-  // locales_not_in: hide if locale is in the list
-  if (
-    "locales_not_in" in formula &&
-    formula.locales_not_in &&
-    formula.locales_not_in.length > 0
-  ) {
-    return !formula.locales_not_in.includes(locale);
+  // locales_not_in: hide if locale is in the list (blacklist)
+  if (obj.locales_not_in && obj.locales_not_in.length > 0) {
+    return !obj.locales_not_in.includes(locale);
   }
 
   // No locale restrictions: show for all
@@ -839,7 +797,7 @@ export function getMenuItems(locale?: string): CategoryMenuItem[] {
   // Build category menu structure
   iterateFormulas((categoryName, formulaId, formula) => {
     // Filter by locale if specified
-    if (locale && !shouldDisplayFormula(formula, locale)) {
+    if (locale && !shouldDisplayForLocale(formula, locale)) {
       return;
     }
 

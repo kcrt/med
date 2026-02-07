@@ -5,7 +5,7 @@ import type {
 } from "@/lib/formula";
 import {
   hasFormulaProperty,
-  shouldDisplayOutputForLocale,
+  shouldDisplayForLocale,
 } from "@/lib/formula";
 import {
   getLabelTranslation,
@@ -72,7 +72,8 @@ export function buildHumanReadableData(
       const inputLabel = messages && locale
         ? getLabelTranslation(messages, locale, inputDef.label)
         : inputDef.label;
-      lines.push(`${inputLabel}: ${displayValue}`);
+      const unit = inputDef.unit ? ` ${inputDef.unit}` : "";
+      lines.push(`${inputLabel}: ${displayValue}${unit}`);
     }
   }
 
@@ -83,7 +84,7 @@ export function buildHumanReadableData(
     const outputDef = formula.output[key];
     if (outputDef && hasFormulaProperty(outputDef)) {
       // Skip if locale is specified and output should not be displayed for this locale
-      if (locale && !shouldDisplayOutputForLocale(outputDef, locale)) {
+      if (locale && !shouldDisplayForLocale(outputDef, locale)) {
         continue;
       }
       const unit = outputDef.unit ? ` ${outputDef.unit}` : "";

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Formula } from "@/types/formula";
-import { shouldDisplayInputForLocale } from "@/lib/formula";
+import { shouldDisplayForLocale } from "@/lib/formula";
 
 describe("Locale Input Filtering Feature Demo", () => {
   const testFormula: Formula = {
@@ -41,7 +41,7 @@ describe("Locale Input Filtering Feature Demo", () => {
   it("shows all inputs for Japanese locale", () => {
     const locale = "ja";
     const visibleInputs = Object.keys(testFormula.input).filter((key) =>
-      shouldDisplayInputForLocale(testFormula.input[key]!, locale),
+      shouldDisplayForLocale(testFormula.input[key]!, locale),
     );
 
     expect(visibleInputs).toContain("height");
@@ -53,7 +53,7 @@ describe("Locale Input Filtering Feature Demo", () => {
   it("hides Japan-only input for English locale", () => {
     const locale = "en";
     const visibleInputs = Object.keys(testFormula.input).filter((key) =>
-      shouldDisplayInputForLocale(testFormula.input[key]!, locale),
+      shouldDisplayForLocale(testFormula.input[key]!, locale),
     );
 
     expect(visibleInputs).toContain("height");
@@ -67,7 +67,7 @@ describe("Locale Input Filtering Feature Demo", () => {
 
     for (const locale of locales) {
       const visibleInputs = Object.keys(testFormula.input).filter((key) =>
-        shouldDisplayInputForLocale(testFormula.input[key]!, locale),
+        shouldDisplayForLocale(testFormula.input[key]!, locale),
       );
 
       expect(visibleInputs).not.toContain("japan_only_field");

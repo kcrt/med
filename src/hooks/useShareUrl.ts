@@ -18,11 +18,13 @@
  * // Returns: "https://example.com/calculator?age=25&weight=70"
  * ```
  */
+import { isBrowser } from "@/lib/environment";
+
 export function useShareUrl(
   inputValues: Record<string, number | string | boolean | Date | null> = {},
 ): string {
   // Check if window is available (client-side only)
-  if (typeof window === "undefined") {
+  if (!isBrowser()) {
     return "";
   }
 

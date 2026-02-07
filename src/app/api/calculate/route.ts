@@ -5,8 +5,7 @@ import {
   evaluateFormulaOutputs,
   getFormula,
   isCalculationFormula,
-  shouldDisplayOutputForLocale,
-  shouldDisplayInputForLocale,
+  shouldDisplayForLocale,
   validateAssertions,
 } from "@/lib/formula";
 import { DEFAULT_LOCALE, isValidLocale } from "@/lib/locale";
@@ -127,7 +126,7 @@ export async function POST(request: NextRequest) {
 
     // Filter inputs based on locale
     const visibleInputs = Object.entries(formula.input).filter(
-      ([_, inputDef]) => shouldDisplayInputForLocale(inputDef, useLocale),
+      ([_, inputDef]) => shouldDisplayForLocale(inputDef, useLocale),
     );
     const visibleInputKeys = visibleInputs.map(([key]) => key);
 
@@ -182,7 +181,7 @@ export async function POST(request: NextRequest) {
         filteredOutputs = {};
         for (const [key, value] of Object.entries(outputs)) {
           const outputDef = formula.output[key];
-          if (outputDef && shouldDisplayOutputForLocale(outputDef, useLocale)) {
+          if (outputDef && shouldDisplayForLocale(outputDef, useLocale)) {
             filteredOutputs[key] = value;
           }
         }
