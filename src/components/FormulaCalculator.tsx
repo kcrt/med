@@ -18,13 +18,14 @@ import { useForm } from "@mantine/form";
 import { IconCalculator } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useMessages, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   evaluateFormulaOutputs,
   type FormulaInputValues,
   isCalculationFormula,
   hasFormulaProperty,
   shouldDisplayForLocale,
+  shouldDisplayForCondition,
   validateAssertions,
 } from "@/lib/formula";
 import {
@@ -536,12 +537,23 @@ export function FormulaCalculator({
     ? getInputValues(form.values as FormValues)
     : {};
 
+  // Filter input keys by conditional visibility based on current form values
+  const visibleInputKeys = useMemo(() => {
+    return inputKeys.filter((key) => {
+      const inputDef = formula.input[key]!;
+      // Always include fields without visibility conditions
+      if (!inputDef.visibleWhen) return true;
+      // Check visibility condition
+      return shouldDisplayForCondition(inputDef, currentInputValues);
+    });
+  }, [inputKeys, formula, currentInputValues]);
+
   const results =
     Object.keys(currentInputValues).length > 0
       ? evaluateFormulaOutputs(formula, currentInputValues)
       : {};
 
-  const hasValidInputs = inputKeys.every((key) => {
+  const hasValidInputs = visibleInputKeys.every((key) => {
     const inputDef = formula.input[key];
     // Skip headings and info fields from validation
     if (inputDef?.type === "heading" || inputDef?.type === "info") return true;
@@ -579,7 +591,7 @@ export function FormulaCalculator({
 
         <form>
           <Stack gap="sm">
-            {inputKeys.map((key) => {
+            {visibleInputKeys.map((key) => {
               const inputDef = formula.input[key]!;
               const inputProps = form.getInputProps(key);
 

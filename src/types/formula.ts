@@ -21,6 +21,7 @@ export const FormulaInputSchema = z.object({
   options: z.array(FormulaSelectOptionSchema).optional(),
   locales_in: z.array(z.string()).optional(), // Only show in these locales
   locales_not_in: z.array(z.string()).optional(), // Hide in these locales
+  visibleWhen: z.string().optional(), // Condition for conditional visibility
 });
 
 export type FormulaInput = z.infer<typeof FormulaInputSchema>;

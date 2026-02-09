@@ -410,6 +410,8 @@
     "Ascites": "腹水",
     "Hepatic Encephalopathy": "肝性脳症",
     "Child-Pugh Class": "分類",
+    "Bilirubin [mg/dL] for PBC": "総ビリルビン [mg/dL] - PBC基準",
+    "Prothrombin Time Prolongation [seconds over control]": "PT延長時間 [秒]",
     "Corrected Calcium (Japanese BCP Method)": "補正カルシウム (日本式)",
     "Corrected Calcium (Payne Formula)": "補正カルシウム (Payne式)",
     "Corrected Count Increment (CCI)": "補正血小板増加数 (CCI)",

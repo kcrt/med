@@ -26,7 +26,7 @@
         ]
       },
       "encephalopathy_notes": {
-        "label": "See West Haven criteria for grading hepatic encephalopathy.",
+        "label": "See West Haven criteria for grading hepatic encephalopathy. (Original article uses Trey 1966.)",
         "type": "info"
       },
       "ascites": {
@@ -50,6 +50,7 @@
       "bilirubin": {
         "label": "Bilirubin [mg/dL]",
         "type": "select",
+        "visibleWhen": "is_pbc == 0",
         "options": [
           {
             "value": 1,
@@ -68,6 +69,7 @@
       "bilirubin_pbc": {
         "label": "Bilirubin [mg/dL] for PBC",
         "type": "select",
+        "visibleWhen": "is_pbc == 1",
         "options": [
           {
             "value": 1,
@@ -147,7 +149,7 @@
         },
         "output": {
           "score": 8,
-          "class": "Class B (Significant functional compromise)"
+          "class": "Grade B"
         }
       }
     ],

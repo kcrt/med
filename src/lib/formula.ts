@@ -184,6 +184,47 @@ export function shouldDisplayForLocale<T extends LocaleFilterable>(
 }
 
 /**
+ * Check if an input field should be displayed based on its visibility condition.
+ *
+ * @param inputDef - The input field definition to check
+ * @param inputValues - Current input values to evaluate the condition against
+ * @returns true if the field should be visible, false otherwise
+ *
+ * @example
+ * ```ts
+ * // No condition: always visible
+ * const input1 = { label: "Test", type: "select" as const };
+ * shouldDisplayForCondition(input1, {}); // true
+ *
+ * // Condition met: visible
+ * const input2 = { label: "Test", type: "select" as const, visibleWhen: "is_pbc == 1" };
+ * shouldDisplayForCondition(input2, { is_pbc: 1 }); // true
+ *
+ * // Condition not met: hidden
+ * shouldDisplayForCondition(input2, { is_pbc: 0 }); // false
+ *
+ * // Missing variables: show by default (graceful degradation)
+ * shouldDisplayForCondition(input2, {}); // true
+ * ```
+ */
+export function shouldDisplayForCondition(
+  inputDef: FormulaInput,
+  inputValues: FormulaInputValues,
+): boolean {
+  const condition = inputDef.visibleWhen;
+  if (!condition) return true; // No condition = always visible
+
+  try {
+    const expr = parser.parse(condition);
+    const result = expr.evaluate(inputValues);
+    return Boolean(result);
+  } catch {
+    // If evaluation fails (missing variables, etc.), show the field
+    return true;
+  }
+}
+
+/**
  * Singleton instance of the validated formula data.
  *
  * The JSON is validated at import time using Zod. If the JSON structure

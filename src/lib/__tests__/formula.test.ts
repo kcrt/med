@@ -22,6 +22,7 @@ import {
   isHtmlFormula,
   iterateFormulas,
   shouldDisplayForLocale,
+  shouldDisplayForCondition,
   validateAssertions,
 } from "@/lib/formula";
 
@@ -200,6 +201,67 @@ describe("Formula data tests", () => {
       };
       expect(shouldDisplayForLocale(formula, "en")).toBe(true);
       expect(shouldDisplayForLocale(formula, "ja")).toBe(false);
+    });
+  });
+
+  describe("shouldDisplayForCondition", () => {
+    it("returns true when no condition is specified", () => {
+      const inputDef = { label: "Test", type: "select" as const };
+      expect(shouldDisplayForCondition(inputDef, {})).toBe(true);
+    });
+
+    it("evaluates condition correctly - equality", () => {
+      const inputDef = {
+        label: "Test",
+        type: "select" as const,
+        visibleWhen: "is_pbc == 1",
+      };
+      expect(shouldDisplayForCondition(inputDef, { is_pbc: 1 })).toBe(true);
+      expect(shouldDisplayForCondition(inputDef, { is_pbc: 0 })).toBe(false);
+    });
+
+    it("evaluates condition correctly - inequality", () => {
+      const inputDef = {
+        label: "Test",
+        type: "select" as const,
+        visibleWhen: "age >= 18",
+      };
+      expect(shouldDisplayForCondition(inputDef, { age: 18 })).toBe(true);
+      expect(shouldDisplayForCondition(inputDef, { age: 25 })).toBe(true);
+      expect(shouldDisplayForCondition(inputDef, { age: 17 })).toBe(false);
+    });
+
+    it("handles missing variables gracefully", () => {
+      const inputDef = {
+        label: "Test",
+        type: "select" as const,
+        visibleWhen: "is_pbc == 1",
+      };
+      expect(shouldDisplayForCondition(inputDef, {})).toBe(true);
+    });
+
+    it("evaluates conditions matching the Child-Pugh use case", () => {
+      const pbcOffInput = {
+        label: "Test",
+        type: "select" as const,
+        visibleWhen: "is_pbc == 0",
+      };
+      const pbcOnInput = {
+        label: "Test",
+        type: "select" as const,
+        visibleWhen: "is_pbc == 1",
+      };
+
+      // PBC OFF (is_pbc = 0)
+      expect(shouldDisplayForCondition(pbcOffInput, { is_pbc: 0 })).toBe(true);
+      expect(shouldDisplayForCondition(pbcOffInput, { is_pbc: 1 })).toBe(false);
+
+      // PBC ON (is_pbc = 1)
+      expect(shouldDisplayForCondition(pbcOnInput, { is_pbc: 1 })).toBe(true);
+      expect(shouldDisplayForCondition(pbcOnInput, { is_pbc: 0 })).toBe(false);
+
+      // Missing variable - should show by default
+      expect(shouldDisplayForCondition(pbcOnInput, {})).toBe(true);
     });
   });
 
