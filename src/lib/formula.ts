@@ -197,7 +197,7 @@ export function shouldDisplayForLocale<T extends LocaleFilterable>(
  * shouldDisplayForCondition(input1, {}); // true
  *
  * // Condition met: visible
- * const input2 = { label: "Test", type: "select" as const, visibleWhen: "is_pbc == 1" };
+ * const input2 = { label: "Test", type: "select" as const, visible_when: "is_pbc == 1" };
  * shouldDisplayForCondition(input2, { is_pbc: 1 }); // true
  *
  * // Condition not met: hidden
@@ -211,7 +211,7 @@ export function shouldDisplayForCondition(
   inputDef: FormulaInput,
   inputValues: FormulaInputValues,
 ): boolean {
-  const condition = inputDef.visibleWhen;
+  const condition = inputDef.visible_when;
   if (!condition) return true; // No condition = always visible
 
   try {

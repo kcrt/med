@@ -214,7 +214,7 @@ describe("Formula data tests", () => {
       const inputDef = {
         label: "Test",
         type: "select" as const,
-        visibleWhen: "is_pbc == 1",
+        visible_when: "is_pbc == 1",
       };
       expect(shouldDisplayForCondition(inputDef, { is_pbc: 1 })).toBe(true);
       expect(shouldDisplayForCondition(inputDef, { is_pbc: 0 })).toBe(false);
@@ -224,7 +224,7 @@ describe("Formula data tests", () => {
       const inputDef = {
         label: "Test",
         type: "select" as const,
-        visibleWhen: "age >= 18",
+        visible_when: "age >= 18",
       };
       expect(shouldDisplayForCondition(inputDef, { age: 18 })).toBe(true);
       expect(shouldDisplayForCondition(inputDef, { age: 25 })).toBe(true);
@@ -235,7 +235,7 @@ describe("Formula data tests", () => {
       const inputDef = {
         label: "Test",
         type: "select" as const,
-        visibleWhen: "is_pbc == 1",
+        visible_when: "is_pbc == 1",
       };
       expect(shouldDisplayForCondition(inputDef, {})).toBe(true);
     });
@@ -244,12 +244,12 @@ describe("Formula data tests", () => {
       const pbcOffInput = {
         label: "Test",
         type: "select" as const,
-        visibleWhen: "is_pbc == 0",
+        visible_when: "is_pbc == 0",
       };
       const pbcOnInput = {
         label: "Test",
         type: "select" as const,
-        visibleWhen: "is_pbc == 1",
+        visible_when: "is_pbc == 1",
       };
 
       // PBC OFF (is_pbc = 0)

@@ -90,7 +90,7 @@ The Medicalculator reads `src/formulas/*.json` files to display formulas and per
 | `options` | array | No | Required for `select` type - array of `{value, label}` objects |
 | `locales_in` | array | No | Array of locale codes where field is shown (e.g., `["ja"]`) |
 | `locales_not_in` | array | No | Array of locale codes where field is hidden |
-| `visibleWhen` | string | No | Conditional visibility expression |
+| `visible_when` | string | No | Conditional visibility expression |
 
 ## Output Field Properties
 
@@ -108,14 +108,14 @@ The Medicalculator reads `src/formulas/*.json` files to display formulas and per
 
 ## Conditional Visibility
 
-Fields can be shown/hidden based on other field values using the `visibleWhen` property:
+Fields can be shown/hidden based on other field values using the `visible_when` property:
 
 ```json
 {
   "show_conditionally": {
     "label": "Conditional Field",
     "type": "float",
-    "visibleWhen": "other_field > 10"
+    "visible_when": "other_field > 10"
   }
 }
 ```
@@ -139,12 +139,12 @@ The expression uses the same formula evaluation engine as output calculations. S
     "weight_lbs": {
       "label": "Weight (lbs)",
       "type": "float",
-      "visibleWhen": "use_metric == 0"
+      "visible_when": "use_metric == 0"
     },
     "weight_kg": {
       "label": "Weight (kg)",
       "type": "float",
-      "visibleWhen": "use_metric == 1"
+      "visible_when": "use_metric == 1"
     }
   },
   "output": {

@@ -542,7 +542,7 @@ export function FormulaCalculator({
     return inputKeys.filter((key) => {
       const inputDef = formula.input[key]!;
       // Always include fields without visibility conditions
-      if (!inputDef.visibleWhen) return true;
+      if (!inputDef.visible_when) return true;
       // Check visibility condition
       return shouldDisplayForCondition(inputDef, currentInputValues);
     });
