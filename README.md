@@ -109,8 +109,5 @@ Documentation
 
 - **[API Reference](docs/API.md)** - Hooks, components, utilities, and type definitions
 - **[Locale Configuration](docs/LOCALE.md)** - Internationalization setup and translation system
-
-formula.json Syntax
-----------------------
-
-The Medicalculator reads formula.json to display items and perform calculations.
+- **[Formula Syntax](docs/FORMULA_SYNTAX.md)** - Complete guide to formula.json format, input types, and conditional visibility
+- **[Calculate API](docs/API_CALCULATE.md)** - API route for formula calculations

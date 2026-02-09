@@ -44,9 +44,12 @@ if (bmiFormula) {
 - **`formatOutput(value, precision?)`** - Format output values
 - **`isCalculationFormula(formula)`** - Type guard for calculation formulas
 - **`isHtmlFormula(formula)`** - Type guard for HTML formulas
-- **`getMenuItems(locale?)`** - Get menu structure for all formulas
+- **`shouldDisplayForLocale(formula, locale)`** - Check if formula should display for the given locale
+- **`hasFormulaProperty(formula, property)`** - Check if formula has a specific property
+- **`getMenuItems(locale?)`** - Get menu structure for all formulas, filtered by locale
 - **`getAllFormulaIds()`** - Get array of all formula IDs
 - **`getCategoryMap()`** - Get map of formula IDs to categories
+- **`getAdjacentFormulas(formulaId)`** - Get previous and next formulas in the same category
 - **`iterateFormulas(callback)`** - Iterate over all formulas
 
 #### Medical Calculation Utilities
